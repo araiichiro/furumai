@@ -1,0 +1,75 @@
+{
+  "@types/jssha@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "licenseFile": "node_modules/@types/jssha/LICENSE"
+  },
+  "@types/lz-string@1.3.33": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "licenseFile": "node_modules/@types/lz-string/LICENSE"
+  },
+  "antlr4ts@0.5.0-alpha.3": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/tunnelvisionlabs/antlr4ts",
+    "publisher": "Terence Parr, Sam Harwell, and Burt Harris",
+    "licenseFile": "node_modules/antlr4ts/LICENSE"
+  },
+  "core-js@2.6.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/zloirock/core-js",
+    "licenseFile": "node_modules/core-js/LICENSE"
+  },
+  "jssha@2.3.1": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/Caligatio/jsSHA",
+    "publisher": "Brian Turek",
+    "email": "brian.turek@gmail.com",
+    "licenseFile": "node_modules/jssha/LICENSE"
+  },
+  "lz-string@1.4.4": {
+    "licenses": "WTFPL",
+    "repository": "https://github.com/pieroxy/lz-string",
+    "publisher": "pieroxy",
+    "email": "pieroxy@pieroxy.net",
+    "licenseFile": "node_modules/lz-string/LICENSE.txt"
+  },
+  "roughjs@3.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pshihn/rough",
+    "publisher": "Preet Shihn",
+    "email": "preetshihn@gmail.com",
+    "licenseFile": "node_modules/roughjs/LICENSE"
+  },
+  "vue-class-component@7.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vuejs/vue-class-component",
+    "publisher": "Evan You",
+    "licenseFile": "node_modules/vue-class-component/LICENSE"
+  },
+  "vue-property-decorator@8.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kaorun343/vue-property-decorator",
+    "publisher": "kaorun343",
+    "licenseFile": "node_modules/vue-property-decorator/LICENSE"
+  },
+  "vue-router@3.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vuejs/vue-router",
+    "publisher": "Evan You",
+    "licenseFile": "node_modules/vue-router/LICENSE"
+  },
+  "vue@2.6.10": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vuejs/vue",
+    "publisher": "Evan You",
+    "licenseFile": "node_modules/vue/LICENSE"
+  },
+  "workly@1.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pshihn/workly",
+    "publisher": "Preet Shihn",
+    "email": "preetshihn@gmail.com",
+    "licenseFile": "node_modules/workly/LICENSE"
+  }
+}
