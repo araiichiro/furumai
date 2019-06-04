@@ -1,7 +1,7 @@
 <template>
   <nav class="nav">
     <div class="nav-left">
-      <a class="brand" href="/">Furumai</a>
+      <router-link :to="{name: 'furumai'}">Furumai</router-link>
       <div class="tabs">
         <router-link :to="{name: 'docs'}">Docs</router-link>
         <router-link :to="{name: 'dependencies'}">Dependencies</router-link>
