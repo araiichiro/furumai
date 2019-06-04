@@ -1,0 +1,43 @@
+config='mode=diff,align=center';
+
+group clients {
+  ca[label='client a'];
+  cb[label='client b'];
+  cc[label='client c'];
+};
+
+group server {
+  na[label='Node A', shape='cylinder'];
+  nb[label='Node B', shape='cylinder'];
+  nc[label='Node C', shape='cylinder'];
+  hh[label='Hinted Handoff', shape='box'];
+}
+
+---
+na[t='k1: v1'];
+nb[t='k1: v1'];
+nc[t='k1: v1'];
+---
+ca -> na[t='read k1: v1'];
+ca[t='A => k1: v1'];
+---
+delete ca -> na;
+cb -> na[t='write k1: v2'];
+na[t='write k1: v2'];
+---
+delete cb -> na;
+cb -> nb[t='write, FAILED!!!', stroke-dasharray='8 4'];
+---
+delete cb -> nb;
+cb -> hh[t='write k1: v2'];
+hh[t='k1: v2'];
+---
+delete cb -> hh;
+cb -> nc [t='write k1: v2'];
+nc [t='k1: v2'];
+---
+delete cb -> nc;
+cc -> na[t='read k1: v2'];
+cc -> nc[t='read k1: v2'];
+cc[t='A => k1: v2\nC => k1: v2'];
+---

@@ -1,0 +1,92 @@
+config='mode=diff,align=center';
+visibility='hidden';
+node[fill='#60EFDB', stroke='#A3B5FD', text.stroke='#6F89A2', text.fill='#6F89A2'];
+edge[stroke='#C3C5F8'];
+
+group layer0 {
+  c1;
+};
+
+group layer1 {
+  b1;
+  b2;
+};
+
+group layer2 {
+  a1;
+  a2;
+  a3;
+  a4;
+};
+
+---
+a1[t='v=[10]', label='root'];
+
+---
+a1[t='v=[9,10]', label='root'];
+
+---
+a4[t='v=[10]'];
+
+---
+a1[t='v=[9]', label='root'];
+a1 -> a4[dy='28'];
+
+---
+b1 -> a1;
+b1 -> a4;
+b1[t='thresholds=[10]', label='root'];
+
+---
+a1[t='v=[9]'];
+
+---
+a1[t='v=[8,9]']
+
+---
+a3[t='v=[9]'];
+a3 -> a4
+
+---
+a1[t='v=[8]'];
+a1 -> a3[dy='28'];
+delete a1 -> a4
+
+---
+b1 -> a3;
+b1[t='thresholds=[9,10]', label='root'];
+
+---
+b2[t='threshold=[9,10]'];
+b2 -> a3;
+b2 -> a4
+
+---
+b1 -> b2;
+b1[t='thresholds=[]\nsibling=[9]', label='root'];
+delete b1 -> a3;
+delete b1 -> a4
+
+---
+c1[t='threshold=[9]', label='root'];
+c1 -> b1;
+c1 -> b2;
+
+---
+b1[t='thresholds=[]\nsibling=[9]'];
+
+---
+a1[t='v=[7,8]'];
+
+---
+a2[t='v=[8]'];
+a2 -> a3
+
+---
+a1[t='v=[7]'];
+a1 -> a2;
+delete a1 -> a3
+
+---
+b1[t='thresholds=[8]\nsibling=[9]'];
+b1 -> a2;

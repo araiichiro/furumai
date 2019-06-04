@@ -1,0 +1,125 @@
+
+config='mode=diff';
+group[margin=0, padding=0];
+zone[margin=0, padding=0];
+node[margin=0, width=75, height=75];
+
+primes[label='prime list:', t='[]', width=550, height=110, margin=30];
+
+group g1to10 {
+  1[visibility=hidden]; 2; 3; 4; 5; 6; 7; 8; 9; 10
+};
+group g11to20 {
+  11; 12; 13; 14; 15; 16; 17; 18; 19; 20
+};
+group g21to30 {
+  21; 22; 23; 24; 25; 26; 27; 28; 29; 30
+};
+group g31to40 {
+  31; 32; 33; 34; 35; 36; 37; 38; 39; 40
+};
+group g41to50 {
+  41; 42; 43; 44; 45; 46; 47; 48; 49; 50
+};
+group g51to60 {
+  51; 52; 53; 54; 55; 56; 57; 58; 59; 60
+};
+group g61to70 {
+  61; 62; 63; 64; 65; 66; 67; 68; 69; 70
+};
+---
+primes[t="[2]"];
+2[fill="#7f7fff"];
+---
+4[fill="#7f7fff"];
+6[fill="#7f7fff"];
+8[fill="#7f7fff"];
+10[fill="#7f7fff"];
+12[fill="#7f7fff"];
+14[fill="#7f7fff"];
+16[fill="#7f7fff"];
+18[fill="#7f7fff"];
+20[fill="#7f7fff"];
+22[fill="#7f7fff"];
+24[fill="#7f7fff"];
+26[fill="#7f7fff"];
+28[fill="#7f7fff"];
+30[fill="#7f7fff"];
+32[fill="#7f7fff"];
+34[fill="#7f7fff"];
+36[fill="#7f7fff"];
+38[fill="#7f7fff"];
+40[fill="#7f7fff"];
+42[fill="#7f7fff"];
+44[fill="#7f7fff"];
+46[fill="#7f7fff"];
+48[fill="#7f7fff"];
+50[fill="#7f7fff"];
+52[fill="#7f7fff"];
+54[fill="#7f7fff"];
+56[fill="#7f7fff"];
+58[fill="#7f7fff"];
+60[fill="#7f7fff"];
+62[fill="#7f7fff"];
+64[fill="#7f7fff"];
+66[fill="#7f7fff"];
+68[fill="#7f7fff"];
+70[fill="#7f7fff"];
+---
+primes[t="[2, 3]"];
+3[fill="#84c1ff"];
+---
+6[fill="#84c1ff"];
+9[fill="#84c1ff"];
+12[fill="#84c1ff"];
+15[fill="#84c1ff"];
+18[fill="#84c1ff"];
+21[fill="#84c1ff"];
+24[fill="#84c1ff"];
+27[fill="#84c1ff"];
+30[fill="#84c1ff"];
+33[fill="#84c1ff"];
+36[fill="#84c1ff"];
+39[fill="#84c1ff"];
+42[fill="#84c1ff"];
+45[fill="#84c1ff"];
+48[fill="#84c1ff"];
+51[fill="#84c1ff"];
+54[fill="#84c1ff"];
+57[fill="#84c1ff"];
+60[fill="#84c1ff"];
+63[fill="#84c1ff"];
+66[fill="#84c1ff"];
+69[fill="#84c1ff"];
+---
+primes[t="[2, 3, 5]"];
+5[fill="#89ffff"];
+---
+10[fill="#89ffff"];
+15[fill="#89ffff"];
+20[fill="#89ffff"];
+25[fill="#89ffff"];
+30[fill="#89ffff"];
+35[fill="#89ffff"];
+40[fill="#89ffff"];
+45[fill="#89ffff"];
+50[fill="#89ffff"];
+55[fill="#89ffff"];
+60[fill="#89ffff"];
+65[fill="#89ffff"];
+70[fill="#89ffff"];
+---
+primes[t="[2, 3, 5, 7]"];
+7[fill="#8effc6"];
+---
+14[fill="#8effc6"];
+21[fill="#8effc6"];
+28[fill="#8effc6"];
+35[fill="#8effc6"];
+42[fill="#8effc6"];
+49[fill="#8effc6"];
+56[fill="#8effc6"];
+63[fill="#8effc6"];
+70[fill="#8effc6"];
+---
+primes[t="[2, 3, 5, 7, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67]"];

@@ -1,0 +1,18 @@
+config='align=center';
+
+group g1 {
+  m;
+  n;
+  o;
+};
+
+group g0 {
+  zone z0 {
+    a;
+    b;
+  };
+  zone z1 {
+    c;
+    d;
+  };
+};

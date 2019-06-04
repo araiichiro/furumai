@@ -1,0 +1,18 @@
+node[margin='0 70'];
+
+group clients {
+  User[shape='person'];
+  Browser;
+};
+
+group servers {
+  App;
+  DB[shape='cylinder'];
+}
+
+---
+User -> Browser[t='input', stroke-dasharray="8 8"];
+
+---
+Browser -> App[t='access'];
+App -> DB [t='CRUD'];

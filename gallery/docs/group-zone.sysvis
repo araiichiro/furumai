@@ -1,0 +1,24 @@
+group c1 {
+  node[margin="70"];
+  me[shape='person'];
+  browser1;
+  tool1;
+};
+group service1 {
+  zone az1 {
+    proxy1;
+    backend1
+  };
+  zone az2 {
+    proxy2;
+    backend2
+  };
+};
+
+me -> browser1;
+tool1 -> browser1;
+
+browser1 -> proxy1;
+browser1 -> proxy2;
+proxy1 -> backend1;
+proxy2 -> backend2;

@@ -1,0 +1,9 @@
+a;
+b;
+a -> b
+
+---
+delete a -> b
+
+---
+delete b

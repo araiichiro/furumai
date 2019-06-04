@@ -1,0 +1,37 @@
+group client_server {
+  zone clients {
+    Client
+  };
+  zone KDC {
+    t='Key Distribution Center';
+    node[fill='#FFE5C0', stroke='#FD475D', text.stroke='#555555', text.fill='#555555'];
+    AS[t='Authentication Service'];
+    TGS[t='Ticket Granting Service'];
+  }
+};
+
+group services {
+  web[t='Web Server'];
+  file[t='File Server'];
+}
+
+---
+Client -> AS [t = 'TGT? \n(for each service)']
+---
+AS -> Client [t = 'TGT!']
+---
+Client -> TGS [t='ST? (My TGT here)']
+---
+TGS -> Client [t='ST! (encrypted for Web Server)']
+---
+Client -> web [t = 'OK? (Web Server ST here)']
+---
+web -> Client [t = 'OK!']
+---
+Client -> TGS [t =' ST? (My TGT here)']
+---
+TGS -> Client [t='ST! (encrypted for File Server)']
+---
+Client -> file [t = 'OK? (File Server ST here)']
+---
+file -> Client [t = 'OK!']

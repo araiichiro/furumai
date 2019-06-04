@@ -1,0 +1,70 @@
+config='mode=diff';
+
+visibility=hidden;
+
+group array {
+  node[margin=0, padding=10, width=80, height=85];
+  c1;
+  c2;
+  c3;
+  c4;
+  c5;
+  c6;
+  c7;
+  c8;
+  c9;
+  c10[label='...', stroke='none'];
+  c11;
+  c12;
+  c13;
+  c14;
+  c15;
+  c16;
+}
+---
+c1;
+c2;
+c3;
+c4;
+c5;
+c6;
+c7;
+c8;
+
+---
+c1[t='a'];
+---
+c2[t='b'];
+---
+c3[t='c'];
+---
+c4[t='d'];
+---
+c5[t='e'];
+---
+c6[t='f'];
+---
+c7[t='g'];
+---
+c8[t='h'];
+---
+c9[t='i'];
+c10;
+c11;
+c12;
+c13;
+c14;
+c15;
+c16;
+---
+c11[t='j'];
+---
+c12[t='k'];
+---
+c13[t='l'];
+---
+c14[t='m'];
+---
+c15[t='n'];
+---
+c16[t='o'];

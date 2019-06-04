@@ -1,0 +1,19 @@
+node[margin='70 20'];
+
+n1[
+  stroke='#09f',
+  stroke-linecap="round"
+  fill='#8bc'
+  font-size="72"
+  text.stroke='#f6a';
+  text.fill="#f6a"
+];
+
+n2;
+
+n1 -> n2[
+  stroke-width='10',
+  stroke-linecap='round',
+  stroke-dasharray="16 24"
+  opacity="0.5"
+];

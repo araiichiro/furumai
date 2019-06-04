@@ -1,0 +1,3 @@
+node1[shape='box', t='content here'];
+actor1[shape='person', label='This is Admin A'];
+storage1[shape='cylinder', label='This is KVS', t='[key1: value1]'];
