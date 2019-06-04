@@ -1,8 +1,17 @@
 <template>
   <div>
-    <div>
-      <a :href="url">{{ filename }}</a>:
-    </div>
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="brand" :href="url">{{ filename }}</a>
+        <a class="button primary" :href="url">Edit</a>
+      </div>
+      <!--
+      <div class="nav-right">
+        <a class="button primary" :href="url">Edit</a>
+      </div>
+      -->
+    </nav>
+
     <FurumaiApp1
       v-if="version === 1"
       v-bind:furumaiData="furumaiData"
@@ -10,6 +19,7 @@
     ></FurumaiApp1>
     <div v-else-if="version === -1">version = -1</div>
     <div v-else>version error: {{version}}</div>
+    <hr />
     <!--
     <iframe
       class="docSnippet"

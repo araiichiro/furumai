@@ -1,26 +1,42 @@
 <template>
   <div class="app1">
-    <label v-if="editorMode">
-      <textarea
-        class="code-editor"
-        ref="editor"
-        v-model="furumaiData.code" title="Furumai Description"
-        @keyup.ctrl.enter="furumai"
-        @keyup.alt.enter="furumai"
-        @keyup.meta.enter="furumai"
-      ></textarea>
-      <br/>
-      <button @click="furumai">View Furumai</button>
-    </label>
-    <div v-else class="code-viewer"><pre>{{ pre(furumaiData.code) }}</pre></div>
-    <div ref="moments"></div>
-    <div><pre>{{ errors }}</pre></div>
+    <div class="row">
+      <div class="col-6">
+        <div v-if="editorMode" class="code-editor-wrap">
+        <label>
+          <div>
+          <textarea
+            class="code-editor"
+            ref="editor"
+            v-model="furumaiData.code" title="Furumai Description"
+            @keyup.ctrl.enter="furumai"
+            @keyup.alt.enter="furumai"
+            @keyup.meta.enter="furumai"
+          ></textarea>
+          </div>
+          <div class="nav-right">
+            <span class="options"><input type="checkbox"/>Enable Rough.js</span>
+            <button class="button primary furumai-button" @click="furumai">View (ctrl-enter)</button>
+          </div>
+        </label>
+        </div>
+        <div v-else class="code-viewer"><pre>{{ pre(furumaiData.code) }}</pre></div>
+      </div>
+      <div class="col-6">
+        <div class="text-error" v-if="errors && errors.length > 0"><pre>{{ errors }}</pre></div>
+        <div class="" ref="moments" v-else></div>
+        <div class="nav-right moments-footer">
+          <button class="button primary" @click="download">Download SVG(s)</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-import AppParams1 from '../components/AppParams1'
+import AppParams1 from '@/components/AppParams1'
 import {toSvg} from '@/furumai/utils';
 
 @Component
@@ -49,18 +65,26 @@ export default class FurumaiApp1 extends Vue {
     const animationConfig = {
       ...this.furumaiData.animation
     }
-    const svgs = this.toSvgOrError(text)
     const div = this.$refs.moments as HTMLElement
-    if (svgs instanceof Error) {
-      const stack = svgs.stack || ''
-      this.errors = stack.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    } else if (div) {
+    if (div) {
       div.innerHTML = ''
-      svgs.forEach((svg) =>{
-        //div.innerHTML = ''
-        div.appendChild(svg)
-        div.appendChild(document.createElement('hr'))
-      })
+      const svgs = this.toSvgOrError(text)
+      if (svgs instanceof Error) {
+        const stack = svgs.stack || ''
+        this.errors = stack //.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      } else {
+        svgs.forEach((svg) => {
+          //div.innerHTML = ''
+
+
+          const card = document.createElement('div')
+          card.classList.add('card')
+
+          card.appendChild(svg)
+          div.appendChild(card)
+          // div.appendChild(document.createElement('hr'))
+        })
+      }
     } else {
       throw new Error('error! not found error div dom')
     }
@@ -86,29 +110,28 @@ export default class FurumaiApp1 extends Vue {
 </script>
 
 <style>
-  .app1 {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    margin: 0;
-    padding: 0;
+  .code-editor-wrap {
+    padding-left: 1.5rem;
+  }
+  .code-editor {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    height:70vh;
   }
 
-  .code-editor {
-    width:30em;
-    height:20em;
+  .card {
+    margin: 1.5rem;
   }
 
   .code-viewer {
-    padding: 1rem;
-    border-style: dashed;
-    border-width: 1px;
-    border-color: aquamarine;
+    margin-left: 1.5rem;
   }
 
-  pre {
-    text-align: left;
+  .options {
+    margin-right: 2rem;
   }
 
+  .moments-footer {
+    margin-right: 1.5rem;
+  }
 </style>
