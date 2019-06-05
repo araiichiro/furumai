@@ -1,15 +1,16 @@
-import {Wrap} from '@/layout/engine/Wrap';
-import {Elem} from '@/layout/engine/Elem';
-import Gap from '@/layout/engine/Gap';
-import {Area, Box, Point, Size} from '@/layout/engine/Box';
+import {Wrap} from '@/layout/engine/Wrap'
+import {Elem} from '@/layout/engine/Elem'
+import Gap from '@/layout/engine/Gap'
+import {Area, Box, Point, Size} from '@/layout/engine/Box'
 
 export class Portrait implements Elem {
   constructor(
     readonly children: Array<Wrap<Elem>>,
     readonly box: Box,
-  ) {}
+  ) {
+  }
 
-  fit(point: Point, grossSize: Partial<Size> = {}): Portrait {
+  public fit(point: Point, grossSize: Partial<Size> = {}): Portrait {
     const old = this.box.contentArea
     const childrenArea = this.box.calcContentArea(point, grossSize)
     const {x, y, width, height} = childrenArea
@@ -32,11 +33,11 @@ export class Portrait implements Elem {
     return new Portrait(childNodes, this.box.inflate(childContentArea))
   }
 
-  withBox(box: Partial<Box>): Portrait {
+  public withBox(box: Partial<Box>): Portrait {
     return new Portrait(this.children, this.box.update(box))
   }
 
-  append(child: Wrap<Elem>): Portrait {
+  public append(child: Wrap<Elem>): Portrait {
     return new Portrait([...this.children, child], this.box)
   }
 }

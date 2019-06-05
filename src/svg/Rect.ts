@@ -1,9 +1,9 @@
-import {SvgAttrs} from '@/svg/SvgAttrs';
-import {Svg} from '@/svg/Svg';
-import {SvgText} from '@/svg/SvgText';
-import {SvgShape} from '@/svg/SvgShape';
-import {marginRect} from '@/svg/utils';
-import {Box} from '@/layout/engine/Box';
+import {SvgAttrs} from '@/svg/SvgAttrs'
+import {Svg} from '@/svg/Svg'
+import {SvgText} from '@/svg/SvgText'
+import {SvgShape} from '@/svg/SvgShape'
+import {marginRect} from '@/svg/utils'
+import {Box} from '@/layout/engine/Box'
 
 export class Rect implements SvgShape {
   constructor(
@@ -11,9 +11,10 @@ export class Rect implements SvgShape {
     private box: Box,
     private text: SvgText,
     private svgAttrs: SvgAttrs,
-  ) {}
+  ) {
+  }
 
-  toSvgElement(): SVGElement {
+  public toSvgElement(): SVGElement {
     const a = this.box
     const {x, y, width, height, margin, padding} = a
     const g = Svg.of('g', this.svgAttrs)

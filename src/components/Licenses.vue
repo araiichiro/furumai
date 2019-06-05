@@ -16,17 +16,18 @@
 
 <script>
 import licensesJson from './dependencies'
+
 export default {
   data() {
     return {
-      licenses: licensesJson
-    };
+      licenses: licensesJson,
+    }
   },
 }
 </script>
 <style>
-#dependencies table, #dependencies td {
-  border-collapse: collapse;
-  border:1px solid #888;
-}
+  #dependencies table, #dependencies td {
+    border-collapse: collapse;
+    border: 1px solid #888;
+  }
 </style>

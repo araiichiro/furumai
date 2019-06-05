@@ -1,8 +1,8 @@
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock';
-import {Attribute, Attributes, Attrs, ElementAttribute, toDict} from '@/furumai/Attribute';
-import {Env} from '@/furumai/setup/Env';
-import {Container} from '@/furumai/grid/Container';
-import Gap from '@/layout/engine/Gap';
+import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
+import {Attribute, Attributes, Attrs, ElementAttribute, toDict} from '@/furumai/Attribute'
+import {Env} from '@/furumai/setup/Env'
+import {Container} from '@/furumai/grid/Container'
+import Gap from '@/layout/engine/Gap'
 
 export class Frame {
   public static of(
@@ -42,10 +42,11 @@ export class Frame {
     public readonly mode: string,
     public readonly align: string,
     public readonly attrs: Attributes,
-    private childAttrs: {[key: string]: Attributes},
-  ) {}
+    private childAttrs: { [key: string]: Attributes },
+  ) {
+  }
 
-  setup(baseContainer: Container): Container {
+  public setup(baseContainer: Container): Container {
     const base = baseContainer
       .updateAttributes(this.attrs)
     const env = Env.defaultEnv(base)
@@ -58,13 +59,4 @@ export class Frame {
       }
     }, base)
   }
-
-  fit() {
-    if (this.align === 'center') {
-
-    }
-
-  }
 }
-
-export type CompoundType = 'group' | 'zone'

@@ -1,13 +1,16 @@
-import Gap from '@/layout/engine/Gap';
-import {Box} from '@/layout/engine/Box';
+import Gap from '@/layout/engine/Gap'
+import {Box} from '@/layout/engine/Box'
 
 export type AttributeName = string
 export type AttributeValue = string
 
-export type Attrs = {[key: string]: string}
+export interface Attrs {
+  [key: string]: string
+}
 
 export class Attribute {
-  constructor(readonly key: AttributeName, readonly value: AttributeValue) {}
+  constructor(readonly key: AttributeName, readonly value: AttributeValue) {
+  }
 }
 
 export class Attributes {
@@ -17,7 +20,7 @@ export class Attributes {
     const dic = attrs.reduce((map, obj) => {
       map[obj.key] = obj.value
       return map
-    }, {} as {[key: string]: string})
+    }, {} as { [key: string]: string })
     const {id, x, y, width, height, margin, padding, ...rest} = dic
     const box: any = {
       id,
@@ -39,13 +42,10 @@ export class Attributes {
     return new Attributes(box, {})
   }
 
-  public static fromAttrs(attrs: Attrs): Attributes {
-    return new Attributes({}, attrs)
+  constructor(readonly box: Partial<Box>, readonly attrs: Attrs) {
   }
 
-  constructor(readonly box: Partial<Box>, readonly attrs: Attrs) {}
-
-  merge(attrs: Attributes): Attributes {
+  public merge(attrs: Attributes): Attributes {
     return new Attributes(
       {
         ...this.box,
@@ -66,13 +66,14 @@ export function num(v?: any): number | undefined {
 export class ElementAttribute {
   constructor(
     readonly elementName: string,
-    readonly attributes: Attribute[]
-  ) {}
+    readonly attributes: Attribute[],
+  ) {
+  }
 }
 
-export function toDict(attrs: ElementAttribute[]): {[key: string]: Attributes} {
+export function toDict(attrs: ElementAttribute[]): { [key: string]: Attributes } {
   return attrs.reduce((map, obj) => {
     map[obj.elementName] = Attributes.of(obj.attributes)
     return map
-  }, {} as {[key: string]: Attributes})
+  }, {} as { [key: string]: Attributes })
 }

@@ -1,9 +1,9 @@
-import {SvgShape} from '@/svg/SvgShape';
-import {SvgText} from '@/svg/SvgText';
-import {SvgAttrs} from '@/svg/SvgAttrs';
-import {Svg} from '@/svg/Svg';
-import {marginRect} from '@/svg/utils';
-import {Box} from '@/layout/engine/Box';
+import {SvgShape} from '@/svg/SvgShape'
+import {SvgText} from '@/svg/SvgText'
+import {SvgAttrs} from '@/svg/SvgAttrs'
+import {Svg} from '@/svg/Svg'
+import {marginRect} from '@/svg/utils'
+import {Box} from '@/layout/engine/Box'
 
 export class Cylinder implements SvgShape {
   constructor(
@@ -11,9 +11,10 @@ export class Cylinder implements SvgShape {
     private box: Box,
     private text: SvgText,
     private svgAttrs: SvgAttrs,
-  ) {}
+  ) {
+  }
 
-  toSvgElement(): SVGElement {
+  public toSvgElement(): SVGElement {
     const b = this.box
     const {x, y, width, height} = b
     const g = Svg.of('g', this.svgAttrs)
@@ -26,7 +27,7 @@ export class Cylinder implements SvgShape {
   }
 }
 
-function cylinder(cx: number, cy: number, width: number, height: number, svgAttrs: SvgAttrs): SVGElement{
+function cylinder(cx: number, cy: number, width: number, height: number, svgAttrs: SvgAttrs): SVGElement {
   const curve = 8 + (width * 1.2) / 20  // FIXME
   const xl = cx - (width / 2)
   const xr = cx + (width / 2)
@@ -37,9 +38,9 @@ function cylinder(cx: number, cy: number, width: number, height: number, svgAttr
   const ydd = ydm + curve
 
   const path = Svg.of('path', {
-    'fill': 'none',
-    'stroke': 'black',
-    ...svgAttrs
+    fill: 'none',
+    stroke: 'black',
+    ...svgAttrs,
   })
 
   const d = `M ${xr},${yum}

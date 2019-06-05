@@ -19,7 +19,7 @@
     ></FurumaiApp1>
     <div v-else-if="version === -1">version = -1</div>
     <div v-else>version error: {{version}}</div>
-    <hr />
+    <hr/>
     <!--
     <iframe
       class="docSnippet"
@@ -30,11 +30,12 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
-import FurumaiApp1 from "@/components/FurumaiApp1.vue";
-import {DataEncoderDecoderV1} from "@/io/DataEncoderDecoderV1";
+import {Component, Prop, Vue} from 'vue-property-decorator'
+import FurumaiApp1 from '@/components/FurumaiApp1.vue'
+import {DataEncoderDecoderV1} from '@/io/DataEncoderDecoderV1'
+
 @Component({
-  components: {FurumaiApp1}
+  components: {FurumaiApp1},
 })
 export default class Docs extends Vue {
   private static codec = new DataEncoderDecoderV1()
@@ -42,8 +43,8 @@ export default class Docs extends Vue {
   private version: number = -1
   private furumaiData: any = {}
 
-  @Prop({default: 'no name'}) filename!: string
-  @Prop() url!: string
+  @Prop({default: 'no name'}) private filename!: string
+  @Prop() private url!: string
 
   public mounted() {
     if (this.url) {

@@ -1,9 +1,9 @@
-import {RuleNode} from 'antlr4ts/tree/RuleNode';
-import {ErrorNode} from 'antlr4ts/tree/ErrorNode';
-import {TerminalNode} from 'antlr4ts/tree/TerminalNode';
-import {ParseTree} from 'antlr4ts/tree';
-import {ANTLRErrorListener, CharStreams, CommonTokenStream, RecognitionException, Recognizer} from 'antlr4ts';
-import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer';
+import {RuleNode} from 'antlr4ts/tree/RuleNode'
+import {ErrorNode} from 'antlr4ts/tree/ErrorNode'
+import {TerminalNode} from 'antlr4ts/tree/TerminalNode'
+import {ParseTree} from 'antlr4ts/tree'
+import {ANTLRErrorListener, CharStreams, CommonTokenStream, RecognitionException, Recognizer} from 'antlr4ts'
+import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
 import {
   AssignmentContext,
   Attr_listContext,
@@ -17,18 +17,18 @@ import {
   Stmt_listContext,
   StmtContext,
   StoryContext,
-  ZoneContext
-} from '@/generated/antlr4ts/FurumaiParser';
-import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor';
-import {Attribute, Attributes, ElementAttribute, toDict} from '@/furumai/Attribute';
-import {Story} from '@/furumai/Story';
-import {HideBlock} from '@/furumai/setup/HideBlock';
-import {HideEdge} from '@/furumai/setup/HideEdge';
-import {Edge} from '@/furumai/setup/Edge';
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock';
-import {Compound} from '@/furumai/setup/Compound';
-import {Node} from '@/furumai/setup/Node';
-import {StatementList} from '@/furumai/StatementList';
+  ZoneContext,
+} from '@/generated/antlr4ts/FurumaiParser'
+import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
+import {Attribute, Attributes, ElementAttribute, toDict} from '@/furumai/Attribute'
+import {Story} from '@/furumai/Story'
+import {HideBlock} from '@/furumai/setup/HideBlock'
+import {HideEdge} from '@/furumai/setup/HideEdge'
+import {Edge} from '@/furumai/setup/Edge'
+import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
+import {Compound} from '@/furumai/setup/Compound'
+import {Node} from '@/furumai/setup/Node'
+import {StatementList} from '@/furumai/StatementList'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)
@@ -74,6 +74,14 @@ class FurumaiErrorListener implements ANTLRErrorListener<any> {
 }
 
 class FurumaiVisitorImpl implements FurumaiVisitor<any> {
+  private static isBuildingBlock(a: any): boolean {
+    return a instanceof Compound
+      || a instanceof Node
+      || a instanceof Edge
+      || a instanceof HideBlock
+      || a instanceof HideEdge
+  }
+
   public visitStory(ctx: StoryContext): Story {
     const eof = ctx.EOF()
     if (eof) {
@@ -90,11 +98,11 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
   public visitStmt_list(ctx: Stmt_listContext): StatementList {
     const statements = ctx.stmt().map((stmt) => this.visit(stmt))
-    const blocks: Array<BuildingBlock> = []
+    const blocks: BuildingBlock[] = []
     const childAttributes: ElementAttribute[] = []
     const attributes: Attribute[] = []
     statements.forEach((a) => {
-      if (a instanceof Compound || a instanceof Node || a instanceof Edge || a instanceof HideBlock || a instanceof HideEdge) {
+      if (FurumaiVisitorImpl.isBuildingBlock(a)) {
         blocks.push(a)
       } else if (a instanceof ElementAttribute) {
         childAttributes.push(a)
@@ -217,7 +225,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const n = node.childCount
     for (let i = 0; i < n; i++) {
       const c = node.getChild(i)
-      result =  c.accept(this)
+      result = c.accept(this)
     }
     return result
   }

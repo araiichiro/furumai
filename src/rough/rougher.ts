@@ -25,8 +25,8 @@ export function convertSvg(root: SVGElement): SVGElement {
   return svg
 }
 
-function dict(elem: Element): {[key: string]: string} {
-  const ret: {[key: string]: string} = {}
+function dict(elem: Element): { [key: string]: string } {
+  const ret: { [key: string]: string } = {}
   const aa = elem.attributes
   for (let i = 0; i < aa.length; i++) {
     const a = aa.item(i)
@@ -43,7 +43,7 @@ function dict(elem: Element): {[key: string]: string} {
   return ret
 }
 
-function setAttributes(elem: Element, attributes: {[key: string]: string}): Element {
+function setAttributes(elem: Element, attributes: { [key: string]: string }): Element {
   Object.keys(attributes).forEach((k) => elem.setAttribute(k, attributes[k]))
   return elem
 }
@@ -51,7 +51,7 @@ function setAttributes(elem: Element, attributes: {[key: string]: string}): Elem
 function convert(elem: Element): Element {
   const tag = elem.tagName
   const attrs = dict(elem)
-  const options: {[key: string]: any } = {
+  const options: { [key: string]: any } = {
     hachureGap: 2.0,
     fillWeight: 0.6,
     roughness: 2.0,
@@ -67,7 +67,6 @@ function convert(elem: Element): Element {
       for (let i = 0; i < gcs.length; i++) {
         const c = gcs.item(i)
         if (c) {
-          //if (c.tagName
           g.append(convert(c))
         } else {
           throw new Error('null')
@@ -97,36 +96,36 @@ function convert(elem: Element): Element {
       tspan.textContent = elem.textContent
       return tspan
     case 'path':
-      return rc.path(attrs['d'], attrs)
+      return rc.path(attrs.d, attrs)
     case 'line':
       return rc.line(
-        parseFloat(attrs['x1']),
-        parseFloat(attrs['y1']),
-        parseFloat(attrs['x1']),
-        parseFloat(attrs['y2']),
+        parseFloat(attrs.x1),
+        parseFloat(attrs.y1),
+        parseFloat(attrs.x1),
+        parseFloat(attrs.y2),
         options,
       )
     case 'rect':
       return rc.rectangle(
-        parseFloat(attrs['x']),
-        parseFloat(attrs['y']),
-        parseFloat(attrs['width']),
-        parseFloat(attrs['height']),
+        parseFloat(attrs.x),
+        parseFloat(attrs.y),
+        parseFloat(attrs.width),
+        parseFloat(attrs.height),
         options,
       )
     case 'ellipse':
       return rc.ellipse(
-        parseFloat(attrs['cx']),
-        parseFloat(attrs['cy']),
-        parseFloat(attrs['rx']),
-        parseFloat(attrs['ry']),
+        parseFloat(attrs.cx),
+        parseFloat(attrs.cy),
+        parseFloat(attrs.rx),
+        parseFloat(attrs.ry),
         options,
       )
     case 'circle':
       return rc.circle(
-        parseFloat(attrs['cx']),
-        parseFloat(attrs['cy']),
-        parseFloat(attrs['r']),
+        parseFloat(attrs.cx),
+        parseFloat(attrs.cy),
+        parseFloat(attrs.r),
         options,
       )
     case 'polygon':

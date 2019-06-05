@@ -1,6 +1,6 @@
 import LZString from 'lz-string'
 import {Data} from './Data'
-import {DataEncoderDecoder} from './DataEncoderDecoder';
+import {DataEncoderDecoder} from './DataEncoderDecoder'
 
 export class DataEncoderDecoderV1 implements DataEncoderDecoder<string, Data> {
   public readonly formatVersion = 'v1'

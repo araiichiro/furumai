@@ -1,11 +1,11 @@
-import {SvgText} from '@/svg/SvgText';
-import {Rect} from '@/svg/Rect';
-import {Cylinder} from '@/svg/Cylinder';
-import {Person} from '@/svg/Person';
-import {Attributes, Attrs} from '@/furumai/Attribute';
-import {GridArea} from '@/furumai/grid/GridArea';
-import {Cell} from '@/layout/engine/Cell';
-import {Box} from '@/layout/engine/Box';
+import {SvgText} from '@/svg/SvgText'
+import {Rect} from '@/svg/Rect'
+import {Cylinder} from '@/svg/Cylinder'
+import {Person} from '@/svg/Person'
+import {Attributes, Attrs} from '@/furumai/Attribute'
+import {GridArea} from '@/furumai/grid/GridArea'
+import {Cell} from '@/layout/engine/Cell'
+import {Box} from '@/layout/engine/Box'
 
 export class GridCell implements GridArea<Cell> {
   public static of(id: string, box: Box, attrs: Attrs) {
@@ -16,13 +16,14 @@ export class GridCell implements GridArea<Cell> {
     public readonly id: string,
     private cell: Cell,
     private attrs: Attrs,
-  ) {}
+  ) {
+  }
 
   get get(): Cell {
     return this.cell
   }
 
-  updateAttributes(attrs: Attributes): GridCell {
+  public updateAttributes(attrs: Attributes): GridCell {
     // TODO immutable
     this.attrs = {
       ...this.attrs,
@@ -32,15 +33,15 @@ export class GridCell implements GridArea<Cell> {
     return this
   }
 
-  find(id: string): GridCell | undefined {
+  public find(id: string): GridCell | undefined {
     return this.id === id ? this : undefined
   }
 
-  map(f: (a: Cell) => Cell): GridCell {
+  public map(f: (a: Cell) => Cell): GridCell {
     return new GridCell(this.id, f(this.cell), this.attrs)
   }
 
-  svg(): SVGElement {
+  public svg(): SVGElement {
     const {shape, label, t, ...rest} = this.attrs
     const shapeType = shape || 'box'
     const text = new SvgText(label || this.id, t)

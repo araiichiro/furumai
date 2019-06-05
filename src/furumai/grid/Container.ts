@@ -1,11 +1,11 @@
-import {Landscape} from '@/layout/engine/Landscape';
-import {Portrait} from '@/layout/engine/Portrait';
-import {Attributes, Attrs} from '@/furumai/Attribute';
-import {Elem} from '@/layout/engine/Elem';
-import {Svg} from '@/svg/Svg';
-import {GridArea} from '@/furumai/grid/GridArea';
-import {Overlay} from '@/furumai/grid/Overlay';
-import {GridCell} from '@/furumai/grid/GridCell';
+import {Landscape} from '@/layout/engine/Landscape'
+import {Portrait} from '@/layout/engine/Portrait'
+import {Attributes, Attrs} from '@/furumai/Attribute'
+import {Elem} from '@/layout/engine/Elem'
+import {Svg} from '@/svg/Svg'
+import {GridArea} from '@/furumai/grid/GridArea'
+import {Overlay} from '@/furumai/grid/Overlay'
+import {GridCell} from '@/furumai/grid/GridCell'
 
 export class Container implements GridArea<Landscape | Portrait> {
   constructor(
@@ -13,13 +13,14 @@ export class Container implements GridArea<Landscape | Portrait> {
     private attrs: Attrs,
     private elem: Landscape | Portrait,
     private overlays: Overlay[] = [],
-  ) {}
+  ) {
+  }
 
   get get(): Landscape | Portrait {
     return this.elem
   }
 
-  updateAttributes(attrs: Attributes): Container  {
+  public updateAttributes(attrs: Attributes): Container {
     // TODO immutable
     this.attrs = {
       ...this.attrs,
@@ -29,13 +30,13 @@ export class Container implements GridArea<Landscape | Portrait> {
     return this
   }
 
-  find(id: string): GridArea<Elem> | Overlay | undefined {
+  public find(id: string): GridArea<Elem> | Overlay | undefined {
     if (this.id === id) {
       return this
     } else {
       const ret = [
         ...this.elem.children.map((i) => (i as GridArea<Elem>).find(id)),
-        ...this.overlays.map((i) => i.id === id ? i : undefined)
+        ...this.overlays.map((i) => i.id === id ? i : undefined),
       ].filter((i) => i)
       if (ret.length === 1) {
         return ret[0]
@@ -45,11 +46,11 @@ export class Container implements GridArea<Landscape | Portrait> {
     }
   }
 
-  map(f: (a: Landscape | Portrait) => Landscape | Portrait): Container {
+  public map(f: (a: Landscape | Portrait) => Landscape | Portrait): Container {
     return new Container(this.id, this.attrs, f(this.elem), this.overlays)
   }
 
-  append(child: GridArea<Elem> | Overlay): Container {
+  public append(child: GridArea<Elem> | Overlay): Container {
     if (child instanceof Container || child instanceof GridCell) {
       return new Container(
         this.id,
@@ -67,7 +68,7 @@ export class Container implements GridArea<Landscape | Portrait> {
     }
   }
 
-  svg(): SVGElement {
+  public svg(): SVGElement {
     const box = this.elem.box
     const g = Svg.of('g', this.attrs)
     const rect = Svg.of('rect', {

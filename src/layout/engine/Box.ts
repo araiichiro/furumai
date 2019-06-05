@@ -1,4 +1,4 @@
-import Gap from '@/layout/engine/Gap';
+import Gap from '@/layout/engine/Gap'
 
 export interface Point {
   x: number
@@ -10,7 +10,8 @@ export interface Size {
   height: number
 }
 
-export interface Area extends Point, Size {}
+export interface Area extends Point, Size {
+}
 
 export interface Gaps {
   margin: Gap
@@ -39,23 +40,6 @@ export class Box implements Point, Size, Gaps {
 
   }
 
-  public move(dx: number, dy: number): Box {
-    throw new Error('not impl')
-  }
-
-  inflate(contentGrossArea: Area): Box {
-    const {x, y, width, height} = contentGrossArea
-    const {left, right, top, bottom} = this.padding
-    return new Box(
-      x - left,
-      y - top,
-      left + width + right,
-      top + height + bottom,
-      this.margin,
-      this.padding,
-    )
-  }
-
   get grossArea(): Area {
     const {x, y, width, height} = this
     const {left, right, top, bottom} = this.margin
@@ -81,7 +65,30 @@ export class Box implements Point, Size, Gaps {
     }
   }
 
-  calcGrossArea(point: Point, size: Partial<Size>): Point & Partial<Size> {
+  get cx() {
+    const r = this
+    return r.x + (r.width / 2)
+  }
+
+  get cy() {
+    const r = this
+    return r.y + (r.height / 2)
+  }
+
+  public inflate(contentGrossArea: Area): Box {
+    const {x, y, width, height} = contentGrossArea
+    const {left, right, top, bottom} = this.padding
+    return new Box(
+      x - left,
+      y - top,
+      left + width + right,
+      top + height + bottom,
+      this.margin,
+      this.padding,
+    )
+  }
+
+  public calcGrossArea(point: Point, size: Partial<Size>): Point & Partial<Size> {
     const {x, y} = point
     const {width, height} = size
     const {left, right, top, bottom} = this.margin
@@ -95,7 +102,7 @@ export class Box implements Point, Size, Gaps {
     }
   }
 
-  calcArea(point: Point, grossSize: Partial<Size> = {}): Point & Partial<Size> {
+  public calcArea(point: Point, grossSize: Partial<Size> = {}): Point & Partial<Size> {
     const {x, y} = point
     const {width, height} = grossSize
     const {left, right, top, bottom} = this.margin
@@ -109,9 +116,9 @@ export class Box implements Point, Size, Gaps {
     }
   }
 
-  calcContentArea(point: Point, grossSize: Partial<Size> = {}): Point & Partial<Size> {
+  public calcContentArea(point: Point, grossSize: Partial<Size> = {}): Point & Partial<Size> {
     const {x, y, width, height} = this.calcArea(point, grossSize)
-    const {left, right, top, bottom}  = this.padding
+    const {left, right, top, bottom} = this.padding
     const w = width ? {width: width - (left + right)} : {}
     const h = height ? {height: height - (top + bottom)} : {}
     return {
@@ -122,17 +129,7 @@ export class Box implements Point, Size, Gaps {
     }
   }
 
-  get cx() {
-    const r = this
-    return r.x + (r.width / 2)
-  }
-
-  get cy() {
-    const r = this
-    return r.y + (r.height / 2)
-  }
-
-  update(box: Partial<Box>): Box {
+  public update(box: Partial<Box>): Box {
     return Box.of({...this, ...box})
   }
 }

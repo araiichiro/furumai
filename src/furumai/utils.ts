@@ -1,6 +1,6 @@
-import {parse} from '@/furumai/parser';
-import {Story} from '@/furumai/Story';
-import {convertSvg} from '@/rough/rougher';
+import {parse} from '@/furumai/parser'
+import {Story} from '@/furumai/Story'
+import {convertSvg} from '@/rough/rougher'
 
 export function toSvg(furumaiCode: string, rough: boolean): SVGElement[] | SyntaxError {
   const story = parse(furumaiCode)

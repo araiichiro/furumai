@@ -6,6 +6,7 @@
   "linterOptions": {
     "exclude": [
       "src/generated/**",
+      "src/tools/tools.ts",
       "node_modules/**"
     ]
   },

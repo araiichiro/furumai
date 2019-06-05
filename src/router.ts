@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import {formatVersion, sampleFragment} from '@/sample';
-import AppLayout from '@/AppLayout.vue';
-import Docs from '@/components/Docs.vue';
-import FurumaiApp from '@/components/FurumaiApp.vue';
-import Licenses from '@/components/Licenses.vue';
+import Vue from 'vue'
+import Router from 'vue-router'
+import {formatVersion, sampleFragment} from '@/sample'
+import AppLayout from '@/AppLayout.vue'
+import Docs from '@/components/Docs.vue'
+import FurumaiApp from '@/components/FurumaiApp.vue'
+import Licenses from '@/components/Licenses.vue'
 
 Vue.use(Router)
 
@@ -14,14 +14,14 @@ export default new Router({
     {
       path: '/',
       component: AppLayout,
-      children:[
+      children: [
         {
           path: '',
           redirect: {
             name: 'furumai',
             params: {
               format: formatVersion,
-              data: sampleFragment
+              data: sampleFragment,
             },
           },
         }, {
@@ -37,7 +37,7 @@ export default new Router({
           component: Licenses,
           name: 'dependencies',
         },
-      ]
+      ],
     },
   ],
 })

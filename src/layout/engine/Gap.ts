@@ -35,7 +35,8 @@ export default class Gap {
     readonly right: number,
     readonly bottom: number,
     readonly left: number,
-  ) {}
+  ) {
+  }
 
   public toString(): string {
     return `${this.top} ${this.right} ${this.bottom} ${this.left}`

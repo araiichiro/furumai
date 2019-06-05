@@ -1,27 +1,13 @@
-import {Svg} from '@/svg/Svg';
-import {Container} from '@/furumai/grid/Container';
-import {StatementList} from '@/furumai/StatementList';
-import {Frame} from '@/furumai/setup/Frame';
-import {Portrait} from '@/layout/engine/Portrait';
-import {Box} from '@/layout/engine/Box';
-import {Attributes, Attrs} from '@/furumai/Attribute';
+import {Svg} from '@/svg/Svg'
+import {Container} from '@/furumai/grid/Container'
+import {StatementList} from '@/furumai/StatementList'
+import {Frame} from '@/furumai/setup/Frame'
+import {Portrait} from '@/layout/engine/Portrait'
+import {Box} from '@/layout/engine/Box'
+import {Attributes, Attrs} from '@/furumai/Attribute'
 
 export class Story {
-  constructor(private ss: StatementList[]) {}
-
-  toSvg(layout: Container, refit: boolean): SVGElement {
-    let fit = layout.map((a) => a.fit({x: 0, y: 0}))
-    if (refit) {
-      fit = fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width}))
-    }
-    const picture = fit.svg()
-    const svg = Svg.of('svg', {
-      xmlns: 'http://www.w3.org/2000/svg',
-      width: fit.get.box.width.toString(),
-      height: fit.get.box.height.toString(),
-    })
-    svg.appendChild(picture)
-    return svg
+  constructor(private ss: StatementList[]) {
   }
 
   private get mode() {
@@ -37,8 +23,23 @@ export class Story {
       mode: '_',
       align: '_',
       ...conf,
-      ...rest
+      ...rest,
     }
+  }
+
+  public toSvg(layout: Container, refit: boolean): SVGElement {
+    let fit = layout.map((a) => a.fit({x: 0, y: 0}))
+    if (refit) {
+      fit = fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width}))
+    }
+    const picture = fit.svg()
+    const svg = Svg.of('svg', {
+      xmlns: 'http://www.w3.org/2000/svg',
+      width: fit.get.box.width.toString(),
+      height: fit.get.box.height.toString(),
+    })
+    svg.appendChild(picture)
+    return svg
   }
 
   public play(): SVGElement[] {

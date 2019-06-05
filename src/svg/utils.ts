@@ -1,5 +1,5 @@
-import {Svg} from '@/svg/Svg';
-import {Box} from '@/layout/engine/Box';
+import {Svg} from '@/svg/Svg'
+import {Box} from '@/layout/engine/Box'
 
 export function marginRect(box: Box): SVGElement {
   const {x, y, width, height, margin} = box

@@ -18,7 +18,7 @@ function generateSnippet(dir: string, files: string[]) {
       }
       const params = {
         version: 1,
-        ...params1
+        ...params1,
       }
       const iframe = `<DocSnippet
   filename="${dir}/${filename}"

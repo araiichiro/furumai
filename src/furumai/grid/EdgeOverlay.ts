@@ -1,24 +1,30 @@
-import {Attributes, Attrs, num} from '@/furumai/Attribute';
-import {Overlay} from '@/furumai/grid/Overlay';
-import {Container} from '@/furumai/grid/Container';
-import {Box} from '@/layout/engine/Box';
-import {Arrow} from '@/layout/engine/Arrow';
-import {GridArea} from '@/furumai/grid/GridArea';
-import {Elem} from '@/layout/engine/Elem';
-import {SvgAttrs} from '@/svg/SvgAttrs';
-import {SvgText} from '@/svg/SvgText';
-import {SvgArrow} from '@/svg/SvgArrow';
+import {Attributes, Attrs, num} from '@/furumai/Attribute'
+import {Overlay} from '@/furumai/grid/Overlay'
+import {Container} from '@/furumai/grid/Container'
+import {Box} from '@/layout/engine/Box'
+import {Arrow} from '@/layout/engine/Arrow'
+import {GridArea} from '@/furumai/grid/GridArea'
+import {Elem} from '@/layout/engine/Elem'
+import {SvgAttrs} from '@/svg/SvgAttrs'
+import {SvgText} from '@/svg/SvgText'
+import {SvgArrow} from '@/svg/SvgArrow'
 
 export class EdgeOverlay implements Overlay {
+  private static findBox(base: Container, id: string): Box {
+    const area = base.find(id) as GridArea<Elem>
+    return area.get.box
+  }
+
   constructor(
     readonly id: string,
     private tailId: string,
     private headId: string,
     private attrs: Attrs,
     private box: Box,
-  ) {}
+  ) {
+  }
 
-  updateAttributes(attrs: Attributes): Overlay {
+  public updateAttributes(attrs: Attributes): Overlay {
     // TODO immutable
     this.attrs = {
       ...this.attrs,
@@ -28,14 +34,9 @@ export class EdgeOverlay implements Overlay {
     return this
   }
 
-  private findBox(base: Container, id: string): Box {
-    const area = base.find(id) as GridArea<Elem>
-    return area.get.box
-  }
-
-  applyTo(base: Container): EdgeOverlay {
-    const tail = this.findBox(base, this.tailId)
-    const head = this.findBox(base, this.headId)
+  public applyTo(base: Container): EdgeOverlay {
+    const tail = EdgeOverlay.findBox(base, this.tailId)
+    const head = EdgeOverlay.findBox(base, this.headId)
     const {dx, dy, ...rest} = this.attrs
     const dxNum = num(dx) || 0
     const dyNum = num(dy) || 0
@@ -49,7 +50,7 @@ export class EdgeOverlay implements Overlay {
     return new EdgeOverlay(this.id, this.tailId, this.headId, attrs, box)
   }
 
-  svg(): SVGElement {
+  public svg(): SVGElement {
     const {tx, ty, t, ...rest} = this.attrs
     const svgAttrs: SvgAttrs = {
       visibility: 'visible',

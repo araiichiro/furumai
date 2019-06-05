@@ -98,10 +98,11 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
-import DocSnippet from "@/components/DocSnippet.vue";
+import {Component, Vue} from 'vue-property-decorator'
+import DocSnippet from '@/components/DocSnippet.vue'
+
 @Component({
-  components: {DocSnippet}
+  components: {DocSnippet},
 })
 export default class Docs extends Vue {
   public urlOf(encoded: string): string {

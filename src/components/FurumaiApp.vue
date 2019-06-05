@@ -7,13 +7,13 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
-import FurumaiApp1 from "@/components/FurumaiApp1.vue";
-import {DataEncoderDecoderV1} from "@/io/DataEncoderDecoderV1";
+import {Component, Vue} from 'vue-property-decorator'
+import FurumaiApp1 from '@/components/FurumaiApp1.vue'
+import {DataEncoderDecoderV1} from '@/io/DataEncoderDecoderV1'
 
 @Component({
   components: {
-    FurumaiApp1
+    FurumaiApp1,
   },
 })
 export default class FurumaiApp extends Vue {
@@ -22,7 +22,7 @@ export default class FurumaiApp extends Vue {
   private version: number = -1
   private furumaiData: any = {}
 
-  mounted() {
+  public mounted() {
     const params = this.$route.params as any
     if (params.format === FurumaiApp.codec.formatVersion) {
       const data = FurumaiApp.codec.decode(params.data)
@@ -38,10 +38,10 @@ export default class FurumaiApp extends Vue {
     }
   }
 
-  changeUrl() {
+  public changeUrl() {
     const data = {
       version: this.version,
-    ...this.furumaiData
+      ...this.furumaiData,
     }
     const encoded = FurumaiApp.codec.encode(data)
     this.$router.push({name: 'furumai', params: {format: FurumaiApp.codec.formatVersion, data: encoded}})

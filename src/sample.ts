@@ -1,6 +1,6 @@
-import {DataEncoderDecoderV1} from './io/DataEncoderDecoderV1';
+import {DataEncoderDecoderV1} from '@/io/DataEncoderDecoderV1'
 
-export const sampleCode = `group clients {
+const sampleCode = `group clients {
   c1;
   c2;
 };

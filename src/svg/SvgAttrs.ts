@@ -1,1 +1,3 @@
-export type SvgAttrs = {[key: string]: string}
+export interface SvgAttrs {
+  [key: string]: string
+}
