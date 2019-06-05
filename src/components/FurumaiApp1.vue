@@ -112,7 +112,21 @@ export default class FurumaiApp1 extends Vue {
   }
 
   download() {
-    throw new Error('not impl')
+    const div = this.$refs.moments as HTMLElement
+    const cards = div.getElementsByClassName('card')
+    for (let i = 0; i < cards.length; i++) {
+      const c = cards.item(i)
+      if (c) {
+        const blob = c.innerHTML
+        const url = window.URL.createObjectURL(new Blob([blob], {type: 'image/svg+xml'}))
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `svg-${i}.svg`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
+    }
   }
 }
 </script>
