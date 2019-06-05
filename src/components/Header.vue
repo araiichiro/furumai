@@ -1,10 +1,11 @@
 <template>
   <nav class="nav">
     <div class="nav-left">
-      <a class="brand" href="#">Furumai</a>
+      <router-link :to="{path: '/'}" class="brand">Furumai</router-link>
       <div class="tabs">
         <router-link :to="{name: 'docs'}" exact-active-class="active">Docs</router-link>
         <router-link :to="{name: 'dependencies'}" exact-active-class="active">Dependencies</router-link>
+        <a href="https://github.com/araiichiro/furumai">GitHub</a>
       </div>
     </div>
   </nav>
