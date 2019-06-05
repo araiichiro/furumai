@@ -3,8 +3,8 @@
     <div class="nav-left">
       <a class="brand" href="#">Furumai</a>
       <div class="tabs">
-        <router-link :to="{name: 'docs'}" :class="{ active: this.$route.path.match(/docs/) }">Docs</router-link>
-        <router-link :to="{name: 'dependencies'}" :class="{ active: this.$route.path.match(/dependencies/) }">Dependencies</router-link>
+        <router-link :to="{name: 'docs'}" exact-active-class="active">Docs</router-link>
+        <router-link :to="{name: 'dependencies'}" exact-active-class="active">Dependencies</router-link>
       </div>
     </div>
   </nav>
