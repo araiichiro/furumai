@@ -15,8 +15,13 @@
           ></textarea>
           </div>
           <div class="nav-right">
-            <span class="options"><input type="checkbox"/>Enable Rough.js</span>
-            <button class="button primary furumai-button" @click="furumai">View (ctrl-enter)</button>
+            <label class="options">
+              <input type="checkbox" v-model="furumaiData.rough" @change="furumai"/>Rough.js
+            </label>
+            <label class="options">
+              <input type="checkbox" v-model="furumaiData.displayFirstSvg" @change="furumai"/>Display 1st SVG
+            </label>
+            <button class="button primary furumai-button" @click="furumai">View (Ctrl + Enter)</button>
           </div>
         </label>
         </div>
@@ -41,10 +46,9 @@ import {toSvg} from '@/furumai/utils';
 
 @Component
 export default class FurumaiApp1 extends Vue {
-  @Prop() furumaiData!: AppParams1
+  @Prop({default: {}}) furumaiData!: AppParams1
   @Prop() changeUrl!: () => void
   @Prop({default: true}) editorMode!: boolean
-  @Prop({default: false}) hideFirstFrame!: boolean
 
   public errors: string = ''
 
@@ -55,7 +59,7 @@ export default class FurumaiApp1 extends Vue {
 
   private toSvgOrError(text: string): SVGElement[] | Error {
     try {
-      return toSvg(text)
+      return toSvg(text, this.furumaiData.rough || false)
     } catch (e) {
       return e
     }
@@ -68,11 +72,15 @@ export default class FurumaiApp1 extends Vue {
     const div = this.$refs.moments as HTMLElement
     if (div) {
       div.innerHTML = ''
-      const svgs = this.toSvgOrError(text)
+      let svgs = this.toSvgOrError(text)
       if (svgs instanceof Error) {
         const stack = svgs.stack || ''
         this.errors = stack //.replace(/</g, '&lt;').replace(/>/g, '&gt;')
       } else {
+        if (!this.furumaiData.displayFirstSvg) {
+          const [first, ...rest] = svgs
+          svgs = rest.length > 0 ? rest : svgs
+        }
         svgs.forEach((svg) => {
           //div.innerHTML = ''
 
@@ -92,11 +100,7 @@ export default class FurumaiApp1 extends Vue {
 
   public mounted() {
     const editor = this.$refs.editor as HTMLElement
-    const editorConfig = {
-      focus: true,
-      ...this.furumaiData.editor
-    }
-    if (editor && editorConfig.focus) {
+    if (editor) {
       editor.focus()
     }
     this.draw(this.furumaiData.code)
@@ -105,6 +109,10 @@ export default class FurumaiApp1 extends Vue {
   public furumai() {
     this.draw(this.furumaiData.code)
     this.changeUrl()
+  }
+
+  download() {
+    throw new Error('not impl')
   }
 }
 </script>

@@ -72,8 +72,6 @@ export class Story {
         return container
       }
     }, base)
-
-    const [firstSvg, ...rest] = ret
-    return rest.length > 0 ? rest : [firstSvg]
+    return ret
   }
 }

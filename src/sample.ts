@@ -27,4 +27,4 @@ c2 -> s2 [label='read x=1'];
 
 const codec = new DataEncoderDecoderV1()
 export const formatVersion = codec.formatVersion
-export const sampleFragment = codec.encode({version: 1, code: sampleCode})
+export const sampleFragment = codec.encode({version: 1, code: sampleCode, rough: true})
