@@ -40,5 +40,5 @@ function generate(dir: string) {
   })
 }
 
-generate('./gallery/examples')
 generate('./gallery/docs')
+generate('./gallery/examples')

@@ -35,7 +35,7 @@
         </div>
         <div class="" ref="moments" v-else></div>
         <div class="nav-right moments-footer">
-          <button class="button primary" @click="download">Download SVG(s)</button>
+          <button class="button primary" @click="download" v-if="editorMode">Download SVG(s)</button>
         </div>
       </div>
     </div>
