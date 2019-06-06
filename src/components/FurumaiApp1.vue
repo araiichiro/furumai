@@ -44,17 +44,23 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator'
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import AppParams1 from '@/components/AppParams1'
 import {toSvg} from '@/furumai/utils'
+import {Route} from 'vue-router'
 
 @Component
 export default class FurumaiApp1 extends Vue {
   @Prop({default: {}}) private furumaiData!: AppParams1
-  @Prop() private changeUrl!: () => void
+  @Prop() private changeUrl!: (data: AppParams1) => void
   @Prop({default: true}) private editorMode!: boolean
 
   private errors: string = ''
+
+  @Watch('$route')
+  public onRouteChanged(route: Route, oldRoute: Route) {
+    this.draw(this.furumaiData.code)
+  }
 
   public pre(text: string): string {
     return text.replace(/</g, '&lt;')
@@ -69,8 +75,7 @@ export default class FurumaiApp1 extends Vue {
   }
 
   public furumai() {
-    this.draw(this.furumaiData.code)
-    this.changeUrl()
+    this.changeUrl(this.furumaiData)
   }
 
   public download() {

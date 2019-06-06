@@ -38,10 +38,11 @@ export default class FurumaiApp extends Vue {
     }
   }
 
-  public changeUrl() {
+  public changeUrl(furumaiData: any) {
+    this.furumaiData = furumaiData
     const data = {
       version: this.version,
-      ...this.furumaiData,
+      ...furumaiData,
     }
     const encoded = FurumaiApp.codec.encode(data)
     this.$router.push({name: 'furumai', params: {format: FurumaiApp.codec.formatVersion, data: encoded}})
