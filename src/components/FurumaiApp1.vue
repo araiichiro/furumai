@@ -1,7 +1,7 @@
 <template>
   <div class="app1">
     <div class="row">
-      <div class="col-6">
+      <div class="col code-area">
         <div v-if="editorMode" class="code-editor-wrap">
           <label>
             <div>
@@ -29,7 +29,7 @@
           <pre>{{ pre(furumaiData.code) }}</pre>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col">
         <div class="text-error" v-if="errors && errors.length > 0">
           <pre>{{ errors }}</pre>
         </div>
@@ -83,7 +83,7 @@ export default class FurumaiApp1 extends Vue {
         const url = window.URL.createObjectURL(new Blob([blob], {type: 'image/svg+xml'}))
         const link = document.createElement('a')
         link.href = url
-        link.download = `svg-${i}.svg`
+        link.download = `furumai-${i}.svg`
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
@@ -130,6 +130,10 @@ export default class FurumaiApp1 extends Vue {
 </script>
 
 <style>
+  .code-area {
+    max-width: 80rem;
+  }
+
   .code-editor-wrap {
     padding-left: 1.5rem;
   }
@@ -155,4 +159,9 @@ export default class FurumaiApp1 extends Vue {
   .moments-footer {
     margin-right: 1.5rem;
   }
+
+  .card {
+    overflow: scroll;
+  }
+
 </style>
