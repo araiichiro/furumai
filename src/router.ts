@@ -29,7 +29,7 @@ export default new Router({
           component: FurumaiApp,
           name: 'furumai',
         }, {
-          path: 'docs',
+          path: 'docs/:lang',
           component: Docs,
           name: 'docs',
         }, {
