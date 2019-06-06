@@ -17,9 +17,16 @@ export class Compound implements BuildingBlock {
   }
 
   public setup(env: Env): Container {
-    const attrs = env.lookupAttributes(this.compoundType).merge(this.attrs)
+    const merged = env.lookupAttributes(this.compoundType).merge(this.attrs)
+    const attrs = merged.attrs
+    const box = merged.box
     const fitterClass = this.compoundType === 'zone' ? Portrait : Landscape
-    const fitter = new fitterClass([], Box.of(env.lookupAttributes(this.compoundType).box))
+    const fitter = new fitterClass([], Box.of(box))
+    const initContainer = new Container(
+      this.id,
+      attrs,
+      fitter,
+    )
     return this.blocks.reduce((container, block) => {
       const ret = block.setup(env.newEnv(container, this.childAttrs || {}))
       if (ret) {
@@ -27,11 +34,7 @@ export class Compound implements BuildingBlock {
       } else {
         return container
       }
-    }, new Container(
-      this.id,
-      attrs.attrs,
-      fitter,
-    ))
+    }, initContainer)
   }
 }
 
