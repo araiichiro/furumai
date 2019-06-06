@@ -1,7 +1,7 @@
 <template>
   <div class="app1">
     <div class="row">
-      <div class="col code-area">
+      <div class="col code-area" v-if="viewCode">
         <div v-if="editorMode" class="code-editor-wrap">
           <label>
             <div>
@@ -54,6 +54,7 @@ export default class FurumaiApp1 extends Vue {
   @Prop({default: {}}) private furumaiData!: AppParams1
   @Prop() private changeUrl!: (data: AppParams1) => void
   @Prop({default: true}) private editorMode!: boolean
+  @Prop({default: true}) private viewCode!: boolean
 
   private errors: string = ''
 

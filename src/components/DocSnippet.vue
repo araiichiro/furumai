@@ -16,6 +16,7 @@
       v-if="version === 1"
       v-bind:furumaiData="furumaiData"
       v-bind:editorMode="false"
+      v-bind:viewCode="viewCode"
     ></FurumaiApp1>
     <div v-else-if="version === -1">version = -1</div>
     <div v-else>version error: {{version}}</div>
@@ -45,6 +46,7 @@ export default class Docs extends Vue {
 
   @Prop({default: 'no name'}) private filename!: string
   @Prop() private url!: string
+  @Prop({default: true}) private viewCode!: boolean
 
   public mounted() {
     if (this.url) {

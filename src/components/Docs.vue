@@ -1,11 +1,45 @@
 <template>
   <div>
-    <div v-if="lang === 'ja'" class="description">
-      ja
-    </div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(abst)"></div>
     <div v-if="lang === 'en'" class="description">
-      en
+      not implemented...
     </div>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(features)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(background)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(gallery)"></div>
+    <DocSnippet
+      filename="B-tree like"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymmYCGANpUlThCQAXaDQDcAHSRg48AEZweQgJ60AFnHyEk4qUkYBtcly60AxADYADAFEAYgBEAQjUwACGEKgIA1kxpmAIIAzE4ArI6ubiIAHkIAdJ7efuYWdgAcAJyBAExRsQnGpgFpWbk0ALqSSBD4FBAGSb7+ZgDCwa0R6ZXVUhTeAK4ADm5cHMrQ6G7AUm5ucujVc3I51QC+vUj9CMOj49A507NuHIvHHKvnwUsnACzrmwC0z1ILBkK0QmpQEDBqCFx8DAqAZ0FYKlExnIIMVvAghD0pKd3rQwCD0phMhCqkjgiiaGiDFjEUgOLd8YSwdjNgs3I8AHwnM5IWkMu7VU50xlkgz4VQ0HLdHGk4Jcu5SKTPR5SQhcCAiJlisk09D4r4-P4AoEgzKYKmQjjQ2EIeEklZq76-f6AnV68Ek5EfAno6kS0lTNkcPF82iCs0e7nXV6HT1Blkh7m3EDYDhIOB0DhCRAoVCgDg4JOQNBeAYQNbYQYUNTZqC5tZAA')"
+      :viewCode="false"
+    ></DocSnippet>
+
+    <DocSnippet
+      filename="Key Value Store"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5AIYA2lSVOESALtDQNwA6SARSgIArgAcABDibsOMScAGTpdANoM6AIwgNaMuHMl0aAXX5IVOLRu279szpK1mLVnLZ16aBozhqYkjAAFnTiELThsMiuAgC+FkIiEkHQkFCKypJI6ppetAByBBCSAIIBQaHh+gCeTEiEULGW2TZ59jRFhJIAQhUhYRE+dXAN3OZZSB7t3l0lAML9VUM4I2NNEy3BwZ4dABKjXPiSe3QNCKSkS4O0WggAHs0JAgLWkgC0AHytahy0AO5QOBcQIAMVKAEkADIAUQAIgBCJH9DgiADWEHe+DoAygUDoNVoAA5JAAWZogbBnOAAWzoHEQKFQoDoOAZkDQqNEEDi2GSFGCnKg3LiQA')"
+      :viewCode="false"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(functions)"></div>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(basicShapes)"></div>
+    <DocSnippet
+      filename="Basic Shapes"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIADgIb75xIDmAvAOQBMADAwNwA6S3ZOALgijoA2jAAWZEhEbTYyBgF0uSJAQiiJUmQwBGCAB5KVMQVDI0NYydMY4AngBtqhKMe68BQ9AAIAtAB8PmqE6CohGv5BpkIWGiog2GRIcAC2ZPyIKKigfJmQaPxQAK4QAL5lQA')"
+    ></DocSnippet>
+
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(multiFrames)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(labelText)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(svgAttrs)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(zoneGroup)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(marginPadding)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(dxDy)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(centering)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(diffMode)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(hide)"></div>
+    <div v-if="lang === 'ja'" class="description" v-html="md(syntax)"></div>
+
 
     <DocSnippet
       filename="./gallery/docs/align-center.furumai"
@@ -73,11 +107,226 @@
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import DocSnippet from '@/components/DocSnippet.vue'
 import {Route} from 'vue-router'
+import marked from 'marked'
+
+const abst = {
+  ja: '',
+}
+abst.ja = `
+システムやアルゴリズムの動作図（パラパラ漫画）を、DOT（Graphviz）風のテキスト記述から生成できるツールを作りました。
+`
+
+const features = {
+  ja: '',
+}
+features.ja = `
+# 特徴
+
+- テキストベースの記述
+	- DOT（Graphviz）風の言語で記述。1枚絵ではなく動作図（パラパラ漫画）をテキスト記述から生成。
+- SVGへ出力可能
+`
+
+const background = {
+  ja: '',
+}
+background.ja = `
+# 背景
+
+既存のお絵かきツール・図表生成ツールには下記の使いにくさがありました。
+
+- GUIのお絵かきツール
+	- 自由に配置できる反面、要素数が多いと作図・調整が手間
+	- 複数の図があるとき、1枚変更すると後続の図も修正しないといけない
+
+- テキストベースの図表生成ツール
+	- 要素の位置の指定がしにくい
+	- 状態変化を表現しにくい
+		- 要素の追加・削除で他要素の位置が変わってしまう
+		- 変更点だけを記述できず、記述量が多くなりがち（図全体を枚数分だけ記述しないといけない）
+
+そこで自動で図中の各要素の配置を調整して動作図を作成できるツールを開発しました。
+`
+
+const gallery = {
+  ja: '',
+}
+gallery.ja = `
+# ギャラリー
+
+動作図をテキスト記述から作成できます。
+`
+
+const functions = {
+  ja: '',
+}
+functions.ja = `
+# 機能
+`
+
+const syntax = {
+  ja: '',
+}
+syntax.ja = `
+# 文法
+
+正確な文法は \`Furumai.g4\` ファイルに記載の通りです。
+`
+
+const basicShapes = {
+  ja: '',
+}
+basicShapes.ja = `
+## 基本図形
+
+基本図形として \`box\` / \`person\` / \`cylinder\` が指定できます。要素間に矢印を配置できます。
+
+src="gallery/basic-shapes.sysvis.0000.svg"
+`
+
+const multiFrames = {
+  ja: '',
+}
+multiFrames.ja = `
+## 動作図（パラパラ漫画）を出力
+
+\`---\` で動作図の各フレームを区切ります。
+
+ src="gallery/simple-animation.sysvis.0000.svg"
+
+---
+ src="gallery/simple-animation.sysvis.0001.svg"
+
+---
+ src="gallery/simple-animation.sysvis.0002.svg"
+`
+
+const labelText = {
+  ja: '',
+}
+labelText.ja = `
+## ラベル / テキスト
+
+ src="gallery/label-text.sysvis.0000.svg"
+`
+
+const svgAttrs = {
+  ja: '',
+}
+svgAttrs.ja = `
+SVGの属性が指定できます。
+ src="gallery/svg-attributes.sysvis.0000.svg"
+`
+
+const zoneGroup = {
+  ja: '',
+}
+zoneGroup.ja = `
+## Zone / Group
+
+図表の構成要素をまとめる方法として下記のものがあります。
+
+- \`Group\`
+	- 横方向にならべてまとめます
+- \`Zone\`
+	- 縦方向にならべてまとめます
+
+ src="gallery/group-zone.sysvis.0000.svg"
+`
+
+const marginPadding = {
+  ja: '',
+}
+marginPadding.ja = `
+## Margin / Padding
+
+ウェブページにおける \`margin\` / \`padding\` のような余白を設定できます。
+
+ src="gallery/margin-padding.sysvis.0000.svg"
+`
+
+const dxDy = {
+  ja: '',
+}
+dxDy.ja = `
+## dx / dy
+
+自動配置の結果、矢印が重なってしまうケースがあります。その場合、 \`dx\` / \`dy\` 属性を指定して矢印の配置をずらせます。
+ src="gallery/dx-dy.sysvis.0000.svg"
+`
+
+const centering = {
+  ja: '',
+}
+centering.ja = `
+## 均等配置（左詰めしない）
+
+src="gallery/align-center.sysvis.0000.svg"
+`
+
+const diffMode = {
+  ja: '',
+}
+diffMode.ja = `
+## 差分記述モード
+
+下記のようにファイルの先頭に記述することで、差分での記述できます。アルゴリズムの動作説明などの「小さな変化がつみかさなる」ようなものの場合に差分記述モードが役立ちます。
+
+ src="gallery/diff-mode.sysvis.0000.svg"
+
+---
+ src="gallery/diff-mode.sysvis.0001.svg"
+
+---
+ src="gallery/diff-mode.sysvis.0002.svg"
+
+初期状態で非表示にすれば、変更があってから表示されるようにできます。
+
+ src="gallery/array-list.sysvis.0001.svg"
+
+---
+ src="gallery/array-list.sysvis.0002.svg"
+`
+
+const hide = {
+  ja: '',
+}
+
+hide.ja = `
+## 表示済み要素の非表示
+
+表示済み要素を非表示にするには下記のようにします。
+
+ src="gallery/delete.sysvis.0000.svg"
+
+---
+ src="gallery/delete.sysvis.0001.svg"
+
+---
+ src="gallery/delete.sysvis.0002.svg"
+`
 
 @Component({
   components: {DocSnippet},
 })
 export default class Docs extends Vue {
+  public abst = abst
+  public features = features
+  public background = background
+  public gallery = gallery
+  public functions = functions
+  public syntax = syntax
+  public basicShapes = basicShapes
+  public multiFrames = multiFrames
+  public labelText = labelText
+  public svgAttrs = svgAttrs
+  public zoneGroup = zoneGroup
+  public marginPadding = marginPadding
+  public dxDy = dxDy
+  public centering = centering
+  public diffMode = diffMode
+  public hide = hide
+
   private lang = 'en'
 
   @Watch('$route')
@@ -88,6 +337,10 @@ export default class Docs extends Vue {
   public created() {
     const params = this.$route.params as any
     this.lang = params.lang
+  }
+
+  public md(text: {[key: string]: string}): string {
+    return marked(text[this.lang])
   }
 
   public urlOf(encoded: string): string {
