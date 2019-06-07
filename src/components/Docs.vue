@@ -28,78 +28,76 @@
       :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIADgIb75xIDmAvAOQBMADAwNwA6S3ZOALgijoA2jAAWZEhEbTYyBgF0uSJAQiiJUmQwBGCAB5KVMQVDI0NYydMY4AngBtqhKMe68BQ9AAIAtAB8PmqE6CohGv5BpkIWGiog2GRIcAC2ZPyIKKigfJmQaPxQAK4QAL5lQA')"
     ></DocSnippet>
 
-
     <div v-if="lang === 'ja'" class="description" v-html="md(multiFrames)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(labelText)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(svgAttrs)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(zoneGroup)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(marginPadding)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(dxDy)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(centering)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(diffMode)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(hide)"></div>
-    <div v-if="lang === 'ja'" class="description" v-html="md(syntax)"></div>
-
-
-    <DocSnippet
-      filename="./gallery/docs/align-center.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5AIYA2lSVOESALtDQNwA6SARSgIArgAcABBXSTgAyZIC2-JIqSrFCVQF9VQkROkAGOQskAvZBEun5axZLqbHAIxd7zVpDYuz7jpI4Lor4HrqqINh0SHBKdByIKKigdDiJkGgcUKIQOjpAA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/basic-shapes.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIADgIb75xIDmAvAOQBMADAwNwA6S3ZOALgijoA2jAAWZEhEbTYyBgF0uSJAQiiJUmQwBGCAB5KVMQVDI0NYydMY4AngBtqhKMe68BQ9AAIAtAB8PmqE6CohGv5BpkIWGiog2GRIcAC2ZPyIKKigfJmQaPxQAK4QAL5lQA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/array-list.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymk0DcAOkj2HPABGcADZwALgE8qACzj5CSbryQUoCAK4AHAAQBDKFD2SdwHjp1JGAbToGKcJFQAMmHVr0LH1dK50B3eXEZKgAOPxkIShlxMIBWNxE9QQgRWhoAXWULHHRsnRwAJnycAGYSgBYSuJKANmsklLSaADo2mjcYcXUAayYaKyQITJKAdhLQ5QBfZQBaeZ5c61iaPXRC0pHFwuXaQXWKraQy3ZpcwrijnArT-HXao-nZxbjTiHXRq9rlHHHFyZ4IGweiQcDs4kQKFQoD0OAhkDQ3Q0ECmUyAA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/delete.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhgNwA6SARpUiQAQC0AfA9VVU91YQDYQALhAaNW7Tkm5NeEAcIkpsJJHAC2JQYhSpQJHFshpBUAK4QAvhaA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/diff-mode.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymk0DcAOkjwIbckAIwDaYOPCFwANnAAuATyoALOPkJIAuoJxiJcKbMUq1G7TwC0V-gAILAPhtDBVizyF3HOQSGx8kcHR8cogoqKB8OCGQaHJQAK4QAL5JQA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/dx-dy.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhgNwA6SARpUjnVQOZQICuADgARMBMXwKly746wiGK4AzOgF9GSElwC0APi44A2vgAeAXgDMABgC6daivUMq+S9LoQ7U7QE9DpuiGwkkcALYkAC6IKKigJDjBkGiBUGwQsrJAA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/eye-catch.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaISBEA2gLYCGUA5nEgLwDkADAAQDsbLAugG4AOkhF0oCAK4AHDjgA2cCEgAuMDsBEcOAVRjRyMABbVpEVmdjJ+wpNoBCEgO76otgL62xEmR1eRYDS0OAEFpaVttABF7QxMzVhwAT0UkQigbEXcREQBafJE9aA5cgD4ORwQXAxVWRmlJFRZMPxUJAGsIXPxqY1ooaiSmIRAADg5RkcEcpHzckUrqqBLysOlyWpZqHBwIGBhMpDWVjhiODdYAYQAlHSjDkGxqJDgaFUQUVFBt98g0NskEHc7iAA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/group-zone.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIA5lAgK4AOABDujcADpI01IEQDaAtgIZQScJAF4mIAOwAGcQF0A3CzY9uMABZ8qEEQHItsZDoVKaAI3IB3GNHSLWNAC4IEAG1ssAvnbKVa1qGBwOBAMzPYAXsgQNHzhoSZsVOQAHgCe7vZspnw4ANYQSPjoJl4mkUjRsQBMjAk0SQhpVXZsWTn5hVUldqVILCo0ALQAfGaW-hlOrgwjYwhWNnYs5vMTQ6MNaRkrC1AzGympzSyb6etm7QVFdqc1s9l5V8co2HxIcPwOiCiooDlfkDQDigFAgHg8QA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/label-text.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaISBE6A2jABYCGADhALwDkARggB4uYAEALqzxJ+EEb2rQILALoBuADpJaOfgiiUaDZi0axkPXgBtabCEdYAVanBi9bvAIL4AtnCRPZipDDVRaAObkVHSMQgCeRu6EUIYmZhYs1g4OANIAagDKhoIsFADWEOHoqLxgtEYAruQyXkog2LRIcC60-IgoqKAq7ZBo-FDVAL5DQA')"
-    ></DocSnippet>
-
-    <DocSnippet
-      filename="./gallery/docs/margin-padding.furumai"
-      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIS6A2gLYCGUA5nEgLwDkATAAwAE637XAzH2YBdANwAdJElaUa9Jsx5Ku6diIlJJtKAgCuAB060ewSZ04AvZBEsmz5ztToNGq9hoed9VfPga1XPg8HJAIIWWcmNzF7cyp0UU4AIwT7AF9gqyQbC1ZOUyRPJ3lXYPNvX39S2M4qRKTgjPssnP58muKXVMKHCr8kAO7PKn5GjTTJEGwqJDhqABdEFFRQKhxFyDR5qF0INLSgA')"
-    ></DocSnippet>
-
     <DocSnippet
       filename="./gallery/docs/simple-animation.furumai"
       :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhgNwA6SARpUjnQLTNUkAEjAfG7Vc41WoduDKiGwkkcALYkALohSpQJHAsho5UAK4QAvnqA')"
     ></DocSnippet>
 
+    <div v-if="lang === 'ja'" class="description" v-html="md(labelText)"></div>
+    <DocSnippet
+      filename="./gallery/docs/label-text.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaISBE6A2jABYCGADhALwDkARggB4uYAEALqzxJ+EEb2rQILALoBuADpJaOfgiiUaDZi0axkPXgBtabCEdYAVanBi9bvAIL4AtnCRPZipDDVRaAObkVHSMQgCeRu6EUIYmZhYs1g4OANIAagDKhoIsFADWEOHoqLxgtEYAruQyXkog2LRIcC60-IgoqKAq7ZBo-FDVAL5DQA')"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(svgAttrs)"></div>
     <DocSnippet
       filename="./gallery/docs/svg-attributes.furumai"
       :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaISBEA2gLYCGUA5nEgLwDkA7AAwAEATBywF0A3AB0kYpOnJiuXGABcoCANYRWAYg4BOAGYtMMuYpUQAtABtGEHNQAOTESCUBXJPkeGdcc+Y0AOACMcFk9keVN4AC81RzYeDyRZeQgAD3kAOgUlVQ0dADZqFlFErmS09K8fBxB1fOoE4TEJHmKJdC5TAD4uJB5pEqyTUwB3OHx5AAtWdH4DAeNVCysbexYXN31DQcX8ahgJ2ihqAE9q9DzeABYE2QRbahw4eVPHDnSAVgbikGxqJDgaPJEChUKAHkDIGhFM4IABfWFAA')"
     ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(zoneGroup)"></div>
+    <DocSnippet
+      filename="./gallery/docs/group-zone.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIA5lAgK4AOABDujcADpI01IEQDaAtgIZQScJAF4mIAOwAGcQF0A3CzY9uMABZ8qEEQHItsZDoVKaAI3IB3GNHSLWNAC4IEAG1ssAvnbKVa1qGBwOBAMzPYAXsgQNHzhoSZsVOQAHgCe7vZspnw4ANYQSPjoJl4mkUjRsQBMjAk0SQhpVXZsWTn5hVUldqVILCo0ALQAfGaW-hlOrgwjYwhWNnYs5vMTQ6MNaRkrC1AzGympzSyb6etm7QVFdqc1s9l5V8co2HxIcPwOiCiooDlfkDQDigFAgHg8QA')"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(marginPadding)"></div>
+    <DocSnippet
+      filename="./gallery/docs/margin-padding.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIS6A2gLYCGUA5nEgLwDkATAAwAE637XAzH2YBdANwAdJElaUa9Jsx5Ku6diIlJJtKAgCuAB060ewSZ04AvZBEsmz5ztToNGq9hoed9VfPga1XPg8HJAIIWWcmNzF7cyp0UU4AIwT7AF9gqyQbC1ZOUyRPJ3lXYPNvX39S2M4qRKTgjPssnP58muKXVMKHCr8kAO7PKn5GjTTJEGwqJDhqABdEFFRQKhxFyDR5qF0INLSgA')"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(dxDy)"></div>
+    <DocSnippet
+      filename="./gallery/docs/dx-dy.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhgNwA6SARpUjnVQOZQICuADgARMBMXwKly746wiGK4AzOgF9GSElwC0APi44A2vgAeAXgDMABgC6daivUMq+S9LoQ7U7QE9DpuiGwkkcALYkAC6IKKigJDjBkGiBUGwQsrJAA')"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(centering)"></div>
+    <DocSnippet
+      filename="./gallery/docs/align-center.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5AIYA2lSVOESALtDQNwA6SARSgIArgAcABBXSTgAyZIC2-JIqSrFCVQF9VQkROkAGOQskAvZBEun5axZLqbHAIxd7zVpDYuz7jpI4Lor4HrqqINh0SHBKdByIKKigdDiJkGgcUKIQOjpAA')"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(diffMode)"></div>
+    <DocSnippet
+      filename="./gallery/docs/diff-mode.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymk0DcAOkjwIbckAIwDaYOPCFwANnAAuATyoALOPkJIAuoJxiJcKbMUq1G7TwC0V-gAILAPhtDBVizyF3HOQSGx8kcHR8cogoqKB8OCGQaHJQAK4QAL5JQA')"
+    ></DocSnippet>
+    <DocSnippet
+      filename="./gallery/docs/array-list.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymk0DcAOkj2HPABGcADZwALgE8qACzj5CSbryQUoCAK4AHAAQBDKFD2SdwHjp1JGAbToGKcJFQAMmHVr0LH1dK50B3eXEZKgAOPxkIShlxMIBWNxE9QQgRWhoAXWULHHRsnRwAJnycAGYSgBYSuJKANmsklLSaADo2mjcYcXUAayYaKyQITJKAdhLQ5QBfZQBaeZ5c61iaPXRC0pHFwuXaQXWKraQy3ZpcwrijnArT-HXao-nZxbjTiHXRq9rlHHHFyZ4IGweiQcDs4kQKFQoD0OAhkDQ3Q0ECmUyAA')"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(hide)"></div>
+    <DocSnippet
+      filename="./gallery/docs/delete.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhgNwA6SARpUiQAQC0AfA9VVU91YQDYQALhAaNW7Tkm5NeEAcIkpsJJHAC2JQYhSpQJHFshpBUAK4QAvhaA')"
+    ></DocSnippet>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(roughMode)"></div>
+
+    <div v-if="lang === 'ja'" class="description" v-html="md(syntax)"></div>
+
+    <!--
+
+    <DocSnippet
+      filename="./gallery/docs/eye-catch.furumai"
+      :url="urlOf('v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaISBEA2gLYCGUA5nEgLwDkADAAQDsbLAugG4AOkhF0oCAK4AHDjgA2cCEgAuMDsBEcOAVRjRyMABbVpEVmdjJ+wpNoBCEgO76otgL62xEmR1eRYDS0OAEFpaVttABF7QxMzVhwAT0UkQigbEXcREQBafJE9aA5cgD4ORwQXAxVWRmlJFRZMPxUJAGsIXPxqY1ooaiSmIRAADg5RkcEcpHzckUrqqBLysOlyWpZqHBwIGBhMpDWVjhiODdYAYQAlHSjDkGxqJDgaFUQUVFBt98g0NskEHc7iAA')"
+    ></DocSnippet>
+    -->
+
   </div>
 </template>
 
@@ -181,7 +179,6 @@ basicShapes.ja = `
 
 基本図形として \`box\` / \`person\` / \`cylinder\` が指定できます。要素間に矢印を配置できます。
 
-src="gallery/basic-shapes.sysvis.0000.svg"
 `
 
 const multiFrames = {
@@ -192,13 +189,6 @@ multiFrames.ja = `
 
 \`---\` で動作図の各フレームを区切ります。
 
- src="gallery/simple-animation.sysvis.0000.svg"
-
----
- src="gallery/simple-animation.sysvis.0001.svg"
-
----
- src="gallery/simple-animation.sysvis.0002.svg"
 `
 
 const labelText = {
@@ -206,8 +196,6 @@ const labelText = {
 }
 labelText.ja = `
 ## ラベル / テキスト
-
- src="gallery/label-text.sysvis.0000.svg"
 `
 
 const svgAttrs = {
@@ -215,7 +203,6 @@ const svgAttrs = {
 }
 svgAttrs.ja = `
 SVGの属性が指定できます。
- src="gallery/svg-attributes.sysvis.0000.svg"
 `
 
 const zoneGroup = {
@@ -231,7 +218,6 @@ zoneGroup.ja = `
 - \`Zone\`
 	- 縦方向にならべてまとめます
 
- src="gallery/group-zone.sysvis.0000.svg"
 `
 
 const marginPadding = {
@@ -241,8 +227,6 @@ marginPadding.ja = `
 ## Margin / Padding
 
 ウェブページにおける \`margin\` / \`padding\` のような余白を設定できます。
-
- src="gallery/margin-padding.sysvis.0000.svg"
 `
 
 const dxDy = {
@@ -252,7 +236,6 @@ dxDy.ja = `
 ## dx / dy
 
 自動配置の結果、矢印が重なってしまうケースがあります。その場合、 \`dx\` / \`dy\` 属性を指定して矢印の配置をずらせます。
- src="gallery/dx-dy.sysvis.0000.svg"
 `
 
 const centering = {
@@ -261,7 +244,6 @@ const centering = {
 centering.ja = `
 ## 均等配置（左詰めしない）
 
-src="gallery/align-center.sysvis.0000.svg"
 `
 
 const diffMode = {
@@ -272,20 +254,8 @@ diffMode.ja = `
 
 下記のようにファイルの先頭に記述することで、差分での記述できます。アルゴリズムの動作説明などの「小さな変化がつみかさなる」ようなものの場合に差分記述モードが役立ちます。
 
- src="gallery/diff-mode.sysvis.0000.svg"
-
----
- src="gallery/diff-mode.sysvis.0001.svg"
-
----
- src="gallery/diff-mode.sysvis.0002.svg"
-
 初期状態で非表示にすれば、変更があってから表示されるようにできます。
 
- src="gallery/array-list.sysvis.0001.svg"
-
----
- src="gallery/array-list.sysvis.0002.svg"
 `
 
 const hide = {
@@ -295,15 +265,17 @@ const hide = {
 hide.ja = `
 ## 表示済み要素の非表示
 
-表示済み要素を非表示にするには下記のようにします。
+表示済み要素を非表示にするには下記のように \`hide\` もしくは \`delete\` を使用します。
 
- src="gallery/delete.sysvis.0000.svg"
+`
 
----
- src="gallery/delete.sysvis.0001.svg"
+const roughMode = {
+  ja: '',
+}
+roughMode.ja = `
+## Rough Mode
 
----
- src="gallery/delete.sysvis.0002.svg"
+\`Rough.js\` のチェックボックスにチェックを入れると、Rough.jsが有効になります。
 `
 
 @Component({
@@ -326,6 +298,7 @@ export default class Docs extends Vue {
   public centering = centering
   public diffMode = diffMode
   public hide = hide
+  public roughMode = roughMode
 
   private lang = 'en'
 
