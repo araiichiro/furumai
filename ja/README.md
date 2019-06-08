@@ -1,13 +1,23 @@
 # Furumai
 
-システムやアルゴリズムの動作図（パラパラ漫画）を、DOT（Graphviz）風のテキスト記述から生成できるツールを作りました。
+システムやアルゴリズムの動作図（パラパラ漫画）を、DOT（Graphviz）風のテキスト記述から生成できるツールを作りました: 
+<a href="/furumai/">Furumai - behavior visualization tool</a>
 
-- [Furumai](/furumai/)
+# ギャラリー
 
 <ClientOnly>
 <DocSnippet
-  filename="./gallery/docs/eye-catch.furumai"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaISBEA2gLYCGUA5nEgLwDkADAAQDsbLAugG4AOkhF0oCAK4AHDjgA2cCEgAuMDsBEcOAVRjRyMABbVpEVmdjJ+wpNoBCEgO76otgL62xEmR1eRYDS0OAEFpaVttABF7QxMzVhwAT0UkQigbEXcREQBafJE9aA5cgD4ORwQXAxVWRmlJFRZMPxUJAGsIXPxqY1ooaiSmIRAADg5RkcEcpHzckUrqqBLysOlyWpZqHBwIGBhMpDWVjhiODdYAYQAlHSjDkGxqJDgaFUQUVFBt98g0NskEHc7iAA"
+  filename="B-tree like"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymmYCGANpUlThCQAXaDQDcAHSRg48AEZweQgJ60AFnHyEk4qUkYBtcly60AxADYADAFEAYgBEAQjUwACGEKgIA1kxpmAIIAzE4ArI6ubiIAHkIAdJ7efuYWdgAcAJyBAExRsQnGpgFpWbk0ALqSSBD4FBAGSb7+ZgDCwa0R6ZXVUhTeAK4ADm5cHMrQ6G7AUm5ucujVc3I51QC+vUj9CMOj49A507NuHIvHHKvnwUsnACzrmwC0z1ILBkK0QmpQEDBqCFx8DAqAZ0FYKlExnIIMVvAghD0pKd3rQwCD0phMhCqkjgiiaGiDFjEUgOLd8YSwdjNgs3I8AHwnM5IWkMu7VU50xlkgz4VQ0HLdHGk4Jcu5SKTPR5SQhcCAiJlisk09D4r4-P4AoEgzKYKmQjjQ2EIeEklZq76-f6AnV68Ek5EfAno6kS0lTNkcPF82iCs0e7nXV6HT1Blkh7m3EDYDhIOB0DhCRAoVCgDg4JOQNBeAYQNbYQYUNTZqC5tZAA"
+  viewCode="false"
+></DocSnippet>
+</ClientOnly>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">!: Not working, see this page.</a>
+
+<ClientOnly>
+<DocSnippet
+  filename="Key Value Store"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5AIYA2lSVOESALtDQNwA6SARSgIArgAcABDibsOMScAGTpdANoM6AIwgNaMuHMl0aAXX5IVOLRu279szpK1mLVnLZ16aBozhqYkjAAFnTiELThsMiuAgC+FkIiEkHQkFCKypJI6ppetAByBBCSAIIBQaHh+gCeTEiEULGW2TZ59jRFhJIAQhUhYRE+dXAN3OZZSB7t3l0lAML9VUM4I2NNEy3BwZ4dABKjXPiSe3QNCKSkS4O0WggAHs0JAgLWkgC0AHytahy0AO5QOBcQIAMVKAEkADIAUQAIgBCJH9DgiADWEHe+DoAygUDoNVoAA5JAAWZogbBnOAAWzoHEQKFQoDoOAZkDQqNEEDi2GSFGCnKg3LiQA"
   viewCode="false"
 ></DocSnippet>
 </ClientOnly>
@@ -35,30 +45,7 @@
 
 そこで自動で図中の各要素の配置を調整して動作図を作成できるツールを開発しました。
 
-# ギャラリー
-
-動作図をテキスト記述から作成できます。
-
-<ClientOnly>
-<DocSnippet
-  filename="B-tree like"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymmYCGANpUlThCQAXaDQDcAHSRg48AEZweQgJ60AFnHyEk4qUkYBtcly60AxADYADAFEAYgBEAQjUwACGEKgIA1kxpmAIIAzE4ArI6ubiIAHkIAdJ7efuYWdgAcAJyBAExRsQnGpgFpWbk0ALqSSBD4FBAGSb7+ZgDCwa0R6ZXVUhTeAK4ADm5cHMrQ6G7AUm5ucujVc3I51QC+vUj9CMOj49A507NuHIvHHKvnwUsnACzrmwC0z1ILBkK0QmpQEDBqCFx8DAqAZ0FYKlExnIIMVvAghD0pKd3rQwCD0phMhCqkjgiiaGiDFjEUgOLd8YSwdjNgs3I8AHwnM5IWkMu7VU50xlkgz4VQ0HLdHGk4Jcu5SKTPR5SQhcCAiJlisk09D4r4-P4AoEgzKYKmQjjQ2EIeEklZq76-f6AnV68Ek5EfAno6kS0lTNkcPF82iCs0e7nXV6HT1Blkh7m3EDYDhIOB0DhCRAoVCgDg4JOQNBeAYQNbYQYUNTZqC5tZAA"
-  viewCode="false"
-></DocSnippet>
-</ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs">!: Not working, see this page.</a>
-
-<ClientOnly>
-<DocSnippet
-  filename="Key Value Store"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5AIYA2lSVOESALtDQNwA6SARSgIArgAcABDibsOMScAGTpdANoM6AIwgNaMuHMl0aAXX5IVOLRu279szpK1mLVnLZ16aBozhqYkjAAFnTiELThsMiuAgC+FkIiEkHQkFCKypJI6ppetAByBBCSAIIBQaHh+gCeTEiEULGW2TZ59jRFhJIAQhUhYRE+dXAN3OZZSB7t3l0lAML9VUM4I2NNEy3BwZ4dABKjXPiSe3QNCKSkS4O0WggAHs0JAgLWkgC0AHytahy0AO5QOBcQIAMVKAEkADIAUQAIgBCJH9DgiADWEHe+DoAygUDoNVoAA5JAAWZogbBnOAAWzoHEQKFQoDoOAZkDQqNEEDi2GSFGCnKg3LiQA"
-  viewCode="false"
-></DocSnippet>
-</ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs">!: Not working, see this page.</a>
-
 # 機能
-
 
 ## 基本図形
 
@@ -199,5 +186,3 @@ SVGの属性が指定できます。
 <<< ./Furumai.g4
 
 <Footer></Footer>
-
-

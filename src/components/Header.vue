@@ -3,7 +3,7 @@
     <div class="nav-left">
       <router-link :to="{path: '/'}" class="brand">Furumai</router-link>
       <div class="tabs">
-        <a href="/docs">Docs</a>
+        <a href="./docs/ja/">Docs</a>
         <a href="https://github.com/araiichiro/furumai">GitHub</a>
       </div>
     </div>

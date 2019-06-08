@@ -1,9 +1,8 @@
 <template>
   <div>
     <nav class="nav">
-      <div class="nav-left">
-        <a class="brand" :href="url">{{ filename }}</a>
-        <a class="button primary" :href="url">Edit</a>
+      <div class="nav-right">
+        <a class="edit-button" :href="appUrl(url)">Edit</a>
       </div>
       <!--
       <div class="nav-right">
@@ -47,6 +46,10 @@ export default class DocSnippet extends Vue {
   @Prop() private url!: string
   @Prop({default: 'true'}) private viewCode!: string
 
+  public appUrl(url) {
+    return `/furumai/#/apps/${url}`
+  }
+
   public mounted() {
     if (this.url) {
       const tokens = this.url.split('/')
@@ -68,4 +71,30 @@ export default class DocSnippet extends Vue {
 </script>
 
 <style>
+  @import "~chota/src/_card.css";
+  @import "~chota/src/_nav.css";
+  :root {
+    --color-primary: #1a9f60;
+    --color-lightGrey: #d2d6dd;
+    --color-grey: #7e818b;
+    --color-darkGrey: #3f4144;
+    --color-error: #d43939;
+    --color-success: #28bd14;
+    --grid-maxWidth: 120rem;
+    --grid-gutter: 1rem;
+    --font-size: 1.0rem;
+    --font-family: -apple-system, BlinkMacSystemFont, Avenir, "Avenir Next",
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  }
+  .card {
+    margin: 0.5rem 0 0.5rem 0;
+    padding: 0;
+  }
+
+  .nav, .nav-right, .edit-button, .nav a {
+    min-height: 0rem;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+  }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="app1">
     <div class="row">
-      <div class="col code-area" v-if="viewCode">
+      <div class="col" v-if="viewCode">
         <div v-if="editorMode" class="code-editor-wrap">
           <label>
             <div>
@@ -29,11 +29,11 @@
           <pre class="language-none">{{ pre(furumaiData.code) }}</pre>
         </div>
       </div>
-      <div class="col">
-        <div class="text-error" v-if="errors && errors.length > 0">
+      <div class="col-6">
+        <div class="text-error" v-if="errors.length > 0">
           <pre>{{ errors }}</pre>
         </div>
-        <div class="" ref="moments" v-else></div>
+        <div class="" ref="moments"></div>
         <div class="nav-right moments-footer">
           <button class="button primary" @click="download" v-if="editorMode">Download SVG(s)</button>
         </div>
@@ -85,7 +85,7 @@ export default class FurumaiApp1 extends Vue {
     for (let i = 0; i < cards.length; i++) {
       const c = cards.item(i)
       if (c) {
-        const blob = c.innerHTML
+        const blob = '<?xml version="1.0" encoding="UTF-8"?>' + c.innerHTML
         const url = window.URL.createObjectURL(new Blob([blob], {type: 'image/svg+xml'}))
         const link = document.createElement('a')
         link.href = url
@@ -106,6 +106,7 @@ export default class FurumaiApp1 extends Vue {
   }
 
   private draw(text: string): void {
+    this.errors = ''
     const animationConfig = {
       ...this.furumaiData.animation,
     }
@@ -136,11 +137,8 @@ export default class FurumaiApp1 extends Vue {
 </script>
 
 <style>
-  .code-area {
-    max-width: 80rem;
-  }
-
   .code-editor-wrap {
+    max-width: 80rem;
     padding-left: 1.5rem;
   }
 
@@ -152,10 +150,6 @@ export default class FurumaiApp1 extends Vue {
 
   .card {
     margin: 1.5rem;
-  }
-
-  .code-viewer {
-    margin-left: 1.5rem;
   }
 
   .options {
@@ -170,4 +164,7 @@ export default class FurumaiApp1 extends Vue {
     overflow: scroll;
   }
 
+  .text-error {
+    overflow: scroll;
+  }
 </style>

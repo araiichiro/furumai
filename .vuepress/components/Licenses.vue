@@ -1,5 +1,5 @@
 <template>
-  <div class="row card">
+  <div>
     <table id="dependencies">
       <tr>
         <td>Name</td>
@@ -30,8 +30,4 @@ export default {
 }
 </script>
 <style>
-  #dependencies table, #dependencies td {
-    border-collapse: collapse;
-    border: 1px solid #888;
-  }
 </style>

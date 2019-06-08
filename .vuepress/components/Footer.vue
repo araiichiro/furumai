@@ -1,12 +1,10 @@
 <template>
-  <nav class="nav">
+  <div id="footer">
     <hr/>
-    <div class="nav-left">
-      <a>About</a>
-      <a>Gallery</a>
-      <a>GitHub Repository</a>
-    </div>
-  </nav>
+    <a href="/furumai/docs/about.html">About</a>
+    <a href="/furumai/docs/gallery.html">Gallery</a>
+    <a href="https://github.com/araiichiro/furumai">GitHub Repository</a>
+  </div>
 </template>
 
 <script>
@@ -16,11 +14,11 @@ export default {
 </script>
 
 <style scoped>
-.nav-left {
-  float: left;
-}
+  #footer {
+    float: left;
+  }
 
-.nav-left a {
-  margin-right: 1rem;
-}
+  #footer a {
+    margin-right: 1rem;
+  }
 </style>

@@ -15,6 +15,12 @@
     "publisher": "Terence Parr, Sam Harwell, and Burt Harris",
     "licenseFile": "node_modules/antlr4ts/LICENSE"
   },
+  "chota@0.6.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jenil/chota",
+    "publisher": "Jenil Gogari",
+    "licenseFile": "node_modules/chota/LICENSE"
+  },
   "core-js@2.6.9": {
     "licenses": "MIT",
     "repository": "https://github.com/zloirock/core-js",
