@@ -1,6 +1,5 @@
 <template>
   <div class="row card">
-    Dependencies:
     <table id="dependencies">
       <tr>
         <td>Name</td>
@@ -8,7 +7,7 @@
       </tr>
       <tr v-for="(license, key) in licenses">
         <td><a :href="license.repository">{{ key }}</a></td>
-        <td><a :href="license.licenseFile">{{ license.licenses }}</a></td>
+        <td><a :href="urlOf(license.licenseFile)">{{ license.licenses }}</a></td>
       </tr>
     </table>
   </div>
@@ -23,6 +22,11 @@ export default {
       licenses: licensesJson,
     }
   },
+  methods: {
+    urlOf(a) {
+      return a
+    }
+  }
 }
 </script>
 <style>

@@ -8,9 +8,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "dev:docs": "vuepress dev .",
+    "build:docs": "vuepress build .",
     "license-checker": "license-checker --production --json --relativeLicensePath --excludePrivatePackages",
-    "dependencies": "yarn -s license-checker | jq 'del(.[]|.path)' > ./src/components/dependencies.json",
-    "copyLicenses": "jq -r '.[].licenseFile' src/components/dependencies.json | xargs -IX sh -c 'mkdir -p public/$(dirname X) && cp X public/X'",
+    "dependencies": "yarn -s license-checker | jq 'del(.[]|.path)' > ./.vuepress/components/dependencies.json",
+    "copyLicenses": "yarn -s license-checker | jq -r '.[].licenseFile' | xargs -IX sh -c 'mkdir -p ./.vuepress/public/$(dirname X) && cp X ./.vuepress/public/X'",
+    "dependencies:all": "yarn dependencies && yarn copyLicenses",
+    "build:all": "yarn dependencies:all && yarn build && yarn build:docs && mv .vuepress/dist docs/docs",
     "snippets": "tsc --outDir ./dist/ && node dist/tools/tools.js"
   },
   "dependencies": {
@@ -32,9 +36,8 @@
     "@vue/cli-service": "^3.7.0",
     "antlr4ts-cli": "^0.5.0-alpha.3",
     "license-checker": "^25.0.1",
-    "marked": "^0.6.2",
     "typescript": "^3.4.3",
-    "vue-template-compiler": "^2.5.21"
+    "vuepress": "^0.14.11"
   },
   "postcss": {
     "plugins": {

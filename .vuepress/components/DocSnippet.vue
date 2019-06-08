@@ -16,7 +16,7 @@
       v-if="version === 1"
       v-bind:furumaiData="furumaiData"
       v-bind:editorMode="false"
-      v-bind:viewCode="viewCode"
+      v-bind:viewCode="this.viewCode !== 'false'"
     ></FurumaiApp1>
     <div v-else-if="version === -1">version = -1</div>
     <div v-else>version error: {{version}}</div>
@@ -45,13 +45,13 @@ export default class DocSnippet extends Vue {
 
   @Prop({default: 'no name'}) private filename!: string
   @Prop() private url!: string
-  @Prop({default: true}) private viewCode!: boolean
+  @Prop({default: 'true'}) private viewCode!: string
 
   public mounted() {
     if (this.url) {
       const tokens = this.url.split('/')
-      if (tokens[2] === DocSnippet.codec.formatVersion) {
-        const data = DocSnippet.codec.decode(tokens[3])
+      if (tokens[0] === DocSnippet.codec.formatVersion) {
+        const data = DocSnippet.codec.decode(tokens[1])
         const {version, ...rest} = data
         if (version && version > 0) {
           this.version = version
@@ -60,7 +60,7 @@ export default class DocSnippet extends Vue {
           throw new Error(`app version is not specified`)
         }
       } else {
-        throw new Error(`unsupported data format version: ${tokens[2]}`)
+        throw new Error(`unsupported data format version: ${tokens[0]}`)
       }
     }
   }

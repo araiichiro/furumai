@@ -72,4 +72,4 @@ typings/
 
 # other
 .DS_Store
-/dist
+dist

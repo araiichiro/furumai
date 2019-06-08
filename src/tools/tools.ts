@@ -22,7 +22,7 @@ function generateSnippet(dir: string, files: string[]) {
       }
       const iframe = `<DocSnippet
   filename="${dir}/${filename}"
-  :url="urlOf('${codec.formatVersion}/${codec.encode(params)}')"
+  url="${codec.formatVersion}/${codec.encode(params)}"
 ></DocSnippet>
 `
       console.log(iframe)
