@@ -1,6 +1,7 @@
 const path = require('path')
 
 module.exports = {
+  base: '/furumai/docs/',
   title: 'Furumai',
   locales: {
     '/': {
