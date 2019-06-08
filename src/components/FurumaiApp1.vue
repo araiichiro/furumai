@@ -26,7 +26,7 @@
           </label>
         </div>
         <div v-else class="code-viewer">
-          <pre>{{ pre(furumaiData.code) }}</pre>
+          <pre class="language-none">{{ pre(furumaiData.code) }}</pre>
         </div>
       </div>
       <div class="col">

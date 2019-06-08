@@ -20,7 +20,6 @@
     ></FurumaiApp1>
     <div v-else-if="version === -1">version = -1</div>
     <div v-else>version error: {{version}}</div>
-    <hr/>
     <!--
     <iframe
       class="docSnippet"
@@ -38,7 +37,7 @@ import {DataEncoderDecoderV1} from '@/io/DataEncoderDecoderV1'
 @Component({
   components: {FurumaiApp1},
 })
-export default class Docs extends Vue {
+export default class DocSnippet extends Vue {
   private static codec = new DataEncoderDecoderV1()
 
   private version: number = -1
@@ -51,8 +50,8 @@ export default class Docs extends Vue {
   public mounted() {
     if (this.url) {
       const tokens = this.url.split('/')
-      if (tokens[2] === Docs.codec.formatVersion) {
-        const data = Docs.codec.decode(tokens[3])
+      if (tokens[2] === DocSnippet.codec.formatVersion) {
+        const data = DocSnippet.codec.decode(tokens[3])
         const {version, ...rest} = data
         if (version && version > 0) {
           this.version = version
