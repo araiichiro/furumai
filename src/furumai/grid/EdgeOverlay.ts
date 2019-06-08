@@ -51,12 +51,12 @@ export class EdgeOverlay implements Overlay {
   }
 
   public svg(): SVGElement {
-    const {tx, ty, t, ...rest} = this.attrs
+    const {tx, ty, t, label, ...rest} = this.attrs
     const svgAttrs: SvgAttrs = {
       visibility: 'visible',
       ...rest,
     }
-    const text = new SvgText(undefined, t)
+    const text = new SvgText(label, t)
     const txNum = Number(tx)
     const tyNum = Number(ty)
     return new SvgArrow(this.box, text, txNum, tyNum, svgAttrs).toSvgElement()

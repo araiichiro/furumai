@@ -14,7 +14,7 @@ group kvs {
 };
 ---
 c1 -> s1 [
-  label='write x=1\\\\n...',
+  label='write x=1\\n...',
   'stroke-dasharray'='4'
 ];
 c1 -> s2 [label='write x=1'];
