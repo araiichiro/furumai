@@ -55,7 +55,6 @@ export class Story {
       const refit = align === 'center' ? fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width})) : fit
       const picture = refit.svg()
       const svg = Svg.of('svg', {
-        xmlns: 'http://www.w3.org/2000/svg',
         viewBox: `0 0 ${refit.get.box.width} ${refit.get.box.height}`,
         width: (refit.get.box.width / 2).toString(),
         height: (refit.get.box.height / 2).toString(),
@@ -63,6 +62,7 @@ export class Story {
         // width: (refit.get.box.width).toString(),
         // height: (refit.get.box.height).toString(),
       })
+      svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
       svg.appendChild(picture)
       ret.push(svg)
 

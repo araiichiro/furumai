@@ -70,7 +70,8 @@ export class Container implements GridArea<Landscape | Portrait> {
 
   public svg(): SVGElement {
     const box = this.elem.box
-    const g = Svg.of('g', this.attrs)
+    const {t, ...svgAttrs} = this.attrs // TODO use t
+    const g = Svg.of('g', svgAttrs)
     const rect = Svg.of('rect', {
       id: `_gross_${this.id}`,
       fill: 'none', stroke: 'none', visibility: 'hidden',

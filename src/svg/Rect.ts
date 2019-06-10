@@ -2,7 +2,7 @@ import {SvgAttrs} from '@/svg/SvgAttrs'
 import {Svg} from '@/svg/Svg'
 import {SvgText} from '@/svg/SvgText'
 import {SvgShape} from '@/svg/SvgShape'
-import {marginRect} from '@/svg/utils'
+import {filter, marginRect} from '@/svg/utils'
 import {Box} from '@/layout/engine/Box'
 
 export class Rect implements SvgShape {
@@ -17,14 +17,15 @@ export class Rect implements SvgShape {
   public toSvgElement(): SVGElement {
     const a = this.box
     const {x, y, width, height, margin, padding} = a
-    const g = Svg.of('g', this.svgAttrs)
+    const svgAttrs = filter(this.svgAttrs, (k, v) => !k.startsWith('text.'))
+    const g = Svg.of('g', svgAttrs)
 
     const rect = Svg.of('rect', {
       id: `_rect_${this.id}`,
       fill: 'none',
       stroke: 'black',
       x, y, width, height, margin, padding,
-      ...this.svgAttrs,
+      ...svgAttrs,
     })
     const text = this.text.svg(x + padding.left, y + padding.top, this.svgAttrs)
     g.appendChild(rect)

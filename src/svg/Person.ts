@@ -2,7 +2,7 @@ import {SvgAttrs} from '@/svg/SvgAttrs'
 import {Svg} from '@/svg/Svg'
 import {SvgText} from '@/svg/SvgText'
 import {SvgShape} from '@/svg/SvgShape'
-import {marginRect} from '@/svg/utils'
+import {filter, marginRect} from '@/svg/utils'
 import {Box} from '@/layout/engine/Box'
 
 export class Person implements SvgShape {
@@ -17,7 +17,8 @@ export class Person implements SvgShape {
   public toSvgElement(): SVGElement {
     const b = this.box
     const {x, y, width, height} = b
-    const shape = person(x + width / 4, y, width / 2, height, this.svgAttrs)
+    const svgAttrs = filter(this.svgAttrs, (k, v) => !k.startsWith('text.'))
+    const shape = person(x + width / 4, y, width / 2, height, svgAttrs)
     const y0 = y - 32  // FIXME
     const textAttrs = {
       'text.text-anchor': 'middle',
@@ -25,7 +26,7 @@ export class Person implements SvgShape {
     }
     const text = this.text.svg(x + width / 2, y0, textAttrs)
 
-    const g = Svg.of('g', this.svgAttrs)
+    const g = Svg.of('g', svgAttrs)
     g.appendChild(shape)
     g.appendChild(text)
     g.appendChild(marginRect(b))

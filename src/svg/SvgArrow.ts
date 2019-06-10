@@ -5,6 +5,7 @@ import {SvgShape} from '@/svg/SvgShape'
 import {SvgText} from '@/svg/SvgText'
 import {Box} from '@/layout/engine/Box'
 import {defaults} from '@/svg/defaults'
+import {filter} from '@/svg/utils'
 
 export class SvgArrow implements SvgShape {
   constructor(
@@ -34,10 +35,11 @@ export class SvgArrow implements SvgShape {
     const va = rotateBase(degree, pumpUp)
     const vb = rotateBase(-degree, pumpUp)
 
+    const svgAttrs = filter(this.svgAttrs, (k, _) => !k.startsWith('text.'))
     const path = Svg.of('path', {
       stroke: 'black',
       'stroke-width': `${strokeWidth}`,
-      ...this.svgAttrs,
+      ...svgAttrs,
     })
     const d = `M ${x1} ${y1}
 L ${x2} ${y2}
@@ -56,7 +58,7 @@ L ${x2} ${y2}`
         textAttrs[k] = this.svgAttrs[k]
       }
     })
-    const g = Svg.of('g', this.svgAttrs)
+    const g = Svg.of('g', svgAttrs)
     let v = new Vector2d(x1, y1, x2, y2).normalize()
     v = v.dy > 0 ? v.rotate(-90) : v.rotate(90)
     v = v.multiple(24)
