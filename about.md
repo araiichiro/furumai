@@ -3,3 +3,5 @@
 ## Dependencies
 
 <Licenses></Licenses>
+
+<Footer></Footer>

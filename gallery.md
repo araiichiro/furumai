@@ -37,3 +37,5 @@
 ></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs">!: Not working, see this page.</a>
+
+<Footer></Footer>
