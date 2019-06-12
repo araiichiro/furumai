@@ -2,7 +2,7 @@ import {SvgText} from '@/svg/SvgText'
 import {Rect} from '@/svg/Rect'
 import {Cylinder} from '@/svg/Cylinder'
 import {Person} from '@/svg/Person'
-import {Attributes, Attrs} from '@/furumai/Attribute'
+import {Attributes, Attrs, num} from '@/furumai/Attribute'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Cell} from '@/layout/engine/Cell'
 import {Box} from '@/layout/engine/Box'
@@ -38,7 +38,10 @@ export class GridCell implements GridArea<Cell> {
   }
 
   public map(f: (a: Cell) => Cell): GridCell {
-    return new GridCell(this.id, f(this.cell), this.attrs)
+    const {dx, dy} = this.attrs
+    const cell = f(this.cell)
+    const box = cell.box.move(num(dx) || 0, num(dy) || 0)
+    return new GridCell(this.id, cell.withBox(box), this.attrs)
   }
 
   public svg(): SVGElement {

@@ -132,4 +132,9 @@ export class Box implements Point, Size, Gaps {
   public update(box: Partial<Box>): Box {
     return Box.of({...this, ...box})
   }
+
+  public move(dx: number, dy: number): Box {
+    const {x, y} = this
+    return this.update({x: x + dx, y: y + dy})
+  }
 }

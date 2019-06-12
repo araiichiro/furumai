@@ -126,6 +126,7 @@ You can set `margin` / `padding`, like web pages.
 
 There are cases where arrows overlap as a result of automatic placement.
 You can shift the arrangement of arrows by specifying the `dx` / `dy` attribute.
+You can also shift the arrangement of basic shape (`node`) by specifying the `dx` / `dy` attribute.
 
 <ClientOnly>
 <DocSnippet
