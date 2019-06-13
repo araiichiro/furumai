@@ -4,7 +4,7 @@
     <a href="/furumai/docs/about.html">About</a>
     <a href="/furumai/docs/gallery.html">Gallery</a>
     <a href="https://github.com/araiichiro/furumai">GitHub Repository</a>
-    <cookie-law></cookie-law>
+    <cookie-law v-on:accept="cookieAccepted()"></cookie-law>
   </footer>
 </template>
 
@@ -13,6 +13,11 @@ import CookieLaw from 'vue-cookie-law'
 export default {
   components: { CookieLaw },
   name: 'Footer',
+  methods: {
+    cookieAccepted: () => {
+      return this.$ga.enable()
+    },
+  },
 }
 </script>
 

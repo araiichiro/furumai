@@ -1,6 +1,6 @@
 <template>
   <footer id="footer">
-    <cookie-law></cookie-law>
+    <cookie-law v-on:accept="cookieAccepted()"></cookie-law>
   </footer>
 </template>
 
@@ -9,6 +9,11 @@ import CookieLaw from 'vue-cookie-law'
 export default {
   components: { CookieLaw },
   name: 'Footer',
+  methods: {
+    cookieAccepted: () => {
+      return this.$ga.enable()
+    },
+  },
 }
 </script>
 
