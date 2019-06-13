@@ -1,14 +1,17 @@
 <template>
-  <div id="footer">
+  <footer id="footer">
     <hr/>
     <a href="/furumai/docs/about.html">About</a>
     <a href="/furumai/docs/gallery.html">Gallery</a>
     <a href="https://github.com/araiichiro/furumai">GitHub Repository</a>
-  </div>
+    <cookie-law></cookie-law>
+  </footer>
 </template>
 
 <script>
+import CookieLaw from 'vue-cookie-law'
 export default {
+  components: { CookieLaw },
   name: 'Footer',
 }
 </script>

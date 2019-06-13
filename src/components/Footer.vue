@@ -1,13 +1,14 @@
 <template>
-  <div id="footer">
-  </div>
+  <footer id="footer">
+    <cookie-law></cookie-law>
+  </footer>
 </template>
 
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
-
-@Component
-export default class Footer extends Vue {
+<script>
+import CookieLaw from 'vue-cookie-law'
+export default {
+  components: { CookieLaw },
+  name: 'Footer',
 }
 </script>
 
