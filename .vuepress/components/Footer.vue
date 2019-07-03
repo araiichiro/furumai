@@ -4,7 +4,7 @@
     <a href="/furumai/docs/about.html">About</a>
     <a href="/furumai/docs/gallery.html">Gallery</a>
     <a href="https://github.com/araiichiro/furumai">GitHub Repository</a>
-    <cookie-law v-on:accept="cookieAccepted()"></cookie-law>
+    <cookie-law v-on:accept="cookieAccepted()" v-show="false"></cookie-law>
   </footer>
 </template>
 

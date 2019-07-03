@@ -1,6 +1,6 @@
 <template>
   <footer id="footer">
-    <cookie-law v-on:accept="cookieAccepted()"></cookie-law>
+    <cookie-law v-on:accept="cookieAccepted()" v-show="false"></cookie-law>
   </footer>
 </template>
 
