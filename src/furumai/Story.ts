@@ -4,7 +4,8 @@ import {StatementList} from '@/furumai/StatementList'
 import {Frame} from '@/furumai/setup/Frame'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
-import {Attributes, Attrs} from '@/furumai/Attribute'
+import {Attributes, Attrs, toDict} from '@/furumai/Attribute'
+import {Env} from '@/furumai/setup/Env'
 
 export class Story {
   constructor(private ss: StatementList[]) {
@@ -27,29 +28,14 @@ export class Story {
     }
   }
 
-  public toSvg(layout: Container, refit: boolean): SVGElement {
-    let fit = layout.map((a) => a.fit({x: 0, y: 0}))
-    if (refit) {
-      fit = fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width}))
-    }
-    const picture = fit.svg()
-    const svg = Svg.of('svg', {
-      xmlns: 'http://www.w3.org/2000/svg',
-      width: fit.get.box.width.toString(),
-      height: fit.get.box.height.toString(),
-    })
-    svg.appendChild(picture)
-    return svg
-  }
-
-  public play(): SVGElement[] {
+  public play(env: Env): SVGElement[] {
     const ret: SVGElement[] = []
-    const base: Container = new Container('_init', {}, new Portrait([], Box.zero))
+
     let first = true // FIXME control flow
     const {mode, align} = this.mode // FIXME control flow
     this.ss.reduce((container, s) => {
       const frame = Frame.of(s.blocks, s.attributes, s.childAttributes)
-      const layout = frame.setup(container)
+      const layout = frame.setup(env.update(container))
 
       const fit = layout.map((a) => a.fit({x: 0, y: 0}))
       const refit = align === 'center' ? fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width})) : fit
@@ -58,9 +44,6 @@ export class Story {
         viewBox: `0 0 ${refit.get.box.width} ${refit.get.box.height}`,
         width: (refit.get.box.width / 2).toString(),
         height: (refit.get.box.height / 2).toString(),
-        'font-size': '24',
-        // width: (refit.get.box.width).toString(),
-        // height: (refit.get.box.height).toString(),
       })
       svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
       svg.appendChild(picture)
@@ -72,7 +55,12 @@ export class Story {
       } else {
         return container
       }
-    }, base)
+    }, env.container)
     return ret
+  }
+
+  public baseEnv(): Env {
+    const base: Container = new Container('_init', {}, new Portrait([], Box.zero))
+    return this.ss.map((s) => Env.of(base, toDict(s.childAttributes)))[0]
   }
 }

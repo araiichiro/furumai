@@ -35,17 +35,19 @@ export class Edge implements BuildingBlock {
   }
 
   public setup(env: Env): Overlay | undefined {
-    const tail = env.container.find(this.tailId)
-    const head = env.container.find(this.headId)
+    const tail = env.findGridArea(this.tailId)
+    const head = env.findGridArea(this.headId)
     visible(tail as GridArea<Elem>)
     visible(head as GridArea<Elem>)
 
-    const existing = env.container.find(this.id) as Overlay | undefined
+    const existing = env.findOverlay(this.id)
     if (existing) {
       return existing.updateAttributes(this.attrs)
     } else {
-      const box = Box.of(this.attrs.box)
-      return new EdgeOverlay(this.id, this.tailId, this.headId, this.attrs.attrs, box)
+      const baseAttrs = env.lookupAttributes('edge')
+      const merged = baseAttrs.merge(this.attrs)
+      const box = Box.of(merged.box)
+      return new EdgeOverlay(this.id, this.tailId, this.headId, merged.attrs, box)
     }
   }
 }

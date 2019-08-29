@@ -37,19 +37,18 @@ export class Frame {
     )
   }
 
-  constructor(
+  private constructor(
     private blocks: BuildingBlock[],
-    public readonly mode: string,
-    public readonly align: string,
-    public readonly attrs: Attributes,
+    private mode: string,
+    private align: string,
+    private attrs: Attributes,
     private childAttrs: { [key: string]: Attributes },
   ) {
   }
 
-  public setup(baseContainer: Container): Container {
-    const base = baseContainer
+  public setup(env: Env): Container {
+    const base = env.container
       .updateAttributes(this.attrs)
-    const env = Env.defaultEnv(base)
     return this.blocks.reduce((container, block) => {
       const child = block.setup(env.newEnv(container, this.childAttrs))
       if (child) {

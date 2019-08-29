@@ -2,7 +2,6 @@ import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Edge} from '@/furumai/setup/Edge'
 import {Env} from '@/furumai/setup/Env'
 import {hide} from '@/furumai/grid/utils'
-import {Overlay} from '@/furumai/grid/Overlay'
 
 export class HideEdge implements BuildingBlock {
   constructor(private tailId: string, private headId: string) {
@@ -10,8 +9,13 @@ export class HideEdge implements BuildingBlock {
 
   public setup(env: Env): undefined {
     // TODO immutable
-    hide(env.container.find(Edge.idOf(this.tailId, this.headId)) as Overlay)
-    return undefined
+    const overlay = env.findOverlay(Edge.idOf(this.tailId, this.headId))
+    if (overlay) {
+      hide(overlay)
+      return undefined
+    } else {
+      throw new Error(`edge not found: ${this.tailId} -> ${this.headId}`)
+    }
   }
 
   public find(id: string): BuildingBlock | undefined {

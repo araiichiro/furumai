@@ -17,7 +17,7 @@ export class Node implements BuildingBlock {
   }
 
   public setup(env: Env): GridCell | undefined {
-    const existing = env.container.find(this.id)
+    const existing = env.findGridArea(this.id)
     if (existing) {
       visible(existing)
       existing.updateAttributes(this.attrs)

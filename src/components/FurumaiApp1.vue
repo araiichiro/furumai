@@ -23,6 +23,11 @@
               </label>
               <button class="button primary furumai-button" @click="furumai">View (Ctrl + Enter)</button>
             </div>
+            <hr />
+            <div>
+              Default settings:
+              <pre>{{ defaultConfig }}</pre>
+            </div>
           </label>
         </div>
         <div v-else class="code-viewer">
@@ -57,6 +62,11 @@ export default class FurumaiApp1 extends Vue {
   @Prop({default: true}) private viewCode!: boolean
 
   private errors: string = ''
+
+  private defaultConfig = `group[margin='100 20', padding='20 16'];
+zone[margin='20 150', padding='20 16'];
+node[margin='24 20', padding='24 16', width=215, height=150, 'font-size'=24];
+edge['font-size'=24];`
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {
@@ -99,7 +109,7 @@ export default class FurumaiApp1 extends Vue {
 
   private toSvgOrError(text: string): SVGElement[] | Error {
     try {
-      return toSvg(text, this.furumaiData.rough || false)
+      return toSvg(text, this.furumaiData.rough || false, this.defaultConfig)
     } catch (e) {
       return e
     }
