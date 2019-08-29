@@ -53,6 +53,7 @@ import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import AppParams1 from '@/components/AppParams1'
 import {toSvg} from '@/furumai/utils'
 import {Route} from 'vue-router'
+import {convertSvg} from '@/rough/rougher'
 
 @Component
 export default class FurumaiApp1 extends Vue {
@@ -109,7 +110,7 @@ edge['font-size'=24];`
 
   private toSvgOrError(text: string): SVGElement[] | Error {
     try {
-      return toSvg(text, this.furumaiData.rough || false, this.defaultConfig)
+      return toSvg(text, this.defaultConfig)
     } catch (e) {
       return e
     }
@@ -138,12 +139,27 @@ edge['font-size'=24];`
           card.appendChild(svg)
           div.appendChild(card)
         })
+
+        if (this.furumaiData.rough || false) {
+          convertSvgs()
+        }
       }
     } else {
       throw new Error('error! not found error div dom')
     }
   }
 }
+
+function convertSvgs(): void {
+  for (const card of document.getElementsByClassName('card')) {
+    const child = card.firstElementChild
+    if (child) {
+      card.removeChild(child)
+    }
+    card.appendChild(convertSvg(child as SVGElement))
+  }
+}
+
 </script>
 
 <style>
