@@ -1,5 +1,4 @@
 import {DataEncoderDecoderV1} from '../io/DataEncoderDecoderV1'
-import AppParams1 from '@/components/AppParams1'
 
 const fs = require('fs')
 const codec = new DataEncoderDecoderV1()
@@ -10,7 +9,7 @@ function generateSnippet(dir: string, files: string[]) {
       if (err) {
         throw err
       }
-      const params1: AppParams1 = {
+      const params1 = {
         code: text,
         animation: {
           active: true,

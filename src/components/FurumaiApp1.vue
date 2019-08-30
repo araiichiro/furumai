@@ -50,10 +50,19 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-import AppParams1 from '@/components/AppParams1'
 import {toSvg} from '@/furumai/utils'
 import {Route} from 'vue-router'
 import {convertSvg} from '@/rough/rougher'
+
+interface AppParams1 {
+  code: string
+  animation?: {
+    active?: boolean
+    speed?: number,
+  }
+  rough?: boolean
+  displayFirstSvg?: boolean
+}
 
 @Component
 export default class FurumaiApp1 extends Vue {
