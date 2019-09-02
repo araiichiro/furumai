@@ -1,16 +1,17 @@
-export class Svg {
-  public static of(tag: string, svgAttrs: { [key: string]: any } = {}) {
-    const elem = document.createElementNS('http://www.w3.org/2000/svg', tag)
+export class SecureSvgAttrs {
+  private constructor(
+    readonly svgAttrs: { [key: string]: any }
+  ) {}
+
+  public static of(svgAttrs: { [key: string]: any }): SecureSvgAttrs {
     Object.keys(svgAttrs).forEach((k) => {
       const v = svgAttrs[k]
       // check attribute for security reason
-      if (isValid(k, v)) {
-        elem.setAttribute(k, v.toString())
-      } else {
+      if (!isValid(k, v)) {
         throw new Error(`Sorry, the attribute is not used for security reason: ${k} => ${v}`)
       }
     })
-    return elem
+    return new SecureSvgAttrs(svgAttrs)
   }
 }
 
@@ -96,7 +97,8 @@ const availableSvgAttributes = new Set([
 
 function isValid(attrName: string, attrValue: string) {
   function checkName(name: string) {
-    return availableSvgAttributes.has(attrName)
+    return availableSvgAttributes.has(attrName) ||
+      attrName.startsWith('text.') && availableSvgAttributes.has(attrName.slice('text.'.length))
   }
 
   function checkValue(v: string) {
