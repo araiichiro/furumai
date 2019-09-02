@@ -1,11 +1,12 @@
 import {Landscape} from '@/layout/engine/Landscape'
 import {Portrait} from '@/layout/engine/Portrait'
-import {Attributes, Attrs} from '@/furumai/Attribute'
 import {Elem} from '@/layout/engine/Elem'
-import {Svg} from '@/svg/Svg'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Overlay} from '@/furumai/grid/Overlay'
 import {GridCell} from '@/furumai/grid/GridCell'
+import {Group} from '@/shared/vue/Group'
+import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
+import {Attributes, Attrs} from '@/furumai/utils'
 
 export class Container implements GridArea<Landscape | Portrait> {
   constructor(
@@ -68,22 +69,24 @@ export class Container implements GridArea<Landscape | Portrait> {
     }
   }
 
-  public svg(): SVGElement {
+  public vue(): Group {
     const box = this.elem.box
-    const {t, ...svgAttrs} = this.attrs // TODO use t
-    const g = Svg.of('g', svgAttrs)
-    const rect = Svg.of('rect', {
-      id: `_gross_${this.id}`,
-      fill: 'none', stroke: 'none', visibility: 'hidden',
-      ...box,
-    })
-    g.appendChild(rect)
-    this.elem.children.map((c) => {
-      const elem = (c as GridArea<Elem>).svg()
-      g.appendChild(elem)
-    })
-    const overlaySvgs = this.overlays.map((lay) => lay.applyTo(this).svg())
-    overlaySvgs.forEach((c) => g.appendChild(c))
-    return g
+    const {t, ...svgAttrs} = this.attrs
+    const children = this.elem.children.map((c) => (c as GridArea<Elem>).vue())
+    const overlays = this.overlays.map((lay) => lay.applyTo(this).vue())
+    const text = {
+      label: this.id,
+      t,
+      dx: 0,
+      dy: 0,
+    }
+    return {
+      type: 'group',
+      id: this.id,
+      box,
+      text,
+      svgAttrs: SecureSvgAttrs.of(svgAttrs),
+      children: children.concat(overlays),
+    }
   }
 }

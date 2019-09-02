@@ -1,12 +1,11 @@
-import {Attributes} from '@/furumai/Attribute'
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
-import {Overlay} from '@/furumai/grid/Overlay'
 import {EdgeOverlay} from '@/furumai/grid/EdgeOverlay'
 import {Box} from '@/layout/engine/Box'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {visible} from '@/furumai/grid/utils'
+import {Attributes} from '@/furumai/utils'
 
 export class Edge implements BuildingBlock {
   public static of(
@@ -34,7 +33,7 @@ export class Edge implements BuildingBlock {
   ) {
   }
 
-  public setup(env: Env): Overlay | undefined {
+  public setup(env: Env): EdgeOverlay {
     const tail = env.findGridArea(this.tailId)
     const head = env.findGridArea(this.headId)
     visible(tail as GridArea<Elem>)
@@ -42,7 +41,7 @@ export class Edge implements BuildingBlock {
 
     const existing = env.findOverlay(this.id)
     if (existing) {
-      return existing.updateAttributes(this.attrs)
+      return existing.updateAttributes(this.attrs) as EdgeOverlay
     } else {
       const baseAttrs = env.lookupAttributes('edge')
       const merged = baseAttrs.merge(this.attrs)

@@ -20,15 +20,14 @@ import {
   ZoneContext,
 } from '@/generated/antlr4ts/FurumaiParser'
 import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
-import {Attribute, Attributes, ElementAttribute, toDict} from '@/furumai/Attribute'
-import {Story} from '@/furumai/Story'
 import {HideBlock} from '@/furumai/setup/HideBlock'
 import {HideEdge} from '@/furumai/setup/HideEdge'
 import {Edge} from '@/furumai/setup/Edge'
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Compound} from '@/furumai/setup/Compound'
 import {Node} from '@/furumai/setup/Node'
-import {StatementList} from '@/furumai/StatementList'
+import {Story} from '@/furumai/setup/Story'
+import {Attribute, Attributes, ElementAttribute, StatementList, toDict} from '@/furumai/utils'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)

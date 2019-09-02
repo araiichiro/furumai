@@ -1,9 +1,9 @@
-import {Attributes} from '@/furumai/Attribute'
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
 import {GridCell} from '@/furumai/grid/GridCell'
 import {Box} from '@/layout/engine/Box'
 import {visible} from '@/furumai/grid/utils'
+import {Attributes} from '@/furumai/utils'
 
 export class Node implements BuildingBlock {
   public static find(id: string): BuildingBlock | undefined {

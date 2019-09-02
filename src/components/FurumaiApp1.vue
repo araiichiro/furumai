@@ -38,7 +38,11 @@
         <div class="text-error" v-if="errors.length > 0">
           <pre>{{ errors }}</pre>
         </div>
-        <div class="" ref="moments"></div>
+        <div class="" ref="moments">
+          <div class="card" v-for="s in svgs">
+            <SvgComponent v-bind:shape="s"></SvgComponent>
+          </div>
+        </div>
         <div class="nav-right moments-footer">
           <button class="button primary" @click="download" v-if="editorMode">Download SVG(s)</button>
         </div>
@@ -49,12 +53,14 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-import {toSvg} from '@/furumai/utils'
-import {Route} from 'vue-router'
-import {convertSvg} from '@/rough/rougher'
+  import {Component, Prop, Vue, Watch} from "vue-property-decorator"
+  import {Route} from "vue-router"
+  import {convertSvg} from "@/rough/rougher"
+  import {vue} from "@/shared/vue/utils"
+  import * as shared from "@/shared/vue/Group"
+  import SvgComponent from "@/components/svg/SvgComponent.vue"
 
-interface AppParams1 {
+  interface AppParams1 {
   code: string
   animation?: {
     active?: boolean
@@ -62,9 +68,13 @@ interface AppParams1 {
   }
   rough?: boolean
   displayFirstSvg?: boolean
-}
+  }
 
-@Component
+@Component({
+  components: {
+    SvgComponent,
+  },
+})
 export default class FurumaiApp1 extends Vue {
   @Prop({default: {}}) private furumaiData!: AppParams1
   @Prop() private changeUrl!: (data: AppParams1) => void
@@ -77,6 +87,8 @@ export default class FurumaiApp1 extends Vue {
 zone[margin='20 150', padding='20 16'];
 node[margin='24 20', padding='24 16', width=215, height=150, 'font-size'=24];
 edge['font-size'=24];`
+
+  svgs: shared.Group[] = []
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {
@@ -117,9 +129,9 @@ edge['font-size'=24];`
     }
   }
 
-  private toSvgOrError(text: string): SVGElement[] | Error {
+  private toSvgOrError(text: string): shared.Group[] | Error {
     try {
-      return toSvg(text, this.defaultConfig)
+      return vue(text, this.defaultConfig)
     } catch (e) {
       return e
     }
@@ -142,12 +154,9 @@ edge['font-size'=24];`
           const [first, ...rest] = svgs
           svgs = rest.length > 0 ? rest : svgs
         }
-        svgs.forEach((svg) => {
-          const card = document.createElement('div')
-          card.classList.add('card')
-          card.appendChild(svg)
-          div.appendChild(card)
-        })
+
+        // TODO implement
+        this.svgs.push(...svgs)
 
         if (this.furumaiData.rough || false) {
           convertSvgs()

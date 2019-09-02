@@ -1,13 +1,12 @@
-import {Attributes, Attrs, num} from '@/furumai/Attribute'
 import {Overlay} from '@/furumai/grid/Overlay'
 import {Container} from '@/furumai/grid/Container'
 import {Box} from '@/layout/engine/Box'
 import {Arrow} from '@/layout/engine/Arrow'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
-import {SvgAttrs} from '@/svg/SvgAttrs'
-import {SvgText} from '@/svg/SvgText'
-import {SvgArrow} from '@/svg/SvgArrow'
+import {Shape} from '@/shared/vue/Shape'
+import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
+import {Attributes, Attrs, num} from '@/furumai/utils'
 
 export class EdgeOverlay implements Overlay {
   private static findBox(base: Container, id: string): Box {
@@ -37,28 +36,29 @@ export class EdgeOverlay implements Overlay {
   public applyTo(base: Container): EdgeOverlay {
     const tail = EdgeOverlay.findBox(base, this.tailId)
     const head = EdgeOverlay.findBox(base, this.headId)
-    const {dx, dy, ...rest} = this.attrs
-    const dxNum = num(dx) || 0
-    const dyNum = num(dy) || 0
-    const box = Arrow.singleton.fit(tail, head, dxNum, dyNum)
-    const attrs = {
-      // FIXME
-      tx: `${dxNum + (tail.cx + head.cx) / 2}`,
-      ty: `${dyNum + (tail.cy + head.cy) / 2}`,
-      ...rest,
-    }
-    return new EdgeOverlay(this.id, this.tailId, this.headId, attrs, box)
+    const {dx, dy} = this.attrs
+    const box = Arrow.singleton.fit(tail, head, num(dx) || 0, num(dy) || 0)
+    return new EdgeOverlay(this.id, this.tailId, this.headId, this.attrs, box)
   }
 
-  public svg(): SVGElement {
-    const {tx, ty, t, label, ...rest} = this.attrs
-    const svgAttrs: SvgAttrs = {
+  public vue(): Shape {
+    const {dx, dy, t, label, ...rest} = this.attrs
+    const svgAttrs = {
       visibility: 'visible',
       ...rest,
     }
-    const text = new SvgText(label, t)
-    const txNum = Number(tx)
-    const tyNum = Number(ty)
-    return new SvgArrow(this.box, text, txNum, tyNum, svgAttrs).toSvgElement()
+    const text = {
+      label,
+      t,
+      dx: num(dx) || 0,
+      dy: num(dy) || 0,
+    }
+    return {
+      type: 'arrow',
+      id: this.id,
+      box: this.box,
+      text,
+      svgAttrs: SecureSvgAttrs.of(svgAttrs),
+    }
   }
 }

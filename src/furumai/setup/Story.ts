@@ -1,11 +1,9 @@
-import {Svg} from '@/svg/Svg'
-import {Container} from '@/furumai/grid/Container'
-import {StatementList} from '@/furumai/StatementList'
-import {Frame} from '@/furumai/setup/Frame'
+import {Container} from '@/furumai//grid/Container'
+import {Frame} from '@/furumai//setup/Frame'
+import {Env} from '@/furumai/setup/Env'
+import {Attributes, Attrs, StatementList, toDict} from '@/furumai/utils'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
-import {Attributes, Attrs, toDict} from '@/furumai/Attribute'
-import {Env} from '@/furumai/setup/Env'
 
 export class Story {
   constructor(private ss: StatementList[]) {
@@ -28,8 +26,8 @@ export class Story {
     }
   }
 
-  public play(env: Env): SVGElement[] {
-    const ret: SVGElement[] = []
+  public play(env: Env): Container[] {
+    const ret: Container[] = []
 
     let first = true // FIXME control flow
     const {mode, align} = this.mode // FIXME control flow
@@ -39,15 +37,7 @@ export class Story {
 
       const fit = layout.map((a) => a.fit({x: 0, y: 0}))
       const refit = align === 'center' ? fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width})) : fit
-      const picture = refit.svg()
-      const svg = Svg.of('svg', {
-        viewBox: `0 0 ${refit.get.box.width} ${refit.get.box.height}`,
-        width: (refit.get.box.width / 2).toString(),
-        height: (refit.get.box.height / 2).toString(),
-      })
-      svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-      svg.appendChild(picture)
-      ret.push(svg)
+      ret.push(refit)
 
       if (mode === 'diff' || first) {
         first = false
