@@ -50,7 +50,8 @@ export class Story {
   }
 
   public baseEnv(): Env {
-    const base: Container = new Container('_init', {}, new Portrait([], Box.zero))
-    return this.ss.map((s) => Env.of(base, toDict(s.childAttributes)))[0]
+    const base: Container = new Container(
+      '_init', Attributes.of(this.ss[0].attributes).attrs, new Portrait([], Box.zero))
+    return Env.of(base, toDict(this.ss[0].childAttributes))
   }
 }

@@ -11,7 +11,6 @@ export function convertSvg(root: SVGElement): SVGElement {
   svg.setAttribute('width', `${width}`)
   svg.setAttribute('height', `${height}`)
   svg.setAttribute('viewBox', `0 0 ${Number(width) * 2} ${Number(height) * 2}`)
-  svg.setAttribute('font-size', '24')
   rc = new RoughSVG(svg)
 
   const cs = root.children
