@@ -88,7 +88,7 @@ export function divideAttrs(attrs: Attrs): ShapeAndTextAttrs {
   const textAttrs: Attrs = {}
   Object.keys(attrs).forEach((k) => {
     if (k.startsWith('text.')) {
-      const key = k.slice('text.'.length, -1)
+      const key = k.slice('text.'.length)
       textAttrs[key] = attrs[k]
     } else if (k !== 'y') {
       textAttrs[k] = attrs[k]

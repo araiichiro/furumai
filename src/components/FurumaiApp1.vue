@@ -84,7 +84,7 @@ export default class FurumaiApp1 extends Vue {
 
   private defaultConfig = `group[margin='100 20', padding='20 16'];
 zone[margin='20 150', padding='20 16'];
-node[margin='24 20', padding='24 16', width=215, height=150];
+node[margin='24 20', padding='24 16', width=215, height=150, 'stroke-width'=2];
 'font-size'=24;`
 
   private svgs: shared.Group[] = []

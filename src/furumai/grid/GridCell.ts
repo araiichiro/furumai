@@ -51,13 +51,13 @@ export class GridCell implements GridArea<Cell> {
       dx: 0,
       dy: 0,
     }
-    const svgAttrs = {'stroke-width': '2', ...rest}
+    const svgAttrs = SecureSvgAttrs.of(rest)
     return {
       type: shapeType,
       id: this.id,
       box: this.cell.box,
       text,
-      svgAttrs: SecureSvgAttrs.of(svgAttrs),
+      svgAttrs,
     }
   }
 }
