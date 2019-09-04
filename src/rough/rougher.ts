@@ -67,7 +67,12 @@ function convert(elem: Element): Element {
       for (let i = 0; i < gcs.length; i++) {
         const c = gcs.item(i)
         if (c) {
-          g.append(convert(c))
+          const converted = convert(c)
+          const visibility = c.getAttribute('visibility') // FIXME workaround: visibility is not work
+          if (visibility) {
+            converted.setAttribute('visibility', visibility)
+          }
+          g.append(converted)
         } else {
           throw new Error('null')
         }
