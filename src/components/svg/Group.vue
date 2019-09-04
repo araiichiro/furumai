@@ -32,6 +32,7 @@ import Box from '@/components/svg/Box.vue'
 import Arrow from '@/components/svg/Arrow.vue'
 
 @Component({
+  name: 'Group',
   components: {
     Person,
     Cylinder,
