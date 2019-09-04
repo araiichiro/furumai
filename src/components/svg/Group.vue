@@ -2,18 +2,23 @@
   <g v-bind="g.svgAttrs.svgAttrs">
     <Group
       v-for="c in childGroups"
+      v-bind:key="c.id"
       v-bind:g="c"></Group>
     <Box
       v-for="c in boxes"
+      v-bind:key="c.id"
       v-bind:shape="c"></Box>
     <Cylinder
       v-for="c in cylinders"
+      v-bind:key="c.id"
       v-bind:shape="c"></Cylinder>
     <Person
       v-for="c in persons"
+      v-bind:key="c.id"
       v-bind:shape="c"></Person>
     <Arrow
       v-for="c in arrows"
+      v-bind:key="c.id"
       v-bind:shape="c"></Arrow>
     <GridArea v-bind:box="g.box"></GridArea>
   </g>
