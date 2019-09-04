@@ -1,5 +1,5 @@
 <template>
-  <g v-bind="attrs.shape">
+  <g>
     <path
       v-bind:d="d"
       v-bind="attrs.shape"
