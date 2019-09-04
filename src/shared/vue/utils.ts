@@ -7,7 +7,11 @@ export function vue(furumaiCode: string, defaults: string): Group[] | SyntaxErro
   if (story instanceof Story) {
     const defaultConfig = parse(defaults) as Story
     const env = defaultConfig.baseEnv()
-    return story.play(env).map((container) => container.vue())
+    const ret: Group[] = []
+    for (const c of story.play(env)) {
+      ret.push(c.vue())
+    }
+    return ret
   } else {
     return story
   }

@@ -1,6 +1,5 @@
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
-import {Container} from '@/furumai/grid/Container'
 import Gap from '@/layout/engine/Gap'
 import {Attribute, Attributes, Attrs, ElementAttribute, toDict} from '@/furumai/utils'
 
@@ -46,16 +45,15 @@ export class Frame {
   ) {
   }
 
-  public setup(env: Env): Container {
-    const base = env.container
-      .updateAttributes(this.attrs)
-    return this.blocks.reduce((container, block) => {
-      const child = block.setup(env.newEnv(container, this.childAttrs))
+  public setup(baseEnv: Env): Env {
+    const base = baseEnv.container.updateAttributes(this.attrs)
+    return this.blocks.reduce((env, block) => {
+      const child = block.setup(env)
       if (child) {
-        return container.append(child)
+        return env.update(env.container.append(child))
       } else {
-        return container
+        return env
       }
-    }, base)
+    }, baseEnv.newEnv(base, this.childAttrs))
   }
 }

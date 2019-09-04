@@ -26,32 +26,69 @@ export class Story {
     }
   }
 
-  public play(env: Env): Container[] {
-    const ret: Container[] = []
-
-    let first = true // FIXME control flow
+  public play(base: Env): IterableIterator<Container> {
     const {mode, align} = this.mode // FIXME control flow
-    this.ss.reduce((container, s) => {
-      const frame = Frame.of(s.blocks, s.attributes, s.childAttributes)
-      const layout = frame.setup(env.update(container))
-
-      const fit = layout.map((a) => a.fit({x: 0, y: 0}))
-      const refit = align === 'center' ? fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width})) : fit
-      ret.push(refit)
-
-      if (mode === 'diff' || first) {
-        first = false
-        return layout
-      } else {
-        return container
-      }
-    }, env.container)
-    return ret
+    const frames = this.ss.map((s) => Frame.of(s.blocks, s.attributes, s.childAttributes))
+    return new ContainerIterableIterator(
+      new EnvIterableIterator(frames.values(), base, mode === 'diff'),
+      align === 'center',
+    )
   }
 
   public baseEnv(): Env {
     const base: Container = new Container(
       '_init', Attributes.of(this.ss[0].attributes).attrs, new Portrait([], Box.zero))
     return Env.of(base, toDict(this.ss[0].childAttributes))
+  }
+}
+
+class EnvIterableIterator implements IterableIterator<Env> {
+  private first = true // FIXME control flow
+
+  constructor(private frames: IterableIterator<Frame>, private env: Env, private diffMode: boolean) {}
+
+  public next(): IteratorResult<Env> {
+    const next = this.frames.next()
+    if (next.done) {
+      return next
+    } else {
+      const frame = next.value
+      const newEnv = frame.setup(this.env)
+      if (this.diffMode || this.first) {
+        this.first = false
+        this.env = newEnv
+      }
+      return {
+        done: next.done,
+        value: newEnv,
+      }
+    }
+  }
+
+  public [Symbol.iterator](): IterableIterator<Env> {
+    return this
+  }
+}
+
+class ContainerIterableIterator implements IterableIterator<Container> {
+  constructor(private it: EnvIterableIterator, private centerAlign: boolean) {}
+
+  public next(): IteratorResult<Container> {
+    const next = this.it.next()
+    if (next.done) {
+      return next
+    } else {
+      const env = next.value
+      const fit = env.container.map((a) => a.fit({x: 0, y: 0}))
+      const ret = this.centerAlign ? fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width})) : fit
+      return {
+        done: next.done,
+        value: ret,
+      }
+    }
+  }
+
+  public [Symbol.iterator](): IterableIterator<Container> {
+    return this
   }
 }
