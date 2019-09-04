@@ -1,7 +1,9 @@
 import {Wrap} from '@/layout/engine/Wrap'
 import {Elem} from '@/layout/engine/Elem'
-import {Attributes} from '@/furumai/Attribute'
 import {Overlay} from '@/furumai/grid/Overlay'
+import {Group} from '@/shared/vue/Group'
+import {Shape} from '@/shared/vue/Shape'
+import {Attributes} from '@/furumai/utils'
 
 export interface GridArea<A extends Elem> extends Wrap<A> {
   id: string
@@ -13,5 +15,5 @@ export interface GridArea<A extends Elem> extends Wrap<A> {
 
   map(f: (a: A) => A): GridArea<A>
 
-  svg(): SVGElement
+  vue(): Group | Shape
 }

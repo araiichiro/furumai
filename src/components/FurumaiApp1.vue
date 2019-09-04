@@ -38,7 +38,11 @@
         <div class="text-error" v-if="errors.length > 0">
           <pre>{{ errors }}</pre>
         </div>
-        <div class="" ref="moments"></div>
+        <div class="" ref="moments" v-else>
+          <div class="card" v-for="s in svgs">
+            <SvgComponent v-bind:shape="s" v-bind:rough="furumaiData.rough"></SvgComponent>
+          </div>
+        </div>
         <div class="nav-right moments-footer">
           <button class="button primary" @click="download" v-if="editorMode">Download SVG(s)</button>
         </div>
@@ -50,9 +54,10 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-import {toSvg} from '@/furumai/utils'
 import {Route} from 'vue-router'
-import {convertSvg} from '@/rough/rougher'
+import {vue} from '@/shared/vue/utils'
+import * as shared from '@/shared/vue/Group'
+import SvgComponent from '@/components/svg/SvgComponent.vue'
 
 interface AppParams1 {
   code: string
@@ -64,7 +69,11 @@ interface AppParams1 {
   displayFirstSvg?: boolean
 }
 
-@Component
+@Component({
+  components: {
+    SvgComponent,
+  },
+})
 export default class FurumaiApp1 extends Vue {
   @Prop({default: {}}) private furumaiData!: AppParams1
   @Prop() private changeUrl!: (data: AppParams1) => void
@@ -77,6 +86,8 @@ export default class FurumaiApp1 extends Vue {
 zone[margin='20 150', padding='20 16'];
 node[margin='24 20', padding='24 16', width=215, height=150, 'font-size'=24];
 edge['font-size'=24];`
+
+  private svgs: shared.Group[] = []
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {
@@ -101,11 +112,12 @@ edge['font-size'=24];`
 
   public download() {
     const div = this.$refs.moments as HTMLElement
-    const cards = div.getElementsByClassName('card')
+    const cards = div.getElementsByTagName('svg')
+
     for (let i = 0; i < cards.length; i++) {
       const c = cards.item(i)
       if (c) {
-        const blob = '<?xml version="1.0" encoding="UTF-8"?>' + c.innerHTML
+        const blob = '<?xml version="1.0" encoding="UTF-8"?>' + c.outerHTML
         const url = window.URL.createObjectURL(new Blob([blob], {type: 'image/svg+xml'}))
         const link = document.createElement('a')
         link.href = url
@@ -117,9 +129,9 @@ edge['font-size'=24];`
     }
   }
 
-  private toSvgOrError(text: string): SVGElement[] | Error {
+  private toSvgOrError(text: string): shared.Group[] | Error {
     try {
-      return toSvg(text, this.defaultConfig)
+      return vue(text, this.defaultConfig)
     } catch (e) {
       return e
     }
@@ -130,42 +142,17 @@ edge['font-size'=24];`
     const animationConfig = {
       ...this.furumaiData.animation,
     }
-    const div = this.$refs.moments as HTMLElement
-    if (div) {
-      div.innerHTML = ''
-      let svgs = this.toSvgOrError(text)
-      if (svgs instanceof Error) {
+    let svgs = this.toSvgOrError(text)
+    if (svgs instanceof Error) {
         const stack = svgs.stack || ''
         this.errors = stack
-      } else {
-        if (!this.furumaiData.displayFirstSvg) {
-          const [first, ...rest] = svgs
-          svgs = rest.length > 0 ? rest : svgs
-        }
-        svgs.forEach((svg) => {
-          const card = document.createElement('div')
-          card.classList.add('card')
-          card.appendChild(svg)
-          div.appendChild(card)
-        })
-
-        if (this.furumaiData.rough || false) {
-          convertSvgs()
-        }
-      }
     } else {
-      throw new Error('error! not found error div dom')
+        if (!this.furumaiData.displayFirstSvg) {
+            const [first, ...rest] = svgs
+            svgs = rest.length > 0 ? rest : svgs
+        }
+        this.svgs = svgs
     }
-  }
-}
-
-function convertSvgs(): void {
-  for (const card of document.getElementsByClassName('card')) {
-    const child = card.firstElementChild
-    if (child) {
-      card.removeChild(child)
-    }
-    card.appendChild(convertSvg(child as SVGElement))
   }
 }
 
