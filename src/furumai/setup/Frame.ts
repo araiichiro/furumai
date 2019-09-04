@@ -1,8 +1,8 @@
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-import {Attribute, Attributes, Attrs, ElementAttribute, toDict} from '@/furumai/Attribute'
 import {Env} from '@/furumai/setup/Env'
 import {Container} from '@/furumai/grid/Container'
 import Gap from '@/layout/engine/Gap'
+import {Attribute, Attributes, Attrs, ElementAttribute, toDict} from '@/furumai/utils'
 
 export class Frame {
   public static of(

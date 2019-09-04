@@ -1,8 +1,8 @@
-import {Attributes} from '@/furumai/Attribute'
 import {Container} from '@/furumai/grid/Container'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {Overlay} from '@/furumai/grid/Overlay'
+import {Attributes} from '@/furumai/utils'
 
 export class Env {
   public static of(container: Container, attrs: { [key: string]: Attributes }): Env {
