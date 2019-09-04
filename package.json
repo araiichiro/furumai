@@ -27,9 +27,7 @@
     "lz-string": "^1.4.4",
     "roughjs": "^3.1.0",
     "vue": "^2.6.10",
-    "vue-analytics": "^5.17.0",
     "vue-class-component": "^7.0.2",
-    "vue-cookie-law": "^1.10.0",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.6"
   },
