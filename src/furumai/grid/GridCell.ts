@@ -36,10 +36,10 @@ export class GridCell implements GridArea<Cell> {
   }
 
   public map(f: (a: Cell) => Cell): GridCell {
-    const {dx, dy} = this.attrs
+    const {dx, dy, ...rest} = this.attrs
     const cell = f(this.cell)
     const box = cell.box.move(num(dx) || 0, num(dy) || 0)
-    return new GridCell(this.id, cell.withBox(box), this.attrs)
+    return new GridCell(this.id, cell.withBox(box), rest)
   }
 
   public vue(): Shape {
