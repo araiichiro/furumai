@@ -7,7 +7,7 @@
     <tspan
       v-for="t in texts"
       dy="1em"
-      v-bind:x="position.x"
+      v-bind:x="position.x + content.dx"
       v-bind="attrs"
     >{{ t }}</tspan>
   </text>
