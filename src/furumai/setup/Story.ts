@@ -26,47 +26,58 @@ export class Story {
     }
   }
 
-  public play(base: Env): IterableIterator<Container> {
+  public play(boot: Frame[]): IterableIterator<Container> {
     const {mode, align} = this.mode // FIXME control flow
-    const frames = this.ss.map((s) => Frame.of(s.blocks, s.attributes, s.childAttributes))
+    const [init, ...updates] = this.ss.map((s) => Frame.of(s.blocks, s.attributes, s.childAttributes))
+    boot.push(init)
     return new ContainerIterableIterator(
-      new EnvIterableIterator(frames.values(), base, mode === 'diff'),
+      new EnvIterableIterator(boot, updates.values(), mode === 'diff'),
       align === 'center',
     )
   }
 
-  public baseEnv(): Env {
-    const base: Container = new Container(
-      '_init', Attributes.of(this.ss[0].attributes).attrs, new Portrait([], Box.zero))
-    return Env.of(base, toDict(this.ss[0].childAttributes))
+  public baseFrames(): Frame[] {
+     return this.ss.map((s) => Frame.of(s.blocks, s.attributes, s.childAttributes))
   }
 }
 
 class EnvIterableIterator implements IterableIterator<Env> {
-  private first = true // FIXME control flow
+  private last: Env | undefined = undefined
 
-  constructor(private frames: IterableIterator<Frame>, private env: Env, private diffMode: boolean) {}
+  constructor(private boot: Frame[], private frames: IterableIterator<Frame>, private diffMode: boolean) {}
 
   public next(): IteratorResult<Env> {
-    const next = this.frames.next()
-    if (next.done) {
-      return next
-    } else {
-      const frame = next.value
-      const newEnv = frame.setup(this.env)
-      if (this.diffMode || this.first) {
-        this.first = false
-        this.env = newEnv
+    if (this.last) {
+      const next = this.frames.next()
+      if (next.done) {
+        return next
+      } else {
+        const nextFrame = next.value
+        const baseEnv = this.diffMode ? this.last : this.initEnv()
+        this.last = nextFrame.setup(baseEnv)
+        return {
+          done: false,
+          value: this.last,
+        }
       }
+    } else {
+      this.last = this.initEnv()
       return {
-        done: next.done,
-        value: newEnv,
+        done: false,
+        value: this.last,
       }
     }
   }
 
   public [Symbol.iterator](): IterableIterator<Env> {
     return this
+  }
+
+  private initEnv(): Env {
+    const bootEnv = Env.of(new Container('_init', {}, new Portrait([], Box.zero)), {})
+    return this.boot.reduce((env, frame) => {
+      return frame.setup(env)
+    }, bootEnv)
   }
 }
 
