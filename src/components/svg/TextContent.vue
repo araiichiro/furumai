@@ -1,13 +1,13 @@
 <template>
   <text
-    v-bind:x="position.x + content.dx"
-    v-bind:y="position.y + content.dy"
+    v-bind:x="position.x + dxy.x"
+    v-bind:y="position.y + dxy.y"
     v-bind="attrs"
   >
     <tspan
       v-for="t in texts"
       dy="1em"
-      v-bind:x="position.x + content.dx"
+      v-bind:x="position.x + dxy.x"
       v-bind="attrs"
     >{{ t }}</tspan>
   </text>
@@ -16,7 +16,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import * as api from '@/shared/vue/TextContent'
-import {Attrs} from '@/furumai/utils'
+import {Attrs, num} from '@/furumai/utils'
 
 @Component
 export default class TextContent extends Vue {
@@ -28,6 +28,11 @@ export default class TextContent extends Vue {
 
   @Prop()
   public attrs!: Attrs
+
+  get dxy(): {x: number, y: number} {
+    const {dx, dy} = this.attrs
+    return {x: num(dx) || 0, y: num(dy) || 0}
+  }
 
   get texts(): string[] {
     const label = this.content.label

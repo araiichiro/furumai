@@ -48,8 +48,6 @@ export class GridCell implements GridArea<Cell> {
     const text = {
       label: label || this.id,
       t,
-      dx: 0,
-      dy: 0,
     }
     const svgAttrs = SecureSvgAttrs.of(rest)
     return {

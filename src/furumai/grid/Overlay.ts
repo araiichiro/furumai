@@ -5,9 +5,7 @@ import {Attributes} from '@/furumai/utils'
 export interface Overlay {
   id: string
 
-  applyTo(base: Container): Overlay
-
   updateAttributes(attrs: Attributes): Overlay
 
-  vue(): Shape
+  vue(base: Container): Shape
 }

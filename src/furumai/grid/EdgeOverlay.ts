@@ -19,7 +19,6 @@ export class EdgeOverlay implements Overlay {
     private tailId: string,
     private headId: string,
     private attrs: Attrs,
-    private box: Box,
   ) {
   }
 
@@ -29,36 +28,29 @@ export class EdgeOverlay implements Overlay {
       ...this.attrs,
       ...attrs.attrs,
     }
-    this.box = this.box.update(attrs.box)
     return this
   }
 
-  public applyTo(base: Container): EdgeOverlay {
+  public vue(base: Container): Shape {
     const tail = EdgeOverlay.findBox(base, this.tailId)
     const head = EdgeOverlay.findBox(base, this.headId)
     const {dx, dy} = this.attrs
     const box = Arrow.singleton.fit(tail, head, num(dx) || 0, num(dy) || 0)
-    return new EdgeOverlay(this.id, this.tailId, this.headId, this.attrs, box)
-  }
-
-  public vue(): Shape {
-    const {dx, dy, t, label, ...rest} = this.attrs
-    const svgAttrs = {
+    const {t, label, ...rest} = this.attrs
+    const svgAttrs = SecureSvgAttrs.of({
       visibility: 'visible',
       ...rest,
-    }
+    })
     const text = {
       label,
       t,
-      dx: num(dx) || 0,
-      dy: num(dy) || 0,
     }
     return {
       type: 'arrow',
       id: this.id,
-      box: this.box,
+      box,
       text,
-      svgAttrs: SecureSvgAttrs.of(svgAttrs),
+      svgAttrs,
     }
   }
 }

@@ -1,7 +1,6 @@
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
 import {EdgeOverlay} from '@/furumai/grid/EdgeOverlay'
-import {Box} from '@/layout/engine/Box'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {visible} from '@/furumai/grid/utils'
@@ -45,8 +44,7 @@ export class Edge implements BuildingBlock {
     } else {
       const baseAttrs = env.lookupAttributes('edge')
       const merged = baseAttrs.merge(this.attrs)
-      const box = Box.of(merged.box)
-      return new EdgeOverlay(this.id, this.tailId, this.headId, merged.attrs, box)
+      return new EdgeOverlay(this.id, this.tailId, this.headId, merged.attrs)
     }
   }
 }
