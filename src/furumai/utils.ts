@@ -90,7 +90,7 @@ export function divideAttrs(attrs: Attrs): ShapeAndTextAttrs {
     if (k.startsWith('text.')) {
       const key = k.slice('text.'.length)
       textAttrs[key] = attrs[k]
-    } else if (k !== 'y') {
+    } else if (!(['y', 'dx', 'dy'].indexOf(k) > -1)) {
       textAttrs[k] = attrs[k]
     }
   })
