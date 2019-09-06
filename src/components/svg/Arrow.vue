@@ -38,10 +38,17 @@ export default class Arrow extends Vue {
     let v = new Vector2d(x1, y1, x2, y2).normalize()
     v = v.dy > 0 ? v.rotate(-90) : v.rotate(90)
     v = v.multiple(24)
+
+    const dy = v.dy > 0 ? -15 : -15
+    let w = new Vector2d(x1, y1, x2, y2)
+    const cos = w.dx / w.length
+    const vec = w.multiple(cos)
+    const u = Math.abs(cos) > 0.98 ? vec.multiple(0.35) : vec.multiple(0.1)
+
     const box = this.shape.box
     return {
-      x: box.cx + v.dx,
-      y: box.cy + v.dy,
+      x: box.cx + v.dx - u.dx,
+      y: box.cy + v.dy + dy - u.dy,
     }
   }
 
