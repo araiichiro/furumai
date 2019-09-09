@@ -35,20 +35,19 @@ export default class Arrow extends Vue {
   // textPosition!: {x: number, y: number}
   get textPosition(): {x: number, y: number} {
     const {x1, y1, x2, y2} = this.xy
-    let v = new Vector2d(x1, y1, x2, y2).normalize()
-    v = v.dy > 0 ? v.rotate(-90) : v.rotate(90)
+    const vec = new Vector2d(x1, y1, x2, y2)
+
+    let v = vec.normalize()
+    v = v.dy === 0 ? v.rotate(90 * Math.sign(v.dx)) : v.dy > 0 ? v.rotate(-90) : v.rotate(90)
     v = v.multiple(24)
 
-    const dy = v.dy > 0 ? -15 : -15
-    let w = new Vector2d(x1, y1, x2, y2)
-    const cos = w.dx / w.length
-    const vec = w.multiple(cos)
-    const u = Math.abs(cos) > 0.98 ? vec.multiple(0.35) : vec.multiple(0.1)
-
+    const dy = 15
+    const cos = vec.dx / vec.length
+    const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
     const box = this.shape.box
     return {
       x: box.cx + v.dx - u.dx,
-      y: box.cy + v.dy + dy - u.dy,
+      y: box.cy + v.dy - dy - u.dy,
     }
   }
 
