@@ -67,12 +67,7 @@ function convert(elem: Element): Element {
       for (let i = 0; i < gcs.length; i++) {
         const c = gcs.item(i)
         if (c) {
-          const converted = convert(c)
-          const visibility = c.getAttribute('visibility') // FIXME workaround: visibility is not work
-          if (visibility) {
-            converted.setAttribute('visibility', visibility)
-          }
-          g.append(converted)
+          g.append(convert(c))
         } else {
           throw new Error('null')
         }
@@ -85,9 +80,9 @@ function convert(elem: Element): Element {
       )
       const tcs = elem.children
       for (let i = 0; i < tcs.length; i++) {
-        const c = tcs.item(i)
-        if (c) {
-          t.append(convert(c))
+        const ts = tcs.item(i)
+        if (ts) {
+          t.append(convert(ts))
         } else {
           throw new Error('null')
         }
@@ -100,6 +95,26 @@ function convert(elem: Element): Element {
       )
       tspan.textContent = elem.textContent
       return tspan
+    default:
+      const wrap = setAttributes(
+        d.createElementNS('http://www.w3.org/2000/svg', 'g'),
+        dict(elem),
+      )
+      wrap.appendChild(convertElem(elem))
+      return wrap
+  }
+}
+
+function convertElem(elem: Element): Element {
+  const tag = elem.tagName
+  const attrs = dict(elem)
+  const options: { [key: string]: any } = {
+    hachureGap: 2.0,
+    fillWeight: 0.6,
+    roughness: 2.0,
+    ...attrs,
+  }
+  switch (tag) {
     case 'path':
       return rc.path(attrs.d, attrs)
     case 'line':
@@ -139,3 +154,4 @@ function convert(elem: Element): Element {
       throw new Error('not implemented')
   }
 }
+
