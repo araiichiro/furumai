@@ -17,8 +17,4 @@ export class HideEdge implements BuildingBlock {
       throw new Error(`edge not found: ${this.tailId} -> ${this.headId}`)
     }
   }
-
-  public find(id: string): BuildingBlock | undefined {
-    return undefined
-  }
 }

@@ -1,9 +1,7 @@
 import {Container} from '@/furumai//grid/Container'
 import {Frame} from '@/furumai//setup/Frame'
 import {Env} from '@/furumai/setup/Env'
-import {Attributes, Attrs, StatementList, toDict} from '@/furumai/utils'
-import {Portrait} from '@/layout/engine/Portrait'
-import {Box} from '@/layout/engine/Box'
+import {Attributes, Attrs, StatementList} from '@/furumai/utils'
 
 export class Story {
   constructor(private ss: StatementList[]) {
@@ -74,7 +72,7 @@ class EnvIterableIterator implements IterableIterator<Env> {
   }
 
   private initEnv(): Env {
-    const bootEnv = Env.of(new Container('_init', {}, new Portrait([], Box.zero)), {})
+    const bootEnv = Env.init()
     return this.boot.reduce((env, frame) => {
       return frame.setup(env)
     }, bootEnv)

@@ -20,10 +20,6 @@ export class Edge implements BuildingBlock {
     return `_edge_${tailId}_to_${headId}`
   }
 
-  public static find(id: string): BuildingBlock | undefined {
-    return undefined
-  }
-
   private constructor(
     private id: string,
     private tailId: string,
