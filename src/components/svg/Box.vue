@@ -16,7 +16,7 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Shape} from '@/shared/vue/Shape'
 import GridArea from '@/components/svg/GridArea.vue'
 import TextContent from '@/components/svg/TextContent.vue'
-import {asString, divideAttrs, ShapeAndTextAttrs} from '@/furumai/utils'
+import {divideAttrs, ShapeAndTextAttrs} from '@/shared/vue/ShapeAndTextAttrs'
 
 @Component({
   components: {
@@ -52,6 +52,13 @@ export default class Box extends Vue {
       y: y + padding.top,
     }
   }
+}
+
+function asString(arg: any): {[key: string]: string} {
+  return Object.keys(arg).reduce((obj, k) => {
+    obj[k] = arg[k].toString()
+    return obj
+  }, {} as {[key: string]: string})
 }
 </script>
 

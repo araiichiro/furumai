@@ -18,7 +18,7 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import GridArea from '@/components/svg/GridArea.vue'
 import {Shape} from '@/shared/vue/Shape'
 import TextContent from '@/components/svg/TextContent.vue'
-import {divideAttrs, ShapeAndTextAttrs} from '@/furumai/utils'
+import {divideAttrs, ShapeAndTextAttrs} from '@/shared/vue/ShapeAndTextAttrs'
 
 @Component({
   components: {
