@@ -1,12 +1,13 @@
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
 import {Attributes} from '@/furumai/utils'
+import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
 
 export class Frame {
   constructor(
     private blocks: BuildingBlock[],
     private attrs: Attributes,
-    private childAttrs: { [key: string]: Attributes },
+    private childAttrs: ElementAttributes,
   ) {
   }
 

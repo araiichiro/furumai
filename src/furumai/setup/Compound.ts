@@ -5,6 +5,7 @@ import {Landscape} from '@/layout/engine/Landscape'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
 import {Attributes} from '@/furumai/utils'
+import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
 
 export class Compound implements BuildingBlock {
   constructor(
@@ -12,7 +13,7 @@ export class Compound implements BuildingBlock {
     private compoundType: CompoundType,
     private blocks: BuildingBlock[] = [],
     private attrs: Attributes = Attributes.empty,
-    private childAttrs?: { [key: string]: Attributes },
+    private childAttrs?: ElementAttributes,
   ) {
   }
 

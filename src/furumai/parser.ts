@@ -30,6 +30,7 @@ import {Story} from '@/furumai/setup/Story'
 import {Attributes, Attrs} from '@/furumai/utils'
 import {Frame} from '@/furumai/setup/Frame'
 import {Config} from '@/furumai/setup/Config'
+import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)
@@ -271,7 +272,7 @@ class Attribute {
     return attrs.reduce((map, obj) => {
       map[obj.key] = obj.value
       return map
-    }, {} as { [key: string]: string })
+    }, {} as Attrs)
   }
 
   constructor(readonly key: AttributeName, readonly value: AttributeValue) {
@@ -285,11 +286,11 @@ interface StatementList {
 }
 
 class ElementAttribute {
-  public static toDict(attrs: ElementAttribute[]): { [key: string]: Attributes } {
+  public static toDict(attrs: ElementAttribute[]): ElementAttributes {
     return attrs.reduce((map, obj) => {
       map[obj.elementName] = Attributes.of(obj.attributes)
       return map
-    }, {} as { [key: string]: Attributes })
+    }, {} as ElementAttributes)
   }
 
   constructor(
