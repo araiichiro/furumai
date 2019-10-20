@@ -55,7 +55,9 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
-import {vue} from '@/shared/vue/utils'
+import {parse} from '@/furumai/parser'
+import {Story} from '@/furumai/setup/Story'
+import {Group} from '@/shared/vue/Group'
 import * as shared from '@/shared/vue/Group'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
 
@@ -156,6 +158,19 @@ node[margin='24 20', padding='24 16', width=215, height=150, 'stroke-width'=2];
   }
 }
 
+function vue(furumaiCode: string, defaults: string): Group[] | SyntaxError {
+  const story = parse(furumaiCode)
+  if (story instanceof Story) {
+    const defaultConfig = parse(defaults) as Story
+    const ret: Group[] = []
+    for (const c of story.play(defaultConfig.frames)) {
+      ret.push(c.vue())
+    }
+    return ret
+  } else {
+    return story
+  }
+}
 </script>
 
 <style>
