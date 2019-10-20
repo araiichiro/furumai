@@ -1,41 +1,19 @@
 import {Container} from '@/furumai//grid/Container'
 import {Frame} from '@/furumai//setup/Frame'
 import {Env} from '@/furumai/setup/Env'
-import {Attributes, Attrs, StatementList} from '@/furumai/utils'
+import {Config} from '@/furumai/setup/Config'
 
 export class Story {
-  constructor(private ss: StatementList[]) {
-  }
-
-  private get mode() {
-    const attrs = Attributes.of(this.ss[0].attributes)
-    const {config, ...rest} = attrs.attrs
-    const conf: Attrs = {}
-    const cf = config || ''
-    cf.split(',').forEach((line) => {
-      const kv = line.split('=')
-      conf[kv[0]] = kv[1]
-    })
-    return {
-      mode: '_',
-      align: '_',
-      ...conf,
-      ...rest,
-    }
-  }
+  constructor(public readonly frames: Frame[], private config: Config) {}
 
   public play(boot: Frame[]): IterableIterator<Container> {
-    const {mode, align} = this.mode // FIXME control flow
-    const [init, ...updates] = this.ss.map((s) => Frame.of(s.blocks, s.attributes, s.childAttributes))
+    const {mode, align} = this.config
+    const [init, ...updates] = this.frames
     boot.push(init)
     return new ContainerIterableIterator(
       new EnvIterableIterator(boot, updates.values(), mode === 'diff'),
       align === 'center',
     )
-  }
-
-  public baseFrames(): Frame[] {
-     return this.ss.map((s) => Frame.of(s.blocks, s.attributes, s.childAttributes))
   }
 }
 

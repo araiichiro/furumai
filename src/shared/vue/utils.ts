@@ -6,9 +6,8 @@ export function vue(furumaiCode: string, defaults: string): Group[] | SyntaxErro
   const story = parse(furumaiCode)
   if (story instanceof Story) {
     const defaultConfig = parse(defaults) as Story
-    const baseFrames = defaultConfig.baseFrames()
     const ret: Group[] = []
-    for (const c of story.play(baseFrames)) {
+    for (const c of story.play(defaultConfig.frames)) {
       ret.push(c.vue())
     }
     return ret

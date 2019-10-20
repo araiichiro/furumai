@@ -11,7 +11,7 @@ export class Compound implements BuildingBlock {
     public readonly id: string,
     private compoundType: CompoundType,
     private blocks: BuildingBlock[] = [],
-    public attrs: Attributes = Attributes.empty,
+    private attrs: Attributes = Attributes.empty,
     private childAttrs?: { [key: string]: Attributes },
   ) {
   }

@@ -27,7 +27,9 @@ import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Compound} from '@/furumai/setup/Compound'
 import {Node} from '@/furumai/setup/Node'
 import {Story} from '@/furumai/setup/Story'
-import {Attribute, Attributes, ElementAttribute, StatementList, toDict} from '@/furumai/utils'
+import {Attributes, Attrs, ElementAttribute, toDict} from '@/furumai/utils'
+import {Frame} from '@/furumai/setup/Frame'
+import {Config} from '@/furumai/setup/Config'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)
@@ -84,10 +86,33 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   public visitStory(ctx: StoryContext): Story {
     const eof = ctx.EOF()
     if (eof) {
-      const ss: StatementList[] = ctx.moment().map((frame) => this.visit(frame))
-      return new Story(ss)
+      const [init, ...updates]: StatementList[] = ctx.moment().map((f) => this.visit(f))
+      const [conf, initFrame] = extractConfig(init)
+      const frames = updates.map((s) => frame(s))
+      return new Story([initFrame, ...frames], conf)
     } else {
       throw new SyntaxError('invalid input statement syntax')
+    }
+
+    function frame(s: StatementList, attrs?: Attrs): Frame {
+      return new Frame(s.blocks, Attributes.of(attrs || s.attributes), toDict(s.childAttributes))
+    }
+
+    function extractConfig(statementList: StatementList): [Config, Frame] {
+      const attrs = statementList.attributes
+      const {config, ...rest} = attrs
+      const conf: Attrs = {}
+      const cf = config || ''
+      cf.split(',').forEach((line) => {
+        const kv = line.split('=')
+        conf[kv[0]] = kv[1]
+      })
+      const c = {
+        mode: '_',
+        align: '_',
+        ...conf,
+      }
+      return [c, frame(statementList, rest)]
     }
   }
 
@@ -114,7 +139,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
     return {
       blocks,
-      attributes,
+      attributes: Attribute.reduce(attributes),
       childAttributes,
     }
   }
@@ -139,7 +164,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   public visitAttr_stmt(ctx: Attr_stmtContext): ElementAttribute {
     const attrType = ctx.GROUP() || ctx.NODE() || ctx.EDGE() || ctx.ZONE()
     const attrList = ctx.attr_list()
-    const attributes = attrList ? this.visit(attrList) : []
+    const attributes = attrList ? Attribute.reduce(this.visit(attrList)) : {}
     if (attrType) {
       return new ElementAttribute(
         attrType.text,
@@ -164,7 +189,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const attrList = ctx.attr_list()
     if (attrList) {
       const attrs: Attribute[] = this.visit(attrList)
-      return Edge.of(ids[0], '->', ids[1], Attributes.of(attrs))
+      return Edge.of(ids[0], '->', ids[1], Attributes.of(Attribute.reduce(attrs)))
     } else {
       return Edge.of(ids[0], '->', ids[1])
     }
@@ -174,7 +199,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const attrList = ctx.attr_list()
     if (attrList) {
       const attrs: Attribute[] = this.visit(attrList)
-      return new Node(ctx.ID().text, Attributes.of(attrs))
+      return new Node(ctx.ID().text, Attributes.of(Attribute.reduce(attrs)))
     } else {
       return new Node(ctx.ID().text)
     }
@@ -236,4 +261,25 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   public visitTerminal(node: TerminalNode): any {
     return undefined
   }
+}
+
+type AttributeName = string
+type AttributeValue = string
+
+class Attribute {
+  public static reduce(attrs: Attribute[]): Attrs {
+    return attrs.reduce((map, obj) => {
+      map[obj.key] = obj.value
+      return map
+    }, {} as { [key: string]: string })
+  }
+
+  constructor(readonly key: AttributeName, readonly value: AttributeValue) {
+  }
+}
+
+interface StatementList {
+  readonly blocks: BuildingBlock[]
+  readonly attributes: Attrs
+  readonly childAttributes: ElementAttribute[]
 }

@@ -1,23 +1,10 @@
 import Gap from '@/layout/engine/Gap'
 import {Box} from '@/layout/engine/Box'
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-
-export type AttributeName = string
-export type AttributeValue = string
-
-export class Attribute {
-  constructor(readonly key: AttributeName, readonly value: AttributeValue) {
-  }
-}
 
 export class Attributes {
-  public static empty = Attributes.of([])
+  public static empty = Attributes.of({})
 
-  public static of(attrs: Attribute[]): Attributes {
-    const dic = attrs.reduce((map, obj) => {
-      map[obj.key] = obj.value
-      return map
-    }, {} as { [key: string]: string })
+  public static of(dic: Attrs): Attributes {
     const {id, x, y, width, height, margin, padding, ...rest} = dic
     const box: any = {
       id,
@@ -33,10 +20,6 @@ export class Attributes {
     })
 
     return new Attributes(box, rest)
-  }
-
-  public static fromBox(box: Partial<Box>): Attributes {
-    return new Attributes(box, {})
   }
 
   constructor(readonly box: Partial<Box>, readonly attrs: Attrs) {
@@ -58,7 +41,7 @@ export class Attributes {
 export class ElementAttribute {
   constructor(
     readonly elementName: string,
-    readonly attributes: Attribute[],
+    readonly attributes: Attrs,
   ) {
   }
 }
@@ -68,12 +51,6 @@ export function toDict(attrs: ElementAttribute[]): { [key: string]: Attributes }
     map[obj.elementName] = Attributes.of(obj.attributes)
     return map
   }, {} as { [key: string]: Attributes })
-}
-
-export interface StatementList {
-  readonly blocks: BuildingBlock[]
-  readonly attributes: Attribute[]
-  readonly childAttributes: ElementAttribute[]
 }
 
 export type ShapeAttrs = Attrs
