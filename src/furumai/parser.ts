@@ -27,7 +27,7 @@ import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Compound} from '@/furumai/setup/Compound'
 import {Node} from '@/furumai/setup/Node'
 import {Story} from '@/furumai/setup/Story'
-import {Attributes, Attrs, ElementAttribute, toDict} from '@/furumai/utils'
+import {Attributes, Attrs} from '@/furumai/utils'
 import {Frame} from '@/furumai/setup/Frame'
 import {Config} from '@/furumai/setup/Config'
 
@@ -95,7 +95,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     }
 
     function frame(s: StatementList, attrs?: Attrs): Frame {
-      return new Frame(s.blocks, Attributes.of(attrs || s.attributes), toDict(s.childAttributes))
+      return new Frame(s.blocks, Attributes.of(attrs || s.attributes), ElementAttribute.toDict(s.childAttributes))
     }
 
     function extractConfig(statementList: StatementList): [Config, Frame] {
@@ -210,7 +210,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     if (stmtList) {
       const s: StatementList = this.visit(stmtList)
       const attrs = Attributes.of(s.attributes)
-      const childAttrs = toDict(s.childAttributes)
+      const childAttrs = ElementAttribute.toDict(s.childAttributes)
       return new Compound(ctx.ID().text, 'group', s.blocks, attrs, childAttrs)
     } else {
       return new Compound(ctx.ID().text, 'group')
@@ -222,7 +222,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     if (stmtList) {
       const s: StatementList = this.visit(stmtList)
       const attrs = Attributes.of(s.attributes)
-      const childAttrs = toDict(s.childAttributes)
+      const childAttrs = ElementAttribute.toDict(s.childAttributes)
       return new Compound(ctx.ID().text, 'zone', s.blocks, attrs, childAttrs)
     } else {
       return new Compound(ctx.ID().text, 'zone')
@@ -283,3 +283,19 @@ interface StatementList {
   readonly attributes: Attrs
   readonly childAttributes: ElementAttribute[]
 }
+
+class ElementAttribute {
+  public static toDict(attrs: ElementAttribute[]): { [key: string]: Attributes } {
+    return attrs.reduce((map, obj) => {
+      map[obj.elementName] = Attributes.of(obj.attributes)
+      return map
+    }, {} as { [key: string]: Attributes })
+  }
+
+  constructor(
+    readonly elementName: string,
+    readonly attributes: Attrs,
+  ) {
+  }
+}
+

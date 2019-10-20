@@ -38,21 +38,6 @@ export class Attributes {
   }
 }
 
-export class ElementAttribute {
-  constructor(
-    readonly elementName: string,
-    readonly attributes: Attrs,
-  ) {
-  }
-}
-
-export function toDict(attrs: ElementAttribute[]): { [key: string]: Attributes } {
-  return attrs.reduce((map, obj) => {
-    map[obj.elementName] = Attributes.of(obj.attributes)
-    return map
-  }, {} as { [key: string]: Attributes })
-}
-
 export type ShapeAttrs = Attrs
 export type TextAttrs = Attrs
 export interface ShapeAndTextAttrs {
