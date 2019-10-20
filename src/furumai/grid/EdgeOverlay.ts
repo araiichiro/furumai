@@ -6,7 +6,8 @@ import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {Shape} from '@/shared/vue/Shape'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
-import {Attributes, Attrs, num} from '@/furumai/utils'
+import {Attrs, num} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class EdgeOverlay implements Overlay {
   constructor(

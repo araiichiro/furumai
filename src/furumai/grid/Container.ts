@@ -6,7 +6,8 @@ import {Overlay} from '@/furumai/grid/Overlay'
 import {GridCell} from '@/furumai/grid/GridCell'
 import {Group} from '@/shared/vue/Group'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
-import {Attributes, Attrs} from '@/furumai/utils'
+import {Attrs} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Container implements GridArea<Landscape | Portrait> {
   constructor(

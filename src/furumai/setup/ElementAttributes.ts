@@ -1,4 +1,4 @@
-import {Attributes} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export interface ElementAttributes {
   [key: string]: Attributes

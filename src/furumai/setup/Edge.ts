@@ -4,7 +4,7 @@ import {EdgeOverlay} from '@/furumai/grid/EdgeOverlay'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {visible} from '@/furumai/grid/utils'
-import {Attributes} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Edge implements BuildingBlock {
   public static of(

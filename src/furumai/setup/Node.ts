@@ -3,7 +3,7 @@ import {Env} from '@/furumai/setup/Env'
 import {GridCell} from '@/furumai/grid/GridCell'
 import {Box} from '@/layout/engine/Box'
 import {visible} from '@/furumai/grid/utils'
-import {Attributes} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Node implements BuildingBlock {
   public static find(id: string): BuildingBlock | undefined {

@@ -3,7 +3,8 @@ import {Cell} from '@/layout/engine/Cell'
 import {Box} from '@/layout/engine/Box'
 import {Shape} from '@/shared/vue/Shape'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
-import {Attributes, Attrs, num} from '@/furumai/utils'
+import {Attrs, num} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class GridCell implements GridArea<Cell> {
   public static of(id: string, box: Box, attrs: Attrs) {

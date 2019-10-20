@@ -4,8 +4,8 @@ import {Container} from '@/furumai/grid/Container'
 import {Landscape} from '@/layout/engine/Landscape'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
-import {Attributes} from '@/furumai/utils'
 import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Compound implements BuildingBlock {
   constructor(

@@ -3,7 +3,7 @@ import {Elem} from '@/layout/engine/Elem'
 import {Overlay} from '@/furumai/grid/Overlay'
 import {Group} from '@/shared/vue/Group'
 import {Shape} from '@/shared/vue/Shape'
-import {Attributes} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export interface GridArea<A extends Elem> extends Wrap<A> {
   id: string

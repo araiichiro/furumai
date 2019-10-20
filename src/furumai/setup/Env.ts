@@ -2,10 +2,10 @@ import {Container} from '@/furumai/grid/Container'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {Overlay} from '@/furumai/grid/Overlay'
-import {Attributes} from '@/furumai/utils'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
 import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Env {
   public static init(): Env {

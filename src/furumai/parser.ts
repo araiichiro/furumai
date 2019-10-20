@@ -27,10 +27,11 @@ import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Compound} from '@/furumai/setup/Compound'
 import {Node} from '@/furumai/setup/Node'
 import {Story} from '@/furumai/setup/Story'
-import {Attributes, Attrs} from '@/furumai/utils'
+import {Attrs} from '@/furumai/utils'
 import {Frame} from '@/furumai/setup/Frame'
 import {Config} from '@/furumai/setup/Config'
 import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)

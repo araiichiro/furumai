@@ -1,7 +1,7 @@
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
-import {Attributes} from '@/furumai/utils'
 import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
+import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Frame {
   constructor(
