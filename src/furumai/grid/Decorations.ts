@@ -4,30 +4,27 @@ export class Decorations {
   public static empty = Decorations.of({})
 
   public static of(attrs: Attrs): Decorations {
-    return new Decorations(attrs)
+    const {shape, label, t, dx, dy, ...rest} = attrs
+    const divided = divideAttrs(rest)
+    const other: Attrs = {shape, label, t, dx, dy}
+    Object.keys(other).forEach((k) => {
+      if (other[k] === undefined) {
+        delete other[k]
+      }
+    })
+    return new Decorations(divided.shape, divided.text, other)
   }
 
-  private constructor(private attrs: Attrs) {}
-
-  public get shape(): Attrs {
-    const {shape, label, t, dx, dy, ...rest} = this.attrs
-    return divideAttrs(rest).shape
-  }
-
-  public get text(): Attrs {
-    const {shape, label, t, dx, dy, ...rest} = this.attrs
-    return divideAttrs(rest).text
-  }
-
-  public get other(): Attrs {
-    const {shape, label, t, dx, dy} = this.attrs
-    return {shape, label, t, dx, dy}
-  }
+  private constructor(readonly shape: Attrs, readonly text: Attrs, readonly other: Attrs) {}
 
   public update(attrs: Decorations): Decorations {
     const a = {
-      ...this.attrs,
-      ...attrs.attrs,
+      ...this.shape,
+      ...this.text,
+      ...this.other,
+      ...attrs.shape,
+      ...attrs.text,
+      ...attrs.other,
     }
     return Decorations.of(a)
   }
