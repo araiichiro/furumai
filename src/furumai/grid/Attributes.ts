@@ -23,7 +23,7 @@ export class Attributes {
     return new Attributes(box, rest)
   }
 
-  constructor(readonly box: Partial<Box>, readonly attrs: Attrs) {
+  private constructor(readonly box: Partial<Box>, readonly attrs: Attrs) {
   }
 
   public merge(attrs: Attributes): Attributes {
