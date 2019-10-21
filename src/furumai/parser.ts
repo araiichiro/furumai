@@ -8,6 +8,7 @@ import {
   AssignmentContext,
   Attr_listContext,
   Attr_stmtContext,
+  ConfContext,
   Edge_stmtContext,
   FurumaiParser,
   GroupContext,
@@ -96,7 +97,9 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     }
 
     function frame(s: StatementList, attrs?: Attrs): Frame {
-      return new Frame(s.blocks, Attributes.of(attrs || s.attributes), ElementAttribute.toDict(s.childAttributes))
+      const attributes = Attributes.of(attrs || s.attributes)
+      const dict = ElementAttribute.toDict(s.childAttributes)
+      return new Frame(s.blocks, attributes, dict)
     }
 
     function extractConfig(statementList: StatementList): [Config, Frame] {
@@ -108,10 +111,9 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
         const kv = line.split('=')
         conf[kv[0]] = kv[1]
       })
-      const c = {
-        mode: '_',
-        align: '_',
+      const c: Config = {
         ...conf,
+        ...statementList.config,
       }
       return [c, frame(statementList, rest)]
     }
@@ -126,6 +128,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const blocks: BuildingBlock[] = []
     const childAttributes: ElementAttribute[] = []
     const attributes: Attribute[] = []
+    const cs: Conf[] = []
+
     statements.forEach((a) => {
       if (FurumaiVisitorImpl.isBuildingBlock(a)) {
         blocks.push(a)
@@ -133,6 +137,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
         childAttributes.push(a)
       } else if (a instanceof Attribute) {
         attributes.push(a as Attribute)
+      } else if (a instanceof Conf) {
+        cs.push(a)
       } else {
         throw new Error('not implemented: ' + JSON.stringify(a))
       }
@@ -142,10 +148,11 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       blocks,
       attributes: Attribute.reduce(attributes),
       childAttributes,
+      config: cs.length > 0 ? cs[0].config : {},
     }
   }
 
-  public visitStmt(ctx: StmtContext): Node | Edge | Compound {
+  public visitStmt(ctx: StmtContext): BuildingBlock | ElementAttribute | Attribute | Config {
     const stmt =
       ctx.node_stmt() ||
       ctx.edge_stmt() ||
@@ -153,7 +160,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       ctx.assignment() ||
       ctx.zone() ||
       ctx.group() ||
-      ctx.hide()
+      ctx.hide() ||
+      ctx.conf()
 
     if (stmt) {
       return this.visit(stmt)
@@ -171,6 +179,17 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
         attrType.text,
         attributes,
       )
+    } else {
+      throw new Error('internal error: invalid state (parse)')
+    }
+  }
+
+  public visitConf(ctx: ConfContext): Conf {
+    const attrType = ctx.CONF()
+    if (attrType) {
+      const attrList = ctx.attr_list()
+      const config: Config = attrList ? Attribute.reduce(this.visit(attrList)) : {}
+      return new Conf(config)
     } else {
       throw new Error('internal error: invalid state (parse)')
     }
@@ -283,6 +302,7 @@ interface StatementList {
   readonly blocks: BuildingBlock[]
   readonly attributes: Attrs
   readonly childAttributes: ElementAttribute[]
+  readonly config: Config
 }
 
 class ElementAttribute {
@@ -300,3 +320,6 @@ class ElementAttribute {
   }
 }
 
+class Conf {
+  constructor(readonly config: Config) {}
+}

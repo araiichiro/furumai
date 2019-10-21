@@ -8,6 +8,7 @@ import { MomentContext } from "./FurumaiParser";
 import { Stmt_listContext } from "./FurumaiParser";
 import { StmtContext } from "./FurumaiParser";
 import { Attr_stmtContext } from "./FurumaiParser";
+import { ConfContext } from "./FurumaiParser";
 import { Attr_listContext } from "./FurumaiParser";
 import { AssignmentContext } from "./FurumaiParser";
 import { Edge_stmtContext } from "./FurumaiParser";
@@ -76,6 +77,17 @@ export interface FurumaiListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitAttr_stmt?: (ctx: Attr_stmtContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `FurumaiParser.conf`.
+	 * @param ctx the parse tree
+	 */
+	enterConf?: (ctx: ConfContext) => void;
+	/**
+	 * Exit a parse tree produced by `FurumaiParser.conf`.
+	 * @param ctx the parse tree
+	 */
+	exitConf?: (ctx: ConfContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `FurumaiParser.attr_list`.

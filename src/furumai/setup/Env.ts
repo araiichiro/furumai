@@ -7,11 +7,13 @@ import {Box} from '@/layout/engine/Box'
 import {Attributes} from '@/furumai/grid/Attributes'
 import {Dict} from '@/furumai/utils'
 import {Decorations} from '@/furumai/grid/Decorations'
+import {Landscape} from '@/layout/engine/Landscape'
 
 export class Env {
-  public static init(): Env {
+  public static init(container: 'portrait' | 'landscape'): Env {
     const deco = Decorations.empty
-    return new Env(new Container('_init', deco, new Portrait([], Box.zero)), {})
+    const elem = container === 'landscape' ? new Landscape([], Box.zero) : new Portrait([], Box.zero)
+    return new Env(new Container('_init', deco, elem), {})
   }
 
   private constructor(

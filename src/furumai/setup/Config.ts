@@ -1,4 +1,5 @@
 export interface Config {
-  mode: string
-  align: string
+  mode?: 'diff'
+  align?: 'center'
+  orientation?: 'top to bottom '| 'left to right'
 }

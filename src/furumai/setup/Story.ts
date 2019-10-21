@@ -11,7 +11,7 @@ export class Story {
     const [init, ...updates] = this.frames
     boot.push(init)
     return new ContainerIterableIterator(
-      new EnvIterableIterator(boot, updates.values(), mode === 'diff'),
+      new EnvIterableIterator(boot, updates.values(), this.config),
       align === 'center',
     )
   }
@@ -20,7 +20,7 @@ export class Story {
 class EnvIterableIterator implements IterableIterator<Env> {
   private last: Env | undefined = undefined
 
-  constructor(private boot: Frame[], private frames: IterableIterator<Frame>, private diffMode: boolean) {}
+  constructor(private boot: Frame[], private frames: IterableIterator<Frame>, private config: Config) {}
 
   public next(): IteratorResult<Env> {
     if (this.last) {
@@ -29,7 +29,7 @@ class EnvIterableIterator implements IterableIterator<Env> {
         return next
       } else {
         const nextFrame = next.value
-        const baseEnv = this.diffMode ? this.last : this.initEnv()
+        const baseEnv = this.config.mode === 'diff' ? this.last : this.initEnv()
         this.last = nextFrame.setup(baseEnv)
         return {
           done: false,
@@ -50,7 +50,7 @@ class EnvIterableIterator implements IterableIterator<Env> {
   }
 
   private initEnv(): Env {
-    const bootEnv = Env.init()
+    const bootEnv = Env.init(this.config.orientation === 'left to right' ? 'landscape' : 'portrait')
     return this.boot.reduce((env, frame) => {
       return frame.setup(env)
     }, bootEnv)
