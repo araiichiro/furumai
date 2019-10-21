@@ -4,8 +4,8 @@ import {Elem} from '@/layout/engine/Elem'
 import {Overlay} from '@/furumai/grid/Overlay'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
-import {ElementAttributes} from '@/furumai/setup/ElementAttributes'
 import {Attributes} from '@/furumai/grid/Attributes'
+import {Dict} from '@/furumai/utils'
 
 export class Env {
   public static init(): Env {
@@ -14,12 +14,12 @@ export class Env {
 
   private constructor(
     readonly container: Container,
-    private attrs: ElementAttributes,
+    private attrs: Dict<Attributes>,
     private baseEnv?: Env,
   ) {
   }
 
-  public newEnv(container: Container, attrs: ElementAttributes): Env {
+  public newEnv(container: Container, attrs: Dict<Attributes>): Env {
     return new Env(container, attrs, this)
   }
 
