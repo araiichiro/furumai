@@ -4,7 +4,7 @@ import {Box} from '@/layout/engine/Box'
 import {Shape} from '@/shared/vue/Shape'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
 import {Attrs, num} from '@/furumai/utils'
-import {Attributes} from '@/furumai/grid/Attributes'
+import {Attributes, divideAttrs} from '@/furumai/grid/Attributes'
 
 export class GridCell implements GridArea<Cell> {
   public static of(id: string, box: Box, attrs: Attrs) {
@@ -45,18 +45,18 @@ export class GridCell implements GridArea<Cell> {
 
   public vue(): Shape {
     const {shape, label, t, ...rest} = this.attrs
-    const shapeType = shape || 'box'
+    const divided = divideAttrs(rest)
     const text = {
       label: label || this.id,
       t,
+      textAttrs: SecureSvgAttrs.of(divided.text),
     }
-    const svgAttrs = SecureSvgAttrs.of(rest)
     return {
-      type: shapeType,
+      type: shape || 'box',
       id: this.id,
       box: this.cell.box,
       text,
-      svgAttrs,
+      svgAttrs: SecureSvgAttrs.of(divided.shape),
     }
   }
 }

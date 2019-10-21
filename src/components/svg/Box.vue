@@ -1,12 +1,12 @@
 <template>
   <g>
     <rect
-      v-bind="attrs.shape"
+      v-bind="shapeAttrs"
     ></rect>
     <TextContent
       v-bind:content="shape.text"
       v-bind:position="textPosition"
-      v-bind:attrs="attrs.text"></TextContent>
+      v-bind:attrs="textAttrs"></TextContent>
     <GridArea v-bind:box="shape.box"></GridArea>
   </g>
 </template>
@@ -16,7 +16,6 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Shape} from '@/shared/vue/Shape'
 import GridArea from '@/components/svg/GridArea.vue'
 import TextContent from '@/components/svg/TextContent.vue'
-import {divideAttrs, ShapeAndTextAttrs} from '@/shared/vue/ShapeAndTextAttrs'
 
 @Component({
   components: {
@@ -28,21 +27,19 @@ export default class Box extends Vue {
   @Prop()
   public shape!: Shape
 
-  public get attrs(): ShapeAndTextAttrs {
-    const {shape, text} = divideAttrs(this.shape.svgAttrs.svgAttrs)
+  public get shapeAttrs() {
     const {x, y, width, height, margin, padding} = asString(this.shape.box)
     return {
-      shape: {
-        id: `_rect_${this.shape.id}`,
-        fill: 'none',
-        stroke: 'black',
-        x, y, width, height, margin, padding,
-        ...shape,
-      },
-      text: {
-        ...text,
-      },
+      id: `_rect_${this.shape.id}`,
+      fill: 'none',
+      stroke: 'black',
+      x, y, width, height, margin, padding,
+      ...this.shape.svgAttrs.svgAttrs,
     }
+  }
+
+  public get textAttrs() {
+    return this.shape.text.textAttrs
   }
 
   get textPosition(): {x: number, y: number} {

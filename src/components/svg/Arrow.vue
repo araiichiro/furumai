@@ -2,12 +2,12 @@
   <g>
     <path
       v-bind:d="d"
-      v-bind="attrs.shape"
+      v-bind="shapeAttrs"
     ></path>
     <TextContent
       v-bind:content="shape.text"
       v-bind:position="textPosition"
-      v-bind:attrs="attrs.text"
+      v-bind:attrs="textAttrs"
     ></TextContent>
     <GridArea v-bind:box="shape.box"></GridArea>
   </g>
@@ -20,7 +20,6 @@ import GridArea from '@/components/svg/GridArea.vue'
 import {Shape} from '@/shared/vue/Shape'
 import {Vector2d} from '@/layout/engine/Vector2d'
 import TextContent from '@/components/svg/TextContent.vue'
-import {divideAttrs, ShapeAndTextAttrs} from '@/shared/vue/ShapeAndTextAttrs'
 
 @Component({
   components: {
@@ -76,19 +75,17 @@ M ${vb.x2} ${vb.y2}
 L ${x2} ${y2}`
   }
 
-  public get attrs(): ShapeAndTextAttrs {
-    const {shape, text} = divideAttrs(this.shape.svgAttrs.svgAttrs)
+  public get shapeAttrs() {
     const strokeWidth = this.defaults.arrow.width
     return {
-      shape: {
-        stroke: 'black',
-        'stroke-width': `${strokeWidth}`,
-        ...shape,
-      },
-      text: {
-        ...text,
-      },
+      stroke: 'black',
+      'stroke-width': `${strokeWidth}`,
+      ...this.shape.svgAttrs.svgAttrs,
     }
+  }
+
+  public get textAttrs() {
+    return this.shape.text.textAttrs
   }
 
   private defaults = {

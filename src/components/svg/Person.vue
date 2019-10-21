@@ -2,12 +2,12 @@
   <g>
     <path
       v-bind:d="d"
-      v-bind="attrs.shape"
+      v-bind="shapeAttrs"
     ></path>
     <TextContent
       v-bind:content="shape.text"
       v-bind:position="textPosition"
-      v-bind:attrs="attrs.text"
+      v-bind:attrs="textAttrs"
     ></TextContent>
     <GridArea v-bind:box="shape.box"></GridArea>
   </g>
@@ -18,7 +18,6 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import GridArea from '@/components/svg/GridArea.vue'
 import {Shape} from '@/shared/vue/Shape'
 import TextContent from '@/components/svg/TextContent.vue'
-import {divideAttrs, ShapeAndTextAttrs} from '@/shared/vue/ShapeAndTextAttrs'
 
 @Component({
   components: {
@@ -30,18 +29,18 @@ export default class Person extends Vue {
   @Prop()
   public shape!: Shape
 
-  get attrs(): ShapeAndTextAttrs {
-    const {shape, text} = divideAttrs(this.shape.svgAttrs.svgAttrs)
+  get shapeAttrs() {
     return {
-      shape: {
-        fill: 'none',
-        stroke: 'black',
-        ...shape,
-      },
-      text: {
-        'text-anchor': 'middle',
-        ...text,
-      },
+      fill: 'none',
+      stroke: 'black',
+      ...this.shape.svgAttrs.svgAttrs,
+    }
+  }
+
+  get textAttrs() {
+    return {
+      'text-anchor': 'middle',
+      ...this.shape.text.textAttrs,
     }
   }
 

@@ -97,8 +97,7 @@ const availableSvgAttributes = new Set([
 
 function isValid(attrName: string, attrValue: string) {
   function checkName(name: string) {
-    return availableSvgAttributes.has(attrName) ||
-      attrName.startsWith('text.') && availableSvgAttributes.has(attrName.slice('text.'.length))
+    return availableSvgAttributes.has(attrName)
   }
 
   function checkValue(v: string) {

@@ -7,7 +7,7 @@ import {GridCell} from '@/furumai/grid/GridCell'
 import {Group} from '@/shared/vue/Group'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
 import {Attrs} from '@/furumai/utils'
-import {Attributes} from '@/furumai/grid/Attributes'
+import {Attributes, divideAttrs} from '@/furumai/grid/Attributes'
 
 export class Container implements GridArea<Landscape | Portrait> {
   constructor(
@@ -75,16 +75,18 @@ export class Container implements GridArea<Landscape | Portrait> {
     const {t, ...svgAttrs} = this.attrs
     const children = this.elem.children.map((c) => (c as GridArea<Elem>).vue())
     const overlays = this.overlays.map((lay) => lay.vue(this))
+    const divided = divideAttrs(svgAttrs)
     const text = {
       label: this.id,
       t,
+      textAttrs: SecureSvgAttrs.of(divided.text),
     }
     return {
       type: 'group',
       id: this.id,
       box,
       text,
-      svgAttrs: SecureSvgAttrs.of(svgAttrs),
+      svgAttrs: SecureSvgAttrs.of(divided.shape),
       children: children.concat(overlays),
     }
   }
