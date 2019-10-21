@@ -5,10 +5,6 @@ import {visibleArea} from '@/furumai/grid/utils'
 import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Node implements BuildingBlock {
-  public static find(id: string): BuildingBlock | undefined {
-    return undefined
-  }
-
   constructor(
     public readonly id: string,
     private attrs: Attributes = Attributes.empty,
