@@ -3,15 +3,16 @@ import {Env} from '@/furumai/setup/Env'
 import {EdgeOverlay} from '@/furumai/grid/EdgeOverlay'
 import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
-import {visible} from '@/furumai/grid/utils'
-import {Attributes} from '@/furumai/grid/Attributes'
+import {visibleArea} from '@/furumai/grid/utils'
+import {Attrs} from '@/furumai/utils'
+import {Decorations} from '@/furumai/grid/Decorations'
 
 export class Edge implements BuildingBlock {
   public static of(
     tailId: string,
     op: string,
     headId: string,
-    attrs: Attributes = Attributes.empty,
+    attrs: Attrs = {},
   ) {
     return new Edge(this.idOf(tailId, headId), tailId, headId, attrs)
   }
@@ -24,23 +25,23 @@ export class Edge implements BuildingBlock {
     private id: string,
     private tailId: string,
     private headId: string,
-    private attrs: Attributes = Attributes.empty,
+    private attrs: Attrs = {},
   ) {
   }
 
   public setup(env: Env): EdgeOverlay {
     const tail = env.findGridArea(this.tailId)
     const head = env.findGridArea(this.headId)
-    visible(tail as GridArea<Elem>)
-    visible(head as GridArea<Elem>)
+    visibleArea(tail as GridArea<Elem>)
+    visibleArea(head as GridArea<Elem>)
 
     const existing = env.findOverlay(this.id)
     if (existing) {
       return existing.updateAttributes(this.attrs) as EdgeOverlay
     } else {
       const baseAttrs = env.lookupAttributes('edge')
-      const merged = baseAttrs.merge(this.attrs)
-      return new EdgeOverlay(this.id, this.tailId, this.headId, merged.attrs)
+      const deco = new Decorations(baseAttrs.attrs).update(this.attrs)
+      return new EdgeOverlay(this.id, this.tailId, this.headId, deco)
     }
   }
 }

@@ -7,23 +7,20 @@ import {Elem} from '@/layout/engine/Elem'
 import {Shape} from '@/shared/vue/Shape'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
 import {Attrs, num} from '@/furumai/utils'
-import {Attributes, divideAttrs} from '@/furumai/grid/Attributes'
+import {Decorations} from '@/furumai/grid/Decorations'
 
 export class EdgeOverlay implements Overlay {
   constructor(
     readonly id: string,
     private tailId: string,
     private headId: string,
-    private attrs: Attrs,
+    private attrs: Decorations,
   ) {
   }
 
-  public updateAttributes(attrs: Attributes): Overlay {
+  public updateAttributes(attrs: Attrs): Overlay {
     // TODO immutable
-    this.attrs = {
-      ...this.attrs,
-      ...attrs.attrs,
-    }
+    this.attrs = this.attrs.update(attrs)
     return this
   }
 
@@ -35,18 +32,17 @@ export class EdgeOverlay implements Overlay {
 
     const tail = findBox(this.tailId)
     const head = findBox(this.headId)
-    const {dx, dy, t, label, ...rest} = this.attrs
+    const {dx, dy, t, label} = this.attrs.other
     const box = Arrow.singleton.fit(tail, head, num(dx) || 0, num(dy) || 0)
 
-    const divided = divideAttrs(rest)
     const svgAttrs = SecureSvgAttrs.of({
       visibility: 'visible',
-      ...divided.shape,
+      ...this.attrs.shape,
     })
     const text = {
       label,
       t,
-      textAttrs: SecureSvgAttrs.of(divided.text),
+      textAttrs: SecureSvgAttrs.of(this.attrs.text),
     }
     return {
       type: 'arrow',

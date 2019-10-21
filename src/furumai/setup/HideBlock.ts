@@ -1,6 +1,6 @@
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
-import {hide} from '@/furumai/grid/utils'
+import {hideArea} from '@/furumai/grid/utils'
 
 export class HideBlock implements BuildingBlock {
   constructor(private id: string) {
@@ -9,7 +9,7 @@ export class HideBlock implements BuildingBlock {
   public setup(env: Env): undefined {
     const area = env.findGridArea(this.id)
     if (area) {
-      hide(area)
+      hideArea(area)
       return undefined
     } else {
       throw new Error(`not found: ${this.id}`)

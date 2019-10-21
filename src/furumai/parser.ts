@@ -190,7 +190,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const attrList = ctx.attr_list()
     if (attrList) {
       const attrs: Attribute[] = this.visit(attrList)
-      return Edge.of(ids[0], '->', ids[1], Attributes.of(Attribute.reduce(attrs)))
+      return Edge.of(ids[0], '->', ids[1], Attribute.reduce(attrs))
     } else {
       return Edge.of(ids[0], '->', ids[1])
     }

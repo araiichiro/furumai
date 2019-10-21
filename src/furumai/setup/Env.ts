@@ -6,10 +6,12 @@ import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
 import {Attributes} from '@/furumai/grid/Attributes'
 import {Dict} from '@/furumai/utils'
+import {Decorations} from '@/furumai/grid/Decorations'
 
 export class Env {
   public static init(): Env {
-    return new Env(new Container('_init', {}, new Portrait([], Box.zero)), {})
+    const deco = Decorations.empty
+    return new Env(new Container('_init', deco, new Portrait([], Box.zero)), {})
   }
 
   private constructor(

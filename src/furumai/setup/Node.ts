@@ -1,8 +1,7 @@
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Env} from '@/furumai/setup/Env'
 import {GridCell} from '@/furumai/grid/GridCell'
-import {Box} from '@/layout/engine/Box'
-import {visible} from '@/furumai/grid/utils'
+import {visibleArea} from '@/furumai/grid/utils'
 import {Attributes} from '@/furumai/grid/Attributes'
 
 export class Node implements BuildingBlock {
@@ -19,13 +18,13 @@ export class Node implements BuildingBlock {
   public setup(env: Env): GridCell | undefined {
     const existing = env.findGridArea(this.id)
     if (existing) {
-      visible(existing)
+      visibleArea(existing)
       existing.updateAttributes(this.attrs)
       return undefined
     } else {
       const baseAttrs = env.lookupAttributes('node')
       const merged = baseAttrs.merge(this.attrs)
-      return GridCell.of(this.id, Box.of(merged.box), merged.attrs)
+      return GridCell.of(this.id, merged)
     }
   }
 }

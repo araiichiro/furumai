@@ -3,18 +3,19 @@ import {Cell} from '@/layout/engine/Cell'
 import {Box} from '@/layout/engine/Box'
 import {Shape} from '@/shared/vue/Shape'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
-import {Attrs, num} from '@/furumai/utils'
-import {Attributes, divideAttrs} from '@/furumai/grid/Attributes'
+import {num} from '@/furumai/utils'
+import {Attributes} from '@/furumai/grid/Attributes'
+import {Decorations} from '@/furumai/grid/Decorations'
 
 export class GridCell implements GridArea<Cell> {
-  public static of(id: string, box: Box, attrs: Attrs) {
-    return new GridCell(id, new Cell(box), attrs)
+  public static of(id: string, attrs: Attributes) {
+    return new GridCell(id, new Cell(Box.of(attrs.box)), new Decorations(attrs.attrs))
   }
 
   private constructor(
     public readonly id: string,
     private cell: Cell,
-    private attrs: Attrs,
+    private attrs: Decorations,
   ) {
   }
 
@@ -24,10 +25,7 @@ export class GridCell implements GridArea<Cell> {
 
   public updateAttributes(attrs: Attributes): GridCell {
     // TODO immutable
-    this.attrs = {
-      ...this.attrs,
-      ...attrs.attrs,
-    }
+    this.attrs = this.attrs.update(attrs.attrs)
     this.cell = this.cell.withBox(attrs.box)
     return this
   }
@@ -37,26 +35,24 @@ export class GridCell implements GridArea<Cell> {
   }
 
   public map(f: (a: Cell) => Cell): GridCell {
-    const {dx, dy, ...rest} = this.attrs
     const cell = f(this.cell)
-    const box = cell.box.move(num(dx) || 0, num(dy) || 0)
-    return new GridCell(this.id, cell.withBox(box), rest)
+    return new GridCell(this.id, cell, this.attrs)
   }
 
   public vue(): Shape {
-    const {shape, label, t, ...rest} = this.attrs
-    const divided = divideAttrs(rest)
+    const {shape, label, t, dx, dy} = this.attrs.other
+
     const text = {
       label: label || this.id,
       t,
-      textAttrs: SecureSvgAttrs.of(divided.text),
+      textAttrs: SecureSvgAttrs.of(this.attrs.text),
     }
     return {
       type: shape || 'box',
       id: this.id,
-      box: this.cell.box,
+      box: this.cell.box.move(num(dx) || 0, num(dy) || 0),
       text,
-      svgAttrs: SecureSvgAttrs.of(divided.shape),
+      svgAttrs: SecureSvgAttrs.of(this.attrs.shape),
     }
   }
 }

@@ -6,13 +6,13 @@ import {Overlay} from '@/furumai/grid/Overlay'
 import {GridCell} from '@/furumai/grid/GridCell'
 import {Group} from '@/shared/vue/Group'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
-import {Attrs} from '@/furumai/utils'
-import {Attributes, divideAttrs} from '@/furumai/grid/Attributes'
+import {Attributes} from '@/furumai/grid/Attributes'
+import {Decorations} from '@/furumai/grid/Decorations'
 
 export class Container implements GridArea<Landscape | Portrait> {
   constructor(
     public readonly id: string,
-    private attrs: Attrs,
+    private attrs: Decorations,
     private elem: Landscape | Portrait,
     private overlays: Overlay[] = [],
   ) {
@@ -24,10 +24,7 @@ export class Container implements GridArea<Landscape | Portrait> {
 
   public updateAttributes(attrs: Attributes): Container {
     // TODO immutable
-    this.attrs = {
-      ...this.attrs,
-      ...attrs.attrs,
-    }
+    this.attrs = this.attrs.update(attrs.attrs)
     this.elem = this.elem.withBox(attrs.box)
     return this
   }
@@ -72,21 +69,19 @@ export class Container implements GridArea<Landscape | Portrait> {
 
   public vue(): Group {
     const box = this.elem.box
-    const {t, ...svgAttrs} = this.attrs
     const children = this.elem.children.map((c) => (c as GridArea<Elem>).vue())
     const overlays = this.overlays.map((lay) => lay.vue(this))
-    const divided = divideAttrs(svgAttrs)
     const text = {
       label: this.id,
-      t,
-      textAttrs: SecureSvgAttrs.of(divided.text),
+      t: this.attrs.other.t,
+      textAttrs: SecureSvgAttrs.of(this.attrs.text),
     }
     return {
       type: 'group',
       id: this.id,
       box,
       text,
-      svgAttrs: SecureSvgAttrs.of(divided.shape),
+      svgAttrs: SecureSvgAttrs.of(this.attrs.shape),
       children: children.concat(overlays),
     }
   }
