@@ -9,7 +9,7 @@ import {Decorations} from '@/furumai/grid/Decorations'
 
 export class GridCell implements GridArea<Cell> {
   public static of(id: string, attrs: Attributes) {
-    return new GridCell(id, new Cell(Box.of(attrs.box)), new Decorations(attrs.attrs))
+    return new GridCell(id, new Cell(Box.of(attrs.box)), attrs.attrs)
   }
 
   private constructor(

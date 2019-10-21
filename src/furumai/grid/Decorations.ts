@@ -1,9 +1,13 @@
 import {Attrs} from '@/furumai/utils'
 
 export class Decorations {
-  public static empty = new Decorations({})
+  public static empty = Decorations.of({})
 
-  constructor(private attrs: Attrs) {}
+  public static of(attrs: Attrs): Decorations {
+    return new Decorations(attrs)
+  }
+
+  private constructor(private attrs: Attrs) {}
 
   public get shape(): Attrs {
     const {shape, label, t, dx, dy, ...rest} = this.attrs
@@ -20,12 +24,12 @@ export class Decorations {
     return {shape, label, t, dx, dy}
   }
 
-  public update(attrs: Attrs): Decorations {
+  public update(attrs: Decorations): Decorations {
     const a = {
       ...this.attrs,
-      ...attrs,
+      ...attrs.attrs,
     }
-    return new Decorations(a)
+    return Decorations.of(a)
   }
 }
 

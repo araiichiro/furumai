@@ -37,10 +37,10 @@ export class Edge implements BuildingBlock {
 
     const existing = env.findOverlay(this.id)
     if (existing) {
-      return existing.updateAttributes(this.attrs) as EdgeOverlay
+      return existing.updateAttributes(Decorations.of(this.attrs)) as EdgeOverlay
     } else {
       const baseAttrs = env.lookupAttributes('edge')
-      const deco = new Decorations(baseAttrs.attrs).update(this.attrs)
+      const deco = baseAttrs.attrs.update(Decorations.of(this.attrs))
       return new EdgeOverlay(this.id, this.tailId, this.headId, deco)
     }
   }

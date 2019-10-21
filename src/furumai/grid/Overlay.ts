@@ -1,11 +1,11 @@
 import {Container} from '@/furumai/grid/Container'
 import {Shape} from '@/shared/vue/Shape'
-import {Attrs} from '@/furumai/utils'
+import {Decorations} from '@/furumai/grid/Decorations'
 
 export interface Overlay {
   id: string
 
-  updateAttributes(attrs: Attrs): Overlay
+  updateAttributes(attrs: Decorations): Overlay
 
   vue(base: Container): Shape
 }

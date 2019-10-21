@@ -1,6 +1,7 @@
 import {Box} from '@/layout/engine/Box'
 import Gap from '@/layout/engine/Gap'
 import {Attrs, num} from '@/furumai/utils'
+import {Decorations} from '@/furumai/grid/Decorations'
 
 export class Attributes {
   public static empty = Attributes.of({})
@@ -20,10 +21,10 @@ export class Attributes {
       }
     })
 
-    return new Attributes(box, rest)
+    return new Attributes(box, Decorations.of(rest))
   }
 
-  private constructor(readonly box: Partial<Box>, readonly attrs: Attrs) {
+  private constructor(readonly box: Partial<Box>, readonly attrs: Decorations) {
   }
 
   public merge(attrs: Attributes): Attributes {
@@ -31,10 +32,8 @@ export class Attributes {
       {
         ...this.box,
         ...attrs.box,
-      }, {
-        ...this.attrs,
-        ...attrs.attrs,
       },
+      this.attrs.update(attrs.attrs),
     )
   }
 }

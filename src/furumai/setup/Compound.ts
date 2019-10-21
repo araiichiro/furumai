@@ -6,7 +6,6 @@ import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
 import {Attributes} from '@/furumai/grid/Attributes'
 import {Dict} from '@/furumai/utils'
-import {Decorations} from '@/furumai/grid/Decorations'
 
 export class Compound implements BuildingBlock {
   constructor(
@@ -26,7 +25,7 @@ export class Compound implements BuildingBlock {
     const fitter = new fitterClass([], Box.of(box))
     const initContainer = new Container(
       this.id,
-      new Decorations(attrs),
+      attrs,
       fitter,
     )
     return this.blocks.reduce((container, block) => {

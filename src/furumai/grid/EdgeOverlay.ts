@@ -6,7 +6,7 @@ import {GridArea} from '@/furumai/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {Shape} from '@/shared/vue/Shape'
 import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
-import {Attrs, num} from '@/furumai/utils'
+import {num} from '@/furumai/utils'
 import {Decorations} from '@/furumai/grid/Decorations'
 
 export class EdgeOverlay implements Overlay {
@@ -18,7 +18,7 @@ export class EdgeOverlay implements Overlay {
   ) {
   }
 
-  public updateAttributes(attrs: Attrs): Overlay {
+  public updateAttributes(attrs: Decorations): Overlay {
     // TODO immutable
     this.attrs = this.attrs.update(attrs)
     return this
