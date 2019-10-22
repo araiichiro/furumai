@@ -31,8 +31,6 @@ export default class Box extends Vue {
     const {x, y, width, height, margin, padding} = asString(this.shape.box)
     return {
       id: `_rect_${this.shape.id}`,
-      fill: 'none',
-      stroke: 'black',
       x, y, width, height, margin, padding,
       ...this.shape.svgAttrs.svgAttrs,
     }

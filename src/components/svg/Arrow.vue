@@ -76,12 +76,7 @@ L ${x2} ${y2}`
   }
 
   public get shapeAttrs() {
-    const strokeWidth = this.defaults.arrow.width
-    return {
-      stroke: 'black',
-      'stroke-width': `${strokeWidth}`,
-      ...this.shape.svgAttrs.svgAttrs,
-    }
+    return this.shape.svgAttrs.svgAttrs
   }
 
   public get textAttrs() {
@@ -90,7 +85,6 @@ L ${x2} ${y2}`
 
   private defaults = {
     arrow: {
-      width: 2,
       head: {
         size: 26,
         degree: 27,

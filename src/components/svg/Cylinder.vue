@@ -30,11 +30,7 @@ export default class Cylinder extends Vue {
   public shape!: Shape
 
   get shapeAttrs() {
-    return {
-      fill: 'none',
-      stroke: 'black',
-      ...this.shape.svgAttrs.svgAttrs,
-    }
+    return this.shape.svgAttrs.svgAttrs
   }
 
   get textAttrs() {
