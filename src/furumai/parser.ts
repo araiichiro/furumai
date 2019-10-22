@@ -169,13 +169,12 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   public visitConfig(ctx: ConfigContext): Conf {
-    const attrType = ctx.CONFIG()
     const textNode = ctx.ID()
     const attrList = ctx.attr_list()
-    if (attrType && attrList) {
+    if (attrList) {
       const config: Config = attrList ? Attribute.reduce(this.visit(attrList)) : {}
       return new Conf(config)
-    } else if (attrType && textNode) {
+    } else if (textNode) {
       return parseConfig(textNode.text)
     } else {
       throw new Error('internal error: invalid state (parse)')
