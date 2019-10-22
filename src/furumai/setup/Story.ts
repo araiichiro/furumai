@@ -50,7 +50,7 @@ class EnvIterableIterator implements IterableIterator<Env> {
   }
 
   private initEnv(): Env {
-    const bootEnv = Env.init(this.config.orientation === 'left to right' ? 'landscape' : 'portrait')
+    const bootEnv = Env.init(this.config.direction === 'left to right' ? 'landscape' : 'portrait')
     return this.boot.reduce((env, frame) => {
       return frame.setup(env)
     }, bootEnv)
