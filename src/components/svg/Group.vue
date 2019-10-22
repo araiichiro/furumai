@@ -80,6 +80,7 @@ export default class Group extends Vue {
       y,
       width,
       height,
+      ...this.g.svgAttrs.svgAttrs,
     }
   }
 }

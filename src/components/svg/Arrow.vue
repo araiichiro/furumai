@@ -1,7 +1,8 @@
 <template>
-  <g v-bind="shape.svgAttrs.svgAttrs">
+  <g>
     <path
       v-bind:d="d"
+      v-bind="shapeAttrs"
     ></path>
     <TextContent
       v-bind:content="shape.text"
@@ -72,6 +73,10 @@ M ${va.x2} ${va.y2}
 L ${x2} ${y2}
 M ${vb.x2} ${vb.y2}
 L ${x2} ${y2}`
+  }
+
+  public get shapeAttrs() {
+    return this.shape.svgAttrs.svgAttrs
   }
 
   public get textAttrs() {
