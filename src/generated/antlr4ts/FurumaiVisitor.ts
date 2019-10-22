@@ -8,7 +8,7 @@ import { MomentContext } from "./FurumaiParser";
 import { Stmt_listContext } from "./FurumaiParser";
 import { StmtContext } from "./FurumaiParser";
 import { Attr_stmtContext } from "./FurumaiParser";
-import { ConfContext } from "./FurumaiParser";
+import { ConfigContext } from "./FurumaiParser";
 import { Attr_listContext } from "./FurumaiParser";
 import { AssignmentContext } from "./FurumaiParser";
 import { Edge_stmtContext } from "./FurumaiParser";
@@ -62,11 +62,11 @@ export interface FurumaiVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitAttr_stmt?: (ctx: Attr_stmtContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `FurumaiParser.conf`.
+	 * Visit a parse tree produced by `FurumaiParser.config`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitConf?: (ctx: ConfContext) => Result;
+	visitConfig?: (ctx: ConfigContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `FurumaiParser.attr_list`.

@@ -8,7 +8,7 @@ import {
   AssignmentContext,
   Attr_listContext,
   Attr_stmtContext,
-  ConfContext,
+  ConfigContext,
   Edge_stmtContext,
   FurumaiParser,
   GroupContext,
@@ -88,34 +88,18 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   public visitStory(ctx: StoryContext): Story {
     const eof = ctx.EOF()
     if (eof) {
-      const [init, ...updates]: StatementList[] = ctx.moment().map((f) => this.visit(f))
-      const [conf, initFrame] = extractConfig(init)
-      const frames = updates.map((s) => frame(s))
-      return new Story([initFrame, ...frames], conf)
+      const ss: StatementList[] = ctx.moment().map((f) => this.visit(f))
+      const conf = ss[0].config
+      const frames = ss.map((s) => frame(s))
+      return new Story(frames, conf)
     } else {
       throw new SyntaxError('invalid input statement syntax')
     }
 
-    function frame(s: StatementList, attrs?: Attrs): Frame {
-      const attributes = Attributes.of(attrs || s.attributes)
+    function frame(s: StatementList): Frame {
+      const attributes = Attributes.of(s.attributes)
       const dict = ElementAttribute.toDict(s.childAttributes)
       return new Frame(s.blocks, attributes, dict)
-    }
-
-    function extractConfig(statementList: StatementList): [Config, Frame] {
-      const attrs = statementList.attributes
-      const {config, ...rest} = attrs
-      const conf: Attrs = {}
-      const cf = config || ''
-      cf.split(',').forEach((line) => {
-        const kv = line.split('=')
-        conf[kv[0]] = kv[1]
-      })
-      const c: Config = {
-        ...conf,
-        ...statementList.config,
-      }
-      return [c, frame(statementList, rest)]
     }
   }
 
@@ -161,7 +145,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       ctx.zone() ||
       ctx.group() ||
       ctx.hide() ||
-      ctx.conf()
+      ctx.config()
 
     if (stmt) {
       return this.visit(stmt)
@@ -184,14 +168,29 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     }
   }
 
-  public visitConf(ctx: ConfContext): Conf {
-    const attrType = ctx.CONF()
-    if (attrType) {
-      const attrList = ctx.attr_list()
+  public visitConfig(ctx: ConfigContext): Conf {
+    const attrType = ctx.CONFIG()
+    const textNode = ctx.ID()
+    const attrList = ctx.attr_list()
+    if (attrType && attrList) {
       const config: Config = attrList ? Attribute.reduce(this.visit(attrList)) : {}
       return new Conf(config)
+    } else if (attrType && textNode) {
+      return parseConfig(textNode.text)
     } else {
       throw new Error('internal error: invalid state (parse)')
+    }
+
+    /**
+     * @deprecated
+     */
+    function parseConfig(configString: string): Conf {
+      const conf: Attrs = {}
+      configString.split(',').forEach((line) => {
+        const kv = line.split('=')
+        conf[kv[0]] = kv[1]
+      })
+      return new Conf(conf)
     }
   }
 

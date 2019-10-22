@@ -11,11 +11,13 @@ stmt: node_stmt
     | group
     | zone
     | hide
-    | conf
+    | config
     ;
 
 attr_stmt : (GROUP | NODE | EDGE | ZONE) attr_list ;
-conf : CONF attr_list ;
+config : CONFIG attr_list
+       | CONFIG '=' ID // TODO @deprecated
+       ;
 attr_list : '[' assignment ( ( ',' | ';' )?  assignment)* ']' ;
 assignment : ID '=' ID ;
 
@@ -34,7 +36,7 @@ GROUP: 'group' ;
 ZONE : 'zone' ;
 HIDE: 'hide' ;
 DELETE: 'delete' ;
-CONF : 'conf' ;
+CONFIG : 'config' ;
 
 ID : '\'' (~'\'')* '\'' {this.text = this.text.slice(1, -1)}
    | '"' (~'"')* '"' {this.text = this.text.slice(1, -1)}

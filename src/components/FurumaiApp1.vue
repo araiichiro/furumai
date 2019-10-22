@@ -84,7 +84,7 @@ export default class FurumaiApp1 extends Vue {
 
   private errors: string = ''
 
-  private defaultConfig = `conf[
+  private defaultConfig = `config [
   orientation='top to bottom',
   mode='no diff',
   align='no center'
