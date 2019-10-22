@@ -141,7 +141,7 @@ You can also shift the arrangement of basic shape (`node`) by specifying the `dx
 <ClientOnly>
 <DocSnippet
   filename="./gallery/docs/align-center.furumai"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5AIYA2lSVOESALtDQNwA6SARSgIArgAcABBXSTgAyZIC2-JIqSrFCVQF9VQkROkAGOQskAvZBEun5axZLqbHAIxd7zVpDYuz7jpI4Lor4HrqqINh0SHBKdByIKKigdDiJkGgcUKIQOjpAA"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYDaAhgDaVIC8OESALtALoDcAOkgEUoCAK4AHAAQV0k4AMmSAtvySKkqxQlUBfVUJETpABjkLJAL2QRLp+WsWSamxwCMXe81aQ2Ls+46SOC6K+B66qiDYNEhwSjTsiCiooDQ4iZBo7FCiEDo6QA"
   viewCode="true"></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
@@ -156,17 +156,28 @@ If you hide it in the initial state, you can make it display after change.
 <ClientOnly>
 <DocSnippet
   filename="./gallery/docs/diff-mode.furumai"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymk0DcAOkjwIbckAIwDaYOPCFwANnAAuATyoALOPkJIAuoJxiJcKbMUq1G7TwC0V-gAILAPhtDBVizyF3HOQSGx8kcHR8cogoqKB8OCGQaHJQAK4QAL5JQA"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYDaAtgRALz5ymkC6A3ADpI8CG3JACMqYOPCFwANnAAuATwYALOPkJJOPHKPFxJMhctXrNSALQX+AAjMA+K0MEWzPITfs5BIbHyRwafLKIKKigfDhBkGiyUACuEAC+CUA"
   viewCode="true"></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 <ClientOnly>
 <DocSnippet
   filename="./gallery/docs/array-list.furumai"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYC8A5ALYERX5ymk0DcAOkj2HPABGcADZwALgE8qACzj5CSbryQUoCAK4AHAAQBDKFD2SdwHjp1JGAbToGKcJFQAMmHVr0LH1dK50B3eXEZKgAOPxkIShlxMIBWNxE9QQgRWhoAXWULHHRsnRwAJnycAGYSgBYSuJKANmsklLSaADo2mjcYcXUAayYaKyQITJKAdhLQ5QBfZQBaeZ5c61iaPXRC0pHFwuXaQXWKraQy3ZpcwrijnArT-HXao-nZxbjTiHXRq9rlHHHFyZ4IGweiQcDs4kQKFQoD0OAhkDQ3Q0ECmUyAA"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYDaAtgRALz5ymkC6A3ADpI9hzwARnAA2cAC4BPBgAs4+Qkm68kFKAgCuABwAEAQyhQ9kncB46dSerQMU4SBgAZMOrXoX2KDdM50B3eXEZBgAOXxkIShlxUIBWFxE9QQgRBgByNM5zHRx0ZQscACZ8nIBmEpwAFgrYioA2KkTk1LSAOna0lxhxdQBrRjSrJAhMioB2CpDlAF9lAFoFnlyqGLS9dELS0aXClfTBDcrtpBxSvbTcwtjjqvP8Dbrjhbml2POIDbGbuuUcCaWpjwQNg9Eg4DQ9OJEChUKA9DgoZA0D0NBBptMgA"
   viewCode="true"></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
+
+## Direction
+
+Changing the direction of layout to left to right (default: `top to bottom`).
+
+<ClientOnly>
+<DocSnippet
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYDa+cUEOALokgLwDkANhKYwASMEfKJQAWjdgF0A3AB0k8pAQjoqMUQEMADhA4AjBAA92mARzxJGES31HQIUuUg1MEUVeu272O2MhN8nBp6EJwcACqicDB80XwAgvgAtnBICY7yMIJQGhQqapo65gCenKmEUAFBIWHskXFxANIAagDKAYwcVADWEMXoqHxgGpwAriqSGSjYGkhwSRrMyGigLsyQaIxQ4wC+O0A"
+  viewCode="true"></DocSnippet>
+</ClientOnly>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
 
 ## Hide displayed elements
 
