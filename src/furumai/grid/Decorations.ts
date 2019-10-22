@@ -18,15 +18,18 @@ export class Decorations {
   private constructor(readonly shape: Attrs, readonly text: Attrs, readonly other: Attrs) {}
 
   public update(attrs: Decorations): Decorations {
-    const a = {
-      ...this.shape,
-      ...this.text,
-      ...this.other,
-      ...attrs.shape,
-      ...attrs.text,
-      ...attrs.other,
-    }
-    return Decorations.of(a)
+    return new Decorations(
+      {
+        ...this.shape,
+        ...attrs.shape,
+      }, {
+        ...this.text,
+        ...attrs.text,
+      }, {
+        ...this.other,
+        ...attrs.other,
+      },
+    )
   }
 }
 

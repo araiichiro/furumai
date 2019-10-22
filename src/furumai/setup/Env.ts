@@ -11,7 +11,7 @@ import {Landscape} from '@/layout/engine/Landscape'
 
 export class Env {
   public static init(container: 'portrait' | 'landscape'): Env {
-    const deco = Decorations.of({fill: 'none'})
+    const deco = Decorations.of({fill: 'none', stroke: 'none'})
     const elem = container === 'landscape' ? new Landscape([], Box.zero) : new Portrait([], Box.zero)
     return new Env(new Container('_init', deco, elem), {})
   }
