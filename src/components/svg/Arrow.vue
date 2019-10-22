@@ -56,6 +56,15 @@ export default class Arrow extends Vue {
   }
 
   get d(): string {
+    return this.shape.type === 'arrow' ? this.arrow : this.line
+  }
+
+  get line(): string {
+    const {x1, y1, x2, y2} = this.xy
+    return `M${x1} ${y1} L${x2} ${y2}`
+  }
+
+  get arrow(): string {
     const {x1, y1, x2, y2} = this.xy
     function rotateBase(deg: number, pump: number) {
       const v1 = new Vector2d(x1, y1, x2, y2).normalize().multiple(pump).rotate(deg).negate()

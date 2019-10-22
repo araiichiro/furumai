@@ -21,14 +21,14 @@ config : CONFIG attr_list
 attr_list : '[' assignment ( ( ',' | ';' )?  assignment)* ']' ;
 assignment : ID '=' ID ;
 
-edge_stmt : ID '->' ID attr_list? ;
+edge_stmt : ID EDGEOP ID attr_list? ;
 
 node_stmt : ID attr_list? ;
 
 group : GROUP ID '{' stmt_list '}' ;
 zone  : ZONE  ID '{' stmt_list '}' ;
 
-hide: (HIDE | DELETE) (ID | ID '->' ID);
+hide: (HIDE | DELETE) (ID | ID EDGEOP ID);
 
 NODE : 'node' ;
 EDGE : 'edge' ;
@@ -37,6 +37,10 @@ ZONE : 'zone' ;
 HIDE: 'hide' ;
 DELETE: 'delete' ;
 CONFIG : 'config' ;
+
+EDGEOP : '->'
+       | '--'
+       ;
 
 ID : '\'' (~'\'')* '\'' {this.text = this.text.slice(1, -1)}
    | '"' (~'"')* '"' {this.text = this.text.slice(1, -1)}

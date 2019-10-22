@@ -13,6 +13,7 @@ export class EdgeOverlay implements Overlay {
   constructor(
     readonly id: string,
     private tailId: string,
+    private op: string,
     private headId: string,
     private attrs: Decorations,
   ) {
@@ -45,7 +46,7 @@ export class EdgeOverlay implements Overlay {
       textAttrs: SecureSvgAttrs.of(this.attrs.text),
     }
     return {
-      type: 'arrow',
+      type: this.op === '->' ? 'arrow' : 'edge',
       id: this.id,
       box,
       text,

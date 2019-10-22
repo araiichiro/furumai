@@ -47,12 +47,12 @@
 
 ## 基本図形
 
-基本図形として `box` / `person` / `cylinder` が指定できます。要素間に矢印を配置できます。
+基本図形として `box` / `person` / `cylinder` が指定できます。要素間に矢印 (`->` or `--`) を配置できます。
 
 <ClientOnly>
 <DocSnippet
   filename="Basic Shapes"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIADgIb75xIDmAvAOQBMADAwNwA6S3ZOALgijoA2jAAWZEhEbTYyBgF0uSJAQiiJUmQwBGCAB5KVMQVDI0NYydMY4AngBtqhKMe68BQ9AAIAtAB8PmqE6CohGv5BpkIWGiog2GRIcAC2ZPyIKKigfJmQaPxQAK4QAL5lQA"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIADgIb75xIDmAvAOQBMADAwNwA6S3ZOALgijoA2jAAWZEhEbTYyBgF0uSJAQiiJUmQwBGCAB5KVMQVDI0NYydMY4AngBtqhKMe68BQ9AAIAtH4+aoToKsEa-gB8PqZCFhoqINhkSHAAtmT8iCiooHxZkGj8UACuEAC+5UA"
   viewCode="true"></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>

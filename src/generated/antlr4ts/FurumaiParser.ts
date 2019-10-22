@@ -36,14 +36,14 @@ export class FurumaiParser extends Parser {
 	public static readonly T__5 = 6;
 	public static readonly T__6 = 7;
 	public static readonly T__7 = 8;
-	public static readonly T__8 = 9;
-	public static readonly NODE = 10;
-	public static readonly EDGE = 11;
-	public static readonly GROUP = 12;
-	public static readonly ZONE = 13;
-	public static readonly HIDE = 14;
-	public static readonly DELETE = 15;
-	public static readonly CONFIG = 16;
+	public static readonly NODE = 9;
+	public static readonly EDGE = 10;
+	public static readonly GROUP = 11;
+	public static readonly ZONE = 12;
+	public static readonly HIDE = 13;
+	public static readonly DELETE = 14;
+	public static readonly CONFIG = 15;
+	public static readonly EDGEOP = 16;
 	public static readonly ID = 17;
 	public static readonly SPACES = 18;
 	public static readonly RULE_story = 0;
@@ -66,14 +66,13 @@ export class FurumaiParser extends Parser {
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, "'---'", "';'", "'='", "'['", "','", "']'", "'->'", "'{'", 
-		"'}'", "'node'", "'edge'", "'group'", "'zone'", "'hide'", "'delete'", 
-		"'config'",
+		undefined, "'---'", "';'", "'='", "'['", "','", "']'", "'{'", "'}'", "'node'", 
+		"'edge'", "'group'", "'zone'", "'hide'", "'delete'", "'config'",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, undefined, undefined, "NODE", "EDGE", "GROUP", "ZONE", "HIDE", 
-		"DELETE", "CONFIG", "ID", "SPACES",
+		undefined, undefined, "NODE", "EDGE", "GROUP", "ZONE", "HIDE", "DELETE", 
+		"CONFIG", "EDGEOP", "ID", "SPACES",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(FurumaiParser._LITERAL_NAMES, FurumaiParser._SYMBOLIC_NAMES, []);
 
@@ -508,7 +507,7 @@ export class FurumaiParser extends Parser {
 			this.state = 89;
 			this.match(FurumaiParser.ID);
 			this.state = 90;
-			this.match(FurumaiParser.T__6);
+			this.match(FurumaiParser.EDGEOP);
 			this.state = 91;
 			this.match(FurumaiParser.ID);
 			this.state = 93;
@@ -585,11 +584,11 @@ export class FurumaiParser extends Parser {
 			this.state = 100;
 			this.match(FurumaiParser.ID);
 			this.state = 101;
-			this.match(FurumaiParser.T__7);
+			this.match(FurumaiParser.T__6);
 			this.state = 102;
 			this.stmt_list();
 			this.state = 103;
-			this.match(FurumaiParser.T__8);
+			this.match(FurumaiParser.T__7);
 			}
 		}
 		catch (re) {
@@ -618,11 +617,11 @@ export class FurumaiParser extends Parser {
 			this.state = 106;
 			this.match(FurumaiParser.ID);
 			this.state = 107;
-			this.match(FurumaiParser.T__7);
+			this.match(FurumaiParser.T__6);
 			this.state = 108;
 			this.stmt_list();
 			this.state = 109;
-			this.match(FurumaiParser.T__8);
+			this.match(FurumaiParser.T__7);
 			}
 		}
 		catch (re) {
@@ -674,7 +673,7 @@ export class FurumaiParser extends Parser {
 				this.state = 113;
 				this.match(FurumaiParser.ID);
 				this.state = 114;
-				this.match(FurumaiParser.T__6);
+				this.match(FurumaiParser.EDGEOP);
 				this.state = 115;
 				this.match(FurumaiParser.ID);
 				}
@@ -712,7 +711,7 @@ export class FurumaiParser extends Parser {
 		"\r\x03\r\x03\r\x03\r\x03\r\x03\r\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E" +
 		"\x05\x0Ew\n\x0E\x03\x0E\x02\x02\x02\x0F\x02\x02\x04\x02\x06\x02\b\x02" +
 		"\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x02" +
-		"\x05\x03\x02\f\x0F\x04\x02\x04\x04\x07\x07\x03\x02\x10\x11\x02|\x02\x1C" +
+		"\x05\x03\x02\v\x0E\x04\x02\x04\x04\x07\x07\x03\x02\x0F\x10\x02|\x02\x1C" +
 		"\x03\x02\x02\x02\x04)\x03\x02\x02\x02\x06+\x03\x02\x02\x02\b>\x03\x02" +
 		"\x02\x02\n@\x03\x02\x02\x02\fH\x03\x02\x02\x02\x0EJ\x03\x02\x02\x02\x10" +
 		"W\x03\x02\x02\x02\x12[\x03\x02\x02\x02\x14a\x03\x02\x02\x02\x16e\x03\x02" +
@@ -729,21 +728,21 @@ export class FurumaiParser extends Parser {
 		"?\x05\x18\r\x02<?\x05\x1A\x0E\x02=?\x05\f\x07\x02>6\x03\x02\x02\x02>7" +
 		"\x03\x02\x02\x02>8\x03\x02\x02\x02>9\x03\x02\x02\x02>:\x03\x02\x02\x02" +
 		">;\x03\x02\x02\x02><\x03\x02\x02\x02>=\x03\x02\x02\x02?\t\x03\x02\x02" +
-		"\x02@A\t\x02\x02\x02AB\x05\x0E\b\x02B\v\x03\x02\x02\x02CD\x07\x12\x02" +
-		"\x02DI\x05\x0E\b\x02EF\x07\x12\x02\x02FG\x07\x05\x02\x02GI\x07\x13\x02" +
+		"\x02@A\t\x02\x02\x02AB\x05\x0E\b\x02B\v\x03\x02\x02\x02CD\x07\x11\x02" +
+		"\x02DI\x05\x0E\b\x02EF\x07\x11\x02\x02FG\x07\x05\x02\x02GI\x07\x13\x02" +
 		"\x02HC\x03\x02\x02\x02HE\x03\x02\x02\x02I\r\x03\x02\x02\x02JK\x07\x06" +
 		"\x02\x02KR\x05\x10\t\x02LN\t\x03\x02\x02ML\x03\x02\x02\x02MN\x03\x02\x02" +
 		"\x02NO\x03\x02\x02\x02OQ\x05\x10\t\x02PM\x03\x02\x02\x02QT\x03\x02\x02" +
 		"\x02RP\x03\x02\x02\x02RS\x03\x02\x02\x02SU\x03\x02\x02\x02TR\x03\x02\x02" +
 		"\x02UV\x07\b\x02\x02V\x0F\x03\x02\x02\x02WX\x07\x13\x02\x02XY\x07\x05" +
 		"\x02\x02YZ\x07\x13\x02\x02Z\x11\x03\x02\x02\x02[\\\x07\x13\x02\x02\\]" +
-		"\x07\t\x02\x02]_\x07\x13\x02\x02^`\x05\x0E\b\x02_^\x03\x02\x02\x02_`\x03" +
-		"\x02\x02\x02`\x13\x03\x02\x02\x02ac\x07\x13\x02\x02bd\x05\x0E\b\x02cb" +
-		"\x03\x02\x02\x02cd\x03\x02\x02\x02d\x15\x03\x02\x02\x02ef\x07\x0E\x02" +
-		"\x02fg\x07\x13\x02\x02gh\x07\n\x02\x02hi\x05\x06\x04\x02ij\x07\v\x02\x02" +
-		"j\x17\x03\x02\x02\x02kl\x07\x0F\x02\x02lm\x07\x13\x02\x02mn\x07\n\x02" +
-		"\x02no\x05\x06\x04\x02op\x07\v\x02\x02p\x19\x03\x02\x02\x02qv\t\x04\x02" +
-		"\x02rw\x07\x13\x02\x02st\x07\x13\x02\x02tu\x07\t\x02\x02uw\x07\x13\x02" +
+		"\x07\x12\x02\x02]_\x07\x13\x02\x02^`\x05\x0E\b\x02_^\x03\x02\x02\x02_" +
+		"`\x03\x02\x02\x02`\x13\x03\x02\x02\x02ac\x07\x13\x02\x02bd\x05\x0E\b\x02" +
+		"cb\x03\x02\x02\x02cd\x03\x02\x02\x02d\x15\x03\x02\x02\x02ef\x07\r\x02" +
+		"\x02fg\x07\x13\x02\x02gh\x07\t\x02\x02hi\x05\x06\x04\x02ij\x07\n\x02\x02" +
+		"j\x17\x03\x02\x02\x02kl\x07\x0E\x02\x02lm\x07\x13\x02\x02mn\x07\t\x02" +
+		"\x02no\x05\x06\x04\x02op\x07\n\x02\x02p\x19\x03\x02\x02\x02qv\t\x04\x02" +
+		"\x02rw\x07\x13\x02\x02st\x07\x13\x02\x02tu\x07\x12\x02\x02uw\x07\x13\x02" +
 		"\x02vr\x03\x02\x02\x02vs\x03\x02\x02\x02w\x1B\x03\x02\x02\x02\r!%04>H" +
 		"MR_cv";
 	public static __ATN: ATN;
@@ -1075,6 +1074,7 @@ export class Edge_stmtContext extends ParserRuleContext {
 			return this.getToken(FurumaiParser.ID, i);
 		}
 	}
+	public EDGEOP(): TerminalNode { return this.getToken(FurumaiParser.EDGEOP, 0); }
 	public attr_list(): Attr_listContext | undefined {
 		return this.tryGetRuleContext(0, Attr_listContext);
 	}
@@ -1219,6 +1219,7 @@ export class HideContext extends ParserRuleContext {
 			return this.getToken(FurumaiParser.ID, i);
 		}
 	}
+	public EDGEOP(): TerminalNode | undefined { return this.tryGetToken(FurumaiParser.EDGEOP, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}

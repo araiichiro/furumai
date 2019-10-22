@@ -70,7 +70,7 @@ export default class Group extends Vue {
   }
 
   get arrows(): Shape[] {
-    return this.g.children.filter((i) => i.type === 'arrow')
+    return this.g.children.filter((i) => i.type === 'arrow' || i.type === 'edge')
   }
 
   get attrs(): Attrs {

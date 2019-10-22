@@ -49,12 +49,12 @@ Therefore, I developed a tool that can automatically create an action diagram by
 ## Basic Shapes
 
 You can specify `box` / `person` / `cylinder` as the basic shape.
-Arrows can be placed between elements.
+Arrows (`->` or `--`) can be placed between elements.
 
 <ClientOnly>
 <DocSnippet
   filename="Basic Shapes"
-  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIADgIb75xIDmAvAOQBMADAwNwA6S3ZOALgijoA2jAAWZEhEbTYyBgF0uSJAQiiJUmQwBGCAB5KVMQVDI0NYydMY4AngBtqhKMe68BQ9AAIAtAB8PmqE6CohGv5BpkIWGiog2GRIcAC2ZPyIKKigfJmQaPxQAK4QAL5lQA"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIADgIb75xIDmAvAOQBMADAwNwA6S3ZOALgijoA2jAAWZEhEbTYyBgF0uSJAQiiJUmQwBGCAB5KVMQVDI0NYydMY4AngBtqhKMe68BQ9AAIAtH4+aoToKsEa-gB8PqZCFhoqINhkSHAAtmT8iCiooHxZkGj8UACuEAC+5UA"
   viewCode="true"></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>

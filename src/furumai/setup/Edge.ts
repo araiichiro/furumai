@@ -14,7 +14,7 @@ export class Edge implements BuildingBlock {
     headId: string,
     attrs: Attrs = {},
   ) {
-    return new Edge(this.idOf(tailId, headId), tailId, headId, attrs)
+    return new Edge(this.idOf(tailId, headId), tailId, op, headId, attrs)
   }
 
   public static idOf(tailId: string, headId: string): string {
@@ -24,6 +24,7 @@ export class Edge implements BuildingBlock {
   private constructor(
     private id: string,
     private tailId: string,
+    private op: string,
     private headId: string,
     private attrs: Attrs = {},
   ) {
@@ -41,7 +42,7 @@ export class Edge implements BuildingBlock {
     } else {
       const baseAttrs = env.lookupAttributes('edge')
       const deco = baseAttrs.attrs.update(Decorations.of(this.attrs))
-      return new EdgeOverlay(this.id, this.tailId, this.headId, deco)
+      return new EdgeOverlay(this.id, this.tailId, this.op, this.headId, deco)
     }
   }
 }
