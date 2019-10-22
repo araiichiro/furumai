@@ -39,7 +39,7 @@ export default class Box extends Vue {
   }
 
   public get textAttrs() {
-    return this.shape.text.textAttrs
+    return this.shape.text.textAttrs.svgAttrs
   }
 
   get textPosition(): {x: number, y: number} {

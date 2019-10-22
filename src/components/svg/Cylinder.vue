@@ -38,7 +38,7 @@ export default class Cylinder extends Vue {
   }
 
   get textAttrs() {
-    return this.shape.text.textAttrs
+    return this.shape.text.textAttrs.svgAttrs
   }
 
   get textPosition(): {x: number, y: number} {

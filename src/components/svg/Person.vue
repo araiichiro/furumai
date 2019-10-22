@@ -40,7 +40,7 @@ export default class Person extends Vue {
   get textAttrs() {
     return {
       'text-anchor': 'middle',
-      ...this.shape.text.textAttrs,
+      ...this.shape.text.textAttrs.svgAttrs,
     }
   }
 

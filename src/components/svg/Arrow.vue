@@ -85,7 +85,7 @@ L ${x2} ${y2}`
   }
 
   public get textAttrs() {
-    return this.shape.text.textAttrs
+    return this.shape.text.textAttrs.svgAttrs
   }
 
   private defaults = {
