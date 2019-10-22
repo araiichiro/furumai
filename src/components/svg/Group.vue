@@ -1,6 +1,10 @@
 <template>
   <g v-bind="g.svgAttrs.svgAttrs">
     <rect v-bind="attrs"></rect>
+    <TextContent
+      v-bind:content="g.text"
+      v-bind:position="textPosition"
+      v-bind:attrs="textAttrs"></TextContent>
     <Group
       v-for="c in childGroups"
       v-bind:key="c.id"
@@ -82,6 +86,18 @@ export default class Group extends Vue {
       height,
       ...this.g.svgAttrs.svgAttrs,
     }
+  }
+
+  get textPosition(): {x: number, y: number} {
+    const {x, y} = this.g.box
+    return {
+      x: x + 8, // FIXME
+      y: y + 2, // FIXME
+    }
+  }
+
+  get textAttrs() {
+    return this.g.text.textAttrs.svgAttrs
   }
 }
 </script>

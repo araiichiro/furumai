@@ -72,7 +72,7 @@ export class Container implements GridArea<Landscape | Portrait> {
     const children = this.elem.children.map((c) => (c as GridArea<Elem>).vue())
     const overlays = this.overlays.map((lay) => lay.vue(this))
     const text = {
-      label: this.id,
+      label: this.attrs.other.label,
       t: this.attrs.other.t,
       textAttrs: SecureSvgAttrs.of(this.attrs.text),
     }
