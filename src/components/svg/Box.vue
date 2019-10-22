@@ -1,7 +1,7 @@
 <template>
-  <g>
+  <g v-bind="shape.svgAttrs.svgAttrs">
     <rect
-      v-bind="shapeAttrs"
+      v-bind="boxAttrs"
     ></rect>
     <TextContent
       v-bind:content="shape.text"
@@ -28,12 +28,11 @@ export default class Box extends Vue {
   @Prop()
   public shape!: Shape
 
-  public get shapeAttrs() {
+  public get boxAttrs() {
     const {x, y, width, height, margin, padding} = asString(this.shape.box)
     return {
       id: `_rect_${this.shape.id}`,
       x, y, width, height, margin, padding,
-      ...this.shape.svgAttrs.svgAttrs,
     }
   }
 

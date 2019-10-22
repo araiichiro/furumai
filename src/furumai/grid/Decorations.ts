@@ -40,8 +40,6 @@ function divideAttrs(attrs: Attrs): {shape: Attrs, text: Attrs} {
     if (k.startsWith('text.')) {
       const key = k.slice('text.'.length)
       textAttrs[key] = attrs[k]
-    } else if (!(['y', 'dx', 'dy'].indexOf(k) > -1)) {
-      textAttrs[k] = attrs[k]
     }
   })
 

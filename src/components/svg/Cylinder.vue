@@ -1,8 +1,7 @@
 <template>
-  <g>
+  <g v-bind="shape.svgAttrs.svgAttrs">
     <path
       v-bind:d="d"
-      v-bind="shapeAttrs"
     ></path>
     <TextContent
       v-bind:content="shape.text"
@@ -28,10 +27,6 @@ import TextContent from '@/components/svg/TextContent.vue'
 export default class Cylinder extends Vue {
   @Prop()
   public shape!: Shape
-
-  get shapeAttrs() {
-    return this.shape.svgAttrs.svgAttrs
-  }
 
   get textAttrs() {
     return this.shape.text.textAttrs.svgAttrs
