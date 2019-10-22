@@ -84,7 +84,12 @@ export default class FurumaiApp1 extends Vue {
 
   private errors: string = ''
 
-  private defaultConfig = `group[margin='100 20', padding='20 16'];
+  private defaultConfig = `conf[
+  orientation='top to bottom',
+  mode='no diff',
+  align='no center'
+];
+group[margin='100 20', padding='20 16'];
 zone[margin='20 150', padding='20 16'];
 node[margin='24 20', padding='24 16', width=215, height=150,
      fill=none, stroke=black, 'stroke-width'=2];
