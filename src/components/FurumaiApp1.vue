@@ -90,14 +90,14 @@ export default class FurumaiApp1 extends Vue {
   align='no center'
 ];
 
-group[margin='100 20', padding='20 16',
-      stroke=none, fill=none];
-zone[margin='20 150', padding='20 16',
-     stroke=none, fill=none];
-node[margin='24 20', padding='24 16', width=215, height=150,
-     fill=none, stroke=black, 'stroke-width'=2];
-edge[stroke=black, 'stroke-width'=2];
-'font-size'=24;`
+font-size = 24;
+group [margin='100 20', padding='20 16',
+       stroke=none, fill=none];
+zone  [margin='20 150', padding='20 16',
+       stroke=none, fill=none];
+node  [margin='24 20', padding='24 16', width=215, height=150,
+       fill=none, stroke=black, 'stroke-width'=2];
+edge  [stroke=black, 'stroke-width'=2];`
 
   private svgs: shared.Group[] = []
 
