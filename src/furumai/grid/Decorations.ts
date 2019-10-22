@@ -37,11 +37,14 @@ function divideAttrs(attrs: Attrs): {shape: Attrs, text: Attrs} {
   const shapeAttrs = filter(attrs, (k, _) => !k.startsWith('text.'))
   const textAttrs: Attrs = {}
   Object.keys(attrs).forEach((k) => {
+    if (!k.startsWith('text.') && !(['y', 'dx', 'dy'].indexOf(k) > -1)) {
+      textAttrs[k] = attrs[k]
+    }
+  })
+  Object.keys(attrs).forEach((k) => {
     if (k.startsWith('text.')) {
       const key = k.slice('text.'.length)
       textAttrs[key] = attrs[k]
-    } else if (!(['y', 'dx', 'dy'].indexOf(k) > -1)) {
-      textAttrs[k] = attrs[k]
     }
   })
 
