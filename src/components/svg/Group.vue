@@ -1,5 +1,6 @@
 <template>
   <g v-bind="g.svgAttrs.svgAttrs">
+    <rect v-bind="attrs"></rect>
     <Group
       v-for="c in childGroups"
       v-bind:key="c.id"
@@ -35,6 +36,7 @@ import Cylinder from '@/components/svg/Cylinder.vue'
 import Person from '@/components/svg/Person.vue'
 import Box from '@/components/svg/Box.vue'
 import Arrow from '@/components/svg/Arrow.vue'
+import {asString} from '../../furumai/utils'
 
 @Component({
   name: 'Group',
@@ -72,9 +74,12 @@ export default class Group extends Vue {
   }
 
   get attrs(): Attrs {
+    const {x, y, width, height} = asString(this.g.box)
     return {
-      fill: 'none',
-      stroke: 'black',
+      x,
+      y,
+      width,
+      height,
       ...this.g.svgAttrs.svgAttrs,
     }
   }
