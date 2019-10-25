@@ -48,7 +48,7 @@ Therefore, I developed a tool that can automatically create an action diagram by
 
 ## Basic Shapes
 
-You can specify `box` / `person` / `cylinder` as the basic shape.
+You can specify `box` / `person` / `cylinder` / `Pipe` as the basic shape.
 Arrows (`->` or `--`) can be placed between elements.
 
 <ClientOnly>

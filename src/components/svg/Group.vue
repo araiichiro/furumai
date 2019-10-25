@@ -17,6 +17,10 @@
       v-for="c in cylinders"
       v-bind:key="c.id"
       v-bind:shape="c"></Cylinder>
+    <Pipe
+      v-for="c in pipes"
+      v-bind:key="c.id"
+      v-bind:shape="c"></Pipe>
     <Person
       v-for="c in persons"
       v-bind:key="c.id"
@@ -40,13 +44,15 @@ import Cylinder from '@/components/svg/Cylinder.vue'
 import Person from '@/components/svg/Person.vue'
 import Box from '@/components/svg/Box.vue'
 import Arrow from '@/components/svg/Arrow.vue'
-import {asString} from '../../furumai/utils'
+import {asString} from '@/furumai/utils'
+import Pipe from '@/components/svg/Pipe.vue'
 
 @Component({
   name: 'Group',
   components: {
     Person,
     Cylinder,
+    Pipe,
     TextContent,
     GridArea,
     Box,
@@ -67,6 +73,10 @@ export default class Group extends Vue {
 
   get cylinders(): Shape[] {
     return this.g.children.filter((i) => i.type === 'cylinder')
+  }
+
+  get pipes(): Shape[] {
+      return this.g.children.filter((i) => i.type === 'pipe')
   }
 
   get persons(): Shape[] {

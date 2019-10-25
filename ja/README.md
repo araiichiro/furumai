@@ -47,7 +47,7 @@
 
 ## 基本図形
 
-基本図形として `box` / `person` / `cylinder` が指定できます。要素間に矢印 (`->` or `--`) を配置できます。
+基本図形として `box` / `person` / `cylinder` / `Pipe` が指定できます。要素間に矢印 (`->` or `--`) を配置できます。
 
 <ClientOnly>
 <DocSnippet
