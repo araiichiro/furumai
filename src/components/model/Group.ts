@@ -1,4 +1,4 @@
-import {Shape} from 'src/shared/vue/Shape'
+import {Shape} from '@/components/model/Shape'
 
 export interface Group extends Shape {
   children: Array<Shape | Group>

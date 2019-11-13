@@ -27,10 +27,10 @@ import {Edge} from '@/furumai/setup/Edge'
 import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
 import {Compound} from '@/furumai/setup/Compound'
 import {Node} from '@/furumai/setup/Node'
-import {Story} from '@/furumai/setup/Story'
+import {Story} from '@/furumai/Story'
 import {Attrs, Dict} from '@/furumai/utils'
-import {Frame} from '@/furumai/setup/Frame'
-import {Config} from '@/furumai/setup/Config'
+import {Frame} from '@/furumai/Frame'
+import {Config} from '@/furumai/Config'
 import {Attributes} from '@/furumai/grid/Attributes'
 
 export function parse(text: string): Story | SyntaxError {

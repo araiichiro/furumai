@@ -56,9 +56,9 @@
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
 import {parse} from '@/furumai/parser'
-import {Story} from '@/furumai/setup/Story'
-import {Group} from '@/shared/vue/Group'
-import * as shared from '@/shared/vue/Group'
+import {Story} from '@/furumai/Story'
+import {Group} from '@/components/model/Group'
+import * as model from '@/components/model/Group'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
 
 interface AppParams1 {
@@ -103,7 +103,7 @@ node  [margin='24 20', padding='24 16', width=215, height=150,
 edge  [stroke=black, 'stroke-width'=2
        text.fill=black, text.stroke-width=1];`
 
-  private svgs: shared.Group[] = []
+  private svgs: model.Group[] = []
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {
@@ -145,7 +145,7 @@ edge  [stroke=black, 'stroke-width'=2
     }
   }
 
-  private toSvgOrError(text: string): shared.Group[] | Error {
+  private toSvgOrError(text: string): model.Group[] | Error {
     try {
       return vue(text, this.defaultConfig)
     } catch (e) {

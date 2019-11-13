@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {Shape} from '@/shared/vue/Shape'
+import {Shape} from '@/components/model/Shape'
 import GridArea from '@/components/svg/GridArea.vue'
 import TextContent from '@/components/svg/TextContent.vue'
 import {asString} from '@/furumai/utils'

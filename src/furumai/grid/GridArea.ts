@@ -1,8 +1,8 @@
 import {Wrap} from '@/layout/engine/Wrap'
 import {Elem} from '@/layout/engine/Elem'
 import {Overlay} from '@/furumai/grid/Overlay'
-import {Group} from '@/shared/vue/Group'
-import {Shape} from '@/shared/vue/Shape'
+import {Group} from '@/components/model/Group'
+import {Shape} from '@/components/model/Shape'
 import {Attributes} from '@/furumai/grid/Attributes'
 
 export interface GridArea<A extends Elem> extends Wrap<A> {

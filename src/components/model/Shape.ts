@@ -1,6 +1,6 @@
 import {Box} from '@/layout/engine/Box'
-import {TextContent} from 'src/shared/vue/TextContent'
-import {SecureSvgAttrs} from 'src/shared/vue/SecureSvgAttrs'
+import {TextContent} from '@/components/model/TextContent'
+import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
 
 export interface Shape {
   type: string

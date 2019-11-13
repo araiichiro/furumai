@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import * as api from '@/shared/vue/TextContent'
+import * as api from '@/components/model/TextContent'
 import {Attrs, num} from '@/furumai/utils'
 
 @Component

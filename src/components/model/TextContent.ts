@@ -1,4 +1,4 @@
-import {SecureSvgAttrs} from '@/shared/vue/SecureSvgAttrs'
+import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
 
 export interface TextContent {
   label?: string

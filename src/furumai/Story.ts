@@ -1,18 +1,17 @@
-import {Container} from '@/furumai//grid/Container'
-import {Frame} from '@/furumai//setup/Frame'
+import {Container} from '@/furumai/grid/Container'
+import {Frame} from '@/furumai/Frame'
 import {Env} from '@/furumai/setup/Env'
-import {Config} from '@/furumai/setup/Config'
+import {Config} from '@/furumai/Config'
 
 export class Story {
   constructor(public readonly frames: Frame[], private config: Config) {}
 
   public play(boot: Frame[]): IterableIterator<Container> {
-    const {mode, align} = this.config
     const [init, ...updates] = this.frames
     boot.push(init)
     return new ContainerIterableIterator(
       new EnvIterableIterator(boot, updates.values(), this.config),
-      align === 'center',
+      this.config,
     )
   }
 }
@@ -58,7 +57,7 @@ class EnvIterableIterator implements IterableIterator<Env> {
 }
 
 class ContainerIterableIterator implements IterableIterator<Container> {
-  constructor(private it: EnvIterableIterator, private centerAlign: boolean) {}
+  constructor(private it: EnvIterableIterator, private config: Config) {}
 
   public next(): IteratorResult<Container> {
     const next = this.it.next()
@@ -67,10 +66,19 @@ class ContainerIterableIterator implements IterableIterator<Container> {
     } else {
       const env = next.value
       const fit = env.container.map((a) => a.fit({x: 0, y: 0}))
-      const ret = this.centerAlign ? fit.map((a) => a.fit({x: 0, y: 0}, {width: fit.get.box.width})) : fit
-      return {
-        done: next.done,
-        value: ret,
+      if (this.config.align === 'center') {
+        const size = this.config.direction === 'left to right'
+          ? {height: fit.get.box.height}
+          : {width: fit.get.box.width}
+        return {
+          done: next.done,
+          value: fit.map((a) => a.fit({x: 0, y: 0}, size)),
+        }
+      } else {
+        return {
+          done: next.done,
+          value: fit,
+        }
       }
     }
   }

@@ -1,5 +1,5 @@
 import {Container} from '@/furumai/grid/Container'
-import {Shape} from '@/shared/vue/Shape'
+import {Shape} from '@/components/model/Shape'
 import {Decorations} from '@/furumai/grid/Decorations'
 
 export interface Overlay {

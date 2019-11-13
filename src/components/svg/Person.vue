@@ -16,7 +16,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import GridArea from '@/components/svg/GridArea.vue'
-import {Shape} from '@/shared/vue/Shape'
+import {Shape} from '@/components/model/Shape'
 import TextContent from '@/components/svg/TextContent.vue'
 
 @Component({

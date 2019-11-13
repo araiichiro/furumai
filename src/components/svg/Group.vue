@@ -36,9 +36,9 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import GridArea from '@/components/svg/GridArea.vue'
-import * as shared from '@/shared/vue/Group'
+import * as model from '@/components/model/Group'
 import TextContent from '@/components/svg/TextContent.vue'
-import {Shape} from '@/shared/vue/Shape'
+import {Shape} from '@/components/model/Shape'
 import {Attrs} from '@/furumai/utils'
 import Cylinder from '@/components/svg/Cylinder.vue'
 import Person from '@/components/svg/Person.vue'
@@ -61,10 +61,10 @@ import Pipe from '@/components/svg/Pipe.vue'
 })
 export default class Group extends Vue {
   @Prop()
-  public g!: shared.Group
+  public g!: model.Group
 
-  get childGroups(): shared.Group[] {
-    return this.g.children.filter((i) => i.type === 'group').map((i) => i as shared.Group)
+  get childGroups(): model.Group[] {
+    return this.g.children.filter((i) => i.type === 'group').map((i) => i as model.Group)
   }
 
   get boxes(): Shape[] {

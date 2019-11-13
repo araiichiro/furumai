@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-import {Shape} from '@/shared/vue/Shape'
+import {Shape} from '@/components/model/Shape'
 import Group from './Group.vue'
 import {convertSvg} from '@/rough/rougher'
 
