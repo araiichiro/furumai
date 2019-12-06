@@ -1,7 +1,7 @@
 import {Box} from '@/layout/engine/Box'
 import Gap from '@/layout/engine/Gap'
-import {Attrs, num} from '@/furumai/utils'
-import {Decorations} from '@/furumai/grid/Decorations'
+import {Attrs, num} from '@/utils'
+import {Decorations} from '@/grid/Decorations'
 
 export class Attributes {
   public static empty = Attributes.of({})

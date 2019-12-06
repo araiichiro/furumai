@@ -1,11 +1,11 @@
-import {GridArea} from '@/furumai/grid/GridArea'
+import {GridArea} from '@/grid/GridArea'
 import {Cell} from '@/layout/engine/Cell'
 import {Box} from '@/layout/engine/Box'
 import {Shape} from '@/components/model/Shape'
 import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
-import {num} from '@/furumai/utils'
-import {Attributes} from '@/furumai/grid/Attributes'
-import {Decorations} from '@/furumai/grid/Decorations'
+import {num} from '@/utils'
+import {Attributes} from '@/grid/Attributes'
+import {Decorations} from '@/grid/Decorations'
 
 export class GridCell implements GridArea<Cell> {
   public static of(id: string, attrs: Attributes) {

@@ -21,17 +21,17 @@ import {
   ZoneContext,
 } from '@/generated/antlr4ts/FurumaiParser'
 import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
-import {HideBlock} from '@/furumai/setup/HideBlock'
-import {HideEdge} from '@/furumai/setup/HideEdge'
-import {Edge} from '@/furumai/setup/Edge'
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-import {Compound} from '@/furumai/setup/Compound'
-import {Node} from '@/furumai/setup/Node'
-import {Story} from '@/furumai/Story'
-import {Attrs, Dict} from '@/furumai/utils'
-import {Frame} from '@/furumai/Frame'
-import {Config} from '@/furumai/Config'
-import {Attributes} from '@/furumai/grid/Attributes'
+import {HideBlock} from '@/setup/HideBlock'
+import {HideEdge} from '@/setup/HideEdge'
+import {Edge} from '@/setup/Edge'
+import {BuildingBlock} from '@/setup/BuildingBlock'
+import {Compound} from '@/setup/Compound'
+import {Node} from '@/setup/Node'
+import {Story} from '@/Story'
+import {Attrs, Dict} from '@/utils'
+import {Frame} from '@/Frame'
+import {Config} from '@/Config'
+import {Attributes} from '@/grid/Attributes'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)

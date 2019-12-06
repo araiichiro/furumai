@@ -1,4 +1,4 @@
-import {Attrs} from '@/furumai/utils'
+import {Attrs} from '@/utils'
 
 export class Decorations {
   public static empty = Decorations.of({})

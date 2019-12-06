@@ -39,12 +39,11 @@ import GridArea from '@/components/svg/GridArea.vue'
 import * as model from '@/components/model/Group'
 import TextContent from '@/components/svg/TextContent.vue'
 import {Shape} from '@/components/model/Shape'
-import {Attrs} from '@/furumai/utils'
+import {asString, Attrs} from '@/utils'
 import Cylinder from '@/components/svg/Cylinder.vue'
 import Person from '@/components/svg/Person.vue'
 import Box from '@/components/svg/Box.vue'
 import Arrow from '@/components/svg/Arrow.vue'
-import {asString} from '@/furumai/utils'
 import Pipe from '@/components/svg/Pipe.vue'
 
 @Component({

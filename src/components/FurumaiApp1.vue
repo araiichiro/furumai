@@ -55,10 +55,10 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
-import {parse} from '@/furumai/parser'
-import {Story} from '@/furumai/Story'
-import {Group} from '@/components/model/Group'
+import {parse} from '@/parser'
+import {Story} from '@/Story'
 import * as model from '@/components/model/Group'
+import {Group} from '@/components/model/Group'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
 
 interface AppParams1 {

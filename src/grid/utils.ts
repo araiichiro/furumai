@@ -1,8 +1,8 @@
-import {Overlay} from '@/furumai/grid/Overlay'
-import {GridArea} from '@/furumai/grid/GridArea'
+import {Overlay} from '@/grid/Overlay'
+import {GridArea} from '@/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
-import {Attributes} from '@/furumai/grid/Attributes'
-import {Decorations} from '@/furumai/grid/Decorations'
+import {Attributes} from '@/grid/Attributes'
+import {Decorations} from '@/grid/Decorations'
 
 export function visibleArea(block: GridArea<Elem>): GridArea<Elem> {
   return block.updateAttributes(Attributes.of({visibility: 'visible'}))

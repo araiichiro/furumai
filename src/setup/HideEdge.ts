@@ -1,7 +1,7 @@
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-import {Edge} from '@/furumai/setup/Edge'
-import {Env} from '@/furumai/setup/Env'
-import {hideOverlay} from '@/furumai/grid/utils'
+import {BuildingBlock} from '@/setup/BuildingBlock'
+import {Edge} from '@/setup/Edge'
+import {Env} from '@/setup/Env'
+import {hideOverlay} from '@/grid/utils'
 
 export class HideEdge implements BuildingBlock {
   constructor(private tailId: string, private headId: string) {

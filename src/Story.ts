@@ -1,7 +1,7 @@
-import {Container} from '@/furumai/grid/Container'
-import {Frame} from '@/furumai/Frame'
-import {Env} from '@/furumai/setup/Env'
-import {Config} from '@/furumai/Config'
+import {Container} from '@/grid/Container'
+import {Frame} from '@/Frame'
+import {Env} from '@/setup/Env'
+import {Config} from '@/Config'
 
 export class Story {
   constructor(public readonly frames: Frame[], private config: Config) {}

@@ -1,6 +1,6 @@
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-import {Env} from '@/furumai/setup/Env'
-import {hideArea} from '@/furumai/grid/utils'
+import {BuildingBlock} from '@/setup/BuildingBlock'
+import {Env} from '@/setup/Env'
+import {hideArea} from '@/grid/utils'
 
 export class HideBlock implements BuildingBlock {
   constructor(private id: string) {

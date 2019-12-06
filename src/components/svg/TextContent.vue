@@ -16,7 +16,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import * as api from '@/components/model/TextContent'
-import {Attrs, num} from '@/furumai/utils'
+import {Attrs, num} from '@/utils'
 
 @Component
 export default class TextContent extends Vue {

@@ -1,13 +1,13 @@
 import {Landscape} from '@/layout/engine/Landscape'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Elem} from '@/layout/engine/Elem'
-import {GridArea} from '@/furumai/grid/GridArea'
-import {Overlay} from '@/furumai/grid/Overlay'
-import {GridCell} from '@/furumai/grid/GridCell'
+import {GridArea} from '@/grid/GridArea'
+import {Overlay} from '@/grid/Overlay'
+import {GridCell} from '@/grid/GridCell'
 import {Group} from '@/components/model/Group'
 import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
-import {Attributes} from '@/furumai/grid/Attributes'
-import {Decorations} from '@/furumai/grid/Decorations'
+import {Attributes} from '@/grid/Attributes'
+import {Decorations} from '@/grid/Decorations'
 
 export class Container implements GridArea<Landscape | Portrait> {
   constructor(

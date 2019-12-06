@@ -1,13 +1,13 @@
-import {Overlay} from '@/furumai/grid/Overlay'
-import {Container} from '@/furumai/grid/Container'
+import {Overlay} from '@/grid/Overlay'
+import {Container} from '@/grid/Container'
 import {Box} from '@/layout/engine/Box'
 import {Arrow} from '@/layout/engine/Arrow'
-import {GridArea} from '@/furumai/grid/GridArea'
+import {GridArea} from '@/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {Shape} from '@/components/model/Shape'
 import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
-import {num} from '@/furumai/utils'
-import {Decorations} from '@/furumai/grid/Decorations'
+import {num} from '@/utils'
+import {Decorations} from '@/grid/Decorations'
 
 export class EdgeOverlay implements Overlay {
   constructor(

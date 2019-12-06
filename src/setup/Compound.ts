@@ -1,11 +1,11 @@
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-import {Env} from '@/furumai/setup/Env'
-import {Container} from '@/furumai/grid/Container'
+import {BuildingBlock} from '@/setup/BuildingBlock'
+import {Env} from '@/setup/Env'
+import {Container} from '@/grid/Container'
 import {Landscape} from '@/layout/engine/Landscape'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
-import {Attributes} from '@/furumai/grid/Attributes'
-import {Dict} from '@/furumai/utils'
+import {Attributes} from '@/grid/Attributes'
+import {Dict} from '@/utils'
 
 export class Compound implements BuildingBlock {
   constructor(

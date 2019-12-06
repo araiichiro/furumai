@@ -1,8 +1,8 @@
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-import {Env} from '@/furumai/setup/Env'
-import {GridCell} from '@/furumai/grid/GridCell'
-import {visibleArea} from '@/furumai/grid/utils'
-import {Attributes} from '@/furumai/grid/Attributes'
+import {BuildingBlock} from '@/setup/BuildingBlock'
+import {Env} from '@/setup/Env'
+import {GridCell} from '@/grid/GridCell'
+import {visibleArea} from '@/grid/utils'
+import {Attributes} from '@/grid/Attributes'
 
 export class Node implements BuildingBlock {
   constructor(

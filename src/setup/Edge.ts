@@ -1,11 +1,11 @@
-import {BuildingBlock} from '@/furumai/setup/BuildingBlock'
-import {Env} from '@/furumai/setup/Env'
-import {EdgeOverlay} from '@/furumai/grid/EdgeOverlay'
-import {GridArea} from '@/furumai/grid/GridArea'
+import {BuildingBlock} from '@/setup/BuildingBlock'
+import {Env} from '@/setup/Env'
+import {EdgeOverlay} from '@/grid/EdgeOverlay'
+import {GridArea} from '@/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
-import {visibleArea} from '@/furumai/grid/utils'
-import {Attrs} from '@/furumai/utils'
-import {Decorations} from '@/furumai/grid/Decorations'
+import {visibleArea} from '@/grid/utils'
+import {Attrs} from '@/utils'
+import {Decorations} from '@/grid/Decorations'
 
 export class Edge implements BuildingBlock {
   public static of(

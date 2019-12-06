@@ -1,9 +1,9 @@
 import {Wrap} from '@/layout/engine/Wrap'
 import {Elem} from '@/layout/engine/Elem'
-import {Overlay} from '@/furumai/grid/Overlay'
+import {Overlay} from '@/grid/Overlay'
 import {Group} from '@/components/model/Group'
 import {Shape} from '@/components/model/Shape'
-import {Attributes} from '@/furumai/grid/Attributes'
+import {Attributes} from '@/grid/Attributes'
 
 export interface GridArea<A extends Elem> extends Wrap<A> {
   id: string
