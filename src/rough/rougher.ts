@@ -50,13 +50,6 @@ function setAttributes(elem: Element, attributes: { [key: string]: string }): El
 
 function convert(elem: Element): Element {
   const tag = elem.tagName
-  const attrs = dict(elem)
-  const options: { [key: string]: any } = {
-    hachureGap: 2.0,
-    fillWeight: 0.6,
-    roughness: 2.0,
-    ...attrs,
-  }
   switch (tag) {
     case 'g':
       const g = setAttributes(
@@ -96,13 +89,24 @@ function convert(elem: Element): Element {
       tspan.textContent = elem.textContent
       return tspan
     default:
+      if (elem.classList.contains('no_rough')) {
+        return copy(elem)
+      }
       const wrap = setAttributes(
         d.createElementNS('http://www.w3.org/2000/svg', 'g'),
         dict(elem),
       )
       wrap.appendChild(convertElem(elem))
       return wrap
+
   }
+}
+
+function copy(elem: Element): Element {
+  return setAttributes(
+    d.createElementNS('http://www.w3.org/2000/svg', elem.tagName),
+    dict(elem),
+  )
 }
 
 function convertElem(elem: Element): Element {

@@ -1,5 +1,8 @@
 <template>
-  <rect v-bind="attrs"></rect>
+  <rect
+    v-bind="attrs"
+    class="no_rough"
+  ></rect>
 </template>
 
 <script lang="ts">
