@@ -51,10 +51,12 @@ export default class SvgComponent extends Vue {
   }
 
   private refresh() {
-    const c = this.$refs.svgContainer as HTMLElement
-    const svg = c.firstElementChild as SVGElement
-    const converted = convertSvg(svg)
-    this.roughHtml = converted.innerHTML
+    if (this.rough) {
+      const c = this.$refs.svgContainer as HTMLElement
+      const svg = c.firstElementChild as SVGElement
+      const converted = convertSvg(svg)
+      this.roughHtml = converted.innerHTML
+    }
   }
 }
 </script>
