@@ -106,4 +106,3 @@ function isValid(attrName: string, attrValue: string) {
 
   return checkName(attrName) && checkValue(attrValue)
 }
-

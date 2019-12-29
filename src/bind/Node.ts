@@ -1,8 +1,8 @@
 import {BuildingBlock} from '@/bind/BuildingBlock'
 import {Env} from '@/bind/Env'
 import {GridCell} from '@/grid/GridCell'
-import {visibleArea} from '@/grid/utils'
-import {Attributes} from '@/grid/Attributes'
+import {visibleArea} from '@/grid/visibility'
+import {Attributes} from '@/utils/types'
 
 export class Node implements BuildingBlock {
   constructor(

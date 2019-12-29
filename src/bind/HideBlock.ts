@@ -1,6 +1,6 @@
 import {BuildingBlock} from '@/bind/BuildingBlock'
 import {Env} from '@/bind/Env'
-import {hideArea} from '@/grid/utils'
+import {hideArea} from '@/grid/visibility'
 
 export class HideBlock implements BuildingBlock {
   constructor(private id: string) {

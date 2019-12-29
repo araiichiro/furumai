@@ -5,9 +5,8 @@ import {Arrow} from '@/layout/engine/Arrow'
 import {GridArea} from '@/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {Shape} from '@/components/model/Shape'
-import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
-import {num} from '@/utils'
-import {Decorations} from '@/grid/Decorations'
+import {Decorations, num} from '@/utils/types'
+import {SecureSvgAttrs} from '@/utils/security'
 
 export class EdgeOverlay implements Overlay {
   constructor(

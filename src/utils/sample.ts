@@ -1,4 +1,4 @@
-import {DataEncoderDecoderV1} from '@/io/DataEncoderDecoderV1'
+import {DataEncoderDecoderV1} from '@/utils/types'
 
 const sampleCode = `group clients {
   c1;

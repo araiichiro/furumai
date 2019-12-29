@@ -55,8 +55,8 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
-import {parse} from '@/parser'
-import {Story} from '@/Story'
+import {parse} from '@/utils/parser'
+import {Story} from '@/utils/Story'
 import * as model from '@/components/model/Group'
 import {Group} from '@/components/model/Group'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
@@ -177,8 +177,8 @@ function vue(furumaiCode: string, defaults: string): Group[] | SyntaxError {
   if (story instanceof Story) {
     const defaultConfig = parse(defaults) as Story
     const ret: Group[] = []
-    for (const c of story.play(defaultConfig.frames)) {
-      ret.push(c.vue())
+    for (const moment of story.moments(defaultConfig.frames)) {
+      ret.push(moment.vue())
     }
     return ret
   } else {

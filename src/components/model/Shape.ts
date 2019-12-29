@@ -1,6 +1,6 @@
 import {Box} from '@/layout/engine/Box'
 import {TextContent} from '@/components/model/TextContent'
-import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
+import {SecureSvgAttrs} from '@/utils/security'
 
 export interface Shape {
   type: string

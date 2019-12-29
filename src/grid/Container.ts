@@ -5,9 +5,8 @@ import {GridArea} from '@/grid/GridArea'
 import {Overlay} from '@/grid/Overlay'
 import {GridCell} from '@/grid/GridCell'
 import {Group} from '@/components/model/Group'
-import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
-import {Attributes} from '@/grid/Attributes'
-import {Decorations} from '@/grid/Decorations'
+import {Attributes, Decorations} from '@/utils/types'
+import {SecureSvgAttrs} from '@/utils/security'
 
 export class Container implements GridArea<Landscape | Portrait> {
   constructor(

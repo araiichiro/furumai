@@ -1,7 +1,7 @@
 import {BuildingBlock} from '@/bind/BuildingBlock'
 import {Edge} from '@/bind/Edge'
 import {Env} from '@/bind/Env'
-import {hideOverlay} from '@/grid/utils'
+import {hideOverlay} from '@/grid/visibility'
 
 export class HideEdge implements BuildingBlock {
   constructor(private tailId: string, private headId: string) {

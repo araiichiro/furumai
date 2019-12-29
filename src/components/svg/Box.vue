@@ -16,7 +16,7 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Shape} from '@/components/model/Shape'
 import GridArea from '@/components/svg/GridArea.vue'
 import TextContent from '@/components/svg/TextContent.vue'
-import {asString} from '@/utils'
+import {asString} from '@/utils/types'
 
 @Component({
   components: {

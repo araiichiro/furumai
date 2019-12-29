@@ -4,10 +4,8 @@ import {Elem} from '@/layout/engine/Elem'
 import {Overlay} from '@/grid/Overlay'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
-import {Attributes} from '@/grid/Attributes'
-import {Dict} from '@/utils'
-import {Decorations} from '@/grid/Decorations'
 import {Landscape} from '@/layout/engine/Landscape'
+import {Attributes, Decorations, Dict} from '@/utils/types'
 
 export class Env {
   public static init(container: 'portrait' | 'landscape'): Env {

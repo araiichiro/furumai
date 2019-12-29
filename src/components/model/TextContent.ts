@@ -1,4 +1,4 @@
-import {SecureSvgAttrs} from '@/components/model/SecureSvgAttrs'
+import {SecureSvgAttrs} from '@/utils/security'
 
 export interface TextContent {
   label?: string

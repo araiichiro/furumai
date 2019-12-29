@@ -1,14 +1,13 @@
+import {Config} from '@/utils/Config'
 import {Container} from '@/grid/Container'
 import {Env} from '@/bind/Env'
-import {Config} from '@/Config'
 import {BuildingBlock} from '@/bind/BuildingBlock'
-import {Attributes} from '@/grid/Attributes'
-import {Dict} from '@/utils'
+import {Attributes, Dict} from '@/utils/types'
 
 export class Story {
   constructor(public readonly frames: Frame[], private config: Config) {}
 
-  public play(boot: Frame[]): IterableIterator<Container> {
+  public moments(boot: Frame[]): IterableIterator<Container> {
     const [init, ...updates] = this.frames
     boot.push(init)
     return new ContainerIterableIterator(

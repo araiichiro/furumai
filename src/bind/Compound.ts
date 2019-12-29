@@ -4,8 +4,7 @@ import {Container} from '@/grid/Container'
 import {Landscape} from '@/layout/engine/Landscape'
 import {Portrait} from '@/layout/engine/Portrait'
 import {Box} from '@/layout/engine/Box'
-import {Attributes} from '@/grid/Attributes'
-import {Dict} from '@/utils'
+import {Attributes, Dict} from '@/utils/types'
 
 export class Compound implements BuildingBlock {
   constructor(

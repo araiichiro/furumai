@@ -3,9 +3,8 @@ import {Env} from '@/bind/Env'
 import {EdgeOverlay} from '@/grid/EdgeOverlay'
 import {GridArea} from '@/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
-import {visibleArea} from '@/grid/utils'
-import {Attrs} from '@/utils'
-import {Decorations} from '@/grid/Decorations'
+import {visibleArea} from '@/grid/visibility'
+import {Attrs, Decorations} from '@/utils/types'
 
 export class Edge implements BuildingBlock {
   public static of(

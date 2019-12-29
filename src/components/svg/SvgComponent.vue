@@ -24,7 +24,7 @@
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Shape} from '@/components/model/Shape'
 import Group from './Group.vue'
-import {convertSvg} from '@/rough/rougher'
+import {convertSvg} from '@/utils/rougher'
 
 @Component({
   components: {

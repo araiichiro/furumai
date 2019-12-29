@@ -3,7 +3,12 @@ import {ErrorNode} from 'antlr4ts/tree/ErrorNode'
 import {TerminalNode} from 'antlr4ts/tree/TerminalNode'
 import {ParseTree} from 'antlr4ts/tree'
 import {ANTLRErrorListener, CharStreams, CommonTokenStream, RecognitionException, Recognizer} from 'antlr4ts'
-import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
+import {BuildingBlock} from '@/bind/BuildingBlock'
+import {Compound} from '@/bind/Compound'
+import {Edge} from '@/bind/Edge'
+import {HideBlock} from '@/bind/HideBlock'
+import {HideEdge} from '@/bind/HideEdge'
+import {Node} from '@/bind/Node'
 import {
   AssignmentContext,
   Attr_listContext,
@@ -20,17 +25,11 @@ import {
   StoryContext,
   ZoneContext,
 } from '@/generated/antlr4ts/FurumaiParser'
+import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
 import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
-import {HideBlock} from '@/bind/HideBlock'
-import {HideEdge} from '@/bind/HideEdge'
-import {Edge} from '@/bind/Edge'
-import {BuildingBlock} from '@/bind/BuildingBlock'
-import {Compound} from '@/bind/Compound'
-import {Node} from '@/bind/Node'
-import {Frame, Story} from '@/Story'
-import {Attrs, Dict} from '@/utils'
-import {Config} from '@/Config'
-import {Attributes} from '@/grid/Attributes'
+import {Config} from '@/utils/Config'
+import {Frame, Story} from '@/utils/Story'
+import {Attributes, Attrs, Dict} from '@/utils/types'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)
