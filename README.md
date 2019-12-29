@@ -59,6 +59,18 @@ Arrows (`->` or `--`) can be placed between elements.
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
+## Icon Shapes
+
+You can specify `icon:` with Font Awesome icon as below.
+
+<ClientOnly>
+<DocSnippet
+  filename="Icon Shapes"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIA5lAgK4AOABCTcADpI00CGA2jABZtUQBeAORw8SVBRjQhAXQDczVgCMuvfsNHJUUCCQoAbNlAD0k6fMU0cqvoJFjUSqGyT4YxknAAu3CktkKSAC+zCDY5BQk3GgAZmz6Utj4cDBUhgCeAGJwsF4AymAksfFSQUA"
+  viewCode="true"></DocSnippet>
+</ClientOnly>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
+
 ## Behavior motion diagram (like a flipbook comic)
 
 Separate each frame of the motion diagram with `---`.

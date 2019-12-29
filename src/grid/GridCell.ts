@@ -2,7 +2,7 @@ import {GridArea} from '@/grid/GridArea'
 import {Cell} from '@/layout/engine/Cell'
 import {Box} from '@/layout/engine/Box'
 import {Shape} from '@/components/model/Shape'
-import {SecureSvgAttrs} from '@/utils/security'
+import {validatedShape, SecureSvgAttrs} from '@/utils/security'
 import {Attributes, Decorations, num} from '@/utils/types'
 
 export class GridCell implements GridArea<Cell> {
@@ -39,14 +39,13 @@ export class GridCell implements GridArea<Cell> {
 
   public vue(): Shape {
     const {shape, label, t, dx, dy} = this.attrs.other
-
     const text = {
       label: label === '' ? '' : (label || this.id),
       t,
       textAttrs: SecureSvgAttrs.of(this.attrs.text),
     }
     return {
-      type: shape || 'box',
+      type: validatedShape(shape),
       id: this.id,
       box: this.cell.box.move(num(dx) || 0, num(dy) || 0),
       text,

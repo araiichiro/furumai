@@ -25,6 +25,10 @@
       v-for="c in persons"
       v-bind:key="c.id"
       v-bind:shape="c"></Person>
+    <VIcon
+      v-for="c in vIcons"
+      v-bind:key="c.id"
+      v-bind:shape="c"></VIcon>
     <Arrow
       v-for="c in arrows"
       v-bind:key="c.id"
@@ -44,11 +48,13 @@ import Person from '@/components/svg/Person.vue'
 import Box from '@/components/svg/Box.vue'
 import Arrow from '@/components/svg/Arrow.vue'
 import Pipe from '@/components/svg/Pipe.vue'
+import VIcon from '@/components/svg/VIcon.vue'
 import {Attrs, asString} from '@/utils/types'
 
 @Component({
   name: 'Group',
   components: {
+    VIcon,
     Person,
     Cylinder,
     Pipe,
@@ -80,6 +86,10 @@ export default class Group extends Vue {
 
   get persons(): Shape[] {
     return this.g.children.filter((i) => i.type === 'person')
+  }
+
+  get vIcons(): Shape[] {
+    return this.g.children.filter((i) => i.type.startsWith('icon'))
   }
 
   get arrows(): Shape[] {

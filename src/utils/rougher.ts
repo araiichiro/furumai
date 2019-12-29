@@ -1,4 +1,5 @@
 import {RoughSVG} from 'roughjs/bin/svg'
+import {Elem} from '@/layout/engine/Elem'
 
 const d = document
 let rc: RoughSVG = new RoughSVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
@@ -17,7 +18,7 @@ export function convertSvg(root: SVGElement): SVGElement {
   for (let i = 0; i < cs.length; i++) {
     const c = cs.item(i)
     if (c) {
-      svg.append(convert(c))
+      svg.append(convert(c, convertIfPossible))
     } else {
       throw new Error('null')
     }
@@ -48,7 +49,7 @@ function setAttributes(elem: Element, attributes: { [key: string]: string }): El
   return elem
 }
 
-function convert(elem: Element): Element {
+function convert(elem: Element, func: (elem: Element) => Element): Element {
   const tag = elem.tagName
   switch (tag) {
     case 'g':
@@ -60,7 +61,7 @@ function convert(elem: Element): Element {
       for (let i = 0; i < gcs.length; i++) {
         const c = gcs.item(i)
         if (c) {
-          g.append(convert(c))
+          g.append(convert(c, func))
         } else {
           throw new Error('null')
         }
@@ -75,7 +76,7 @@ function convert(elem: Element): Element {
       for (let i = 0; i < tcs.length; i++) {
         const ts = tcs.item(i)
         if (ts) {
-          t.append(convert(ts))
+          t.append(convert(ts, func))
         } else {
           throw new Error('null')
         }
@@ -88,18 +89,33 @@ function convert(elem: Element): Element {
       )
       tspan.textContent = elem.textContent
       return tspan
-    default:
-      if (elem.classList.contains('no_rough')) {
-        return copy(elem)
+    case 'svg':
+      const svg = copy(elem)
+      const cs = elem.children
+      for (let i = 0; i < cs.length; i++) {
+        const c = cs.item(i)
+        if (c) {
+          svg.append(convert(c, copy))
+        } else {
+          throw new Error('null')
+        }
       }
-      const wrap = setAttributes(
-        d.createElementNS('http://www.w3.org/2000/svg', 'g'),
-        dict(elem),
-      )
-      wrap.appendChild(convertElem(elem))
-      return wrap
-
+      return svg
+    default:
+      return func(elem)
   }
+}
+
+function convertIfPossible(elem: Element): Element {
+  if (elem.classList.contains('no_rough')) {
+    return copy(elem)
+  }
+  const wrap = setAttributes(
+    d.createElementNS('http://www.w3.org/2000/svg', 'g'),
+    dict(elem),
+  )
+  wrap.appendChild(convertElem(elem))
+  return wrap
 }
 
 function copy(elem: Element): Element {

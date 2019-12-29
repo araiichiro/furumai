@@ -57,6 +57,19 @@
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
 
+## アイコン図形
+
+`shape` に `icon:` から始まるアイコン名を指定すると、Font Awesomeアイコンを使用できます。
+
+<ClientOnly>
+<DocSnippet
+  filename="Icon Shapes"
+  url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIA5lAgK4AOABCTcADpI00CGA2jABZtUQBeAORw8SVBRjQhAXQDczVgCMuvfsNHJUUCCQoAbNlAD0k6fMU0cqvoJFjUSqGyT4YxknAAu3CktkKSAC+zCDY5BQk3GgAZmz6Utj4cDBUhgCeAGJwsF4AymAksfFSQUA"
+  viewCode="true"></DocSnippet>
+</ClientOnly>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
+
+
 ## 動作図（パラパラ漫画）を出力
 
 `---` で動作図の各フレームを区切ります。

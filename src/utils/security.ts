@@ -15,6 +15,28 @@ export class SecureSvgAttrs {
   ) {}
 }
 
+export function parseIconShape(shape: string): string[] {
+  return shape.split(':')
+}
+
+export function validatedShape(shape: string): string {
+  const type = shape || 'box'
+  if (type.startsWith('icon:')) {
+    const sp = parseIconShape(type)
+    if (sp.length === 2 && sp[0] === 'icon' && /^[0-9a-zA-Z\-\/]*$/.test(sp[1])) {
+      return type
+    } else {
+      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${type}`)
+    }
+  } else {
+    if (type === 'box' || type === 'person' || type === 'cylinder' || type === 'pipe') {
+      return type
+    } else {
+      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${type}`)
+    }
+  }
+}
+
 function isColor(text: string) {
   const color3 = /^#[0-9a-fA-F]{3}$/
   const color6 = /^#[0-9a-fA-F]{6}$/
