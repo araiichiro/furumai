@@ -1,5 +1,5 @@
-import {BuildingBlock} from '@/setup/BuildingBlock'
-import {Env} from '@/setup/Env'
+import {BuildingBlock} from '@/bind/BuildingBlock'
+import {Env} from '@/bind/Env'
 import {hideArea} from '@/grid/utils'
 
 export class HideBlock implements BuildingBlock {

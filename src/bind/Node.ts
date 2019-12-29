@@ -1,5 +1,5 @@
-import {BuildingBlock} from '@/setup/BuildingBlock'
-import {Env} from '@/setup/Env'
+import {BuildingBlock} from '@/bind/BuildingBlock'
+import {Env} from '@/bind/Env'
 import {GridCell} from '@/grid/GridCell'
 import {visibleArea} from '@/grid/utils'
 import {Attributes} from '@/grid/Attributes'

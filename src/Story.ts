@@ -1,7 +1,7 @@
 import {Container} from '@/grid/Container'
-import {Env} from '@/setup/Env'
+import {Env} from '@/bind/Env'
 import {Config} from '@/Config'
-import {BuildingBlock} from '@/setup/BuildingBlock'
+import {BuildingBlock} from '@/bind/BuildingBlock'
 import {Attributes} from '@/grid/Attributes'
 import {Dict} from '@/utils'
 

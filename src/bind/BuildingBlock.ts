@@ -1,4 +1,4 @@
-import {Env} from '@/setup/Env'
+import {Env} from '@/bind/Env'
 import {GridArea} from '@/grid/GridArea'
 import {Overlay} from '@/grid/Overlay'
 import {Elem} from '@/layout/engine/Elem'

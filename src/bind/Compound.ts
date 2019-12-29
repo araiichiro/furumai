@@ -1,5 +1,5 @@
-import {BuildingBlock} from '@/setup/BuildingBlock'
-import {Env} from '@/setup/Env'
+import {BuildingBlock} from '@/bind/BuildingBlock'
+import {Env} from '@/bind/Env'
 import {Container} from '@/grid/Container'
 import {Landscape} from '@/layout/engine/Landscape'
 import {Portrait} from '@/layout/engine/Portrait'

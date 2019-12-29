@@ -1,6 +1,6 @@
-import {BuildingBlock} from '@/setup/BuildingBlock'
-import {Edge} from '@/setup/Edge'
-import {Env} from '@/setup/Env'
+import {BuildingBlock} from '@/bind/BuildingBlock'
+import {Edge} from '@/bind/Edge'
+import {Env} from '@/bind/Env'
 import {hideOverlay} from '@/grid/utils'
 
 export class HideEdge implements BuildingBlock {
