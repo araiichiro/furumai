@@ -4,6 +4,7 @@
     <TextContent
       v-bind:content="g.text"
       v-bind:position="textPosition"
+      v-bind:dy="labelDy"
       v-bind:attrs="textAttrs"></TextContent>
     <Group
       v-for="c in childGroups"
@@ -109,10 +110,13 @@ export default class Group extends Vue {
 
   get textPosition(): {x: number, y: number} {
     const {x, y} = this.g.box
-    return {
-      x: x + 8, // FIXME
-      y: y + 2, // FIXME
-    }
+    return {x, y}
+  }
+
+  get labelDy(): number {
+    const label = this.g.text.label || ''
+    const lc = label.split('\\n').length
+    return -1 * lc
   }
 
   get textAttrs() {

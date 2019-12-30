@@ -26,6 +26,9 @@ export default class TextContent extends Vue {
   @Prop({default: false})
   public centering!: boolean
 
+  @Prop({default: 0.5})
+  public dy!: number
+
   @Prop({default: {x: 0, y: 0}})
   public position!: {x: number, y: number}
 
@@ -50,9 +53,12 @@ export default class TextContent extends Vue {
         })
         return [first, ...rest]
       } else {
-        return txt.split('\\n').map((s) => {
+        const [head, ...tail] = txt.split('\\n')
+        const first = {text: head, dy: `${this.dy + 0.35}em`}
+        const rest = tail.map((s) => {
           return {text: s, dy: '1em'}
         })
+        return [first, ...rest]
       }
     } else {
       return []

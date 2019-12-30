@@ -8,6 +8,7 @@
     <TextContent
       v-bind:position="labelPosition"
       v-bind:content="textContentLabel"
+      v-bind:dy="labelDy"
       v-bind:attrs="labelAttrs"></TextContent>
     <TextContent
       v-bind:position="textPosition"
@@ -59,11 +60,16 @@ export default class VIcon extends Vue {
 
   get labelPosition(): {x: number, y: number} {
     const {x, y} = this.shape.box
-    const lc = 1 // TODO count lines
     return {
       x,
-      y: y - 32 * lc,
+      y,
     }
+  }
+
+  get labelDy(): number {
+    const label = this.shape.text.label || ''
+    const lc = label.split('\\n').length
+    return -1 * lc
   }
 
   get textContentText() {
