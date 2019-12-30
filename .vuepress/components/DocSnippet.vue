@@ -31,7 +31,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import FurumaiApp1 from '@/components/FurumaiApp1.vue'
-import {DataEncoderDecoderV1} from '@/io/DataEncoderDecoderV1'
+import {DataEncoderDecoderV1} from '@/utils/types'
 
 @Component({
   components: {FurumaiApp1},
