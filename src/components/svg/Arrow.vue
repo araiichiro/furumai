@@ -7,6 +7,7 @@
     <TextContent
       v-bind:content="shape.text"
       v-bind:position="textPosition"
+      v-bind:centering="true"
       v-bind:attrs="textAttrs"
     ></TextContent>
     <GridArea v-bind:box="shape.box"></GridArea>
@@ -40,13 +41,12 @@ export default class Arrow extends Vue {
     v = v.dy === 0 ? v.rotate(90 * Math.sign(v.dx)) : v.dy > 0 ? v.rotate(-90) : v.rotate(90)
     v = v.multiple(24)
 
-    const dy = 15
     const cos = vec.dx / vec.length
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
     const box = this.shape.box
     return {
       x: box.cx + v.dx - u.dx,
-      y: box.cy + v.dy - dy - u.dy,
+      y: box.cy + v.dy - u.dy,
     }
   }
 

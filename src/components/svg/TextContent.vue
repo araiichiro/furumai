@@ -6,10 +6,10 @@
   >
     <tspan
       v-for="t in texts"
-      dy="1em"
+      v-bind:dy="t.dy"
       v-bind:x="position.x + dxy.x"
       v-bind="attrs"
-    >{{ t }}</tspan>
+    >{{ t.text }}</tspan>
   </text>
 </template>
 
@@ -23,6 +23,9 @@ export default class TextContent extends Vue {
   @Prop()
   public content!: api.TextContent
 
+  @Prop({default: false})
+  public centering!: boolean
+
   @Prop({default: {x: 0, y: 0}})
   public position!: {x: number, y: number}
 
@@ -34,12 +37,23 @@ export default class TextContent extends Vue {
     return {x: num(dx) || 0, y: num(dy) || 0}
   }
 
-  get texts(): string[] {
+  get texts(): Array<{text: string, dy: string}> {
     const label = this.content.label
     const content = this.content.t
     const txt = label ? (content ? label + '\\n' + content : label) : content || ''
     if (txt) {
-      return txt.split('\\n')
+      if (this.centering) {
+        const [head, ...tail] = txt.split('\\n')
+        const first = {text: head, dy: `${0.35 - tail.length * 0.5}em`}
+        const rest = tail.map((s) => {
+          return {text: s, dy: '1em'}
+        })
+        return [first, ...rest]
+      } else {
+        return txt.split('\\n').map((s) => {
+          return {text: s, dy: '1em'}
+        })
+      }
     } else {
       return []
     }

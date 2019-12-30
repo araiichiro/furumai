@@ -41,7 +41,7 @@ export class GridCell implements GridArea<Cell> {
     const {shape, label, t, dx, dy} = this.attrs.other
 
     const text = {
-      label: label || this.id,
+      label: label === '' ? '' : (label || this.id),
       t,
       textAttrs: SecureSvgAttrs.of(this.attrs.text),
     }
