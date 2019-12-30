@@ -1,4 +1,12 @@
 {
+  "@fortawesome/fontawesome-free@5.12.0": {
+    "licenses": "(CC-BY-4.0 AND OFL-1.1 AND MIT)",
+    "repository": "https://github.com/FortAwesome/Font-Awesome",
+    "publisher": "Dave Gandy",
+    "email": "dave@fontawesome.com",
+    "url": "http://twitter.com/davegandy",
+    "licenseFile": "node_modules/@fortawesome/fontawesome-free/LICENSE.txt"
+  },
   "@types/jssha@2.0.0": {
     "licenses": "MIT",
     "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
@@ -40,12 +48,26 @@
     "email": "pieroxy@pieroxy.net",
     "licenseFile": "node_modules/lz-string/LICENSE.txt"
   },
+  "nanoid@2.1.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ai/nanoid",
+    "publisher": "Andrey Sitnik",
+    "email": "andrey@sitnik.ru",
+    "licenseFile": "node_modules/nanoid/LICENSE"
+  },
   "roughjs@3.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/pshihn/rough",
     "publisher": "Preet Shihn",
     "email": "preetshihn@gmail.com",
     "licenseFile": "node_modules/roughjs/LICENSE"
+  },
+  "vue-awesome@4.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Justineo/vue-awesome",
+    "publisher": "Justineo",
+    "url": "justice360@gmail.com",
+    "licenseFile": "node_modules/vue-awesome/LICENSE"
   },
   "vue-class-component@7.1.0": {
     "licenses": "MIT",
