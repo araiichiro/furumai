@@ -7,6 +7,7 @@
       :viewBox="`0 0 ${shape.box.width} ${shape.box.height}`"
       :width="shape.box.width / 2"
       :height="shape.box.height / 2"
+      class="svg-root"
     ></svg>
     <svg
       v-else
@@ -14,6 +15,7 @@
       :viewBox="`0 0 ${shape.box.width} ${shape.box.height}`"
       :width="shape.box.width / 2"
       :height="shape.box.height / 2"
+      class="svg-root"
     >
       <Group v-bind:g="shape"></Group>
     </svg>

@@ -128,7 +128,7 @@ edge  [stroke=black, 'stroke-width'=2
 
   public download() {
     const div = this.$refs.moments as HTMLElement
-    const cards = div.getElementsByTagName('svg')
+    const cards = div.getElementsByClassName('svg-root')
 
     for (let i = 0; i < cards.length; i++) {
       const c = cards.item(i)
