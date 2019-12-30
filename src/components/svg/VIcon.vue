@@ -8,10 +8,11 @@
     <TextContent
       v-bind:position="labelPosition"
       v-bind:content="textContentLabel"
-      v-bind:attrs="textAttrs"></TextContent>
+      v-bind:attrs="labelAttrs"></TextContent>
     <TextContent
       v-bind:position="textPosition"
       v-bind:content="textContentText"
+      v-bind:centering="true"
       v-bind:attrs="textAttrs"></TextContent>
     <GridArea v-bind:box="shape.box"></GridArea>
   </g>
@@ -78,10 +79,10 @@ export default class VIcon extends Vue {
   }
 
   get textPosition(): {x: number, y: number} {
-    const {x, y, padding} = this.shape.box
+    const {x, y, width, height, padding} = this.shape.box
     return {
-      x: x + padding.left,
-      y: y + padding.top,
+      x: x + width / 2,
+      y: y + height / 2,
     }
   }
 
@@ -94,8 +95,17 @@ export default class VIcon extends Vue {
     }
   }
 
+  public get labelAttrs() {
+    return {
+      ...this.shape.text.textAttrs.svgAttrs,
+    }
+  }
+
   public get textAttrs() {
-    return this.shape.text.textAttrs.svgAttrs
+    return {
+      'text-anchor': 'middle',
+      ...this.shape.text.textAttrs.svgAttrs,
+    }
   }
 }
 
