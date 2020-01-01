@@ -7,7 +7,7 @@ import {Elem} from '@/layout/engine/Elem'
 import {Shape} from '@/components/model/Shape'
 import {Decorations, num} from '@/utils/types'
 import {SecureSvgAttrs} from '@/utils/security'
-import {visibleArea} from '@/grid/visibility'
+import {showArea} from '@/grid/visibility'
 
 export class EdgeOverlay implements Overlay {
   constructor(
@@ -51,8 +51,8 @@ export class EdgeOverlay implements Overlay {
     const {dx, dy, t, label} = this.attrs.other
     const box = Arrow.singleton.fit(tail.get.box, head.get.box, num(dx) || 0, num(dy) || 0)
 
-    visibleArea(tail)
-    visibleArea(head)
+    showArea(tail)
+    showArea(head)
     const svgAttrs = SecureSvgAttrs.of({
       visibility: 'visible',
       ...this.attrs.shape,

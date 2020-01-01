@@ -1,7 +1,7 @@
 import {BuildingBlock} from '@/bind/BuildingBlock'
 import {Env} from '@/bind/Env'
 import {GridCell} from '@/grid/GridCell'
-import {visibleArea} from '@/grid/visibility'
+import {showArea} from '@/grid/visibility'
 import {Attributes} from '@/utils/types'
 
 export class Node implements BuildingBlock {
@@ -18,6 +18,6 @@ export class Node implements BuildingBlock {
   }
 
   public update(base: GridCell, env: Env): GridCell {
-    return visibleArea(base).updateAttributes(this.attrs)
+    return showArea(base).updateAttributes(this.attrs)
   }
 }

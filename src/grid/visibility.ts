@@ -3,11 +3,11 @@ import {GridArea} from '@/grid/GridArea'
 import {Elem} from '@/layout/engine/Elem'
 import {Attributes, Decorations} from '@/utils/types'
 
-export function visibleArea<A extends GridArea<Elem>>(block: A): A {
+export function showArea<A extends GridArea<Elem>>(block: A): A {
   return block.updateAttributes(Attributes.of({visibility: 'visible'})) as A
 }
 
-export function visibleOverlay(overlay: Overlay): Overlay {
+export function showOverlay(overlay: Overlay): Overlay {
   return overlay.updateAttributes(Decorations.of({visibility: 'visible'}))
 }
 
