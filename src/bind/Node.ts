@@ -6,21 +6,18 @@ import {Attributes} from '@/utils/types'
 
 export class Node implements BuildingBlock {
   constructor(
-    public readonly id: string,
+    readonly id: string,
     private attrs: Attributes = Attributes.empty,
   ) {
   }
 
-  public setup(env: Env): GridCell | undefined {
-    const existing = env.findGridArea(this.id)
-    if (existing) {
-      visibleArea(existing)
-      existing.updateAttributes(this.attrs)
-      return undefined
-    } else {
-      const baseAttrs = env.lookupAttributes('node')
-      const merged = baseAttrs.merge(this.attrs)
-      return GridCell.of(this.id, merged)
-    }
+  public create(env: Env): GridCell {
+    const baseAttrs = env.lookupAttributes('node')
+    const merged = baseAttrs.merge(this.attrs)
+    return GridCell.of(this.id, merged)
+  }
+
+  public update(base: GridCell, env: Env): GridCell {
+    return visibleArea(base).updateAttributes(this.attrs)
   }
 }

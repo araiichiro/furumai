@@ -7,6 +7,7 @@ import {Elem} from '@/layout/engine/Elem'
 import {Shape} from '@/components/model/Shape'
 import {Decorations, num} from '@/utils/types'
 import {SecureSvgAttrs} from '@/utils/security'
+import {visibleArea} from '@/grid/visibility'
 
 export class EdgeOverlay implements Overlay {
   constructor(
@@ -15,26 +16,43 @@ export class EdgeOverlay implements Overlay {
     private op: string,
     private headId: string,
     private attrs: Decorations,
+    private disabled: boolean = false,
   ) {
   }
 
-  public updateAttributes(attrs: Decorations): Overlay {
+  public updateAttributes(attrs: Decorations): EdgeOverlay {
     // TODO immutable
     this.attrs = this.attrs.update(attrs)
     return this
   }
 
+  public disable(): EdgeOverlay {
+    this.disabled = true
+    return this
+  }
+
   public vue(base: Container): Shape {
-    function findBox(id: string): Box {
-      const area = base.find(id) as GridArea<Elem>
-      return area.get.box
+    if (this.disabled) {
+      return {
+        type: 'nothing',
+        id: this.id,
+        box: Box.zero,
+        text: {textAttrs: SecureSvgAttrs.of({})},
+        svgAttrs: SecureSvgAttrs.of({}),
+      }
+    } else {
+      return this.vueIfNotDisabled(base)
     }
+  }
 
-    const tail = findBox(this.tailId)
-    const head = findBox(this.headId)
+  public vueIfNotDisabled(base: Container): Shape {
+    const tail = base.findArea(this.tailId) as GridArea<Elem>
+    const head = base.findArea(this.headId) as GridArea<Elem>
     const {dx, dy, t, label} = this.attrs.other
-    const box = Arrow.singleton.fit(tail, head, num(dx) || 0, num(dy) || 0)
+    const box = Arrow.singleton.fit(tail.get.box, head.get.box, num(dx) || 0, num(dy) || 0)
 
+    visibleArea(tail)
+    visibleArea(head)
     const svgAttrs = SecureSvgAttrs.of({
       visibility: 'visible',
       ...this.attrs.shape,

@@ -2,7 +2,7 @@ import {GridArea} from '@/grid/GridArea'
 import {Cell} from '@/layout/engine/Cell'
 import {Box} from '@/layout/engine/Box'
 import {Shape} from '@/components/model/Shape'
-import {validatedShape, SecureSvgAttrs} from '@/utils/security'
+import {SecureSvgAttrs, validatedShape} from '@/utils/security'
 import {Attributes, Decorations, num} from '@/utils/types'
 
 export class GridCell implements GridArea<Cell> {
@@ -26,10 +26,6 @@ export class GridCell implements GridArea<Cell> {
     this.attrs = this.attrs.update(attrs.attrs)
     this.cell = this.cell.withBox(attrs.box)
     return this
-  }
-
-  public find(id: string): GridCell | undefined {
-    return this.id === id ? this : undefined
   }
 
   public map(f: (a: Cell) => Cell): GridCell {

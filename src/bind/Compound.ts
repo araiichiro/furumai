@@ -16,7 +16,7 @@ export class Compound implements BuildingBlock {
   ) {
   }
 
-  public setup(env: Env): Container {
+  public create(env: Env): Container {
     const merged = env.lookupAttributes(this.compoundType).merge(this.attrs)
     const attrs = merged.attrs
     const box = merged.box
@@ -27,14 +27,15 @@ export class Compound implements BuildingBlock {
       attrs,
       fitter,
     )
+    const newEnv = env.newEnv(this.childAttrs || {})
     return this.blocks.reduce((container, block) => {
-      const ret = block.setup(env.newEnv(container, this.childAttrs || {}))
-      if (ret) {
-        return container.append(ret)
-      } else {
-        return container
-      }
+      const ret = block.create(newEnv)
+      return container.append(ret)
     }, initContainer)
+  }
+
+  public update(base: Container, env: Env): Container {
+    throw new Error('Sorry, not implemented yet') // TODO implement
   }
 }
 

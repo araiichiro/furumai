@@ -2,7 +2,10 @@ import {Config} from '@/utils/Config'
 import {Container} from '@/grid/Container'
 import {Env} from '@/bind/Env'
 import {BuildingBlock} from '@/bind/BuildingBlock'
-import {Attributes, Dict} from '@/utils/types'
+import {Attributes, Decorations, Dict} from '@/utils/types'
+import {Landscape} from '@/layout/engine/Landscape'
+import {Box} from '@/layout/engine/Box'
+import {Portrait} from '@/layout/engine/Portrait'
 
 export class Story {
   constructor(public readonly frames: Frame[], private config: Config) {}
@@ -11,33 +14,33 @@ export class Story {
     const [init, ...updates] = this.frames
     boot.push(init)
     return new ContainerIterableIterator(
-      new EnvIterableIterator(boot, updates.values(), this.config),
+      new ContextIterableIterator(boot, updates.values(), this.config),
       this.config,
     )
   }
 }
 
-class EnvIterableIterator implements IterableIterator<Env> {
-  private last: Env | undefined = undefined
+class ContextIterableIterator implements IterableIterator<Context> {
+  private last: Context | undefined = undefined
 
   constructor(private boot: Frame[], private frames: IterableIterator<Frame>, private config: Config) {}
 
-  public next(): IteratorResult<Env> {
+  public next(): IteratorResult<Context> {
     if (this.last) {
       const next = this.frames.next()
       if (next.done) {
         return next
       } else {
         const nextFrame = next.value
-        const baseEnv = this.config.mode === 'diff' ? this.last : this.initEnv()
-        this.last = nextFrame.setup(baseEnv)
+        const baseContext = this.config.mode === 'diff' ? this.last : this.initContext()
+        this.last = nextFrame.setup(baseContext)
         return {
           done: false,
           value: this.last,
         }
       }
     } else {
-      this.last = this.initEnv()
+      this.last = this.initContext()
       return {
         done: false,
         value: this.last,
@@ -45,28 +48,33 @@ class EnvIterableIterator implements IterableIterator<Env> {
     }
   }
 
-  public [Symbol.iterator](): IterableIterator<Env> {
+  public [Symbol.iterator](): IterableIterator<Context> {
     return this
   }
 
-  private initEnv(): Env {
-    const bootEnv = Env.init(this.config.direction === 'left to right' ? 'landscape' : 'portrait')
-    return this.boot.reduce((env, frame) => {
-      return frame.setup(env)
-    }, bootEnv)
+  private initContext(): Context {
+    const elem = this.config.direction === 'left to right' ? new Landscape([], Box.zero) : new Portrait([], Box.zero)
+    const deco = Decorations.of({fill: 'none', stroke: 'none'})
+    const bootContext = {
+      env: Env.init,
+      container: new Container('_init', deco, elem),
+    }
+    return this.boot.reduce((context, frame) => {
+      return frame.setup(context)
+    }, bootContext)
   }
 }
 
 class ContainerIterableIterator implements IterableIterator<Container> {
-  constructor(private it: EnvIterableIterator, private config: Config) {}
+  constructor(private it: ContextIterableIterator, private config: Config) {}
 
   public next(): IteratorResult<Container> {
     const next = this.it.next()
     if (next.done) {
       return next
     } else {
-      const env = next.value
-      const fit = env.container.map((a) => a.fit({x: 0, y: 0}))
+      const context = next.value
+      const fit = context.container.map((a) => a.fit({x: 0, y: 0}))
       if (this.config.align === 'center') {
         const size = this.config.direction === 'left to right'
           ? {height: fit.get.box.height}
@@ -97,15 +105,26 @@ export class Frame {
   ) {
   }
 
-  public setup(baseEnv: Env): Env {
-    const base = baseEnv.container.updateAttributes(this.attrs)
-    return this.blocks.reduce((env, block) => {
-      const child = block.setup(env)
-      if (child) {
-        return env.update(env.container.append(child))
+  public setup(base: Context): Context {
+    let container = base.container.updateAttributes(this.attrs)
+    const env = base.env.newEnv(this.childAttrs)
+    for (const block of this.blocks) {
+      const existing = container.find(block.id)
+      if (existing) {
+        block.update(existing, env)
       } else {
-        return env
+        const child = block.create(env)
+        container = container.append(child)
       }
-    }, baseEnv.newEnv(base, this.childAttrs))
+    }
+    return {
+      env,
+      container,
+    }
   }
+}
+
+interface Context {
+  env: Env
+  container: Container
 }

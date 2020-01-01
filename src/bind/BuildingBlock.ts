@@ -4,5 +4,7 @@ import {Overlay} from '@/grid/Overlay'
 import {Elem} from '@/layout/engine/Elem'
 
 export interface BuildingBlock {
-  setup(env: Env): GridArea<Elem> | Overlay | undefined
+  id: string
+  create(env: Env): GridArea<Elem> | Overlay
+  update(base: GridArea<Elem> | Overlay, env: Env): GridArea<Elem> | Overlay
 }

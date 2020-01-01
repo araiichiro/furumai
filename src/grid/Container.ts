@@ -29,18 +29,39 @@ export class Container implements GridArea<Landscape | Portrait> {
   }
 
   public find(id: string): GridArea<Elem> | Overlay | undefined {
+    return this.findArea(id) || this.findOverlay(id)
+  }
+
+  public findArea(id: string): GridArea<Elem> | undefined {
     if (this.id === id) {
       return this
     } else {
-      const ret = [
-        ...this.elem.children.map((i) => (i as GridArea<Elem>).find(id)),
-        ...this.overlays.map((i) => i.id === id ? i : undefined),
-      ].filter((i) => i)
+      const ret = this.elem.children
+        .map((i) => {
+          if (i instanceof Container) {
+            return i.findArea(id)
+          } else {
+            const atom = i as GridArea<Elem>
+            return id === atom.id ? atom : undefined
+          }
+        })
+        .filter((i) => i)
       if (ret.length === 1) {
         return ret[0]
       } else {
         return undefined
       }
+    }
+  }
+
+  public findOverlay(id: string): Overlay | undefined {
+    const ret = this.overlays
+      .map((i) => i.id === id ? i : undefined)
+      .filter((i) => i)
+    if (ret.length === 1) {
+      return ret[0]
+    } else {
+      return undefined
     }
   }
 
