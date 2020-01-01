@@ -29,8 +29,14 @@ export class Compound implements BuildingBlock {
     )
     const newEnv = env.newEnv(this.childAttrs || {})
     return this.blocks.reduce((container, block) => {
-      const ret = block.create(newEnv)
-      return container.append(ret)
+      const existing = container.find(block.id)
+      if (existing) {
+        block.update(existing, newEnv)
+        return container
+      } else {
+        const ret = block.create(newEnv)
+        return container.append(ret)
+      }
     }, initContainer)
   }
 

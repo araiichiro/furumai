@@ -30,6 +30,7 @@ import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
 import {Config} from '@/utils/Config'
 import {Frame, Story} from '@/utils/Story'
 import {Attributes, Attrs, Dict} from '@/utils/types'
+import {ShowBlock} from '@/bind/ShowBlock'
 
 export function parse(text: string): Story | SyntaxError {
   const inputStream = CharStreams.fromString(text)
@@ -81,6 +82,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       || a instanceof Edge
       || a instanceof HideBlock
       || a instanceof HideEdge
+      || a instanceof ShowBlock
   }
 
   public visitStory(ctx: StoryContext): Story {
@@ -121,6 +123,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
         attributes.push(a as Attribute)
       } else if (a instanceof Conf) {
         cs.push(a)
+      } else if (a instanceof Array && a.every((x) => FurumaiVisitorImpl.isBuildingBlock(x))) {
+        a.forEach((x) => blocks.push(x))
       } else {
         throw new Error('not implemented: ' + JSON.stringify(a))
       }
@@ -134,7 +138,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     }
   }
 
-  public visitStmt(ctx: StmtContext): BuildingBlock | ElementAttribute | Attribute | Config {
+  public visitStmt(ctx: StmtContext): BuildingBlock | ElementAttribute | Attribute | Config | BuildingBlock[] {
     const stmt =
       ctx.node_stmt() ||
       ctx.edge_stmt() ||
@@ -200,7 +204,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     return new Attribute(ids[0], ids[1])
   }
 
-  public visitEdge_stmt(ctx: Edge_stmtContext): Edge {
+  public visitEdge_stmt(ctx: Edge_stmtContext): BuildingBlock[] {
     const ids = ctx.ID().map((n) => n.text)
     const attrList = ctx.attr_list()
     const op = ctx.EDGEOP().text

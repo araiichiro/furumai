@@ -2,6 +2,7 @@ import {BuildingBlock} from '@/bind/BuildingBlock'
 import {Env} from '@/bind/Env'
 import {EdgeOverlay} from '@/grid/EdgeOverlay'
 import {Attrs, Decorations} from '@/utils/types'
+import {ShowBlock} from '@/bind/ShowBlock'
 
 export class Edge implements BuildingBlock {
   public static of(
@@ -9,8 +10,12 @@ export class Edge implements BuildingBlock {
     op: string,
     headId: string,
     attrs: Attrs = {},
-  ) {
-    return new Edge(this.idOf(tailId, headId), tailId, op, headId, attrs)
+  ): BuildingBlock[] {
+    return [
+      new Edge(this.idOf(tailId, headId), tailId, op, headId, attrs),
+      new ShowBlock(tailId),
+      new ShowBlock(headId),
+    ]
   }
 
   public static idOf(tailId: string, headId: string): string {
