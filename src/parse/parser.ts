@@ -14,7 +14,9 @@ import {
   Edge_selectorContext,
   Edge_stmtContext,
   FurumaiParser,
-  GroupContext, Hide_edgeContext, Hide_elemContext,
+  GroupContext,
+  Hide_edgeContext,
+  Hide_elemContext,
   HideContext,
   Id_selectorContext,
   LayoutContext,
@@ -32,9 +34,20 @@ import {
 } from '@/generated/antlr4ts/FurumaiParser'
 import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
 import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
-import {Config, Layout, StatementList, Story, Update} from '@/elem/Story'
-import {Assigns, ClassSelector, IdSelector, Ruleset, Selector, Style, TypeSelector, UnivSelector} from "@/style/Style";
-import {Box, Hide, HideEdge, HideElem} from "@/elem/Box";
+import {Config, Layout, Story, Update} from '@/elem/Story'
+import {
+  Assigns,
+  BasicSelector,
+  ClassSelector,
+  CombinedSelector,
+  IdSelector,
+  Ruleset,
+  Selector,
+  Styles,
+  TypeSelector,
+  UnivSelector,
+} from "@/style/Style";
+import {Box, Hide} from "@/elem/Box";
 import {Edge} from "@/elem/Edge";
 
 export function parse(text: string): Story {
@@ -100,11 +113,29 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitLayout(ctx: LayoutContext): Layout {
-    return this.visit(ctx.stmt_list())
+    const s: StatementList = this.visit(ctx.stmt_list())
+    if (s.assigns.length > 0) {
+      throw new Error("not implemented top level assignment")
+    }
+    return new Layout(
+      s.boxes,
+      s.edges,
+      s.hides,
+      Style.flatten(s.styles),
+    )
   }
 
   visitUpdate(ctx: UpdateContext): Update {
-    return this.visit(ctx.stmt_list())
+    const s: StatementList = this.visit(ctx.stmt_list())
+    if (s.assigns.length > 0) {
+      throw new Error("not implemented top level assignment")
+    }
+    return new Update(
+      s.boxes,
+      s.edges,
+      s.hides,
+      Style.flatten(s.styles),
+    )
   }
 
   visitStmt_list(ctx: Stmt_listContext): StatementList {
@@ -118,6 +149,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     statements.forEach((a) => {
       if (a instanceof Edge) {
         edges.push(a)
+      } else if (a instanceof Hide) {
+        hides.push(a)
       } else if (a instanceof Assignment) {
         assigns.push(a)
       } else if (a instanceof Style) {
@@ -131,9 +164,9 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     return {
       boxes,
       edges,
-      hides: [],
-      assigns: Assignment.reduce(assigns),
-      styles: Style.flatten(styles),
+      hides,
+      assigns,
+      styles,
     }
   }
 
@@ -164,7 +197,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   compound(ctx: Stmt_listContext | undefined, id: string, className: string): Box {
     if (ctx) {
       const s: StatementList = this.visit(ctx)
-      if (Object.keys(s.styles.ruleset).length > 0) {
+      if (s.styles.length > 0) {
         throw new Error("not implemented inner style description")
       }
       if (s.edges.length > 0) {
@@ -173,33 +206,33 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       if (s.hides.length > 0) {
         throw new Error("not implemented inner hide description")
       }
-      return Box.of(id, className, s.assigns, s.boxes)
+      return Box.of(id, className, Assignment.reduce(s.assigns), s.boxes)
     } else {
       return Box.of(id, className)
     }
   }
 
   visitNode_stmt(ctx: Node_stmtContext): Box {
-    const attrList = ctx.attr_list()
-    if (attrList) {
-      const assigns: Assigns = this.visit(attrList)
+    const attrs = ctx.attr_list()
+    if (attrs) {
+      const assigns = Assignment.reduce(this.visit(attrs))
       return Box.of(ctx.ID().text, "node", assigns)
     } else {
       return Box.of(ctx.ID().text, "node")
     }
   }
 
-  visitEdge_stmt(ctx: Edge_stmtContext): any {
+  visitEdge_stmt(ctx: Edge_stmtContext): Edge {
     const attrs = ctx.attr_list()
     if (attrs) {
-      const assigns: Assigns = this.visit(attrs)
+      const assigns = Assignment.reduce(this.visit(attrs))
       return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text, "edge", assigns)
     } else {
       return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text, "edge")
     }
   }
 
-  visitHide(ctx: HideContext): any {
+  visitHide(ctx: HideContext): Hide {
     const hideElem = ctx.hide_elem()
     const hideEdge = ctx.hide_edge()
     if (hideElem) {
@@ -212,21 +245,15 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitHide_elem(ctx: Hide_elemContext): Hide {
-    return
-
+    return Hide.elem(ctx.ID().text)
   }
 
   visitHide_edge(ctx: Hide_edgeContext): Hide {
-
-
-    return new Ruleset(
-      new ClassSelector(Edge.className(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text))
-    )
+    return Hide.edge(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text)
   }
 
-  visitAttr_list(ctx: Attr_listContext): {[key: string]: string} {
-    const assigns = ctx.assignment().map((a) => new Assignment(a.KEY().text, a.VALUE().text))
-    return Assignment.reduce(assigns)
+  visitAttr_list(ctx: Attr_listContext): Assignment[] {
+    return ctx.assignment().map((a) => new Assignment(a.ATTR().text, a.VALUE().text))
   }
 
   visitAssignment(ctx: AssignmentContext): Assignment {
@@ -238,20 +265,19 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitCss_stmt(ctx: Css_stmtContext): Style {
-    const selectors: Selector[] = this.visit(ctx.selector_list())
+    const selectors: Array<Selector> = this.visit(ctx.selector_list())
     const assigns: Assignment[] = ctx.declaration().map((d) => this.visit(d))
     const ruleset = selectors.map((s) => new Ruleset(s, (Assignment.reduce(assigns))))
     return new Style(ruleset)
   }
 
-  visitSelector_list(ctx: Selector_listContext): Selector[] {
+  visitSelector_list(ctx: Selector_listContext): BasicSelector[] {
     return ctx.selector().map((s) => this.visit(s))
   }
 
   visitSelector(ctx: SelectorContext): Selector {
-    ctx.basic_selector()
-    ctx.basic_selector()
-    return this.visit()
+    const ss = ctx.basic_selector().map((s) => this.visit(s))
+    return CombinedSelector(ss)
   }
 
   visitBasic_selector(ctx: Basic_selectorContext): any {
@@ -273,18 +299,18 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitType_selector(ctx: Type_selectorContext): any {
-    return TypeSelector(ctx.STRING().text)
+    return TypeSelector(ctx.ID().text)
   }
 
   visitClass_selector(ctx: Class_selectorContext): any {
-    return ClassSelector(ctx.STRING().text)
+    return ClassSelector(ctx.ID().text)
   }
 
   visitId_selector(ctx: Id_selectorContext): any {
     return IdSelector(ctx.ID().text)
   }
 
-  visitEdge_selector(ctx: Edge_selectorContext): Selector {
+  visitEdge_selector(ctx: Edge_selectorContext): BasicSelector {
     const className = "_edge_" + ctx.FROM().text + "_to_" + ctx.TO().text
     return ClassSelector(className)
   }
@@ -316,6 +342,14 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 }
 
+interface StatementList {
+  boxes: Box[]
+  edges: Edge[]
+  hides: Hide[]
+  assigns: Assignment[]
+  styles: Style[]
+}
+
 class Assignment {
   public static reduce(attrs: Assignment[]): {[key: string]: string} {
     return attrs.reduce((map, obj) => {
@@ -325,5 +359,20 @@ class Assignment {
   }
 
   constructor(readonly key: string, readonly value: string) {
+  }
+}
+
+class Style {
+  static flatten(styles: Style[]): Styles {
+    const rules = styles.reduce((rules, style) => {
+      rules.push(...style.rules)
+      return rules
+    }, [] as Ruleset[])
+    return Styles.of(rules)
+  }
+
+  constructor(
+    readonly rules: Ruleset[],
+  ) {
   }
 }

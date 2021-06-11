@@ -18,26 +18,24 @@ export class Story {
   }
 }
 
-export interface StatementList {
-  boxes: Box[]
-  edges: Edge[]
-  hides: Hide[]
-  assigns: Assigns
-  styles: Styles
+export class Layout {
+  constructor(
+    readonly boxes: Box[],
+    readonly edges: Edge[],
+    readonly hides: Hide[],
+    readonly styles: Styles,
+  ) {
+  }
 }
 
-export interface Layout {
-  boxes: Box[]
-  edges: Edge[]
-  hides: Hide[]
-  styles: Styles
-}
-
-export interface Update {
-  boxes: Box[]
-  edges: Edge[]
-  hides: Hide[]
-  styles: Styles
+export class Update {
+  constructor(
+    readonly boxes: Box[],
+    readonly edges: Edge[],
+    readonly hides: Hide[],
+    readonly styles: Styles,
+  ) {
+  }
 }
 
 export interface Compound {
@@ -45,13 +43,13 @@ export interface Compound {
   assigns: Assigns
 }
 
-export function toLayoutModel(boxes: Box[], styles: Styles): Box[] {
-  boxes.map((box) => {
-    const style = styles.query("", box.classNames, box.id)
-    const children = toLayoutModel(box.children, styles)
-
-
-  })
-
-  return []
-}
+// export function toLayoutModel(boxes: Box[], styles: Styles): Box[] {
+//   boxes.map((box) => {
+//     const style = styles.query("", box.classNames, box.id)
+//     const children = toLayoutModel(box.children, styles)
+//
+//
+//   })
+//
+//   return []
+// }

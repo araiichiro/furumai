@@ -1,12 +1,12 @@
 import {Area, Size} from "@/layout/types";
-import {Assigns, ClassSelector, IdSelector, Ruleset, Style, Styles} from "@/style/Style";
+import {Assigns, ClassSelector, IdSelector, Ruleset, Selector, Style, Styles} from "@/style/Style";
 import {Item as LayoutItem, defaultStyle as defaultLayoutStyle, Style as LayoutStyle} from "@/layout/Engine";
 import {Edge} from "@/elem/Edge";
 
 export class Box extends LayoutItem {
-  static of(id: string, className: string = "", attrs: Assigns = {}, children: Box[] = []): Box {
+  static of(id: string, className: string | undefined = undefined, attrs: Assigns = {}, children: Box[] = []): Box {
     let classes = attrs["class"].split(" ")
-    if (className !== "") {
+    if (className && className !== "") {
       classes.push(className)
     }
     return new Box(
@@ -39,8 +39,12 @@ export class Box extends LayoutItem {
     )
   }
 
-  update(styles: Styles) {
-    const myStyles = styles.query("", this.classNames, this.id)
+  update(styles: Styles): Box {
+    const myStyles = styles.query({
+      classNames: this.classNames,
+      id: this.id,
+      context: {},
+    })
     this.appearance = {
       ...myStyles,
       ...this.appearance
@@ -56,6 +60,7 @@ export class Box extends LayoutItem {
     this.children.forEach((child) => {
       child.update(styles)
     })
+    return this
   }
 }
 
@@ -131,25 +136,13 @@ export class Hide {
   style(): Style {
     const ruleset = []
     if (this.id) {
-      const r = new Ruleset(IdSelector(this.id), {visibility: "hidden"})
+      const r = new Ruleset(new Selector(IdSelector(this.id)), {visibility: "hidden"})
       ruleset.push(r)
     }
     this.classNames.map((c) => {
-      const r = new Ruleset(ClassSelector(c), {visibility: "hidden"})
+      const r = new Ruleset(new Selector(ClassSelector(c)), {visibility: "hidden"})
       ruleset.push(r)
     })
     return new Style(ruleset)
-  }
-}
-
-export class HideEdge {
-  public readonly className: string
-
-  constructor(
-    private tailId: string,
-    private op: string,
-    private headId: string
-  ) {
-    this.className = "_furumai_" + tailId + "_" + headId
   }
 }

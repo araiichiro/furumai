@@ -1,21 +1,5 @@
 export type Assigns = {[key: string]: string}
 
-export class Style {
-  static flatten(styles: Style[]): Styles {
-    const rules = styles.reduce((rules, style) => {
-      rules.push(...style.rules)
-      return rules
-    }, [] as Ruleset[])
-    return Styles.of(rules)
-  }
-
-  constructor(
-    readonly rules: Ruleset[],
-  ) {
-  }
-}
-
-
 export class Ruleset {
   constructor(
     readonly selector: Selector,
@@ -24,9 +8,6 @@ export class Ruleset {
   }
 
   toCss(): string {
-
-
-
     return `
     ${this.selector.key} {
 
@@ -39,69 +20,124 @@ export class Ruleset {
 function toCss(assigns: Assigns): string {
   for (const k in assigns) {
 
+  }
+}
 
+export class Selector {
+  static of(
+    selector: BasicSelector,
+    parents: BasicSelector[] = [],
+  ) {
+    // TODO implement combined selector
+    // note: this means combined selector is not implemented
+    const filter = parents.length === 0 ? Filter.of(true) : Filter.of(false)
+    return new Selector(selector, filter)
   }
 
+  constructor(
+    readonly base: BasicSelector,
+    readonly filter: Filter,
+  ) {
+  }
 
+  toCss(): string{
 
+  }
+}
+
+export class Filter {
+  static of(v: boolean): Filter {
+    return new Filter(v)
+  }
+
+  private constructor(
+    private v: boolean,
+  ) {
+  }
+
+  filter(_: Context): boolean {
+    return this.v
+  }
 }
 
 
-
-export class Selector {
+export class BasicSelector {
   constructor(readonly key: string) {
   }
 }
 
-export function UnivSelector(): Selector {
-  return new Selector("*")
+export function UnivSelector(): BasicSelector {
+  return new BasicSelector("*")
 }
 
-export function TypeSelector(typeName: string): Selector {
-  return new Selector(typeName)
+export function TypeSelector(typeName: string): BasicSelector {
+  return new BasicSelector(typeName)
 }
 
-export function ClassSelector(className: string): Selector {
-  return new Selector("." + className)
+export function ClassSelector(className: string): BasicSelector {
+  return new BasicSelector("." + className)
 }
 
-export function IdSelector(id: string): Selector {
-  return new Selector("#" + id)
+export function IdSelector(id: string): BasicSelector {
+  return new BasicSelector("#" + id)
+}
+
+export function CombinedSelector(selectors: BasicSelector[]): Selector {
+  const [head, ...parents] = selectors.reverse()
+  return Selector.of(head, parents)
 }
 
 export class Styles {
   static of(rules: Ruleset[]): Styles {
-    const ruleset = rules.reduce((ret, rule) => {
-      ret[rule.selector.key] =  rule.declarations
-      return ret
-    }, {} as {[key: string]: Assigns})
-    return new Styles(ruleset)
+    return new Styles(rules)
   }
 
   constructor(
-    readonly ruleset: {[key: string]: Assigns}
+    private rules: Ruleset[],
   ) {
   }
 
-  query(typeName: string, classNames: string[], id: string | undefined): Assigns {
-    const classAttrs = classNames.reduce((ret, className) => {
+  update(other: Styles): Styles {
+    this.rules.push(...other.rules)
+    return this
+  }
+
+  query(elem: Elem): Assigns {
+    const classAttrs = elem.classNames.reduce((ret, className) => {
       return {
         ...ret,
-        ...this.get("." + className)
+        ...this.get(ClassSelector(className).key, elem.context)
       }
     }, {} as Assigns)
+
     return {
-      ...this.get("*"),
-      ...this.get(typeName),
+      ...this.get(UnivSelector().key, elem.context),
+      ...this.get(TypeSelector(elem.typeName).key, elem.context),
       ...classAttrs,
-      ...id ? this.get("#" + id) : {},
+      ...elem.id ? this.get(IdSelector(elem.id).key, elem.context) : {},
     }
   }
 
-  private get(key: string): Assigns {
-    return this.ruleset[key] || {}
+  private get(key: string, context: Context): Assigns {
+    const filtered = this.rules.filter((r) => r.selector.base.key === key && r.selector.filter.filter(context))
+    return  filtered.reduce((ret, rule) => {
+      return {
+        ...ret,
+        ...rule.declarations,
+      }
+    }, {} as Assigns)
   }
 }
+
+export interface Elem {
+  classNames: string[]
+  id?: string
+  context: Context
+}
+
+export interface Context {
+}
+
 
 // <path id= class="edge edge_from_to" .. />
 // export class EdgeSelector {

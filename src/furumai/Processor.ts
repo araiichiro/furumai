@@ -1,10 +1,9 @@
 import {Group} from "@/components/model/Group";
 import {parse} from "@/parse/parser";
-import {Box, Edge} from "@/elem/Box";
-import {Style} from "@/style/Style";
-import {Config, StatementList, Story, toLayoutModel, TopLevelStatementList} from "@/elem/Story";
-import {Engine as LayoutEngine, Orientation} from "@/layout/Engine";
-import {Area, Size} from "@/layout/types";
+import {Box} from "@/elem/Box";
+import {Config } from "@/elem/Story";
+import {Engine as LayoutEngine} from "@/layout/Engine";
+import {EdgeOverlay} from "@/elem/Overlay";
 
 export const defaultConfig: Config = {
   mode: "diff",
@@ -71,26 +70,27 @@ export function toModels(furumaiCode: string): Group[] {
     ...defaultConfig,
     ...story.config,
   }
-  const layout = story.layout
-  const styles = Style.flatten(defaultStyle.concat(layout.styles))
-  layout.boxes.forEach((box) => box.update(styles))
-
-  const root = Box.of("_furumai", [], {})
-  root.update(styles)
-
   const engine = new LayoutEngine(config)
-  engine.fit(root.area, layout.boxes)
+  const styles = defaultStyle.update(story.layout.styles)
+  const root = Box.of("_furumai", undefined, {}).update(styles).area
+  const boxes = story.layout.boxes.map((box) => box.update(styles))
+  engine.fit(root, boxes)
+  const edges = overlayEdges(story.layout.edges, boxes)
+  const current = {
+    boxes,
+    edges,
+    styles,
+  }
 
-  overlayEdges(layout.edges, layout.boxes)
 
 
 
-
-
-  let current = toModel(story.layout, defaultConfig.orientation || "portrait")
   const ret: Group[] = [current]
   for (let update of story.updates) {
-    if (story.config.mode === "diff") {
+    if (config.mode === "diff") {
+
+
+
       current = update.applyTo(current)
       ret.push(current)
     } else {
@@ -100,49 +100,6 @@ export function toModels(furumaiCode: string): Group[] {
   return ret
 }
 
-class Processor {
-  constructor(
-    readonly config: Config,
-    readonly layout: TopLevelStatementList,
-    readonly updates: TopLevelStatementList[]
-  ) {
-  }
-
-  exec() {
-    const styles = Style.flatten(this.layout.styles)
-    toLayoutModel(this.layout.boxes, styles)
-
-    this.layout.boxes.map((b) => {
-
-    })
-    this.layout.edges
-
-    this.layout.hides
-
-
-  }
-}
-
-function buildTree(layout: TopLevelStatementList) {
-  layout.styles
-}
-
-function toModel(layout: TopLevelStatementList, orientation: Orientation): Group {
-
-
-
-  layout.boxes
-  layout.edges
-  layout.hides
-}
-
-function lookup(id: string, className: string, styles: Style[]): Box {
-
-}
-
-function applyStyle() {
-
-}
-function overlayEdges(edges: Edge[], boxes: Box[]) {
+function overlayEdges(edges: Edge[], boxes: Box[]): EdgeOverlay {
 
 }

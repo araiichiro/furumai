@@ -1,5 +1,5 @@
 
-class EdgeOverlay {
+export class EdgeOverlay {
   constructor(
     readonly from: string,
     readonly op: string,
