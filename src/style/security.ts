@@ -21,19 +21,19 @@ export function parseIconShape(shape: string): string[] {
 
 export function validatedShape(shape: string): string {
   const type = shape || 'box'
-  if (type.startsWith('icon:')) {
-    const sp = parseIconShape(type)
-    if (sp.length === 2 && sp[0] === 'icon' && /^[0-9a-zA-Z\-\/]*$/.test(sp[1])) {
-      return type
-    } else {
-      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${type}`)
-    }
+  if (type === 'box' || type === 'person' || type === 'cylinder' || type === 'pipe') {
+    return type
   } else {
-    if (type === 'box' || type === 'person' || type === 'cylinder' || type === 'pipe') {
-      return type
-    } else {
-      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${type}`)
-    }
+    throw new Error(`Sorry, the attribute is not used for security reason: shape => ${type}`)
+  }
+}
+
+export function validateIcon(icon: string): string {
+  const sp = parseIconShape(icon)
+  if (sp.length === 2 && sp[0] === 'icon' && /^[0-9a-zA-Z\-\/]*$/.test(sp[1])) {
+    return icon
+  } else {
+    throw new Error(`Sorry, the attribute is not used for security reason: shape => ${icon}`)
   }
 }
 

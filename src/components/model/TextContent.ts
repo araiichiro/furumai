@@ -1,4 +1,4 @@
-import {SecureSvgAttrs} from '@/utils/security'
+import {SecureSvgAttrs} from '@/style/security'
 
 export interface TextContent {
   label?: string

@@ -26,7 +26,7 @@
             <hr />
             <div>
               Default settings:
-              <pre>{{ defaultConfig }}</pre>
+              <pre>{{ defaults }}</pre>
             </div>
           </label>
         </div>
@@ -55,11 +55,12 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
-import {parse} from '@/utils/parser'
-import {Story} from '@/utils/Story'
+import {parse} from '@/parse/parser'
+import {Story} from '@/parse/Story'
 import * as model from '@/components/model/Group'
 import {Group} from '@/components/model/Group'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
+import {defaultConfig, vue} from "@/furumai/Processor";
 
 interface AppParams1 {
   code: string
@@ -84,26 +85,9 @@ export default class FurumaiApp1 extends Vue {
 
   private errors: string = ''
 
-  private defaultConfig = `config [
-  orientation='top to bottom',
-  mode='no diff',
-  align='no center'
-];
+  private defaults = defaultConfig
 
-font-size = 24;
-group [margin='100 20', padding='20 16',
-       stroke=none, fill=none,
-       text.stroke=black, text.stroke-width=1, text.fill=black];
-zone  [margin='20 150', padding='20 16',
-       stroke=none, fill=none,
-       text.stroke=black, text.stroke-width=1, text.fill=black];
-node  [margin='24 20', padding='24 16', width=215, height=150,
-       fill=none, stroke=black, 'stroke-width'=2,
-       text.fill=black, text.stroke-width=1];
-edge  [stroke=black, 'stroke-width'=2
-       text.fill=black, text.stroke-width=1];`
-
-  private svgs: model.Group[] = []
+  svgs: model.Group[] = []
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {
@@ -145,44 +129,21 @@ edge  [stroke=black, 'stroke-width'=2
     }
   }
 
-  private toSvgOrError(text: string): model.Group[] | Error {
-    try {
-      return vue(text, this.defaultConfig)
-    } catch (e) {
-      return e
-    }
-  }
-
   private draw(text: string): void {
     this.errors = ''
     const animationConfig = {
       ...this.furumaiData.animation,
     }
-    let svgs = this.toSvgOrError(text)
-    if (svgs instanceof Error) {
-        const stack = svgs.stack || ''
-        this.errors = stack
-    } else {
-        if (!this.furumaiData.displayFirstSvg) {
-            const [first, ...rest] = svgs
-            svgs = rest.length > 0 ? rest : svgs
-        }
-        this.svgs = svgs
+    try {
+      let svgs = vue(text)
+      if (!this.furumaiData.displayFirstSvg) {
+        const [first, ...rest] = svgs
+        svgs = rest.length > 0 ? rest : svgs
+      }
+      this.svgs = svgs
+    } catch (e) {
+      this.errors = e.stack || ''
     }
-  }
-}
-
-function vue(furumaiCode: string, defaults: string): Group[] | SyntaxError {
-  const story = parse(furumaiCode)
-  if (story instanceof Story) {
-    const defaultConfig = parse(defaults) as Story
-    const ret: Group[] = []
-    for (const moment of story.moments(defaultConfig.frames)) {
-      ret.push(moment.vue())
-    }
-    return ret
-  } else {
-    return story
   }
 }
 </script>

@@ -1,4 +1,4 @@
-import {DataEncoderDecoderV1} from './types'
+import {DataEncoderDecoderV1} from '../codec/codec'
 
 const fs = require('fs')
 const codec = new DataEncoderDecoderV1()

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {formatVersion, sampleFragment} from '@/utils/sample'
+import {formatVersion, sampleFragment} from '@/furumai/sample'
 import AppLayout from '@/AppLayout.vue'
 import FurumaiApp from '@/components/FurumaiApp.vue'
 

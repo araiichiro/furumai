@@ -1,4 +1,4 @@
-<template>
+<template xmlns:svg="http://www.w3.org/2000/svg">
   <div ref="svgContainer">
     <svg
       v-if="rough && roughHtml.length > 0"
@@ -17,6 +17,7 @@
       :height="shape.box.height / 2"
       class="svg-root"
     >
+      <svg:style type="text/css">{{ style }}</svg:style>
       <Group v-bind:g="shape"></Group>
     </svg>
   </div>
@@ -26,7 +27,7 @@
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Shape} from '@/components/model/Shape'
 import Group from './Group.vue'
-import {convertSvg} from '@/utils/rougher'
+import {convertSvg} from '@/effect/rougher'
 
 @Component({
   components: {
@@ -36,6 +37,9 @@ import {convertSvg} from '@/utils/rougher'
 export default class SvgComponent extends Vue {
   @Prop()
   public shape!: Shape
+
+  @Prop()
+  public style!: string
 
   @Prop()
   public rough!: boolean

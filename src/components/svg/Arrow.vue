@@ -19,7 +19,7 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import GridArea from '@/components/svg/GridArea.vue'
 import {Shape} from '@/components/model/Shape'
-import {Vector2d} from '@/layout/engine/Vector2d'
+import {Vector2d} from '@/layout/Vector2d'
 import TextContent from '@/components/svg/TextContent.vue'
 
 @Component({

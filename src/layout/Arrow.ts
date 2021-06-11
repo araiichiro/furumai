@@ -1,4 +1,4 @@
-import {Vector2d} from '@/layout/engine/Vector2d'
+import {Vector2d} from '@/layout/Vector2d'
 import {Box} from '@/layout/engine/Box'
 
 export class Arrow {

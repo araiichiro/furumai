@@ -9,7 +9,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
 import FurumaiApp1 from '@/components/FurumaiApp1.vue'
-import {DataEncoderDecoderV1} from '@/utils/types'
+import {DataEncoderDecoderV1} from '@/codec/codec'
 
 @Component({
   components: {
