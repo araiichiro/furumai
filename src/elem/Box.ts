@@ -1,10 +1,17 @@
-import {Area, Size} from "@/layout/types";
-import {Assigns, ClassSelector, IdSelector, Ruleset, Selector, Style, Styles} from "@/style/Style";
-import {Item as LayoutItem, defaultStyle as defaultLayoutStyle, Style as LayoutStyle} from "@/layout/Engine";
+import {Area, Pixel, Point, Size} from "@/layout/types";
+import {Assigns, ClassSelector, Context, Elem, IdSelector, Ruleset, Selector, Styles} from "@/style/Style";
+import {defaultStyle as defaultLayoutStyle, Item as LayoutItem, Style as LayoutStyle} from "@/layout/Engine";
 import {Edge} from "@/elem/Edge";
+import {Shape} from "@/components/model/Shape";
+import {SecureSvgAttrs} from "@/style/security";
 
-export class Box extends LayoutItem {
-  static of(id: string, className: string | undefined = undefined, attrs: Assigns = {}, children: Box[] = []): Box {
+export class Box implements Elem {
+  static of(
+    id: string,
+    className: string | undefined = undefined,
+    attrs: Assigns = {},
+    children: Box[] = []
+  ): Box {
     let classes = attrs["class"].split(" ")
     if (className && className !== "") {
       classes.push(className)
@@ -12,137 +19,168 @@ export class Box extends LayoutItem {
     return new Box(
       id,
       classes,
-      Area.parse(attrs),
-      attrs as Partial<Appearance>,
-      {...defaultLayoutStyle, ...attrs as Partial<LayoutStyle>},
       children,
+      attrs,
     )
   }
 
   private constructor(
     readonly id: string,
     readonly classNames: string[],
-
-    // Note: Style may be applied later by update() call.
-    // Partial<> is used to distinguish the value explicitly given or undefined.
-    readonly baseArea: Partial<Area>,
-    public appearance: Partial<Appearance>,
-
-    style: LayoutStyle,
     readonly children: Box[],
+    private attrs: Assigns,
+    private base: Point = {x: 0, y: 0},
+    private size: Size = {width: Pixel.zero, height: Pixel.zero},
+    readonly context: Context = {},
   ) {
-    super(
-      {x: 0, y: 0},
-      Area.withDefaultValue(baseArea),
-      style,
-      children,
+  }
+
+  get shape(): Shape {
+    const {shape, icon, label, text, ...rest} = this.attrs
+    rest["class"] = this.classNames.join(" ")
+    return {
+      id: this.id,
+      type: shape,
+      icon,
+      label,
+      text,
+      svgAttrs: SecureSvgAttrs.of({
+        ...rest,
+        ...this.base,
+      }),
+    }
+  }
+
+
+
+  update(other: Box) {
+    this.attrs = {
+      ...this.attrs,
+      ...other.attrs,
+    }
+    this.setVisibility(other.visibility())
+    return this
+  }
+
+  visibility(): string {
+    return this.attrs.visibility ? this.attrs.visibility : "visible"
+  }
+
+  setVisibility(visibility: string) {
+    this.attrs.visibility = visibility
+  }
+
+  visible() {
+    this.attrs.visibility = "visible"
+  }
+
+  hide() {
+    this.attrs.visibility = "hidden"
+  }
+
+  toItem(styles: Styles): BoxItem {
+    const myStyles = styles.query({
+      id: this.id,
+      classNames: this.classNames,
+      context: this.context,
+    })
+    const partialArea = Area.withDefaultValue(Area.parse({
+      ...myStyles,
+      ...this.attrs,
+    }))
+    const layoutStyle: LayoutStyle = {
+      ...defaultLayoutStyle,
+      ...myStyles,
+      ...this.attrs,
+    }
+    return new BoxItem(
+      this,
+      styles,
+      partialArea,
+      layoutStyle,
     )
   }
 
-  update(styles: Styles): Box {
-    const myStyles = styles.query({
-      classNames: this.classNames,
-      id: this.id,
-      context: {},
-    })
-    this.appearance = {
-      ...myStyles,
-      ...this.appearance
-    }
-    this.area = Area.withDefaultValue({
-      ...this.baseArea,
-      ...Area.parse(myStyles),
-    })
-    this.style = {
-      ...this.style,
-      ...myStyles as Partial<LayoutStyle>,
-    }
-    this.children.forEach((child) => {
-      child.update(styles)
-    })
-    return this
+  move(point: Point) {
+    this.base = point
+  }
+
+  get position(): Point {
+    return this.base
+  }
+
+  expand(size: Size) {
+    this.size = size
+  }
+
+  toShape() {
+    `
+    <g id="" class="" svg-attrs>
+      <rect></rect>
+      <text><tspan></tspan></text>
+      <g>
+      <rect></rect>
+      <rect></rect>
+      <rect></rect>
+      <g></g>
+      </g>
+    </g>
+    `
+
+
+  }
+
+}
+
+class BoxItem extends LayoutItem {
+  constructor(
+    readonly box: Box,
+    readonly styles: Styles,
+    partialArea: Partial<Area>,
+    layoutStyle: LayoutStyle,
+    ) {
+    super(
+      partialArea,
+      layoutStyle,
+    )
+  }
+
+  children(): LayoutItem[] {
+    return this.box.children.map((box) => box.toItem(this.styles))
+  }
+
+  move(point: Point) {
+    this.box.move(point)
+  }
+
+  expand(size: Size) {
+    this.box.expand(size)
   }
 }
 
 interface Appearance {
+  shape: string
+  icon: string
   label: string
   text: string
-  icon: string
-  shape: string
-  visibility: string
 }
-
-// export class Group {
-//   static of(id: string, children: Box[], attrs: {[key: string]: string}): Group {
-//     const classNames = attrs['class'].split(' ')
-//     return new Group(
-//       id,
-//       classNames,
-//       attrs as Partial<Size>,
-//       attrs as Partial<Appearance>,
-//       children,
-//     )
-//   }
-//
-//   constructor(
-//     readonly id: string,
-//     readonly classNames: string[],
-//     readonly size: Partial<Size>,
-//     readonly appearance: Partial<Appearance>,
-//     readonly children: Box[] = [],
-//   ) {
-//   }
-//
-//
-// }
-//
-// export class Node {
-//   static of(id: string, attrs: {[key: string]: string}): Node {
-//     const classNames = attrs['class'].split(' ')
-//     return new Node(
-//       id,
-//       classNames,
-//       attrs as Partial<Size>,
-//       attrs as Partial<Appearance>,
-//     )
-//   }
-//
-//   constructor(
-//     readonly id: string,
-//     readonly classNames: string[],
-//     readonly size: Partial<Size>,
-//     readonly appearance: Partial<Appearance>,
-//   ) {
-//   }
-// }
-
-
 
 export class Hide {
   static elem(id: string): Hide {
-    return new Hide(id, [])
+    return new Hide(id, undefined)
   }
 
   static edge(from: string, op: string, to: string): Hide {
-    return new Hide(undefined, [Edge.className(from, op, to)])
+    return new Hide(undefined, Edge.className(from, op, to))
   }
 
   constructor(
     private id: string | undefined,
-    private classNames: string[]
+    private className: string | undefined
   ) {
   }
 
-  style(): Style {
-    const ruleset = []
-    if (this.id) {
-      const r = new Ruleset(new Selector(IdSelector(this.id)), {visibility: "hidden"})
-      ruleset.push(r)
-    }
-    this.classNames.map((c) => {
-      const r = new Ruleset(new Selector(ClassSelector(c)), {visibility: "hidden"})
-      ruleset.push(r)
-    })
-    return new Style(ruleset)
+  isTarget(elem: Elem): boolean {
+    return this.id && elem.id && this.id === elem.id || elem.classNames.some((name) => name === this.className)
   }
 }

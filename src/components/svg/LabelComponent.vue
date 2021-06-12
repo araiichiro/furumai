@@ -1,28 +1,5 @@
-<template xmlns:svg="http://www.w3.org/2000/svg">
-  <div ref="svgContainer">
-    <svg
-      v-if="rough && roughHtml.length > 0"
-      v-html="roughHtml"
-      xmlns="http://www.w3.org/2000/svg"
-      :viewBox="`0 0 ${shape.box.width} ${shape.box.height}`"
-      :width="shape.box.width / 2"
-      :height="shape.box.height / 2"
-      class="svg-root"
-    ></svg>
-    <svg
-      v-else
-      xmlns="http://www.w3.org/2000/svg"
-      :viewBox="`0 0 ${shape.box.width} ${shape.box.height}`"
-      :width="shape.box.width / 2"
-      :height="shape.box.height / 2"
-      class="svg-root"
-    >
-      <svg:style type="text/css">
-        {{ shape.style }}
-      </svg:style>
-      <Group v-bind:g="shape.g"></Group>
-    </svg>
-  </div>
+<template>
+
 </template>
 
 <script lang="ts">
@@ -37,10 +14,17 @@ import {Svg} from "@/components/model/Svg";
     Group,
   },
 })
-export default class SvgComponent extends Vue {
+export default class LabelComponent extends Vue {
   @Prop()
   //public shape!: Shape
   public shape!: Svg
+
+  @Prop()
+  public x: number
+
+  @Prop()
+  public y: number
+
 
   @Prop()
   public style!: string

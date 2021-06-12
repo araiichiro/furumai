@@ -8,18 +8,15 @@ export class Ruleset {
   }
 
   toCss(): string {
+    let s = ""
+    for (const key of Object.keys(this.declarations)) {
+      s += key + ": " + this.declarations[key] + ";\n"
+    }
     return `
-    ${this.selector.key} {
-
-
+    ${this.selector.base.key} {
+    ${s}
     }
     `
-  }
-}
-
-function toCss(assigns: Assigns): string {
-  for (const k in assigns) {
-
   }
 }
 
@@ -70,10 +67,6 @@ export function UnivSelector(): BasicSelector {
   return new BasicSelector("*")
 }
 
-export function TypeSelector(typeName: string): BasicSelector {
-  return new BasicSelector(typeName)
-}
-
 export function ClassSelector(className: string): BasicSelector {
   return new BasicSelector("." + className)
 }
@@ -109,10 +102,8 @@ export class Styles {
         ...this.get(ClassSelector(className).key, elem.context)
       }
     }, {} as Assigns)
-
     return {
       ...this.get(UnivSelector().key, elem.context),
-      ...this.get(TypeSelector(elem.typeName).key, elem.context),
       ...classAttrs,
       ...elem.id ? this.get(IdSelector(elem.id).key, elem.context) : {},
     }
@@ -130,8 +121,8 @@ export class Styles {
 }
 
 export interface Elem {
-  classNames: string[]
   id?: string
+  classNames: string[]
   context: Context
 }
 

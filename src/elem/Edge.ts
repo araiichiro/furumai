@@ -1,19 +1,21 @@
-import {Assigns, Styles} from "@/style/Style";
+import {Assigns, Context, Elem} from "@/style/Style";
 
-export class Edge {
-  static of(from: string, op: string, to: string, className: string = "", attrs: Assigns = {}): Edge {
-    let classes = attrs["class"].split(" ")
-    if (className !== "") {
-      classes.push(className)
-    }
+export class Edge implements Elem {
+  static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
+    let classNames = attrs["class"].split(" ")
+    classNames.push("edge", this.className(from, op, to))
     return new Edge(
       from,
       op,
       to,
-      attrs.id,
-      classes,
-      attrs as Partial<Appearance>,
+      attrs.id || this.idName(from, op, to),
+      classNames,
+      attrs,
     )
+  }
+
+  static idName(from: string, op: string, to: string): string {
+    return `_furumai_${from}_${this.connectorName(op)}_${to}`
   }
 
   static className(from: string, op: string, to: string): string {
@@ -35,24 +37,33 @@ export class Edge {
     readonly from: string,
     readonly op: string,
     readonly to: string,
-    readonly id: string | undefined,
-    readonly classNames: string[],
-    public appearance: Partial<Appearance>,
+    readonly id: string,
+    readonly classNames: string[] = [],
+    readonly attrs: Assigns = {},
+    readonly context: Context = {},
   ) {
   }
 
-  update(styles: Styles) {
-    const myStyles = styles.query("path", this.classNames, this.id)
-    this.appearance = {
-      ...myStyles,
-      ...this.appearance
-    }
+  visibility(): string {
+    return this.attrs.visibility
   }
 
+  visible() {
+    this.attrs.visibility = "visible"
+  }
+
+  hide() {
+    this.attrs.visibility = "hidden"
+  }
+
+  setVisibility(visibility: string) {
+    this.attrs.visibility = visibility
+  }
 }
 
 interface Appearance {
-  id: string
+  label: string
   text: string
-  visibility: string
+  dx: string
+  dy: string
 }

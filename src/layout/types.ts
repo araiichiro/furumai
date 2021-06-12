@@ -10,6 +10,12 @@ export interface Size {
   height: Length,
 }
 
+
+export interface Container {
+  base: Point
+  area: Area
+}
+
 export class Area {
   static parse(attrs: Assigns): Partial<Area> {
     const zero = Pixel.zero
@@ -41,6 +47,7 @@ export class Area {
   ) {
   }
 }
+
 //new Size(toLength(width) || zero, toLength(height) || zero)
 // export class Size {
 //   constructor(

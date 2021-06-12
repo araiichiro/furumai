@@ -22,7 +22,6 @@ export class Layout {
   constructor(
     readonly boxes: Box[],
     readonly edges: Edge[],
-    readonly hides: Hide[],
     readonly styles: Styles,
   ) {
   }

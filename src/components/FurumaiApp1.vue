@@ -87,7 +87,7 @@ export default class FurumaiApp1 extends Vue {
 
   private defaults = defaultConfig
 
-  svgs: model.Group[] = []
+  svgs: model.Svg[] = []
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {

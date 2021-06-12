@@ -35,8 +35,9 @@ import {
 import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
 import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
 import {Config, Layout, Story, Update} from '@/elem/Story'
+import {Box, Hide} from "@/elem/Box";
+import {Edge} from "@/elem/Edge";
 import {
-  Assigns,
   BasicSelector,
   ClassSelector,
   CombinedSelector,
@@ -44,11 +45,8 @@ import {
   Ruleset,
   Selector,
   Styles,
-  TypeSelector,
   UnivSelector,
 } from "@/style/Style";
-import {Box, Hide} from "@/elem/Box";
-import {Edge} from "@/elem/Edge";
 
 export function parse(text: string): Story {
   const inputStream = CharStreams.fromString(text)
@@ -117,10 +115,12 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     if (s.assigns.length > 0) {
       throw new Error("not implemented top level assignment")
     }
+    if (s.hides.length > 0) {
+      throw new Error("not implemented hide in layout")
+    }
     return new Layout(
       s.boxes,
       s.edges,
-      s.hides,
       Style.flatten(s.styles),
     )
   }
@@ -160,7 +160,6 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       }
     })
 
-    styles.push(...hides.map((h) => h.style()))
     return {
       boxes,
       edges,
@@ -226,9 +225,9 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const attrs = ctx.attr_list()
     if (attrs) {
       const assigns = Assignment.reduce(this.visit(attrs))
-      return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text, "edge", assigns)
+      return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text, assigns)
     } else {
-      return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text, "edge")
+      return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text)
     }
   }
 
@@ -299,7 +298,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitType_selector(ctx: Type_selectorContext): any {
-    return TypeSelector(ctx.ID().text)
+    throw new Error("type selector is not provided")
   }
 
   visitClass_selector(ctx: Class_selectorContext): any {
