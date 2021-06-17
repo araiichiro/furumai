@@ -1,77 +1,44 @@
 import {Assigns} from "@/style/Style";
 
 export interface Point {
-  x: number
-  y: number
+  x: Length
+  y: Length
 }
 
-export interface Size {
-  width: Length,
-  height: Length,
-}
+export class Length {
+  static zero = Length.create(0)
 
-
-export interface Container {
-  base: Point
-  area: Area
-}
-
-export class Area {
-  static parse(attrs: Assigns): Partial<Area> {
-    const zero = Pixel.zero
-    const { width, height, padding, margin } = attrs
-    return {
-      base: {
-        width: width ? toLength(width) : zero,
-        height: height ? toLength(height) : zero,
-      },
-      padding: padding ? Gap.of(padding) : undefined,
-      margin: margin ? Gap.of(margin) : undefined,
-    }
+  static parse(attr: string): Length {
+    return new Length(Pixel.parse(attr))
   }
 
-  static withDefaultValue(area: Partial<Area>): Area {
-    const zero = Pixel.zero
-    const { base, padding, margin } = area
-    return new Area(
-      base || { width: zero, height: zero },
-      padding || Gap.zero,
-      margin || Gap.zero,
-    )
+  private static create(px: number): Length {
+    return new Length(new Pixel((px)))
   }
 
-  constructor(
-    public base: Size,
-    readonly padding: Gap,
-    readonly margin: Gap,
-  ) {
+  private constructor(private v: Pixel) {
+  }
+
+  add(other: Length): Length {
+    return Length.create(this.v.px + other.v.px)
+  }
+
+  sub(other: Length): Length {
+    return Length.create(this.v.px - other.v.px)
+  }
+
+  div(n: number): Length {
+    return Length.create(Math.floor(this.v.px / n))
+  }
+
+  static max(...lengths: Length[]): Length {
+    return lengths.reduce((ret, length) => {
+      return ret.v.px > length.v.px ? ret : length
+    }, Length.zero)
   }
 }
 
-//new Size(toLength(width) || zero, toLength(height) || zero)
-// export class Size {
-//   constructor(
-//     readonly width: Length,
-//     readonly height: Length,
-//   ) {
-//   }
-//
-// }
-
-
-function toLength(length: string): Length {
-  if (length.endsWith(Pixel.unit)) {
-    return Pixel.parse(length)
-  } else {
-    return new Pixel(Number(length))
-  }
-}
-
-export interface Length {
-  asPixel(): Pixel
-}
-
-export class Pixel implements Length {
+class Pixel {
   static unit = "px"
   static zero = new Pixel(0)
   static parse(attr: string): Pixel {
@@ -82,15 +49,52 @@ export class Pixel implements Length {
     readonly px: number
   ) {
   }
+}
 
-  asPixel(): Pixel {
-    return this;
+export class Size {
+  static zero: Size = new Size(Length.zero, Length.zero)
+
+  static max(...sizes: Size[]): Size {
+    return sizes.reduce((ret, size) => {
+      return new Size(Length.max(ret.width, size.width), Length.max(ret.height, size.height))
+    }, Size.zero)
+  }
+
+  constructor(
+    readonly width: Length,
+    readonly height: Length,
+  ) {
+  }
+
+  add(gap: Gap): Size {
+    const {top, right, bottom, left} = gap
+    const {width, height} = this
+    return new Size(
+      width.add(right).add(left),
+      height.add(top).add(bottom),
+    )
+  }
+
+  sub(gap: Gap): Size {
+    const {top, right, bottom, left} = gap
+    const {width, height} = this
+    return new Size(
+      width.sub(right).sub(left),
+      height.sub(top).sub(bottom),
+    )
+  }
+
+  diff(content: Size): Size {
+    return new Size(
+      this.width.sub(content.width),
+      this.height.sub(content.height),
+    )
   }
 }
 
 export class Gap {
   static of(attr: string): Gap {
-    const vs = attr.split(' ').map(toLength)
+    const vs = attr.split(' ').map(Length.parse)
     switch (vs.length) {
       case 0:
         return Gap.zero
@@ -105,7 +109,7 @@ export class Gap {
     }
   }
 
-  public static zero = Gap.gap1(Pixel.zero)
+  public static zero = Gap.gap1(Length.zero)
 
   public static gap1(gap: Length): Gap {
     return new Gap(gap, gap, gap, gap)
@@ -131,4 +135,65 @@ export class Gap {
     return `${this.top} ${this.right} ${this.bottom} ${this.left}`
   }
 }
+
+export class Area {
+  static zero = new Area(Size.zero, Gap.zero, Gap.zero)
+
+  static parse(attrs: Assigns): Partial<Area> {
+    const { width, height, padding, margin } = attrs
+    return {
+      base: new Size(
+        width ? Length.parse(width) : Length.zero,
+        height ? Length.parse(height) : Length.zero,
+      ),
+      padding: padding ? Gap.of(padding) : undefined,
+      margin: margin ? Gap.of(margin) : undefined,
+    }
+  }
+
+  static withDefaultValue(area: Partial<Area>): Area {
+    const { base, padding, margin } = area
+    return new Area(
+      base || Size.zero,
+      padding || Gap.zero,
+      margin || Gap.zero,
+    )
+  }
+
+  constructor(
+    public base: Size,
+    readonly padding: Gap,
+    readonly margin: Gap,
+  ) {
+  }
+
+  diff(content: Size): Size {
+    const {width, height} = this.base
+    const {top, right, bottom, left} = this.padding
+    return new Size(
+      width.sub(right).sub(content.width).sub(left),
+      height.sub(top).sub(content.height).sub(bottom),
+    )
+  }
+
+  get totalSize(): Size {
+    return this.base.add(this.margin)
+  }
+
+  get contentSize(): Size {
+    return this.base.sub(this.padding)
+  }
+
+}
+
+//new Size(toLength(width) || zero, toLength(height) || zero)
+// export class Size {
+//   constructor(
+//     readonly width: Length,
+//     readonly height: Length,
+//   ) {
+//   }
+//
+// }
+
 
