@@ -7,6 +7,10 @@
       v-bind:content="shape.text"
       v-bind:position="textPosition"
     ></TextContent>
+    <LabelComponent
+      v-bind:content="shape.label"
+      v-bind:position="labelPosition"
+    ></LabelComponent>
   </g>
 </template>
 
@@ -14,9 +18,12 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Shape} from '@/components/model/Shape'
 import TextContent from '@/components/svg/TextContent.vue'
+import LabelComponent from "@/components/svg/LabelComponent.vue";
+import {Length} from "@/layout/types";
 
 @Component({
   components: {
+    LabelComponent,
     TextContent,
   },
 })
@@ -44,6 +51,15 @@ export default class Box extends Vue {
       y: y.add(padding.top).toString(),
     }
   }
+
+  get labelPosition(): {x: string, y: string} {
+    const {x, y} = this.shape.base
+    return {
+      x: x.toString(),
+      y: y.toString(),
+    }
+  }
+
 }
 </script>
 

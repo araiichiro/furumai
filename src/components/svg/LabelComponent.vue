@@ -1,55 +1,54 @@
 <template>
-
+  <text
+    class="label"
+    v-bind:x="position.x"
+    v-bind:y="position.y"
+  >
+    <tspan
+      v-for="t in texts"
+      v-bind:dy="`-0.4em`"
+      v-bind:x="position.x"
+    >{{ t.text }}</tspan>
+  </text>
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-import {Shape} from '@/components/model/Shape'
-import Group from './Group.vue'
-import {convertSvg} from '@/effect/rougher'
-import {Svg} from "@/components/model/Svg";
+import {Component, Prop, Vue} from 'vue-property-decorator'
 
-@Component({
-  components: {
-    Group,
-  },
-})
-export default class LabelComponent extends Vue {
+@Component
+export default class TextContent extends Vue {
   @Prop()
-  //public shape!: Shape
-  public shape!: Svg
+  public content!: string
 
-  @Prop()
-  public x: number
+  @Prop({default: false})
+  public centering!: boolean
 
-  @Prop()
-  public y: number
+  @Prop({default: 0.5})
+  public dy!: number
 
+  @Prop({default: {x: 0, y: 0}})
+  public position!: {x: string, y: string}
 
-  @Prop()
-  public style!: string
-
-  @Prop()
-  public rough!: boolean
-
-  public roughHtml: string = ``
-
-  public mounted() {
-    Vue.nextTick(() => this.refresh())
-  }
-
-  @Watch('shape')
-  public onShapeChanged(val: Shape, newVal: Shape) {
-    this.roughHtml = ''
-    Vue.nextTick(() => this.refresh())
-  }
-
-  private refresh() {
-    if (this.rough) {
-      const c = this.$refs.svgContainer as HTMLElement
-      const svg = c.firstElementChild as SVGElement
-      const converted = convertSvg(svg)
-      this.roughHtml = converted.innerHTML
+  get texts(): Array<{text: string, dy: string}> {
+    const txt = this.content
+    if (txt) {
+      if (this.centering) {
+        const [head, ...tail] = txt.split('\\n')
+        const first = {text: head, dy: `${0.35 - tail.length * 0.5}em`}
+        const rest = tail.map((s) => {
+          return {text: s, dy: '1em'}
+        })
+        return [first, ...rest]
+      } else {
+        const [head, ...tail] = txt.split('\\n')
+        const first = {text: head, dy: `${this.dy + 0.35}em`}
+        const rest = tail.map((s) => {
+          return {text: s, dy: '1em'}
+        })
+        return [first, ...rest]
+      }
+    } else {
+      return []
     }
   }
 }
