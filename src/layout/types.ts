@@ -1,3 +1,20 @@
+class Pixel {
+  static unit = "px"
+  static zero = new Pixel(0)
+  static parse(attr: string): Pixel {
+    return new Pixel(Number(attr.substr(0, attr.length - this.unit.length)))
+  }
+
+  constructor(
+    readonly px: number
+  ) {
+  }
+
+  toString(): string {
+    return `${this.px}${Pixel.unit}`
+  }
+}
+
 export class Length {
   static zero = Length.create(0)
 
@@ -35,23 +52,6 @@ export class Length {
   }
 }
 
-class Pixel {
-  static unit = "px"
-  static zero = new Pixel(0)
-  static parse(attr: string): Pixel {
-    return new Pixel(Number(attr.substr(0, attr.length - this.unit.length)))
-  }
-
-  constructor(
-    readonly px: number
-  ) {
-  }
-
-  toString(): string {
-    return `${this.px}${Pixel.unit}`
-  }
-}
-
 export class Point {
   static zero = new Point(Length.zero, Length.zero)
   constructor(
@@ -62,6 +62,11 @@ export class Point {
 
   add(other: Point): Point {
     return new Point(this.x.add(other.x), this.y.add(other.y))
+  }
+
+  addGap(gap: Gap): Point {
+    const {top, left} = gap
+    return new Point(this.x.add(top), this.y.add(left))
   }
 }
 

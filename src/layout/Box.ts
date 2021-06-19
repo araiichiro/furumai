@@ -61,11 +61,10 @@ export class Box<T> {
     )
     engine.refit(this.children, this.style, this.fitArea.contentSize)
 
-    const {top, left} = margin
     const diff = size.diff(this.fitArea.base)
     this.base = new Point(
-      point.x.add(left).add(diff.width.div(2)),
-      point.y.add(top).add(diff.height.div(2)),
+      point.x.add(diff.width.div(2)),
+      point.y.add(diff.height.div(2)),
     )
   }
 }

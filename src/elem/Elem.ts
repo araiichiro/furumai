@@ -124,6 +124,8 @@ export class Presentation {
     return {
       id: this.id,
       "class" : this.classNames.join(" "),
+      base: point,
+      area,
       svgAttrs: SecureSvgAttrs.of(asString(attrs)),
       ...this.appearance,
     }

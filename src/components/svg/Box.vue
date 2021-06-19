@@ -1,51 +1,47 @@
 <template>
-  <g>
+  <g v-bind:visibility="shape.visibility">
     <rect
       v-bind="shapeAttrs"
     ></rect>
     <TextContent
       v-bind:content="shape.text"
       v-bind:position="textPosition"
-      v-bind:attrs="textAttrs"></TextContent>
-    <GridArea v-bind:box="shape.box"></GridArea>
+    ></TextContent>
   </g>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Shape} from '@/components/model/Shape'
-import GridArea from '@/components/svg/GridArea.vue'
 import TextContent from '@/components/svg/TextContent.vue'
-import {asString} from '@/utils/types'
 
 @Component({
   components: {
     TextContent,
-    GridArea,
   },
 })
 export default class Box extends Vue {
   @Prop()
   public shape!: Shape
 
+  public get visibility(): string {
+    return this.shape.visibility
+  }
+
   public get shapeAttrs() {
-    const {x, y, width, height, margin, padding} = asString(this.shape.box)
     return {
-      id: `_rect_${this.shape.id}`,
-      x, y, width, height, margin, padding,
+      class: this.shape.class,
+      visibility: this.shape.visibility,
       ...this.shape.svgAttrs.svgAttrs,
     }
   }
 
-  public get textAttrs() {
-    return this.shape.text.textAttrs.svgAttrs
-  }
-
-  get textPosition(): {x: number, y: number} {
-    const {x, y, padding} = this.shape.box
+  get textPosition(): {x: string, y: string} {
+    const {x, y} = this.shape.base
+    const {padding} = this.shape.area
     return {
-      x: x + padding.left,
-      y: y + padding.top,
+      x: x.add(padding.left).toString(),
+      y: y.add(padding.top).toString(),
     }
   }
 }
