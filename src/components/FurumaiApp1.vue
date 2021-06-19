@@ -55,7 +55,7 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
-import * as model from '@/components/model/Group'
+import * as model from '@/components/model/Svg'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
 import {defaultConfig, toModels} from "@/furumai/processor";
 

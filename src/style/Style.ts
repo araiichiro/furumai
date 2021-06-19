@@ -1,10 +1,18 @@
 export type Assigns = {[key: string]: string}
 
 export class Ruleset {
+  static of(selectors: Selector[], declarations: Assigns) {
+    return new Ruleset(selectors, declarations)
+  }
+
   constructor(
-    readonly selector: Selector,
+    readonly selectors: Selector[],
     readonly declarations: Assigns,
   ) {
+  }
+
+  keys(): string[] {
+    return this.selectors.map((s) => s.base.key)
   }
 
   toCss(): string {
@@ -12,11 +20,16 @@ export class Ruleset {
     for (const key of Object.keys(this.declarations)) {
       s += key + ": " + this.declarations[key] + ";\n"
     }
+    const selectors = ", ".concat(...this.keys())
     return `
-    ${this.selector.base.key} {
+    ${selectors} {
     ${s}
     }
     `
+  }
+
+  isMatch(selector: BasicSelector, context: Context): boolean {
+    return this.selectors.some((s) => s.isMatch(selector, context))
   }
 }
 
@@ -24,7 +37,7 @@ export class Selector {
   static of(
     selector: BasicSelector,
     parents: BasicSelector[] = [],
-  ) {
+  ): Selector {
     // TODO implement combined selector
     // note: this means combined selector is not implemented
     const filter = parents.length === 0 ? Filter.of(true) : Filter.of(false)
@@ -35,6 +48,10 @@ export class Selector {
     readonly base: BasicSelector,
     readonly filter: Filter,
   ) {
+  }
+
+  isMatch(selector: BasicSelector, context: Context) {
+    return this.base.key === selector.key && this.filter.filter(context)
   }
 }
 
@@ -95,18 +112,18 @@ export class Styles {
     const classAttrs = elem.classNames.reduce((ret, className) => {
       return {
         ...ret,
-        ...this.get(ClassSelector(className).key, elem.context)
+        ...this.get(ClassSelector(className), elem.context)
       }
     }, {} as Assigns)
     return {
-      ...this.get(UnivSelector().key, elem.context),
+      ...this.get(UnivSelector(), elem.context),
       ...classAttrs,
-      ...elem.id ? this.get(IdSelector(elem.id).key, elem.context) : {},
+      ...elem.id ? this.get(IdSelector(elem.id), elem.context) : {},
     }
   }
 
-  private get(key: string, context: Context): Assigns {
-    const filtered = this.rules.filter((r) => r.selector.base.key === key && r.selector.filter.filter(context))
+  private get(selector: BasicSelector, context: Context): Assigns {
+    const filtered = this.rules.filter((r) => r.isMatch(selector, context))
     return  filtered.reduce((ret, rule) => {
       return {
         ...ret,

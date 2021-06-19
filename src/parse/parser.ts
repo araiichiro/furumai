@@ -260,18 +260,18 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     return new Assignment(ctx.ATTR().text, ctx.VALUE().text)
   }
 
-  visitStyle(ctx: StyleContext): Style[] {
-    return  ctx.css_stmt().map((s) => this.visit(s))
+  visitStyle(ctx: StyleContext): Style {
+    const rules: Ruleset[] = ctx.css_stmt().map((s) => this.visit(s))
+    return new Style(rules)
   }
 
-  visitCss_stmt(ctx: Css_stmtContext): Style {
-    const selectors: Array<Selector> = this.visit(ctx.selector_list())
+  visitCss_stmt(ctx: Css_stmtContext): Ruleset {
+    const selectors: Selector[] = this.visit(ctx.selector_list())
     const assigns: Assignment[] = ctx.declaration().map((d) => this.visit(d))
-    const ruleset = selectors.map((s) => new Ruleset(s, (Assignment.reduce(assigns))))
-    return new Style(ruleset)
+    return Ruleset.of(selectors, (Assignment.reduce(assigns)))
   }
 
-  visitSelector_list(ctx: Selector_listContext): BasicSelector[] {
+  visitSelector_list(ctx: Selector_listContext): Selector[] {
     return ctx.selector().map((s) => this.visit(s))
   }
 
