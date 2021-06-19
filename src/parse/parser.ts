@@ -30,6 +30,7 @@ import {
   Type_selectorContext,
   Univ_selectorContext,
   UpdateContext,
+  ValueContext,
   ZoneContext,
 } from '@/generated/antlr4ts/FurumaiParser'
 import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
@@ -223,12 +224,13 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitEdge_stmt(ctx: Edge_stmtContext): Edge {
+    const ids = ctx.ID().map((id) => id.text)
     const attrs = ctx.attr_list()
     if (attrs) {
       const assigns = Assignment.reduce(this.visit(attrs))
-      return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text, assigns)
+      return Edge.of(ids[0], ctx.EDGEOP().text, ids[1], assigns)
     } else {
-      return Edge.of(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text)
+      return Edge.of(ids[0], ctx.EDGEOP().text, ids[1])
     }
   }
 
@@ -249,15 +251,29 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitHide_edge(ctx: Hide_edgeContext): Hide {
-    return Hide.edge(ctx.FROM().text, ctx.EDGEOP().text, ctx.TO().text)
+    const ids = ctx.ID().map((id) => id.text)
+    return Hide.edge(ids[0], ctx.EDGEOP().text, ids[1])
   }
 
   visitAttr_list(ctx: Attr_listContext): Assignment[] {
-    return ctx.assignment().map((a) => new Assignment(a.ATTR().text, a.VALUE().text))
+    return ctx.assignment().map((a) => {
+      const v: string = this.visit(a.value())
+      return new Assignment(a.ID().text, v)
+    })
   }
 
   visitAssignment(ctx: AssignmentContext): Assignment {
-    return new Assignment(ctx.ATTR().text, ctx.VALUE().text)
+    const v = this.visit(ctx.value())
+    return new Assignment(ctx.ID().text, v)
+  }
+
+  visitValue(ctx: ValueContext): string {
+    const v = ctx.ID() || ctx.COLOR() || ctx.STRING()
+    if (v) {
+      return v.text
+    } else {
+      throw new Error('not implemented')
+    }
   }
 
   visitStyle(ctx: StyleContext): Style {
@@ -299,7 +315,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitType_selector(ctx: Type_selectorContext): any {
-    throw new Error("type selector is not provided")
+    throw new Error("type selector is not implemented")
   }
 
   visitClass_selector(ctx: Class_selectorContext): any {
@@ -311,12 +327,14 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitEdge_selector(ctx: Edge_selectorContext): BasicSelector {
-    const className = "_edge_" + ctx.FROM().text + "_to_" + ctx.TO().text
+    const ids = ctx.ID().map((id) => id.text)
+    const className = "_edge_" + ids[0] + "_to_" + ids[1]
     return ClassSelector(className)
   }
 
   visitDeclaration(ctx: DeclarationContext): Assignment {
-    return new Assignment(ctx.PROPERTY().text, ctx.VALUE().text)
+    const vs = ctx.value().map((v) => this.visit(v))
+    return new Assignment(ctx.ID().text, vs.join(" "))
   }
 
   visit(tree: ParseTree): any {

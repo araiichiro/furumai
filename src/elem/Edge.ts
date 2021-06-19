@@ -2,8 +2,11 @@ import {Assigns, Context, Elem} from "@/style/Style";
 
 export class Edge implements Elem {
   static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
-    let classNames = attrs["class"].split(" ")
-    classNames.push("edge", this.className(from, op, to))
+    const classNames = ["edge", this.className(from, op, to)]
+    const cls = attrs["class"]
+    if (cls) {
+      classNames.push(...attrs["class"].split(" "))
+    }
     return new Edge(
       from,
       op,

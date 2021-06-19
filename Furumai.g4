@@ -40,7 +40,7 @@ node_stmt
   ;
 
 edge_stmt
-  : FROM EDGEOP TO attr_list?
+  : ID EDGEOP ID attr_list?
   ;
 
 hide
@@ -53,7 +53,7 @@ hide_elem
   ;
 
 hide_edge
-  : 'hide' FROM EDGEOP TO
+  : 'hide' ID EDGEOP ID
   ;
 
 attr_list
@@ -61,7 +61,7 @@ attr_list
   ;
 
 assignment
-  : ATTR ( ':' | '=' ) VALUE
+  : ID ( ':' | '=' ) value
   ;
 
 style
@@ -101,15 +101,25 @@ id_selector
   : '#' ID
   ;
 edge_selector
-  : FROM EDGEOP TO
+  : ID EDGEOP ID
   ;
 
 declaration
-  : PROPERTY ':' VALUE
+  : ID ':' value+
+  ;
+
+value
+  : COLOR
+  | STRING
+  | ID
   ;
 
 ID
-  : [a-zA-Z_0-9\-]+
+  : CHARS ('-' CHARS)*
+  ;
+
+fragment CHARS
+  : [a-zA-Z_0-9]+
   ;
 
 STRING
@@ -126,24 +136,6 @@ fragment HEX
   : [a-fA-F0-9]
   ;
 
-ATTR
-  : ID
-  ;
-PROPERTY
-  : ID
-  ;
-VALUE
-  : ID
-  | STRING
-  | COLOR
-  ;
-
-FROM
-  : ID
-  ;
-TO
-  : ID
-  ;
 EDGEOP
   : '--'
   | '->'

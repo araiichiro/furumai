@@ -48,13 +48,8 @@ export class FurumaiParser extends Parser {
 	public static readonly ID = 18;
 	public static readonly STRING = 19;
 	public static readonly COLOR = 20;
-	public static readonly ATTR = 21;
-	public static readonly PROPERTY = 22;
-	public static readonly VALUE = 23;
-	public static readonly FROM = 24;
-	public static readonly TO = 25;
-	public static readonly EDGEOP = 26;
-	public static readonly SPACES = 27;
+	public static readonly EDGEOP = 21;
+	public static readonly SPACES = 22;
 	public static readonly RULE_story = 0;
 	public static readonly RULE_config = 1;
 	public static readonly RULE_layout = 2;
@@ -81,13 +76,14 @@ export class FurumaiParser extends Parser {
 	public static readonly RULE_id_selector = 23;
 	public static readonly RULE_edge_selector = 24;
 	public static readonly RULE_declaration = 25;
+	public static readonly RULE_value = 26;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
 		"story", "config", "layout", "update", "stmt_list", "stmt", "group", "zone", 
 		"node_stmt", "edge_stmt", "hide", "hide_elem", "hide_edge", "attr_list", 
 		"assignment", "style", "css_stmt", "selector_list", "selector", "basic_selector", 
 		"univ_selector", "type_selector", "class_selector", "id_selector", "edge_selector", 
-		"declaration",
+		"declaration", "value",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
@@ -98,8 +94,8 @@ export class FurumaiParser extends Parser {
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
 		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		undefined, undefined, undefined, undefined, "ID", "STRING", "COLOR", "ATTR", 
-		"PROPERTY", "VALUE", "FROM", "TO", "EDGEOP", "SPACES",
+		undefined, undefined, undefined, undefined, "ID", "STRING", "COLOR", "EDGEOP", 
+		"SPACES",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(FurumaiParser._LITERAL_NAMES, FurumaiParser._SYMBOLIC_NAMES, []);
 
@@ -132,47 +128,47 @@ export class FurumaiParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 53;
+			this.state = 55;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__1) {
 				{
-				this.state = 52;
+				this.state = 54;
 				this.config();
 				}
 			}
 
-			this.state = 55;
+			this.state = 57;
 			this.layout();
-			this.state = 60;
+			this.state = 62;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 1, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 56;
+					this.state = 58;
 					this.match(FurumaiParser.T__0);
-					this.state = 57;
+					this.state = 59;
 					this.update();
 					}
 					}
 				}
-				this.state = 62;
+				this.state = 64;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 1, this._ctx);
 			}
-			this.state = 64;
+			this.state = 66;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__0) {
 				{
-				this.state = 63;
+				this.state = 65;
 				this.match(FurumaiParser.T__0);
 				}
 			}
 
-			this.state = 66;
+			this.state = 68;
 			this.match(FurumaiParser.EOF);
 			}
 		}
@@ -199,49 +195,49 @@ export class FurumaiParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 68;
+			this.state = 70;
 			this.match(FurumaiParser.T__1);
-			this.state = 69;
-			this.match(FurumaiParser.T__2);
 			this.state = 71;
+			this.match(FurumaiParser.T__2);
+			this.state = 73;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la === FurumaiParser.PROPERTY) {
+			if (_la === FurumaiParser.ID) {
 				{
-				this.state = 70;
+				this.state = 72;
 				this.declaration();
 				}
 			}
 
-			this.state = 77;
+			this.state = 79;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 4, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 73;
+					this.state = 75;
 					this.match(FurumaiParser.T__3);
-					this.state = 74;
+					this.state = 76;
 					this.declaration();
 					}
 					}
 				}
-				this.state = 79;
+				this.state = 81;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 4, this._ctx);
 			}
-			this.state = 81;
+			this.state = 83;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__3) {
 				{
-				this.state = 80;
+				this.state = 82;
 				this.match(FurumaiParser.T__3);
 				}
 			}
 
-			this.state = 83;
+			this.state = 85;
 			this.match(FurumaiParser.T__4);
 			}
 		}
@@ -266,7 +262,7 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 85;
+			this.state = 87;
 			this.stmt_list();
 			}
 		}
@@ -291,7 +287,7 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 87;
+			this.state = 89;
 			this.stmt_list();
 			}
 		}
@@ -318,32 +314,32 @@ export class FurumaiParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 89;
+			this.state = 91;
 			this.stmt();
-			this.state = 94;
+			this.state = 96;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 6, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 90;
+					this.state = 92;
 					this.match(FurumaiParser.T__3);
-					this.state = 91;
+					this.state = 93;
 					this.stmt();
 					}
 					}
 				}
-				this.state = 96;
+				this.state = 98;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 6, this._ctx);
 			}
-			this.state = 98;
+			this.state = 100;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__3) {
 				{
-				this.state = 97;
+				this.state = 99;
 				this.match(FurumaiParser.T__3);
 				}
 			}
@@ -369,60 +365,64 @@ export class FurumaiParser extends Parser {
 		let _localctx: StmtContext = new StmtContext(this._ctx, this.state);
 		this.enterRule(_localctx, 10, FurumaiParser.RULE_stmt);
 		try {
-			this.state = 107;
+			this.state = 109;
 			this._errHandler.sync(this);
-			switch (this._input.LA(1)) {
-			case FurumaiParser.T__5:
+			switch ( this.interpreter.adaptivePredict(this._input, 8, this._ctx) ) {
+			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 100;
+				this.state = 102;
 				this.group();
 				}
 				break;
-			case FurumaiParser.T__6:
+
+			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 101;
+				this.state = 103;
 				this.zone();
 				}
 				break;
-			case FurumaiParser.ID:
+
+			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 102;
+				this.state = 104;
 				this.node_stmt();
 				}
 				break;
-			case FurumaiParser.FROM:
+
+			case 4:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 103;
+				this.state = 105;
 				this.edge_stmt();
 				}
 				break;
-			case FurumaiParser.T__7:
+
+			case 5:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 104;
+				this.state = 106;
 				this.hide();
 				}
 				break;
-			case FurumaiParser.ATTR:
+
+			case 6:
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 105;
+				this.state = 107;
 				this.assignment();
 				}
 				break;
-			case FurumaiParser.T__13:
+
+			case 7:
 				this.enterOuterAlt(_localctx, 7);
 				{
-				this.state = 106;
+				this.state = 108;
 				this.style();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (re) {
@@ -446,15 +446,15 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 109;
-			this.match(FurumaiParser.T__5);
-			this.state = 110;
-			this.match(FurumaiParser.ID);
 			this.state = 111;
-			this.match(FurumaiParser.T__2);
+			this.match(FurumaiParser.T__5);
 			this.state = 112;
-			this.stmt_list();
+			this.match(FurumaiParser.ID);
 			this.state = 113;
+			this.match(FurumaiParser.T__2);
+			this.state = 114;
+			this.stmt_list();
+			this.state = 115;
 			this.match(FurumaiParser.T__4);
 			}
 		}
@@ -479,15 +479,15 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 115;
-			this.match(FurumaiParser.T__6);
-			this.state = 116;
-			this.match(FurumaiParser.ID);
 			this.state = 117;
-			this.match(FurumaiParser.T__2);
+			this.match(FurumaiParser.T__6);
 			this.state = 118;
-			this.stmt_list();
+			this.match(FurumaiParser.ID);
 			this.state = 119;
+			this.match(FurumaiParser.T__2);
+			this.state = 120;
+			this.stmt_list();
+			this.state = 121;
 			this.match(FurumaiParser.T__4);
 			}
 		}
@@ -513,14 +513,14 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 121;
-			this.match(FurumaiParser.ID);
 			this.state = 123;
+			this.match(FurumaiParser.ID);
+			this.state = 125;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__8) {
 				{
-				this.state = 122;
+				this.state = 124;
 				this.attr_list();
 				}
 			}
@@ -549,18 +549,18 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 125;
-			this.match(FurumaiParser.FROM);
-			this.state = 126;
-			this.match(FurumaiParser.EDGEOP);
 			this.state = 127;
-			this.match(FurumaiParser.TO);
+			this.match(FurumaiParser.ID);
+			this.state = 128;
+			this.match(FurumaiParser.EDGEOP);
 			this.state = 129;
+			this.match(FurumaiParser.ID);
+			this.state = 131;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__8) {
 				{
-				this.state = 128;
+				this.state = 130;
 				this.attr_list();
 				}
 			}
@@ -586,13 +586,13 @@ export class FurumaiParser extends Parser {
 		let _localctx: HideContext = new HideContext(this._ctx, this.state);
 		this.enterRule(_localctx, 20, FurumaiParser.RULE_hide);
 		try {
-			this.state = 133;
+			this.state = 135;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 11, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 131;
+				this.state = 133;
 				this.hide_elem();
 				}
 				break;
@@ -600,7 +600,7 @@ export class FurumaiParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 132;
+				this.state = 134;
 				this.hide_edge();
 				}
 				break;
@@ -627,9 +627,9 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 135;
+			this.state = 137;
 			this.match(FurumaiParser.T__7);
-			this.state = 136;
+			this.state = 138;
 			this.match(FurumaiParser.ID);
 			}
 		}
@@ -654,14 +654,14 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 138;
-			this.match(FurumaiParser.T__7);
-			this.state = 139;
-			this.match(FurumaiParser.FROM);
 			this.state = 140;
-			this.match(FurumaiParser.EDGEOP);
+			this.match(FurumaiParser.T__7);
 			this.state = 141;
-			this.match(FurumaiParser.TO);
+			this.match(FurumaiParser.ID);
+			this.state = 142;
+			this.match(FurumaiParser.EDGEOP);
+			this.state = 143;
+			this.match(FurumaiParser.ID);
 			}
 		}
 		catch (re) {
@@ -687,23 +687,23 @@ export class FurumaiParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 143;
+			this.state = 145;
 			this.match(FurumaiParser.T__8);
-			this.state = 144;
+			this.state = 146;
 			this.assignment();
-			this.state = 151;
+			this.state = 153;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 13, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 146;
+					this.state = 148;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 					if (_la === FurumaiParser.T__3 || _la === FurumaiParser.T__9) {
 						{
-						this.state = 145;
+						this.state = 147;
 						_la = this._input.LA(1);
 						if (!(_la === FurumaiParser.T__3 || _la === FurumaiParser.T__9)) {
 						this._errHandler.recoverInline(this);
@@ -718,21 +718,21 @@ export class FurumaiParser extends Parser {
 						}
 					}
 
-					this.state = 148;
+					this.state = 150;
 					this.assignment();
 					}
 					}
 				}
-				this.state = 153;
+				this.state = 155;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 13, this._ctx);
 			}
-			this.state = 155;
+			this.state = 157;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__3 || _la === FurumaiParser.T__9) {
 				{
-				this.state = 154;
+				this.state = 156;
 				_la = this._input.LA(1);
 				if (!(_la === FurumaiParser.T__3 || _la === FurumaiParser.T__9)) {
 				this._errHandler.recoverInline(this);
@@ -747,7 +747,7 @@ export class FurumaiParser extends Parser {
 				}
 			}
 
-			this.state = 157;
+			this.state = 159;
 			this.match(FurumaiParser.T__10);
 			}
 		}
@@ -773,9 +773,9 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 159;
-			this.match(FurumaiParser.ATTR);
-			this.state = 160;
+			this.state = 161;
+			this.match(FurumaiParser.ID);
+			this.state = 162;
 			_la = this._input.LA(1);
 			if (!(_la === FurumaiParser.T__11 || _la === FurumaiParser.T__12)) {
 			this._errHandler.recoverInline(this);
@@ -787,8 +787,8 @@ export class FurumaiParser extends Parser {
 				this._errHandler.reportMatch(this);
 				this.consume();
 			}
-			this.state = 161;
-			this.match(FurumaiParser.VALUE);
+			this.state = 163;
+			this.value();
 			}
 		}
 		catch (re) {
@@ -813,25 +813,25 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 163;
+			this.state = 165;
 			this.match(FurumaiParser.T__13);
-			this.state = 164;
+			this.state = 166;
 			this.match(FurumaiParser.T__2);
-			this.state = 168;
+			this.state = 170;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FurumaiParser.T__14) | (1 << FurumaiParser.T__15) | (1 << FurumaiParser.T__16) | (1 << FurumaiParser.ID) | (1 << FurumaiParser.FROM))) !== 0)) {
+			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FurumaiParser.T__14) | (1 << FurumaiParser.T__15) | (1 << FurumaiParser.T__16) | (1 << FurumaiParser.ID))) !== 0)) {
 				{
 				{
-				this.state = 165;
+				this.state = 167;
 				this.css_stmt();
 				}
 				}
-				this.state = 170;
+				this.state = 172;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 171;
+			this.state = 173;
 			this.match(FurumaiParser.T__4);
 			}
 		}
@@ -858,49 +858,49 @@ export class FurumaiParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 173;
+			this.state = 175;
 			this.selector_list();
-			this.state = 174;
-			this.match(FurumaiParser.T__2);
 			this.state = 176;
+			this.match(FurumaiParser.T__2);
+			this.state = 178;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la === FurumaiParser.PROPERTY) {
+			if (_la === FurumaiParser.ID) {
 				{
-				this.state = 175;
+				this.state = 177;
 				this.declaration();
 				}
 			}
 
-			this.state = 182;
+			this.state = 184;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 17, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 178;
+					this.state = 180;
 					this.match(FurumaiParser.T__3);
-					this.state = 179;
+					this.state = 181;
 					this.declaration();
 					}
 					}
 				}
-				this.state = 184;
+				this.state = 186;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 17, this._ctx);
 			}
-			this.state = 186;
+			this.state = 188;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__3) {
 				{
-				this.state = 185;
+				this.state = 187;
 				this.match(FurumaiParser.T__3);
 				}
 			}
 
-			this.state = 188;
+			this.state = 190;
 			this.match(FurumaiParser.T__4);
 			}
 		}
@@ -927,32 +927,32 @@ export class FurumaiParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 190;
+			this.state = 192;
 			this.selector();
-			this.state = 195;
+			this.state = 197;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 19, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 191;
+					this.state = 193;
 					this.match(FurumaiParser.T__9);
-					this.state = 192;
+					this.state = 194;
 					this.selector();
 					}
 					}
 				}
-				this.state = 197;
+				this.state = 199;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 19, this._ctx);
 			}
-			this.state = 199;
+			this.state = 201;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === FurumaiParser.T__9) {
 				{
-				this.state = 198;
+				this.state = 200;
 				this.match(FurumaiParser.T__9);
 				}
 			}
@@ -981,20 +981,20 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 202;
+			this.state = 204;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 201;
+				this.state = 203;
 				this.basic_selector();
 				}
 				}
-				this.state = 204;
+				this.state = 206;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FurumaiParser.T__14) | (1 << FurumaiParser.T__15) | (1 << FurumaiParser.T__16) | (1 << FurumaiParser.ID) | (1 << FurumaiParser.FROM))) !== 0));
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FurumaiParser.T__14) | (1 << FurumaiParser.T__15) | (1 << FurumaiParser.T__16) | (1 << FurumaiParser.ID))) !== 0));
 			}
 		}
 		catch (re) {
@@ -1016,46 +1016,48 @@ export class FurumaiParser extends Parser {
 		let _localctx: Basic_selectorContext = new Basic_selectorContext(this._ctx, this.state);
 		this.enterRule(_localctx, 38, FurumaiParser.RULE_basic_selector);
 		try {
-			this.state = 211;
+			this.state = 213;
 			this._errHandler.sync(this);
-			switch (this._input.LA(1)) {
-			case FurumaiParser.T__14:
+			switch ( this.interpreter.adaptivePredict(this._input, 22, this._ctx) ) {
+			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 206;
+				this.state = 208;
 				this.univ_selector();
 				}
 				break;
-			case FurumaiParser.ID:
+
+			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 207;
+				this.state = 209;
 				this.type_selector();
 				}
 				break;
-			case FurumaiParser.T__15:
+
+			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 208;
+				this.state = 210;
 				this.class_selector();
 				}
 				break;
-			case FurumaiParser.T__16:
+
+			case 4:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 209;
+				this.state = 211;
 				this.id_selector();
 				}
 				break;
-			case FurumaiParser.FROM:
+
+			case 5:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 210;
+				this.state = 212;
 				this.edge_selector();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (re) {
@@ -1079,7 +1081,7 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 213;
+			this.state = 215;
 			this.match(FurumaiParser.T__14);
 			}
 		}
@@ -1104,7 +1106,7 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 215;
+			this.state = 217;
 			this.match(FurumaiParser.ID);
 			}
 		}
@@ -1129,9 +1131,9 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 217;
+			this.state = 219;
 			this.match(FurumaiParser.T__15);
-			this.state = 218;
+			this.state = 220;
 			this.match(FurumaiParser.ID);
 			}
 		}
@@ -1156,9 +1158,9 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 220;
+			this.state = 222;
 			this.match(FurumaiParser.T__16);
-			this.state = 221;
+			this.state = 223;
 			this.match(FurumaiParser.ID);
 			}
 		}
@@ -1183,12 +1185,12 @@ export class FurumaiParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 223;
-			this.match(FurumaiParser.FROM);
-			this.state = 224;
-			this.match(FurumaiParser.EDGEOP);
 			this.state = 225;
-			this.match(FurumaiParser.TO);
+			this.match(FurumaiParser.ID);
+			this.state = 226;
+			this.match(FurumaiParser.EDGEOP);
+			this.state = 227;
+			this.match(FurumaiParser.ID);
 			}
 		}
 		catch (re) {
@@ -1209,15 +1211,64 @@ export class FurumaiParser extends Parser {
 	public declaration(): DeclarationContext {
 		let _localctx: DeclarationContext = new DeclarationContext(this._ctx, this.state);
 		this.enterRule(_localctx, 50, FurumaiParser.RULE_declaration);
+		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 227;
-			this.match(FurumaiParser.PROPERTY);
-			this.state = 228;
-			this.match(FurumaiParser.T__11);
 			this.state = 229;
-			this.match(FurumaiParser.VALUE);
+			this.match(FurumaiParser.ID);
+			this.state = 230;
+			this.match(FurumaiParser.T__11);
+			this.state = 232;
+			this._errHandler.sync(this);
+			_la = this._input.LA(1);
+			do {
+				{
+				{
+				this.state = 231;
+				this.value();
+				}
+				}
+				this.state = 234;
+				this._errHandler.sync(this);
+				_la = this._input.LA(1);
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FurumaiParser.ID) | (1 << FurumaiParser.STRING) | (1 << FurumaiParser.COLOR))) !== 0));
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public value(): ValueContext {
+		let _localctx: ValueContext = new ValueContext(this._ctx, this.state);
+		this.enterRule(_localctx, 52, FurumaiParser.RULE_value);
+		let _la: number;
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 236;
+			_la = this._input.LA(1);
+			if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << FurumaiParser.ID) | (1 << FurumaiParser.STRING) | (1 << FurumaiParser.COLOR))) !== 0))) {
+			this._errHandler.recoverInline(this);
+			} else {
+				if (this._input.LA(1) === Token.EOF) {
+					this.matchedEOF = true;
+				}
+
+				this._errHandler.reportMatch(this);
+				this.consume();
+			}
 			}
 		}
 		catch (re) {
@@ -1236,106 +1287,110 @@ export class FurumaiParser extends Parser {
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x1D\xEA\x04\x02" +
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x18\xF1\x04\x02" +
 		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
 		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04" +
 		"\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x04\x11\t\x11\x04\x12\t\x12\x04" +
 		"\x13\t\x13\x04\x14\t\x14\x04\x15\t\x15\x04\x16\t\x16\x04\x17\t\x17\x04" +
-		"\x18\t\x18\x04\x19\t\x19\x04\x1A\t\x1A\x04\x1B\t\x1B\x03\x02\x05\x028" +
-		"\n\x02\x03\x02\x03\x02\x03\x02\x07\x02=\n\x02\f\x02\x0E\x02@\v\x02\x03" +
-		"\x02\x05\x02C\n\x02\x03\x02\x03\x02\x03\x03\x03\x03\x03\x03\x05\x03J\n" +
-		"\x03\x03\x03\x03\x03\x07\x03N\n\x03\f\x03\x0E\x03Q\v\x03\x03\x03\x05\x03" +
-		"T\n\x03\x03\x03\x03\x03\x03\x04\x03\x04\x03\x05\x03\x05\x03\x06\x03\x06" +
-		"\x03\x06\x07\x06_\n\x06\f\x06\x0E\x06b\v\x06\x03\x06\x05\x06e\n\x06\x03" +
-		"\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x05\x07n\n\x07\x03" +
-		"\b\x03\b\x03\b\x03\b\x03\b\x03\b\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t\x03" +
-		"\n\x03\n\x05\n~\n\n\x03\v\x03\v\x03\v\x03\v\x05\v\x84\n\v\x03\f\x03\f" +
-		"\x05\f\x88\n\f\x03\r\x03\r\x03\r\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E" +
-		"\x03\x0F\x03\x0F\x03\x0F\x05\x0F\x95\n\x0F\x03\x0F\x07\x0F\x98\n\x0F\f" +
-		"\x0F\x0E\x0F\x9B\v\x0F\x03\x0F\x05\x0F\x9E\n\x0F\x03\x0F\x03\x0F\x03\x10" +
-		"\x03\x10\x03\x10\x03\x10\x03\x11\x03\x11\x03\x11\x07\x11\xA9\n\x11\f\x11" +
-		"\x0E\x11\xAC\v\x11\x03\x11\x03\x11\x03\x12\x03\x12\x03\x12\x05\x12\xB3" +
-		"\n\x12\x03\x12\x03\x12\x07\x12\xB7\n\x12\f\x12\x0E\x12\xBA\v\x12\x03\x12" +
-		"\x05\x12\xBD\n\x12\x03\x12\x03\x12\x03\x13\x03\x13\x03\x13\x07\x13\xC4" +
-		"\n\x13\f\x13\x0E\x13\xC7\v\x13\x03\x13\x05\x13\xCA\n\x13\x03\x14\x06\x14" +
-		"\xCD\n\x14\r\x14\x0E\x14\xCE\x03\x15\x03\x15\x03\x15\x03\x15\x03\x15\x05" +
-		"\x15\xD6\n\x15\x03\x16\x03\x16\x03\x17\x03\x17\x03\x18\x03\x18\x03\x18" +
-		"\x03\x19\x03\x19\x03\x19\x03\x1A\x03\x1A\x03\x1A\x03\x1A\x03\x1B\x03\x1B" +
-		"\x03\x1B\x03\x1B\x03\x1B\x02\x02\x02\x1C\x02\x02\x04\x02\x06\x02\b\x02" +
-		"\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x1C" +
-		"\x02\x1E\x02 \x02\"\x02$\x02&\x02(\x02*\x02,\x02.\x020\x022\x024\x02\x02" +
-		"\x04\x04\x02\x06\x06\f\f\x03\x02\x0E\x0F\x02\xEE\x027\x03\x02\x02\x02" +
-		"\x04F\x03\x02\x02\x02\x06W\x03\x02\x02\x02\bY\x03\x02\x02\x02\n[\x03\x02" +
-		"\x02\x02\fm\x03\x02\x02\x02\x0Eo\x03\x02\x02\x02\x10u\x03\x02\x02\x02" +
-		"\x12{\x03\x02\x02\x02\x14\x7F\x03\x02\x02\x02\x16\x87\x03\x02\x02\x02" +
-		"\x18\x89\x03\x02\x02\x02\x1A\x8C\x03\x02\x02\x02\x1C\x91\x03\x02\x02\x02" +
-		"\x1E\xA1\x03\x02\x02\x02 \xA5\x03\x02\x02\x02\"\xAF\x03\x02\x02\x02$\xC0" +
-		"\x03\x02\x02\x02&\xCC\x03\x02\x02\x02(\xD5\x03\x02\x02\x02*\xD7\x03\x02" +
-		"\x02\x02,\xD9\x03\x02\x02\x02.\xDB\x03\x02\x02\x020\xDE\x03\x02\x02\x02" +
-		"2\xE1\x03\x02\x02\x024\xE5\x03\x02\x02\x0268\x05\x04\x03\x0276\x03\x02" +
-		"\x02\x0278\x03\x02\x02\x0289\x03\x02\x02\x029>\x05\x06\x04\x02:;\x07\x03" +
-		"\x02\x02;=\x05\b\x05\x02<:\x03\x02\x02\x02=@\x03\x02\x02\x02><\x03\x02" +
-		"\x02\x02>?\x03\x02\x02\x02?B\x03\x02\x02\x02@>\x03\x02\x02\x02AC\x07\x03" +
-		"\x02\x02BA\x03\x02\x02\x02BC\x03\x02\x02\x02CD\x03\x02\x02\x02DE\x07\x02" +
-		"\x02\x03E\x03\x03\x02\x02\x02FG\x07\x04\x02\x02GI\x07\x05\x02\x02HJ\x05" +
-		"4\x1B\x02IH\x03\x02\x02\x02IJ\x03\x02\x02\x02JO\x03\x02\x02\x02KL\x07" +
-		"\x06\x02\x02LN\x054\x1B\x02MK\x03\x02\x02\x02NQ\x03\x02\x02\x02OM\x03" +
-		"\x02\x02\x02OP\x03\x02\x02\x02PS\x03\x02\x02\x02QO\x03\x02\x02\x02RT\x07" +
-		"\x06\x02\x02SR\x03\x02\x02\x02ST\x03\x02\x02\x02TU\x03\x02\x02\x02UV\x07" +
-		"\x07\x02\x02V\x05\x03\x02\x02\x02WX\x05\n\x06\x02X\x07\x03\x02\x02\x02" +
-		"YZ\x05\n\x06\x02Z\t\x03\x02\x02\x02[`\x05\f\x07\x02\\]\x07\x06\x02\x02" +
-		"]_\x05\f\x07\x02^\\\x03\x02\x02\x02_b\x03\x02\x02\x02`^\x03\x02\x02\x02" +
-		"`a\x03\x02\x02\x02ad\x03\x02\x02\x02b`\x03\x02\x02\x02ce\x07\x06\x02\x02" +
-		"dc\x03\x02\x02\x02de\x03\x02\x02\x02e\v\x03\x02\x02\x02fn\x05\x0E\b\x02" +
-		"gn\x05\x10\t\x02hn\x05\x12\n\x02in\x05\x14\v\x02jn\x05\x16\f\x02kn\x05" +
-		"\x1E\x10\x02ln\x05 \x11\x02mf\x03\x02\x02\x02mg\x03\x02\x02\x02mh\x03" +
-		"\x02\x02\x02mi\x03\x02\x02\x02mj\x03\x02\x02\x02mk\x03\x02\x02\x02ml\x03" +
-		"\x02\x02\x02n\r\x03\x02\x02\x02op\x07\b\x02\x02pq\x07\x14\x02\x02qr\x07" +
-		"\x05\x02\x02rs\x05\n\x06\x02st\x07\x07\x02\x02t\x0F\x03\x02\x02\x02uv" +
-		"\x07\t\x02\x02vw\x07\x14\x02\x02wx\x07\x05\x02\x02xy\x05\n\x06\x02yz\x07" +
-		"\x07\x02\x02z\x11\x03\x02\x02\x02{}\x07\x14\x02\x02|~\x05\x1C\x0F\x02" +
-		"}|\x03\x02\x02\x02}~\x03\x02\x02\x02~\x13\x03\x02\x02\x02\x7F\x80\x07" +
-		"\x1A\x02\x02\x80\x81\x07\x1C\x02\x02\x81\x83\x07\x1B\x02\x02\x82\x84\x05" +
-		"\x1C\x0F\x02\x83\x82\x03\x02\x02\x02\x83\x84\x03\x02\x02\x02\x84\x15\x03" +
-		"\x02\x02\x02\x85\x88\x05\x18\r\x02\x86\x88\x05\x1A\x0E\x02\x87\x85\x03" +
-		"\x02\x02\x02\x87\x86\x03\x02\x02\x02\x88\x17\x03\x02\x02\x02\x89\x8A\x07" +
-		"\n\x02\x02\x8A\x8B\x07\x14\x02\x02\x8B\x19\x03\x02\x02\x02\x8C\x8D\x07" +
-		"\n\x02\x02\x8D\x8E\x07\x1A\x02\x02\x8E\x8F\x07\x1C\x02\x02\x8F\x90\x07" +
-		"\x1B\x02\x02\x90\x1B\x03\x02\x02\x02\x91\x92\x07\v\x02\x02\x92\x99\x05" +
-		"\x1E\x10\x02\x93\x95\t\x02\x02\x02\x94\x93\x03\x02\x02\x02\x94\x95\x03" +
-		"\x02\x02\x02\x95\x96\x03\x02\x02\x02\x96\x98\x05\x1E\x10\x02\x97\x94\x03" +
-		"\x02\x02\x02\x98\x9B\x03\x02\x02\x02\x99\x97\x03\x02\x02\x02\x99\x9A\x03" +
-		"\x02\x02\x02\x9A\x9D\x03\x02\x02\x02\x9B\x99\x03\x02\x02\x02\x9C\x9E\t" +
-		"\x02\x02\x02\x9D\x9C\x03\x02\x02\x02\x9D\x9E\x03\x02\x02\x02\x9E\x9F\x03" +
-		"\x02\x02\x02\x9F\xA0\x07\r\x02\x02\xA0\x1D\x03\x02\x02\x02\xA1\xA2\x07" +
-		"\x17\x02\x02\xA2\xA3\t\x03\x02\x02\xA3\xA4\x07\x19\x02\x02\xA4\x1F\x03" +
-		"\x02\x02\x02\xA5\xA6\x07\x10\x02\x02\xA6\xAA\x07\x05\x02\x02\xA7\xA9\x05" +
-		"\"\x12\x02\xA8\xA7\x03\x02\x02\x02\xA9\xAC\x03\x02\x02\x02\xAA\xA8\x03" +
-		"\x02\x02\x02\xAA\xAB\x03\x02\x02\x02\xAB\xAD\x03\x02\x02\x02\xAC\xAA\x03" +
-		"\x02\x02\x02\xAD\xAE\x07\x07\x02\x02\xAE!\x03\x02\x02\x02\xAF\xB0\x05" +
-		"$\x13\x02\xB0\xB2\x07\x05\x02\x02\xB1\xB3\x054\x1B\x02\xB2\xB1\x03\x02" +
-		"\x02\x02\xB2\xB3\x03\x02\x02\x02\xB3\xB8\x03\x02\x02\x02\xB4\xB5\x07\x06" +
-		"\x02\x02\xB5\xB7\x054\x1B\x02\xB6\xB4\x03\x02\x02\x02\xB7\xBA\x03\x02" +
-		"\x02\x02\xB8\xB6\x03\x02\x02\x02\xB8\xB9\x03\x02\x02\x02\xB9\xBC\x03\x02" +
-		"\x02\x02\xBA\xB8\x03\x02\x02\x02\xBB\xBD\x07\x06\x02\x02\xBC\xBB\x03\x02" +
-		"\x02\x02\xBC\xBD\x03\x02\x02\x02\xBD\xBE\x03\x02\x02\x02\xBE\xBF\x07\x07" +
-		"\x02\x02\xBF#\x03\x02\x02\x02\xC0\xC5\x05&\x14\x02\xC1\xC2\x07\f\x02\x02" +
-		"\xC2\xC4\x05&\x14\x02\xC3\xC1\x03\x02\x02\x02\xC4\xC7\x03\x02\x02\x02" +
-		"\xC5\xC3\x03\x02\x02\x02\xC5\xC6\x03\x02\x02\x02\xC6\xC9\x03\x02\x02\x02" +
-		"\xC7\xC5\x03\x02\x02\x02\xC8\xCA\x07\f\x02\x02\xC9\xC8\x03\x02\x02\x02" +
-		"\xC9\xCA\x03\x02\x02\x02\xCA%\x03\x02\x02\x02\xCB\xCD\x05(\x15\x02\xCC" +
-		"\xCB\x03\x02\x02\x02\xCD\xCE\x03\x02\x02\x02\xCE\xCC\x03\x02\x02\x02\xCE" +
-		"\xCF\x03\x02\x02\x02\xCF\'\x03\x02\x02\x02\xD0\xD6\x05*\x16\x02\xD1\xD6" +
-		"\x05,\x17\x02\xD2\xD6\x05.\x18\x02\xD3\xD6\x050\x19\x02\xD4\xD6\x052\x1A" +
-		"\x02\xD5\xD0\x03\x02\x02\x02\xD5\xD1\x03\x02\x02\x02\xD5\xD2\x03\x02\x02" +
-		"\x02\xD5\xD3\x03\x02\x02\x02\xD5\xD4\x03\x02\x02\x02\xD6)\x03\x02\x02" +
-		"\x02\xD7\xD8\x07\x11\x02\x02\xD8+\x03\x02\x02\x02\xD9\xDA\x07\x14\x02" +
-		"\x02\xDA-\x03\x02\x02\x02\xDB\xDC\x07\x12\x02\x02\xDC\xDD\x07\x14\x02" +
-		"\x02\xDD/\x03\x02\x02\x02\xDE\xDF\x07\x13\x02\x02\xDF\xE0\x07\x14\x02" +
-		"\x02\xE01\x03\x02\x02\x02\xE1\xE2\x07\x1A\x02\x02\xE2\xE3\x07\x1C\x02" +
-		"\x02\xE3\xE4\x07\x1B\x02\x02\xE43\x03\x02\x02\x02\xE5\xE6\x07\x18\x02" +
-		"\x02\xE6\xE7\x07\x0E\x02\x02\xE7\xE8\x07\x19\x02\x02\xE85\x03\x02\x02" +
-		"\x02\x197>BIOS`dm}\x83\x87\x94\x99\x9D\xAA\xB2\xB8\xBC\xC5\xC9\xCE\xD5";
+		"\x18\t\x18\x04\x19\t\x19\x04\x1A\t\x1A\x04\x1B\t\x1B\x04\x1C\t\x1C\x03" +
+		"\x02\x05\x02:\n\x02\x03\x02\x03\x02\x03\x02\x07\x02?\n\x02\f\x02\x0E\x02" +
+		"B\v\x02\x03\x02\x05\x02E\n\x02\x03\x02\x03\x02\x03\x03\x03\x03\x03\x03" +
+		"\x05\x03L\n\x03\x03\x03\x03\x03\x07\x03P\n\x03\f\x03\x0E\x03S\v\x03\x03" +
+		"\x03\x05\x03V\n\x03\x03\x03\x03\x03\x03\x04\x03\x04\x03\x05\x03\x05\x03" +
+		"\x06\x03\x06\x03\x06\x07\x06a\n\x06\f\x06\x0E\x06d\v\x06\x03\x06\x05\x06" +
+		"g\n\x06\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x05\x07" +
+		"p\n\x07\x03\b\x03\b\x03\b\x03\b\x03\b\x03\b\x03\t\x03\t\x03\t\x03\t\x03" +
+		"\t\x03\t\x03\n\x03\n\x05\n\x80\n\n\x03\v\x03\v\x03\v\x03\v\x05\v\x86\n" +
+		"\v\x03\f\x03\f\x05\f\x8A\n\f\x03\r\x03\r\x03\r\x03\x0E\x03\x0E\x03\x0E" +
+		"\x03\x0E\x03\x0E\x03\x0F\x03\x0F\x03\x0F\x05\x0F\x97\n\x0F\x03\x0F\x07" +
+		"\x0F\x9A\n\x0F\f\x0F\x0E\x0F\x9D\v\x0F\x03\x0F\x05\x0F\xA0\n\x0F\x03\x0F" +
+		"\x03\x0F\x03\x10\x03\x10\x03\x10\x03\x10\x03\x11\x03\x11\x03\x11\x07\x11" +
+		"\xAB\n\x11\f\x11\x0E\x11\xAE\v\x11\x03\x11\x03\x11\x03\x12\x03\x12\x03" +
+		"\x12\x05\x12\xB5\n\x12\x03\x12\x03\x12\x07\x12\xB9\n\x12\f\x12\x0E\x12" +
+		"\xBC\v\x12\x03\x12\x05\x12\xBF\n\x12\x03\x12\x03\x12\x03\x13\x03\x13\x03" +
+		"\x13\x07\x13\xC6\n\x13\f\x13\x0E\x13\xC9\v\x13\x03\x13\x05\x13\xCC\n\x13" +
+		"\x03\x14\x06\x14\xCF\n\x14\r\x14\x0E\x14\xD0\x03\x15\x03\x15\x03\x15\x03" +
+		"\x15\x03\x15\x05\x15\xD8\n\x15\x03\x16\x03\x16\x03\x17\x03\x17\x03\x18" +
+		"\x03\x18\x03\x18\x03\x19\x03\x19\x03\x19\x03\x1A\x03\x1A\x03\x1A\x03\x1A" +
+		"\x03\x1B\x03\x1B\x03\x1B\x06\x1B\xEB\n\x1B\r\x1B\x0E\x1B\xEC\x03\x1C\x03" +
+		"\x1C\x03\x1C\x02\x02\x02\x1D\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02" +
+		"\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x1C\x02\x1E\x02" +
+		" \x02\"\x02$\x02&\x02(\x02*\x02,\x02.\x020\x022\x024\x026\x02\x02\x05" +
+		"\x04\x02\x06\x06\f\f\x03\x02\x0E\x0F\x03\x02\x14\x16\x02\xF5\x029\x03" +
+		"\x02\x02\x02\x04H\x03\x02\x02\x02\x06Y\x03\x02\x02\x02\b[\x03\x02\x02" +
+		"\x02\n]\x03\x02\x02\x02\fo\x03\x02\x02\x02\x0Eq\x03\x02\x02\x02\x10w\x03" +
+		"\x02\x02\x02\x12}\x03\x02\x02\x02\x14\x81\x03\x02\x02\x02\x16\x89\x03" +
+		"\x02\x02\x02\x18\x8B\x03\x02\x02\x02\x1A\x8E\x03\x02\x02\x02\x1C\x93\x03" +
+		"\x02\x02\x02\x1E\xA3\x03\x02\x02\x02 \xA7\x03\x02\x02\x02\"\xB1\x03\x02" +
+		"\x02\x02$\xC2\x03\x02\x02\x02&\xCE\x03\x02\x02\x02(\xD7\x03\x02\x02\x02" +
+		"*\xD9\x03\x02\x02\x02,\xDB\x03\x02\x02\x02.\xDD\x03\x02\x02\x020\xE0\x03" +
+		"\x02\x02\x022\xE3\x03\x02\x02\x024\xE7\x03\x02\x02\x026\xEE\x03\x02\x02" +
+		"\x028:\x05\x04\x03\x0298\x03\x02\x02\x029:\x03\x02\x02\x02:;\x03\x02\x02" +
+		"\x02;@\x05\x06\x04\x02<=\x07\x03\x02\x02=?\x05\b\x05\x02><\x03\x02\x02" +
+		"\x02?B\x03\x02\x02\x02@>\x03\x02\x02\x02@A\x03\x02\x02\x02AD\x03\x02\x02" +
+		"\x02B@\x03\x02\x02\x02CE\x07\x03\x02\x02DC\x03\x02\x02\x02DE\x03\x02\x02" +
+		"\x02EF\x03\x02\x02\x02FG\x07\x02\x02\x03G\x03\x03\x02\x02\x02HI\x07\x04" +
+		"\x02\x02IK\x07\x05\x02\x02JL\x054\x1B\x02KJ\x03\x02\x02\x02KL\x03\x02" +
+		"\x02\x02LQ\x03\x02\x02\x02MN\x07\x06\x02\x02NP\x054\x1B\x02OM\x03\x02" +
+		"\x02\x02PS\x03\x02\x02\x02QO\x03\x02\x02\x02QR\x03\x02\x02\x02RU\x03\x02" +
+		"\x02\x02SQ\x03\x02\x02\x02TV\x07\x06\x02\x02UT\x03\x02\x02\x02UV\x03\x02" +
+		"\x02\x02VW\x03\x02\x02\x02WX\x07\x07\x02\x02X\x05\x03\x02\x02\x02YZ\x05" +
+		"\n\x06\x02Z\x07\x03\x02\x02\x02[\\\x05\n\x06\x02\\\t\x03\x02\x02\x02]" +
+		"b\x05\f\x07\x02^_\x07\x06\x02\x02_a\x05\f\x07\x02`^\x03\x02\x02\x02ad" +
+		"\x03\x02\x02\x02b`\x03\x02\x02\x02bc\x03\x02\x02\x02cf\x03\x02\x02\x02" +
+		"db\x03\x02\x02\x02eg\x07\x06\x02\x02fe\x03\x02\x02\x02fg\x03\x02\x02\x02" +
+		"g\v\x03\x02\x02\x02hp\x05\x0E\b\x02ip\x05\x10\t\x02jp\x05\x12\n\x02kp" +
+		"\x05\x14\v\x02lp\x05\x16\f\x02mp\x05\x1E\x10\x02np\x05 \x11\x02oh\x03" +
+		"\x02\x02\x02oi\x03\x02\x02\x02oj\x03\x02\x02\x02ok\x03\x02\x02\x02ol\x03" +
+		"\x02\x02\x02om\x03\x02\x02\x02on\x03\x02\x02\x02p\r\x03\x02\x02\x02qr" +
+		"\x07\b\x02\x02rs\x07\x14\x02\x02st\x07\x05\x02\x02tu\x05\n\x06\x02uv\x07" +
+		"\x07\x02\x02v\x0F\x03\x02\x02\x02wx\x07\t\x02\x02xy\x07\x14\x02\x02yz" +
+		"\x07\x05\x02\x02z{\x05\n\x06\x02{|\x07\x07\x02\x02|\x11\x03\x02\x02\x02" +
+		"}\x7F\x07\x14\x02\x02~\x80\x05\x1C\x0F\x02\x7F~\x03\x02\x02\x02\x7F\x80" +
+		"\x03\x02\x02\x02\x80\x13\x03\x02\x02\x02\x81\x82\x07\x14\x02\x02\x82\x83" +
+		"\x07\x17\x02\x02\x83\x85\x07\x14\x02\x02\x84\x86\x05\x1C\x0F\x02\x85\x84" +
+		"\x03\x02\x02\x02\x85\x86\x03\x02\x02\x02\x86\x15\x03\x02\x02\x02\x87\x8A" +
+		"\x05\x18\r\x02\x88\x8A\x05\x1A\x0E\x02\x89\x87\x03\x02\x02\x02\x89\x88" +
+		"\x03\x02\x02\x02\x8A\x17\x03\x02\x02\x02\x8B\x8C\x07\n\x02\x02\x8C\x8D" +
+		"\x07\x14\x02\x02\x8D\x19\x03\x02\x02\x02\x8E\x8F\x07\n\x02\x02\x8F\x90" +
+		"\x07\x14\x02\x02\x90\x91\x07\x17\x02\x02\x91\x92\x07\x14\x02\x02\x92\x1B" +
+		"\x03\x02\x02\x02\x93\x94\x07\v\x02\x02\x94\x9B\x05\x1E\x10\x02\x95\x97" +
+		"\t\x02\x02\x02\x96\x95\x03\x02\x02\x02\x96\x97\x03\x02\x02\x02\x97\x98" +
+		"\x03\x02\x02\x02\x98\x9A\x05\x1E\x10\x02\x99\x96\x03\x02\x02\x02\x9A\x9D" +
+		"\x03\x02\x02\x02\x9B\x99\x03\x02\x02\x02\x9B\x9C\x03\x02\x02\x02\x9C\x9F" +
+		"\x03\x02\x02\x02\x9D\x9B\x03\x02\x02\x02\x9E\xA0\t\x02\x02\x02\x9F\x9E" +
+		"\x03\x02\x02\x02\x9F\xA0\x03\x02\x02\x02\xA0\xA1\x03\x02\x02\x02\xA1\xA2" +
+		"\x07\r\x02\x02\xA2\x1D\x03\x02\x02\x02\xA3\xA4\x07\x14\x02\x02\xA4\xA5" +
+		"\t\x03\x02\x02\xA5\xA6\x056\x1C\x02\xA6\x1F\x03\x02\x02\x02\xA7\xA8\x07" +
+		"\x10\x02\x02\xA8\xAC\x07\x05\x02\x02\xA9\xAB\x05\"\x12\x02\xAA\xA9\x03" +
+		"\x02\x02\x02\xAB\xAE\x03\x02\x02\x02\xAC\xAA\x03\x02\x02\x02\xAC\xAD\x03" +
+		"\x02\x02\x02\xAD\xAF\x03\x02\x02\x02\xAE\xAC\x03\x02\x02\x02\xAF\xB0\x07" +
+		"\x07\x02\x02\xB0!\x03\x02\x02\x02\xB1\xB2\x05$\x13\x02\xB2\xB4\x07\x05" +
+		"\x02\x02\xB3\xB5\x054\x1B\x02\xB4\xB3\x03\x02\x02\x02\xB4\xB5\x03\x02" +
+		"\x02\x02\xB5\xBA\x03\x02\x02\x02\xB6\xB7\x07\x06\x02\x02\xB7\xB9\x054" +
+		"\x1B\x02\xB8\xB6\x03\x02\x02\x02\xB9\xBC\x03\x02\x02\x02\xBA\xB8\x03\x02" +
+		"\x02\x02\xBA\xBB\x03\x02\x02\x02\xBB\xBE\x03\x02\x02\x02\xBC\xBA\x03\x02" +
+		"\x02\x02\xBD\xBF\x07\x06\x02\x02\xBE\xBD\x03\x02\x02\x02\xBE\xBF\x03\x02" +
+		"\x02\x02\xBF\xC0\x03\x02\x02\x02\xC0\xC1\x07\x07\x02\x02\xC1#\x03\x02" +
+		"\x02\x02\xC2\xC7\x05&\x14\x02\xC3\xC4\x07\f\x02\x02\xC4\xC6\x05&\x14\x02" +
+		"\xC5\xC3\x03\x02\x02\x02\xC6\xC9\x03\x02\x02\x02\xC7\xC5\x03\x02\x02\x02" +
+		"\xC7\xC8\x03\x02\x02\x02\xC8\xCB\x03\x02\x02\x02\xC9\xC7\x03\x02\x02\x02" +
+		"\xCA\xCC\x07\f\x02\x02\xCB\xCA\x03\x02\x02\x02\xCB\xCC\x03\x02\x02\x02" +
+		"\xCC%\x03\x02\x02\x02\xCD\xCF\x05(\x15\x02\xCE\xCD\x03\x02\x02\x02\xCF" +
+		"\xD0\x03\x02\x02\x02\xD0\xCE\x03\x02\x02\x02\xD0\xD1\x03\x02\x02\x02\xD1" +
+		"\'\x03\x02\x02\x02\xD2\xD8\x05*\x16\x02\xD3\xD8\x05,\x17\x02\xD4\xD8\x05" +
+		".\x18\x02\xD5\xD8\x050\x19\x02\xD6\xD8\x052\x1A\x02\xD7\xD2\x03\x02\x02" +
+		"\x02\xD7\xD3\x03\x02\x02\x02\xD7\xD4\x03\x02\x02\x02\xD7\xD5\x03\x02\x02" +
+		"\x02\xD7\xD6\x03\x02\x02\x02\xD8)\x03\x02\x02\x02\xD9\xDA\x07\x11\x02" +
+		"\x02\xDA+\x03\x02\x02\x02\xDB\xDC\x07\x14\x02\x02\xDC-\x03\x02\x02\x02" +
+		"\xDD\xDE\x07\x12\x02\x02\xDE\xDF\x07\x14\x02\x02\xDF/\x03\x02\x02\x02" +
+		"\xE0\xE1\x07\x13\x02\x02\xE1\xE2\x07\x14\x02\x02\xE21\x03\x02\x02\x02" +
+		"\xE3\xE4\x07\x14\x02\x02\xE4\xE5\x07\x17\x02\x02\xE5\xE6\x07\x14\x02\x02" +
+		"\xE63\x03\x02\x02\x02\xE7\xE8\x07\x14\x02\x02\xE8\xEA\x07\x0E\x02\x02" +
+		"\xE9\xEB\x056\x1C\x02\xEA\xE9\x03\x02\x02\x02\xEB\xEC\x03\x02\x02\x02" +
+		"\xEC\xEA\x03\x02\x02\x02\xEC\xED\x03\x02\x02\x02\xED5\x03\x02\x02\x02" +
+		"\xEE\xEF\t\x04\x02\x02\xEF7\x03\x02\x02\x02\x1A9@DKQUbfo\x7F\x85\x89\x96" +
+		"\x9B\x9F\xAC\xB4\xBA\xBE\xC7\xCB\xD0\xD7\xEC";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!FurumaiParser.__ATN) {
@@ -1682,9 +1737,16 @@ export class Node_stmtContext extends ParserRuleContext {
 
 
 export class Edge_stmtContext extends ParserRuleContext {
-	public FROM(): TerminalNode { return this.getToken(FurumaiParser.FROM, 0); }
+	public ID(): TerminalNode[];
+	public ID(i: number): TerminalNode;
+	public ID(i?: number): TerminalNode | TerminalNode[] {
+		if (i === undefined) {
+			return this.getTokens(FurumaiParser.ID);
+		} else {
+			return this.getToken(FurumaiParser.ID, i);
+		}
+	}
 	public EDGEOP(): TerminalNode { return this.getToken(FurumaiParser.EDGEOP, 0); }
-	public TO(): TerminalNode { return this.getToken(FurumaiParser.TO, 0); }
 	public attr_list(): Attr_listContext | undefined {
 		return this.tryGetRuleContext(0, Attr_listContext);
 	}
@@ -1782,9 +1844,16 @@ export class Hide_elemContext extends ParserRuleContext {
 
 
 export class Hide_edgeContext extends ParserRuleContext {
-	public FROM(): TerminalNode { return this.getToken(FurumaiParser.FROM, 0); }
+	public ID(): TerminalNode[];
+	public ID(i: number): TerminalNode;
+	public ID(i?: number): TerminalNode | TerminalNode[] {
+		if (i === undefined) {
+			return this.getTokens(FurumaiParser.ID);
+		} else {
+			return this.getToken(FurumaiParser.ID, i);
+		}
+	}
 	public EDGEOP(): TerminalNode { return this.getToken(FurumaiParser.EDGEOP, 0); }
-	public TO(): TerminalNode { return this.getToken(FurumaiParser.TO, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
@@ -1852,8 +1921,10 @@ export class Attr_listContext extends ParserRuleContext {
 
 
 export class AssignmentContext extends ParserRuleContext {
-	public ATTR(): TerminalNode { return this.getToken(FurumaiParser.ATTR, 0); }
-	public VALUE(): TerminalNode { return this.getToken(FurumaiParser.VALUE, 0); }
+	public ID(): TerminalNode { return this.getToken(FurumaiParser.ID, 0); }
+	public value(): ValueContext {
+		return this.getRuleContext(0, ValueContext);
+	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
@@ -2201,9 +2272,16 @@ export class Id_selectorContext extends ParserRuleContext {
 
 
 export class Edge_selectorContext extends ParserRuleContext {
-	public FROM(): TerminalNode { return this.getToken(FurumaiParser.FROM, 0); }
+	public ID(): TerminalNode[];
+	public ID(i: number): TerminalNode;
+	public ID(i?: number): TerminalNode | TerminalNode[] {
+		if (i === undefined) {
+			return this.getTokens(FurumaiParser.ID);
+		} else {
+			return this.getToken(FurumaiParser.ID, i);
+		}
+	}
 	public EDGEOP(): TerminalNode { return this.getToken(FurumaiParser.EDGEOP, 0); }
-	public TO(): TerminalNode { return this.getToken(FurumaiParser.TO, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
@@ -2233,8 +2311,16 @@ export class Edge_selectorContext extends ParserRuleContext {
 
 
 export class DeclarationContext extends ParserRuleContext {
-	public PROPERTY(): TerminalNode { return this.getToken(FurumaiParser.PROPERTY, 0); }
-	public VALUE(): TerminalNode { return this.getToken(FurumaiParser.VALUE, 0); }
+	public ID(): TerminalNode { return this.getToken(FurumaiParser.ID, 0); }
+	public value(): ValueContext[];
+	public value(i: number): ValueContext;
+	public value(i?: number): ValueContext | ValueContext[] {
+		if (i === undefined) {
+			return this.getRuleContexts(ValueContext);
+		} else {
+			return this.getRuleContext(i, ValueContext);
+		}
+	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
@@ -2256,6 +2342,38 @@ export class DeclarationContext extends ParserRuleContext {
 	public accept<Result>(visitor: FurumaiVisitor<Result>): Result {
 		if (visitor.visitDeclaration) {
 			return visitor.visitDeclaration(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class ValueContext extends ParserRuleContext {
+	public COLOR(): TerminalNode | undefined { return this.tryGetToken(FurumaiParser.COLOR, 0); }
+	public STRING(): TerminalNode | undefined { return this.tryGetToken(FurumaiParser.STRING, 0); }
+	public ID(): TerminalNode | undefined { return this.tryGetToken(FurumaiParser.ID, 0); }
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return FurumaiParser.RULE_value; }
+	// @Override
+	public enterRule(listener: FurumaiListener): void {
+		if (listener.enterValue) {
+			listener.enterValue(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: FurumaiListener): void {
+		if (listener.exitValue) {
+			listener.exitValue(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: FurumaiVisitor<Result>): Result {
+		if (visitor.visitValue) {
+			return visitor.visitValue(this);
 		} else {
 			return visitor.visitChildren(this);
 		}

@@ -29,6 +29,7 @@ import { Class_selectorContext } from "./FurumaiParser";
 import { Id_selectorContext } from "./FurumaiParser";
 import { Edge_selectorContext } from "./FurumaiParser";
 import { DeclarationContext } from "./FurumaiParser";
+import { ValueContext } from "./FurumaiParser";
 
 
 /**
@@ -321,5 +322,16 @@ export interface FurumaiListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitDeclaration?: (ctx: DeclarationContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `FurumaiParser.value`.
+	 * @param ctx the parse tree
+	 */
+	enterValue?: (ctx: ValueContext) => void;
+	/**
+	 * Exit a parse tree produced by `FurumaiParser.value`.
+	 * @param ctx the parse tree
+	 */
+	exitValue?: (ctx: ValueContext) => void;
 }
 

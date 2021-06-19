@@ -16,16 +16,13 @@ export class Ruleset {
   }
 
   toCss(): string {
-    let s = ""
+    const ar = []
     for (const key of Object.keys(this.declarations)) {
-      s += key + ": " + this.declarations[key] + ";\n"
+      ar.push(key + ": " + this.declarations[key])
     }
-    const selectors = ", ".concat(...this.keys())
-    return `
-    ${selectors} {
-    ${s}
-    }
-    `
+    const selectors = this.keys().join(", ")
+    const s = ar.join(";\n  ")
+    return `${selectors} {\n  ${s}\n}`
   }
 
   isMatch(selector: BasicSelector, context: Context): boolean {
