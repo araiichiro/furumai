@@ -1,7 +1,8 @@
-import {Assigns, Style, Styles} from "@/style/Style";
-import {Box, Hide, HideEdge, HideElem} from "@/elem/Box";
-import {Orientation} from "@/layout/Engine";
+import {Assigns, Styles} from "@/style/Style";
+import {Elem} from "@/elem/Elem";
 import {Edge} from "@/elem/Edge";
+import {Orientation} from "@/layout/Engine";
+import {Hide} from "@/elem/Hide";
 
 export interface Config {
   mode: "snapshot" | "diff"
@@ -20,7 +21,7 @@ export class Story {
 
 export class Layout {
   constructor(
-    readonly boxes: Box[],
+    readonly boxes: Elem[],
     readonly edges: Edge[],
     readonly styles: Styles,
   ) {
@@ -29,7 +30,7 @@ export class Layout {
 
 export class Update {
   constructor(
-    readonly boxes: Box[],
+    readonly boxes: Elem[],
     readonly edges: Edge[],
     readonly hides: Hide[],
     readonly styles: Styles,
@@ -38,7 +39,7 @@ export class Update {
 }
 
 export interface Compound {
-  boxes: Box[]
+  boxes: Elem[]
   assigns: Assigns
 }
 

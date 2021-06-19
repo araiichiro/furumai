@@ -35,8 +35,9 @@ import {
 import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
 import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
 import {Config, Layout, Story, Update} from '@/elem/Story'
-import {Box, Hide} from "@/elem/Box";
+import {Elem} from "@/elem/Elem";
 import {Edge} from "@/elem/Edge";
+import {Hide} from "@/elem/Hide";
 import {
   BasicSelector,
   ClassSelector,
@@ -140,7 +141,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
   visitStmt_list(ctx: Stmt_listContext): StatementList {
     const statements = ctx.stmt().map((stmt) => this.visit(stmt))
-    const boxes: Box[] = []
+    const boxes: Elem[] = []
     const edges: Edge[] = []
     const hides: Hide[] = []
     const assigns: Assignment[] = []
@@ -185,7 +186,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     }
   }
 
-  visitGroup(ctx: GroupContext): Box {
+  visitGroup(ctx: GroupContext): Elem {
     return this.compound(ctx.stmt_list(), ctx.ID().text, "group")
   }
 
@@ -193,7 +194,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     return this.compound(ctx.stmt_list(), ctx.ID().text, "zone")
   }
 
-  compound(ctx: Stmt_listContext | undefined, id: string, className: string): Box {
+  compound(ctx: Stmt_listContext | undefined, id: string, className: string): Elem {
     if (ctx) {
       const s: StatementList = this.visit(ctx)
       if (s.styles.length > 0) {
@@ -205,19 +206,19 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       if (s.hides.length > 0) {
         throw new Error("not implemented inner hide description")
       }
-      return Box.of(id, className, Assignment.reduce(s.assigns), s.boxes)
+      return Elem.of(id, className, Assignment.reduce(s.assigns), s.boxes)
     } else {
-      return Box.of(id, className)
+      return Elem.of(id, className)
     }
   }
 
-  visitNode_stmt(ctx: Node_stmtContext): Box {
+  visitNode_stmt(ctx: Node_stmtContext): Elem {
     const attrs = ctx.attr_list()
     if (attrs) {
       const assigns = Assignment.reduce(this.visit(attrs))
-      return Box.of(ctx.ID().text, "node", assigns)
+      return Elem.of(ctx.ID().text, "node", assigns)
     } else {
-      return Box.of(ctx.ID().text, "node")
+      return Elem.of(ctx.ID().text, "node")
     }
   }
 
@@ -342,7 +343,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 }
 
 interface StatementList {
-  boxes: Box[]
+  boxes: Elem[]
   edges: Edge[]
   hides: Hide[]
   assigns: Assignment[]

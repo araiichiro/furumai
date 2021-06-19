@@ -1,17 +1,20 @@
-import {Area, Gap, Point, Size} from "@/layout/types";
+import {Area, Gap, Length, Point, Size} from "@/layout/types";
 import {Style} from "@/layout/Style";
 import {Engine} from "@/layout/Engine";
 
 export class Box<T> {
   constructor(
-    readonly id: string,
-    private base: Point, // relative position
-    readonly requested: Partial<Area>,
-    readonly children: Box<T>[],
-    readonly style: Style,
     readonly content: T,
+    readonly id: string,
+    readonly children: Box<T>[],
+    private readonly style: Style,
+    private readonly requested: Partial<Area>,
+    private base: Point = {x: Length.zero, y: Length.zero}, // relative position
     private fitArea: Area | undefined = undefined
   ) {
+  }
+  get point(): Point {
+    return this.base
   }
 
   get area(): Area {
@@ -28,13 +31,15 @@ export class Box<T> {
 
   fit(engine: Engine): Area {
     const content = engine.fit(this.children, this.style)
-    const {base, padding, margin} = {
+    const {width, height, padding, margin} = {
       padding: Gap.zero,
       margin: Gap.zero,
       ...this.requested,
     }
+    const contentSize = content.add(padding)
     this.fitArea = new Area(
-      base || content.add(padding),
+      width || contentSize.width,
+      height || contentSize.height,
       padding,
       margin,
     )
@@ -42,22 +47,24 @@ export class Box<T> {
   }
 
   refit(engine: Engine, point: Point, size: Size) {
-    const {base, padding, margin} = {
+    const {width, height, padding, margin} = {
       padding: Gap.zero,
       margin: Gap.zero,
       ...this.requested,
     }
+    const contentSize = size.sub(margin)
     this.fitArea = new Area(
-      base || size.sub(margin),
+      width || contentSize.width,
+      height || contentSize.height,
       padding,
       margin,
     )
     engine.refit(this.children, this.style, this.fitArea.contentSize)
 
-    const {width, height} = size.diff(this.fitArea.base)
+    const diff = size.diff(this.fitArea.base)
     this.base = {
-      x: point.x.add(width.div(2)),
-      y: point.y.add(height.div(2)),
+      x: point.x.add(diff.width.div(2)),
+      y: point.y.add(diff.height.div(2)),
     }
   }
 }

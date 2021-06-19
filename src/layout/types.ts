@@ -1,10 +1,3 @@
-import {Assigns} from "@/style/Style";
-
-export interface Point {
-  x: Length
-  y: Length
-}
-
 export class Length {
   static zero = Length.create(0)
 
@@ -31,10 +24,23 @@ export class Length {
     return Length.create(Math.floor(this.v.px / n))
   }
 
+  toString(): string {
+    return this.v.toString()
+  }
+
   static max(...lengths: Length[]): Length {
     return lengths.reduce((ret, length) => {
       return ret.v.px > length.v.px ? ret : length
     }, Length.zero)
+  }
+}
+
+export class Point {
+  static zero = new Point(Length.zero, Length.zero)
+  constructor(
+    readonly x: Length,
+    readonly y: Length,
+  ) {
   }
 }
 
@@ -48,6 +54,10 @@ class Pixel {
   constructor(
     readonly px: number
   ) {
+  }
+
+  toString(): string {
+    return `${this.px}${Pixel.unit}`
   }
 }
 
@@ -137,34 +147,46 @@ export class Gap {
 }
 
 export class Area {
-  static zero = new Area(Size.zero, Gap.zero, Gap.zero)
+  static zero = Area.of(Size.zero, Gap.zero, Gap.zero)
 
-  static parse(attrs: Assigns): Partial<Area> {
+  static of(base: Size, padding: Gap, margin: Gap): Area {
+    const {width, height} = base
+    return new Area(width, height, padding, margin)
+  }
+
+  static parse(attrs: Partial<AreaAttrs>): Partial<Area> {
     const { width, height, padding, margin } = attrs
     return {
-      base: new Size(
-        width ? Length.parse(width) : Length.zero,
-        height ? Length.parse(height) : Length.zero,
-      ),
+      //base: new Size(
+        width: width ? Length.parse(width) : Length.zero,
+        height: height ? Length.parse(height) : Length.zero,
+      //),
       padding: padding ? Gap.of(padding) : undefined,
       margin: margin ? Gap.of(margin) : undefined,
     }
   }
 
   static withDefaultValue(area: Partial<Area>): Area {
-    const { base, padding, margin } = area
+    const { width, height, padding, margin } = area
     return new Area(
-      base || Size.zero,
+      width || Length.zero,
+      height || Length.zero,
+//      base || Size.zero,
       padding || Gap.zero,
       margin || Gap.zero,
     )
   }
 
   constructor(
-    public base: Size,
+    readonly width: Length,
+    readonly height: Length,
     readonly padding: Gap,
     readonly margin: Gap,
   ) {
+  }
+
+  get base(): Size {
+    return new Size(this.width, this.height)
   }
 
   diff(content: Size): Size {
@@ -185,6 +207,14 @@ export class Area {
   }
 
 }
+
+export interface AreaAttrs {
+  width: string
+  height: string
+  padding: string
+  margin: string
+}
+
 
 //new Size(toLength(width) || zero, toLength(height) || zero)
 // export class Size {

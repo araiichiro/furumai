@@ -1,5 +1,4 @@
 import {RoughSVG} from 'roughjs/bin/svg'
-import {Elem} from '@/layout/engine/Elem'
 
 const d = document
 let rc: RoughSVG = new RoughSVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))

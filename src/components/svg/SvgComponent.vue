@@ -4,17 +4,17 @@
       v-if="rough && roughHtml.length > 0"
       v-html="roughHtml"
       xmlns="http://www.w3.org/2000/svg"
-      :viewBox="`0 0 ${shape.box.width} ${shape.box.height}`"
-      :width="shape.box.width / 2"
-      :height="shape.box.height / 2"
+      :viewBox="`0 0 ${shape.g.shape.svgAttrs.svgAttrs.width} ${shape.g.shape.svgAttrs.svgAttrs.height}`"
+      :width="shape.g.shape.svgAttrs.svgAttrs.width / 2"
+      :height="shape.g.shape.svgAttrs.svgAttrs.height / 2"
       class="svg-root"
     ></svg>
     <svg
       v-else
       xmlns="http://www.w3.org/2000/svg"
-      :viewBox="`0 0 ${shape.box.width} ${shape.box.height}`"
-      :width="shape.box.width / 2"
-      :height="shape.box.height / 2"
+      :viewBox="`0 0 ${shape.g.shape.svgAttrs.svgAttrs.width} ${shape.g.shape.svgAttrs.svgAttrs.height}`"
+      :width="shape.g.shape.svgAttrs.svgAttrs.width / 2"
+      :height="shape.g.shape.svgAttrs.svgAttrs.height / 2"
       class="svg-root"
     >
       <svg:style type="text/css">

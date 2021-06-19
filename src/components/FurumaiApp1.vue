@@ -55,12 +55,9 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
-import {parse} from '@/parse/parser'
-import {Story} from '@/parse/Story'
 import * as model from '@/components/model/Group'
-import {Group} from '@/components/model/Group'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
-import {defaultConfig, vue} from "@/furumai/Processor";
+import {defaultConfig, toModels} from "@/furumai/processor";
 
 interface AppParams1 {
   code: string
@@ -135,7 +132,7 @@ export default class FurumaiApp1 extends Vue {
       ...this.furumaiData.animation,
     }
     try {
-      let svgs = vue(text)
+      let svgs = toModels(text)
       if (!this.furumaiData.displayFirstSvg) {
         const [first, ...rest] = svgs
         svgs = rest.length > 0 ? rest : svgs

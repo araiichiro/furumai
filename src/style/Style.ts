@@ -36,10 +36,6 @@ export class Selector {
     readonly filter: Filter,
   ) {
   }
-
-  toCss(): string{
-
-  }
 }
 
 export class Filter {
@@ -118,6 +114,11 @@ export class Styles {
       }
     }, {} as Assigns)
   }
+
+  toCss(): string {
+    return this.rules.map((rule) => rule.toCss()).join("\n")
+  }
+
 }
 
 export interface Elem {
