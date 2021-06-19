@@ -1,7 +1,7 @@
 grammar Furumai;
 
 story
-  : config? layout ( '---' update )* '---'? EOF
+  : config? ';'? layout ( '---' update )* '---'? EOF
   ;
 config
   : '@config' '{' declaration? ( ';' declaration )* ';'? '}'
@@ -143,4 +143,8 @@ EDGEOP
 
 SPACES
   : [ \u000B\t\r\n] -> channel(HIDDEN)
+  ;
+
+SINGLE_LINE_COMMENT
+  : '//' ( ~('\r' | '\n') )* ('\r' | '\n' | EOF) -> channel(HIDDEN)
   ;
