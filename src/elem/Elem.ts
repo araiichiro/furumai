@@ -68,10 +68,10 @@ export class Elem {
       classNames: this.classNames,
       context: this.context,
     })
-    const partialArea = Area.withDefaultValue(Area.parse({
+    const partialArea = Area.parse({
       ...myStyles,
       ...this.layout,
-    }))
+    })
     const layoutStyle: LayoutStyle = {
       ...defaultLayoutStyle,
       ...myStyles,
@@ -123,7 +123,7 @@ export class Presentation {
     }
     return {
       id: this.id,
-      type: this.appearance.shape,
+      "class" : this.classNames.join(" "),
       svgAttrs: SecureSvgAttrs.of(asString(attrs)),
       ...this.appearance,
     }

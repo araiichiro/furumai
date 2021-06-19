@@ -69,7 +69,6 @@ export const defaultStyleString = `
 };
 `
 
-const defaultStyle = parse(defaultStyleString).layout.styles
 
 export function toModels(furumaiCode: string): Svg[] {
   const story = parse(furumaiCode)
@@ -78,17 +77,25 @@ export function toModels(furumaiCode: string): Svg[] {
     ...story.config,
   }
   const engine = new LayoutEngine(config)
-  const styles = defaultStyle.update(story.layout.styles)
-  const root = Elem.of("_furumai", "root", {}, story.layout.boxes).toLayoutBox(styles)
+  const styles = parse(defaultStyleString).layout.styles.update(story.layout.styles)
+  const rootStyle = {
+    visibility: "hidden",
+  }
+  const root = Elem.of("_root", "root", rootStyle, story.layout.boxes).toLayoutBox(styles)
   const size = root.fit(engine)
   root.refit(engine, Point.zero, size.totalSize)
-
   let current: Field = {
     root,
     edges: story.layout.edges,
     styles,
   }
-  return [svg(current)]
+
+
+
+  const svgs = [svg(Point.zero, current)]
+
+
+  return svgs
 
   // for (let update of story.updates) {
   //   if (config.mode === "diff") {
@@ -161,17 +168,18 @@ interface Field {
   styles: Styles
 }
 
-function svg(field: Field): Svg {
+function svg(point: Point, field: Field): Svg {
   return {
     style: field.styles.toCss(),
-    g: toSvg(field.root),
+    g: toSvg(point, field.root),
   }
 }
 
-function toSvg(a: Box<Presentation>): Group {
+function toSvg(parent: Point, a: Box<Presentation>): Group {
+  const point = parent.add(a.point)
   return {
-    shape: a.content.shape(a.point, a.area),
-    children: a.children.map((child) => toSvg(child)),
+    shape: a.content.shape(point, a.area),
+    children: a.children.map((child) => toSvg(point, child)),
   }
 }
 

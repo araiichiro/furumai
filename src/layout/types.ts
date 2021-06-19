@@ -35,15 +35,6 @@ export class Length {
   }
 }
 
-export class Point {
-  static zero = new Point(Length.zero, Length.zero)
-  constructor(
-    readonly x: Length,
-    readonly y: Length,
-  ) {
-  }
-}
-
 class Pixel {
   static unit = "px"
   static zero = new Pixel(0)
@@ -58,6 +49,19 @@ class Pixel {
 
   toString(): string {
     return `${this.px}${Pixel.unit}`
+  }
+}
+
+export class Point {
+  static zero = new Point(Length.zero, Length.zero)
+  constructor(
+    readonly x: Length,
+    readonly y: Length,
+  ) {
+  }
+
+  add(other: Point): Point {
+    return new Point(this.x.add(other.x), this.y.add(other.y))
   }
 }
 
@@ -156,25 +160,13 @@ export class Area {
 
   static parse(attrs: Partial<AreaAttrs>): Partial<Area> {
     const { width, height, padding, margin } = attrs
-    return {
-      //base: new Size(
-        width: width ? Length.parse(width) : Length.zero,
-        height: height ? Length.parse(height) : Length.zero,
-      //),
-      padding: padding ? Gap.of(padding) : undefined,
-      margin: margin ? Gap.of(margin) : undefined,
+    const ret: Partial<Area> = {
+      width: m(Length.parse, width),
+      height: m(Length.parse, height),
+      padding: m(Gap.of, padding),
+      margin: m(Gap.of, margin),
     }
-  }
-
-  static withDefaultValue(area: Partial<Area>): Area {
-    const { width, height, padding, margin } = area
-    return new Area(
-      width || Length.zero,
-      height || Length.zero,
-//      base || Size.zero,
-      padding || Gap.zero,
-      margin || Gap.zero,
-    )
+    return deleteUndefined(ret)
   }
 
   constructor(
@@ -205,7 +197,6 @@ export class Area {
   get contentSize(): Size {
     return this.base.sub(this.padding)
   }
-
 }
 
 export interface AreaAttrs {
@@ -215,15 +206,19 @@ export interface AreaAttrs {
   margin: string
 }
 
+function m<A, B>(fn: (a: A)=>B, a: A | undefined): B | undefined {
+  if (a) {
+    return fn(a)
+  }
+  return undefined
+}
 
-//new Size(toLength(width) || zero, toLength(height) || zero)
-// export class Size {
-//   constructor(
-//     readonly width: Length,
-//     readonly height: Length,
-//   ) {
-//   }
-//
-// }
-
-
+function deleteUndefined<T extends any>(t: Partial<T>): Partial<T> {
+  return Object.keys(t).reduce((p, k) => {
+    if (t[k]) {
+      return {...p, [k]: t[k]}
+    } else {
+      return p
+    }
+  }, {} as Partial<T>)
+}

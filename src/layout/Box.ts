@@ -9,7 +9,7 @@ export class Box<T> {
     readonly children: Box<T>[],
     private readonly style: Style,
     private readonly requested: Partial<Area>,
-    private base: Point = {x: Length.zero, y: Length.zero}, // relative position
+    private base: Point = Point.zero, // relative position
     private fitArea: Area | undefined = undefined
   ) {
   }
@@ -61,10 +61,11 @@ export class Box<T> {
     )
     engine.refit(this.children, this.style, this.fitArea.contentSize)
 
+    const {top, left} = margin
     const diff = size.diff(this.fitArea.base)
-    this.base = {
-      x: point.x.add(diff.width.div(2)),
-      y: point.y.add(diff.height.div(2)),
-    }
+    this.base = new Point(
+      point.x.add(left).add(diff.width.div(2)),
+      point.y.add(top).add(diff.height.div(2)),
+    )
   }
 }

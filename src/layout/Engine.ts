@@ -1,4 +1,4 @@
-import {Length, Size} from "@/layout/types";
+import {Length, Point, Size} from "@/layout/types";
 import {Style} from "@/layout/Style";
 import {Box} from "@/layout/Box";
 
@@ -32,12 +32,11 @@ export class Engine {
       }, Size.zero)
       const gap = boundary.diff(content).width.div(2 * children.length)
       children.reduce((left, child) => {
-        const point = {x: left, y: Length.zero}
         const size = new Size(
           gap.add(child.totalSize.width).add(gap),
           boundary.height,
         )
-        child.refit(this, point, size)
+        child.refit(this, new Point(left, Length.zero), size)
         return left.add(size.width)
       }, Length.zero)
     } else {
