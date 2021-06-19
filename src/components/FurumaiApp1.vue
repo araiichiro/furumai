@@ -40,7 +40,7 @@
         </div>
         <div class="" ref="moments" v-else>
           <div class="card" v-for="s in svgs">
-            <SvgComponent v-bind:shape="s" v-bind:rough="furumaiData.rough"></SvgComponent>
+            <SvgComponent v-bind:svg="s" v-bind:rough="furumaiData.rough"></SvgComponent>
           </div>
         </div>
         <div class="nav-right moments-footer">

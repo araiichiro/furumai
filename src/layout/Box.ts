@@ -1,4 +1,4 @@
-import {Area, Gap, Length, Point, Size} from "@/layout/types";
+import {Area, Gap, Point, Size} from "@/layout/types";
 import {Style} from "@/layout/Style";
 import {Engine} from "@/layout/Engine";
 
@@ -67,4 +67,26 @@ export class Box<T> {
       point.y.add(diff.height.div(2)),
     )
   }
+
+  flatten(parent: Point): Array<FlatBox<T>> {
+    const point = parent.add(this.point)
+    const children = this.children.reduce((flat, child) => {
+      flat.push(...child.flatten(point.addGap(this.area.padding)))
+      return flat
+    }, [] as Array<FlatBox<T>>)
+    return [
+      {
+        point: point,
+        area: this.area,
+        content: this.content,
+      },
+      ...children,
+    ]
+  }
+}
+
+export interface FlatBox<T> {
+  point: Point
+  area: Area
+  content: T
 }

@@ -2,14 +2,11 @@ import {parse} from "@/parse/parser";
 import {Elem, Presentation} from "@/elem/Elem";
 import {Config} from "@/elem/Story";
 import {Engine as LayoutEngine} from "@/layout/Engine";
-import {Box} from "@/layout/Box";
+import {Box, FlatBox} from "@/layout/Box";
 import {Edge} from "@/elem/Edge";
 import {Styles} from "@/style/Style";
 import {Svg} from "@/components/model/Svg";
-import {SecureSvgAttrs} from "@/style/security";
-import {Hide} from "@/elem/Hide";
-import {Point} from "@/layout/types";
-import {Group} from "@/components/model/Group";
+import {Length, Point, Size} from "@/layout/types";
 
 export const defaultConfig: Config = {
   mode: "diff",
@@ -80,21 +77,24 @@ export function toModels(furumaiCode: string): Svg[] {
   const styles = parse(defaultStyleString).layout.styles.update(story.layout.styles)
   const rootStyle = {
     visibility: "hidden",
+    text: "",
   }
   const root = Elem.of("_root", "root", rootStyle, story.layout.boxes).toLayoutBox(styles)
   const size = root.fit(engine)
   root.refit(engine, Point.zero, size.totalSize)
+  const flatten = root.flatten(Point.zero)
   let current: Field = {
-    root,
+    size: root.totalSize,
+    boxes: flatten,
     edges: story.layout.edges,
     styles,
   }
 
 
 
-  const svgs = [svg(Point.zero, current)]
+  const svgs = [svg(current)]
 
-
+  console.log(svgs[0].shapes)
   return svgs
 
   // for (let update of story.updates) {
@@ -163,26 +163,20 @@ export function toModels(furumaiCode: string): Svg[] {
 }
 
 interface Field {
-  root: Box<Presentation>
+  size: Size
+  boxes: Array<FlatBox<Presentation>>
   edges: Edge[]
   styles: Styles
 }
 
-function svg(point: Point, field: Field): Svg {
+function svg(field: Field): Svg {
   return {
     style: field.styles.toCss(),
-    g: toSvg(point, field.root),
+    size: field.size,
+    shapes: field.boxes.map((box) => box.content.shape(box.point, box.area)),
+    edges: [],
   }
 }
-
-function toSvg(parent: Point, a: Box<Presentation>): Group {
-  const point = parent.add(a.point)
-  return {
-    shape: a.content.shape(point, a.area),
-    children: a.children.map((child) => toSvg(point, child)),
-  }
-}
-
 
 export function num(v?: any): number | undefined {
   return v ? Number(v) : undefined

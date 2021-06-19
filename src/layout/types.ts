@@ -41,6 +41,10 @@ export class Length {
     return Length.create(Math.floor(this.v.px / n))
   }
 
+  get pixel(): number {
+    return this.v.px
+  }
+
   toString(): string {
     return this.v.toString()
   }
@@ -201,6 +205,14 @@ export class Area {
 
   get contentSize(): Size {
     return this.base.sub(this.padding)
+  }
+
+  get cx(): Length {
+    return this.width.div(2)
+  }
+
+  get cy(): Length {
+    return this.height.div(2)
   }
 }
 

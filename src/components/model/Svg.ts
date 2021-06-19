@@ -1,6 +1,9 @@
-import {Group} from "@/components/model/Group";
+import {Shape} from "@/components/model/Shape";
+import {Size} from "@/layout/types";
 
 export interface Svg {
   style: string
-  g: Group
+  size: Size
+  shapes: Shape[]
+  edges: Shape[]
 }
