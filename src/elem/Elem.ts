@@ -1,6 +1,5 @@
 import {Area, Point} from "@/layout/types";
 import {Assigns, Context, Styles} from "@/style/Style";
-import {defaultStyle as defaultLayoutStyle, Style as LayoutStyle} from "@/layout/Style";
 import {Box} from "@/layout/Box";
 import {Shape} from "@/components/model/Shape";
 import {SecureSvgAttrs} from "@/style/security";
@@ -30,10 +29,6 @@ export class Elem {
     private readonly children: Elem[],
     private appearance: Partial<Appearance>,
     private layout: Partial<Layout>,
-
-    //private attrs: Assigns,
-    // private base: Point = {x: 0, y: 0},
-    // private size: Size = Size.zero,
     readonly context: Context = {},
   ) {
   }
@@ -62,21 +57,17 @@ export class Elem {
     this.setVisibility("hidden")
   }
 
-  toLayoutBox(styles: Styles): Box<Presentation> {
+  toPresentation(styles: Styles): Presentation[] {
     const myStyles = styles.query({
       id: this.id,
       classNames: this.classNames,
       context: this.context,
     })
-    const partialArea = Area.parse({
-      ...myStyles,
-      ...this.layout,
-    })
-    const layoutStyle: LayoutStyle = {
-      ...defaultLayoutStyle,
-      ...myStyles,
-    }
-    const elem: Presentation = Presentation.of(
+    const children = this.children.reduce((ret, child) => {
+      ret.push(...child.toPresentation(styles))
+      return ret
+    }, [] as Presentation[])
+    const p = Presentation.of(
       this.id,
       this.classNames,
       {
@@ -89,13 +80,19 @@ export class Elem {
         ...this.appearance,
       } as Appearance,
     )
+    return [p, ...children]
+  }
 
-    return new Box<Presentation>(
-      elem,
+  toLayoutBox(styles: Styles): Box {
+    const myStyles = styles.query({
+      id: this.id,
+      classNames: this.classNames,
+      context: this.context,
+    })
+    return Box.of(
       this.id,
       this.children.map((child) => child.toLayoutBox(styles)),
-      layoutStyle,
-      partialArea,
+      {...myStyles, ...this.layout as Assigns},
     )
   }
 }
@@ -110,7 +107,7 @@ export class Presentation {
   }
 
   constructor(
-    private readonly id: string,
+    readonly id: string,
     private readonly classNames: string[],
     private readonly appearance: Appearance,
   ) {

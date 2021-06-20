@@ -1,9 +1,9 @@
 import {Shape} from "@/components/model/Shape";
-import {Size} from "@/layout/types";
+import {Boundary} from "@/layout/types";
 
 export interface Svg {
   style: string
-  size: Size
+  size: Boundary
   shapes: Shape[]
   edges: Shape[]
 }

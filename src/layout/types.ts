@@ -18,6 +18,10 @@ class Pixel {
 export class Length {
   static zero = Length.create(0)
 
+  static pixel(v: number): Length {
+    return new Length(new Pixel(v))
+  }
+
   static parse(attr: string): Length {
     return new Length(Pixel.parse(attr))
   }
@@ -74,13 +78,13 @@ export class Point {
   }
 }
 
-export class Size {
-  static zero: Size = new Size(Length.zero, Length.zero)
+export class Boundary {
+  static zero: Boundary = new Boundary(Length.zero, Length.zero)
 
-  static max(...sizes: Size[]): Size {
-    return sizes.reduce((ret, size) => {
-      return new Size(Length.max(ret.width, size.width), Length.max(ret.height, size.height))
-    }, Size.zero)
+  static max(...bounds: Boundary[]): Boundary {
+    return bounds.reduce((ret, size) => {
+      return new Boundary(Length.max(ret.width, size.width), Length.max(ret.height, size.height))
+    }, Boundary.zero)
   }
 
   constructor(
@@ -89,26 +93,26 @@ export class Size {
   ) {
   }
 
-  add(gap: Gap): Size {
+  add(gap: Gap): Boundary {
     const {top, right, bottom, left} = gap
     const {width, height} = this
-    return new Size(
+    return new Boundary(
       width.add(right).add(left),
       height.add(top).add(bottom),
     )
   }
 
-  sub(gap: Gap): Size {
+  sub(gap: Gap): Boundary {
     const {top, right, bottom, left} = gap
     const {width, height} = this
-    return new Size(
+    return new Boundary(
       width.sub(right).sub(left),
       height.sub(top).sub(bottom),
     )
   }
 
-  diff(content: Size): Size {
-    return new Size(
+  diff(content: Boundary): Boundary {
+    return new Boundary(
       this.width.sub(content.width),
       this.height.sub(content.height),
     )
@@ -160,9 +164,9 @@ export class Gap {
 }
 
 export class Area {
-  static zero = Area.of(Size.zero, Gap.zero, Gap.zero)
+  static zero = Area.of(Boundary.zero, Gap.zero, Gap.zero)
 
-  static of(base: Size, padding: Gap, margin: Gap): Area {
+  static of(base: Boundary, padding: Gap, margin: Gap): Area {
     const {width, height} = base
     return new Area(width, height, padding, margin)
   }
@@ -186,24 +190,24 @@ export class Area {
   ) {
   }
 
-  get base(): Size {
-    return new Size(this.width, this.height)
+  get base(): Boundary {
+    return new Boundary(this.width, this.height)
   }
 
-  diff(content: Size): Size {
+  diff(content: Boundary): Boundary {
     const {width, height} = this.base
     const {top, right, bottom, left} = this.padding
-    return new Size(
+    return new Boundary(
       width.sub(right).sub(content.width).sub(left),
       height.sub(top).sub(content.height).sub(bottom),
     )
   }
 
-  get totalSize(): Size {
+  get totalSize(): Boundary {
     return this.base.add(this.margin)
   }
 
-  get contentSize(): Size {
+  get contentSize(): Boundary {
     return this.base.sub(this.padding)
   }
 
@@ -213,6 +217,10 @@ export class Area {
 
   get cy(): Length {
     return this.height.div(2)
+  }
+
+  get center(): Point {
+    return new Point(this.cx, this.cy)
   }
 }
 
@@ -238,4 +246,33 @@ function deleteUndefined<T extends any>(t: Partial<T>): Partial<T> {
       return p
     }
   }, {} as Partial<T>)
+}
+
+export class Location {
+  constructor(
+    readonly id: string,
+    readonly point: Point,
+    readonly area: Area,
+  ) {
+  }
+
+  get center(): Point {
+    return this.point.add(this.area.center)
+  }
+
+  get width(): Length {
+    return this.area.width
+  }
+
+  get height(): Length {
+    return this.area.height
+  }
+
+  get cx(): Length {
+    return this.center.x
+  }
+
+  get cy(): Length {
+    return this.center.y
+  }
 }

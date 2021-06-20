@@ -1,12 +1,26 @@
-import {Area, Gap, Point, Size} from "@/layout/types";
-import {Style} from "@/layout/Style";
+import {Area, Boundary, Gap, Location, Point} from "@/layout/types";
+import {defaultStyle, Style} from "@/layout/Style";
 import {Engine} from "@/layout/Engine";
+import {Assigns} from "@/style/Style";
 
-export class Box<T> {
-  constructor(
-    readonly content: T,
+export class Box {
+  static of(
+    id: string,
+    children: Box[],
+    assigns: Assigns,
+  ): Box {
+    const layoutStyle: Style = {...defaultStyle, ...assigns}
+    return new Box(
+      id,
+      children,
+      layoutStyle,
+      Area.parse(assigns),
+    )
+  }
+
+  private constructor(
     readonly id: string,
-    readonly children: Box<T>[],
+    readonly children: Box[],
     private readonly style: Style,
     private readonly requested: Partial<Area>,
     private base: Point = Point.zero, // relative position
@@ -25,11 +39,12 @@ export class Box<T> {
     }
   }
 
-  get totalSize(): Size {
+  get totalSize(): Boundary {
     return this.area.totalSize
   }
 
-  fit(engine: Engine): Area {
+  fit(engine: Engine, base: Point): Area {
+    this.base = base
     const content = engine.fit(this.children, this.style)
     const {width, height, padding, margin} = {
       padding: Gap.zero,
@@ -46,13 +61,13 @@ export class Box<T> {
     return this.fitArea
   }
 
-  refit(engine: Engine, point: Point, size: Size) {
+  refit(engine: Engine, point: Point, boundary: Boundary) {
     const {width, height, padding, margin} = {
       padding: Gap.zero,
       margin: Gap.zero,
       ...this.requested,
     }
-    const contentSize = size.sub(margin)
+    const contentSize = boundary.sub(margin)
     this.fitArea = new Area(
       width || contentSize.width,
       height || contentSize.height,
@@ -61,32 +76,26 @@ export class Box<T> {
     )
     engine.refit(this.children, this.style, this.fitArea.contentSize)
 
-    const diff = size.diff(this.fitArea.base)
+    const diff = boundary.diff(this.fitArea.base)
     this.base = new Point(
       point.x.add(diff.width.div(2)),
       point.y.add(diff.height.div(2)),
     )
   }
 
-  flatten(parent: Point): Array<FlatBox<T>> {
+  flatten(parent: Point): Array<Location> {
     const point = parent.add(this.point)
     const children = this.children.reduce((flat, child) => {
       flat.push(...child.flatten(point.addGap(this.area.padding)))
       return flat
-    }, [] as Array<FlatBox<T>>)
+    }, [] as Array<Location>)
     return [
-      {
-        point: point,
-        area: this.area,
-        content: this.content,
-      },
+      new Location(
+        this.id,
+        point,
+        this.area,
+      ),
       ...children,
     ]
   }
-}
-
-export interface FlatBox<T> {
-  point: Point
-  area: Area
-  content: T
 }

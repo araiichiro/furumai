@@ -1,4 +1,4 @@
-import {Length, Point, Size} from "@/layout/types";
+import {Length, Point, Boundary} from "@/layout/types";
 import {Style} from "@/layout/Style";
 import {Box} from "@/layout/Box";
 
@@ -6,33 +6,34 @@ export class Engine {
   constructor(readonly config: Config) {
   }
 
-  fit<T>(children: Box<T>[], style: Style): Size {
+  fit(children: Box[], style: Style): Boundary {
     if (style["flex-direction"] === "row") {
       return children.reduce((ret, child) => {
-        const area = child.fit(this)
+        const base = new Point(ret.width, Length.zero)
+        const area = child.fit(this, base)
         const {width, height} = area.totalSize
-        return new Size(
+        return new Boundary(
           ret.width.add(width),
           Length.max(ret.height, height),
         )
-      }, Size.zero)
+      }, Boundary.zero)
     } else {
       throw new Error("not implemented")
     }
   }
 
-  refit<T>(children: Box<T>[], style: Style, boundary: Size) {
+  refit(children: Box[], style: Style, boundary: Boundary) {
     if (style["flex-direction"] === "row") {
       const content = children.reduce((ret, child) => {
         const {width, height} = child.totalSize
-        return new Size(
+        return new Boundary(
           ret.width.add(width),
           Length.max(ret.height, height),
         )
-      }, Size.zero)
+      }, Boundary.zero)
       const gap = boundary.diff(content).width.div(2 * children.length)
       children.reduce((left, child) => {
-        const size = new Size(
+        const size = new Boundary(
           gap.add(child.totalSize.width).add(gap),
           boundary.height,
         )

@@ -79,23 +79,48 @@ export function toModels(furumaiCode: string): Svg[] {
     visibility: "hidden",
     text: "",
   }
-  const root = Elem.of("_root", "root", rootStyle, story.layout.boxes).toLayoutBox(styles)
-  const size = root.fit(engine)
+  const rootElem = Elem.of("_root", "root", rootStyle, story.layout.boxes)
+  const root = rootElem.toLayoutBox(styles)
+  const size = root.fit(engine, Point.zero)
   root.refit(engine, Point.zero, size.totalSize)
   const flatten = root.flatten(Point.zero)
-  let current: Field = {
+  const edges = story.layout.edges
+
+  const dic = flatten.reduce((ret, box) => {
+    return {
+      [box.id]: box,
+      ...ret,
+    }
+  }, {} as {[key: string]: Location})
+
+  const ps = rootElem.toPresentation(styles)
+  const shapes = ps.map((p) => {
+    const box = dic[p.id]
+    return p.shape(box.point, box.area)
+  })
+
+  // edges.forEach((edge) => {
+  //   const f = dic[edge.from]
+  //   const t = dic[edge.to]
+  //
+  //   const appearance = {
+  //     ...edge.appearance,
+  //   }
+  //
+  //   const shape = Arrow.fit()
+  //
+  // })
+
+  const svg =  {
+    style: styles.toCss(),
     size: root.totalSize,
-    boxes: flatten,
-    edges: story.layout.edges,
-    styles,
+    shapes,
+    edges: [],
   }
 
+  console.log(svg.shapes)
 
-
-  const svgs = [svg(current)]
-
-  console.log(svgs[0].shapes)
-  return svgs
+  return [svg]
 
   // for (let update of story.updates) {
   //   if (config.mode === "diff") {
@@ -160,22 +185,6 @@ export function toModels(furumaiCode: string): Svg[] {
   //   }
   // }
   // return svgs
-}
-
-interface Field {
-  size: Size
-  boxes: Array<FlatBox<Presentation>>
-  edges: Edge[]
-  styles: Styles
-}
-
-function svg(field: Field): Svg {
-  return {
-    style: field.styles.toCss(),
-    size: field.size,
-    shapes: field.boxes.map((box) => box.content.shape(box.point, box.area)),
-    edges: [],
-  }
 }
 
 export function num(v?: any): number | undefined {
