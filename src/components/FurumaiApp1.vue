@@ -57,7 +57,7 @@ import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
 import * as model from '@/components/model/Svg'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
-import {defaultConfig, toModels} from "@/furumai/processor";
+import {defaultString, toModels} from "@/furumai/processor";
 
 interface AppParams1 {
   code: string
@@ -82,7 +82,7 @@ export default class FurumaiApp1 extends Vue {
 
   private errors: string = ''
 
-  private defaults = defaultConfig
+  private defaults = defaultString
 
   svgs: model.Svg[] = []
 

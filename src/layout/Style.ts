@@ -8,13 +8,14 @@ export interface Style {
   // | "center"
 
   "justify-content":
-    "space-between"
-  // | "space-around"
+    "start"
+    | "space-around"
+  // | "space-between"
   // | "center"
 }
 
 export const defaultStyle: Style = {
   "flex-direction": "row",
   "align-items": "flex-start",
-  "justify-content": "space-between",
+  "justify-content": "space-around",
 }

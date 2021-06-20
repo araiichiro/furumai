@@ -5,8 +5,8 @@
       v-html="roughHtml"
       xmlns="http://www.w3.org/2000/svg"
       :viewBox="viewBox"
-      :width="width.div(2).toString()"
-      :height="height.div(2).toString()"
+      :width="width.toString()"
+      :height="height.toString()"
       class="svg-root"
     ></svg>
     <svg
@@ -15,8 +15,8 @@
       xmlns:svg="http://www.w3.org/2000/svg"
       class="svg-root"
       :viewBox="viewBox"
-      :width="width.div(2).toString()"
-      :height="height.div(2).toString()"
+      :width="width.toString()"
+      :height="height.toString()"
       id="svgRoot"
     >
       <svg:style type="text/css">{{ svg.style }}</svg:style>

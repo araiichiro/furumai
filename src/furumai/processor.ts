@@ -1,80 +1,36 @@
 import {parse} from "@/parse/parser";
-import {Elem, Presentation} from "@/elem/Elem";
+import {Elem} from "@/elem/Elem";
 import {Config} from "@/elem/Story";
 import {Engine as LayoutEngine} from "@/layout/Engine";
-import {Box, FlatBox} from "@/layout/Box";
-import {Edge} from "@/elem/Edge";
-import {Styles} from "@/style/Style";
 import {Svg} from "@/components/model/Svg";
-import {Length, Point, Size} from "@/layout/types";
+import {Length, Location, Point} from "@/layout/types";
+import {Arrow} from "@/layout/Arrow";
+import {SecureSvgAttrs} from "@/style/security";
+import {Shape} from "@/components/model/Shape";
 
-export const defaultConfig: Config = {
-  mode: "diff",
-  orientation: "portrait",
+export const defaultString = `
+config {
+  mode: diff;
+  orientation: portrait;
+};
+
+style {
+.root {
+  margin: 30px;
+  padding: 15px;
 }
-
-export const defaultStyleString = `
-@style {
-  * {
-    display: inline-flex;
-    justify-content: space-between;
-    align-self: center;
-    flex-direction: row;
-
-    font-size: 24;
-  }
-
-  .group, .zone {
-    stroke: gray;
-    stroke-dasharray: 10 8;
-    fill: gray;
-  }
-
-  .group {
-    flex-direction: row;
-  }
-
-  .zone {
-    flex-direction: column;
-  }
-
-  .node {
-    width: 160px;
-    height: 160px;
-    fill: none;
-    stroke: black;
-    stroke-width: 2;
-  }
-
-  .edge {
-    stroke: black;
-    stroke-width: 2;
-  }
-
-  text {
-    fill: gray;
-  }
-
-  .text {
-    stroke: gray;
-    stroke-width: 1;
-  }
-
-  .label {
-    stroke: black;
-  }
 };
 `
 
-
 export function toModels(furumaiCode: string): Svg[] {
+  const defaults = parse(defaultString)
   const story = parse(furumaiCode)
   const config = {
-    ...defaultConfig,
+    ...defaults.config as Config,
     ...story.config,
   }
   const engine = new LayoutEngine(config)
-  const styles = parse(defaultStyleString).layout.styles.update(story.layout.styles)
+  const styles = defaults.layout.styles.update(story.layout.styles)
   const rootStyle = {
     visibility: "hidden",
     text: "",
