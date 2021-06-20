@@ -28,13 +28,20 @@ export class Elem {
   }
 
   private constructor(
-    private readonly id: string,
+    readonly id: string,
     private readonly classNames: string[],
     private readonly children: Elem[],
     private appearance: Partial<Appearance>,
     private layout: Partial<Layout>,
-    readonly context: Context = {},
+    private readonly context: Context = {},
   ) {
+  }
+
+  find(id: string): Elem | undefined {
+    if (this.id === id) {
+      return this
+    }
+    return this.children.find((elem) => elem.find(id))
   }
 
   update(other: Elem) {
@@ -61,17 +68,17 @@ export class Elem {
     this.setVisibility("hidden")
   }
 
-  toPresentation(styles: Styles): Presentation[] {
+  resolveStyle(styles: Styles): Styled[] {
     const myStyles = styles.query({
       id: this.id,
       classNames: this.classNames,
       context: this.context,
     })
     const children = this.children.reduce((ret, child) => {
-      ret.push(...child.toPresentation(styles))
+      ret.push(...child.resolveStyle(styles))
       return ret
-    }, [] as Presentation[])
-    const p = Presentation.of(
+    }, [] as Styled[])
+    const p = Styled.of(
       this.id,
       this.classNames,
       {
@@ -99,15 +106,19 @@ export class Elem {
       {...myStyles, ...this.layout as Assigns},
     )
   }
+
+  get _appearance(): Partial<Appearance> {
+    return this.appearance
+  }
 }
 
-export class Presentation {
+export class Styled {
   static of(
     id: string,
     classNames: string[],
     appearance: Appearance,
-  ): Presentation {
-    return new Presentation(id, classNames, appearance)
+  ): Styled {
+    return new Styled(id, classNames, appearance)
   }
 
   constructor(

@@ -1,5 +1,5 @@
 import {Edge} from "@/elem/Edge";
-import {Elem} from "@/style/Style";
+import {BasicSelector, Ruleset, Selector, Styles} from "@/style/Style";
 
 export class Hide {
   static elem(id: string): Hide {
@@ -16,7 +16,19 @@ export class Hide {
   ) {
   }
 
-  isTarget(elem: Elem): boolean {
-    return this.id && elem.id && this.id === elem.id || elem.classNames.some((name) => name === this.className)
+  style(): Styles {
+    const selectors = []
+    if (this.id) {
+      selectors.push(Selector.of(new BasicSelector("#" + this.id)))
+    }
+    if (this.className) {
+      selectors.push(Selector.of(new BasicSelector("." + this.className)))
+    }
+    const rules = [Ruleset.of(
+      selectors, {
+        "visibility": "hidden",
+      }
+    )]
+    return  Styles.of(rules)
   }
 }

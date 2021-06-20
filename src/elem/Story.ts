@@ -1,4 +1,4 @@
-import {Assigns, Styles} from "@/style/Style";
+import {Styles} from "@/style/Style";
 import {Elem} from "@/elem/Elem";
 import {Edge} from "@/elem/Edge";
 import {Orientation} from "@/layout/Engine";
@@ -6,8 +6,6 @@ import {Hide} from "@/elem/Hide";
 
 export interface Config {
   mode: "snapshot" | "diff"
-  //align?: 'center'
-  //direction?: 'top to bottom '| 'left to right'
   orientation: Orientation
 }
 
@@ -21,10 +19,36 @@ export class Story {
 
 export class Layout {
   constructor(
-    readonly boxes: Elem[],
+    readonly root: Elem,
     readonly edges: Edge[],
     readonly styles: Styles,
   ) {
+  }
+
+  update(update: Update): Layout {
+    update.boxes.forEach((box) => {
+      const target = this.root.find(box.id) || this.edges.find((edge) => edge.id === box.id)
+      if (target) {
+        target.visible()
+        target.update(box)
+      } else {
+        throw new Error("not found: " + box.id)
+      }
+    })
+    update.edges.forEach((update) => {
+      const target = this.edges.find((edge) => edge.same(update))
+      if (target) {
+        target.visible()
+        target.updateAppearance(update)
+      } else {
+        this.edges.push(update)
+      }
+    })
+    update.hides.forEach((hide) => {
+      this.styles.update(hide.style())
+    })
+    this.styles.update(update.styles)
+    return this
   }
 }
 
@@ -37,19 +61,3 @@ export class Update {
   ) {
   }
 }
-
-export interface Compound {
-  boxes: Elem[]
-  assigns: Assigns
-}
-
-// export function toLayoutModel(boxes: Box[], styles: Styles): Box[] {
-//   boxes.map((box) => {
-//     const style = styles.query("", box.classNames, box.id)
-//     const children = toLayoutModel(box.children, styles)
-//
-//
-//   })
-//
-//   return []
-// }

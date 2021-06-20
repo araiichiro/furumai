@@ -1,6 +1,11 @@
-import {Assigns, Context, Elem, Styles} from "@/style/Style";
+import {Assigns, Styles} from "@/style/Style";
+import {Elem} from "@/elem/Elem";
+import {Shape} from "@/components/model/Shape";
+import {SecureSvgAttrs} from "@/style/security";
+import {Length, Location} from "@/layout/types";
+import {Arrow} from "@/layout/Arrow";
 
-export class Edge implements Elem {
+export class Edge {
   static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
     const classNames = ["edge", this.className(from, op, to)]
     const cls = attrs["class"]
@@ -42,8 +47,7 @@ export class Edge implements Elem {
     readonly to: string,
     readonly id: string,
     readonly classNames: string[] = [],
-    readonly appearance: Partial<Appearance>,
-    readonly context: Context = {},
+    private appearance: Partial<Appearance>,
   ) {
   }
 
@@ -58,6 +62,38 @@ export class Edge implements Elem {
   setVisibility(visibility: string) {
     this.appearance.visibility = visibility
   }
+
+  update(elem: Elem) {
+    this.appearance = {
+      ...this.appearance,
+      ...elem._appearance,
+    }
+  }
+
+  resolveStyle(styles: Styles): Styled {
+    const style = styles.query({
+      id: this.id,
+      classNames: this.classNames,
+      context: {},
+    })
+    return new Styled(
+      this.id,
+      this.classNames,
+      this.op,
+      {...style, ...this.appearance}
+    )
+  }
+
+  same(other: Edge): boolean {
+    return this.from === other.from && this.op === other.op && this.to === other.to
+  }
+
+  updateAppearance(other: Edge) {
+    this.appearance = {
+      ...this.appearance,
+      ...other.appearance,
+    }
+  }
 }
 
 interface Appearance {
@@ -66,4 +102,31 @@ interface Appearance {
   text: string
   dx: string
   dy: string
+}
+
+class Styled {
+  constructor(
+    readonly id: string,
+    readonly classNames: string[],
+    readonly op: string,
+    readonly appearance: Partial<Appearance>,
+  ) {
+  }
+
+  shape(tail: Location, head: Location): Shape {
+    const {dx, dy} = this.appearance
+    const location = Arrow.fit(tail, head, Length.parse(dx || "0px").pixel, Length.parse(dy || "0px").pixel)
+    return {
+      id: this.id,
+      "class" : this.classNames.join(" "),
+      location,
+      visibility: "",
+      shape: this.op === "--" ? "edge" : "arrow",
+      icon: "",
+      label: "",
+      text: "",
+      svgAttrs: SecureSvgAttrs.of({}),
+      ...this.appearance,
+    } as Shape
+  }
 }
