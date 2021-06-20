@@ -17,7 +17,6 @@ import { HideContext } from "./FurumaiParser";
 import { Hide_elemContext } from "./FurumaiParser";
 import { Hide_edgeContext } from "./FurumaiParser";
 import { Attr_listContext } from "./FurumaiParser";
-import { AssignmentContext } from "./FurumaiParser";
 import { StyleContext } from "./FurumaiParser";
 import { Css_stmtContext } from "./FurumaiParser";
 import { Selector_listContext } from "./FurumaiParser";
@@ -29,7 +28,7 @@ import { Class_selectorContext } from "./FurumaiParser";
 import { Id_selectorContext } from "./FurumaiParser";
 import { Edge_selectorContext } from "./FurumaiParser";
 import { DeclarationContext } from "./FurumaiParser";
-import { ValueContext } from "./FurumaiParser";
+import { ValContext } from "./FurumaiParser";
 
 
 /**
@@ -192,17 +191,6 @@ export interface FurumaiListener extends ParseTreeListener {
 	exitAttr_list?: (ctx: Attr_listContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `FurumaiParser.assignment`.
-	 * @param ctx the parse tree
-	 */
-	enterAssignment?: (ctx: AssignmentContext) => void;
-	/**
-	 * Exit a parse tree produced by `FurumaiParser.assignment`.
-	 * @param ctx the parse tree
-	 */
-	exitAssignment?: (ctx: AssignmentContext) => void;
-
-	/**
 	 * Enter a parse tree produced by `FurumaiParser.style`.
 	 * @param ctx the parse tree
 	 */
@@ -324,14 +312,14 @@ export interface FurumaiListener extends ParseTreeListener {
 	exitDeclaration?: (ctx: DeclarationContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `FurumaiParser.value`.
+	 * Enter a parse tree produced by `FurumaiParser.val`.
 	 * @param ctx the parse tree
 	 */
-	enterValue?: (ctx: ValueContext) => void;
+	enterVal?: (ctx: ValContext) => void;
 	/**
-	 * Exit a parse tree produced by `FurumaiParser.value`.
+	 * Exit a parse tree produced by `FurumaiParser.val`.
 	 * @param ctx the parse tree
 	 */
-	exitValue?: (ctx: ValueContext) => void;
+	exitVal?: (ctx: ValContext) => void;
 }
 

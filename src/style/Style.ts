@@ -77,14 +77,6 @@ export function UnivSelector(): BasicSelector {
   return new BasicSelector("*")
 }
 
-export function ClassSelector(className: string): BasicSelector {
-  return new BasicSelector("." + className)
-}
-
-export function IdSelector(id: string): BasicSelector {
-  return new BasicSelector("#" + id)
-}
-
 export function CombinedSelector(selectors: BasicSelector[]): Selector {
   const [head, ...parents] = selectors.reverse()
   return Selector.of(head, parents)
@@ -109,13 +101,13 @@ export class Styles {
     const classAttrs = elem.classNames.reduce((ret, className) => {
       return {
         ...ret,
-        ...this.get(ClassSelector(className), elem.context)
+        ...this.get(new BasicSelector("." + className), elem.context)
       }
     }, {} as Assigns)
     return {
       ...this.get(UnivSelector(), elem.context),
       ...classAttrs,
-      ...elem.id ? this.get(IdSelector(elem.id), elem.context) : {},
+      ...elem.id ? this.get(new BasicSelector("#" + elem.id), elem.context) : {},
     }
   }
 

@@ -4,7 +4,6 @@ import {TerminalNode} from 'antlr4ts/tree/TerminalNode'
 import {ParseTree} from 'antlr4ts/tree'
 import {ANTLRErrorListener, CharStreams, CommonTokenStream, RecognitionException, Recognizer} from 'antlr4ts'
 import {
-  AssignmentContext,
   Attr_listContext,
   Basic_selectorContext,
   Class_selectorContext,
@@ -30,7 +29,7 @@ import {
   Type_selectorContext,
   Univ_selectorContext,
   UpdateContext,
-  ValueContext,
+  ValContext,
   ZoneContext,
 } from '@/generated/antlr4ts/FurumaiParser'
 import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
@@ -39,16 +38,7 @@ import {Config, Layout, Story, Update} from '@/elem/Story'
 import {Elem} from "@/elem/Elem";
 import {Edge} from "@/elem/Edge";
 import {Hide} from "@/elem/Hide";
-import {
-  BasicSelector,
-  ClassSelector,
-  CombinedSelector,
-  IdSelector,
-  Ruleset,
-  Selector,
-  Styles,
-  UnivSelector,
-} from "@/style/Style";
+import {BasicSelector, CombinedSelector, Ruleset, Selector, Styles, UnivSelector,} from "@/style/Style";
 
 export function parse(text: string): Story {
   const inputStream = CharStreams.fromString(text)
@@ -108,8 +98,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitConfig(ctx: ConfigContext): Partial<Config> {
-    const assigns: Assignment[] = ctx.declaration().map((c) => this.visit(c))
-    return Assignment.reduce(assigns)
+    const assigns: Declaration[] = ctx.declaration().map((c) => this.visit(c))
+    return Declaration.reduce(assigns)
   }
 
   visitLayout(ctx: LayoutContext): Layout {
@@ -145,7 +135,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const boxes: Elem[] = []
     const edges: Edge[] = []
     const hides: Hide[] = []
-    const assigns: Assignment[] = []
+    const assigns: Declaration[] = []
     const styles: Style[] = []
 
     statements.forEach((a) => {
@@ -153,7 +143,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
         edges.push(a)
       } else if (a instanceof Hide) {
         hides.push(a)
-      } else if (a instanceof Assignment) {
+      } else if (a instanceof Declaration) {
         assigns.push(a)
       } else if (a instanceof Style) {
         styles.push(a)
@@ -178,7 +168,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       || ctx.node_stmt()
       || ctx.edge_stmt()
       || ctx.hide()
-      || ctx.assignment()
+      || ctx.declaration()
       || ctx.style()
     if (stmt) {
       return this.visit(stmt)
@@ -207,7 +197,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       if (s.hides.length > 0) {
         throw new Error("not implemented inner hide description")
       }
-      return Elem.of(id, className, Assignment.reduce(s.assigns), s.boxes)
+      return Elem.of(id, className, Declaration.reduce(s.assigns), s.boxes)
     } else {
       return Elem.of(id, className)
     }
@@ -216,7 +206,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   visitNode_stmt(ctx: Node_stmtContext): Elem {
     const attrs = ctx.attr_list()
     if (attrs) {
-      const assigns = Assignment.reduce(this.visit(attrs))
+      const assigns = Declaration.reduce(this.visit(attrs))
       return Elem.of(ctx.ID().text, "node", assigns)
     } else {
       return Elem.of(ctx.ID().text, "node")
@@ -227,7 +217,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     const ids = ctx.ID().map((id) => id.text)
     const attrs = ctx.attr_list()
     if (attrs) {
-      const assigns = Assignment.reduce(this.visit(attrs))
+      const assigns = Declaration.reduce(this.visit(attrs))
       return Edge.of(ids[0], ctx.EDGEOP().text, ids[1], assigns)
     } else {
       return Edge.of(ids[0], ctx.EDGEOP().text, ids[1])
@@ -255,20 +245,15 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     return Hide.edge(ids[0], ctx.EDGEOP().text, ids[1])
   }
 
-  visitAttr_list(ctx: Attr_listContext): Assignment[] {
-    return ctx.assignment().map((a) => {
-      const v: string = this.visit(a.value())
-      return new Assignment(a.ID().text, v)
+  visitAttr_list(ctx: Attr_listContext): Declaration[] {
+    return ctx.declaration().map((a) => {
+      const vs = a.val().map((v) => this.visit(v))
+      return new Declaration(a.ID().text, vs.join(" "))
     })
   }
 
-  visitAssignment(ctx: AssignmentContext): Assignment {
-    const v = this.visit(ctx.value())
-    return new Assignment(ctx.ID().text, v)
-  }
-
-  visitValue(ctx: ValueContext): string {
-    const v = ctx.ID() || ctx.COLOR() || ctx.STRING()
+  visitVal(ctx: ValContext): string  {
+    const v = ctx.ID() || ctx.HASH() || ctx.STRING()
     if (v) {
       return v.text
     } else {
@@ -283,8 +268,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
   visitCss_stmt(ctx: Css_stmtContext): Ruleset {
     const selectors: Selector[] = this.visit(ctx.selector_list())
-    const assigns: Assignment[] = ctx.declaration().map((d) => this.visit(d))
-    return Ruleset.of(selectors, (Assignment.reduce(assigns)))
+    const assigns: Declaration[] = ctx.declaration().map((d) => this.visit(d))
+    return Ruleset.of(selectors, (Declaration.reduce(assigns)))
   }
 
   visitSelector_list(ctx: Selector_listContext): Selector[] {
@@ -319,22 +304,22 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   visitClass_selector(ctx: Class_selectorContext): any {
-    return ClassSelector(ctx.ID().text)
+    return new BasicSelector(ctx.DOT().text)
   }
 
   visitId_selector(ctx: Id_selectorContext): any {
-    return IdSelector(ctx.ID().text)
+    return new BasicSelector(ctx.HASH().text)
   }
 
   visitEdge_selector(ctx: Edge_selectorContext): BasicSelector {
     const ids = ctx.ID().map((id) => id.text)
     const className = "_edge_" + ids[0] + "_to_" + ids[1]
-    return ClassSelector(className)
+    return new BasicSelector("." + className)
   }
 
-  visitDeclaration(ctx: DeclarationContext): Assignment {
-    const vs = ctx.value().map((v) => this.visit(v))
-    return new Assignment(ctx.ID().text, vs.join(" "))
+  visitDeclaration(ctx: DeclarationContext): Declaration {
+    const vs = ctx.val().map((v) => this.visit(v))
+    return new Declaration(ctx.ID().text, vs.join(" "))
   }
 
   visit(tree: ParseTree): any {
@@ -364,12 +349,12 @@ interface StatementList {
   boxes: Elem[]
   edges: Edge[]
   hides: Hide[]
-  assigns: Assignment[]
+  assigns: Declaration[]
   styles: Style[]
 }
 
-class Assignment {
-  public static reduce(attrs: Assignment[]): {[key: string]: string} {
+class Declaration {
+  public static reduce(attrs: Declaration[]): {[key: string]: string} {
     return attrs.reduce((map, obj) => {
       map[obj.key] = obj.value
       return map

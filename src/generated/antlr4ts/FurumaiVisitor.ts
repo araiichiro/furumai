@@ -17,7 +17,6 @@ import { HideContext } from "./FurumaiParser";
 import { Hide_elemContext } from "./FurumaiParser";
 import { Hide_edgeContext } from "./FurumaiParser";
 import { Attr_listContext } from "./FurumaiParser";
-import { AssignmentContext } from "./FurumaiParser";
 import { StyleContext } from "./FurumaiParser";
 import { Css_stmtContext } from "./FurumaiParser";
 import { Selector_listContext } from "./FurumaiParser";
@@ -29,7 +28,7 @@ import { Class_selectorContext } from "./FurumaiParser";
 import { Id_selectorContext } from "./FurumaiParser";
 import { Edge_selectorContext } from "./FurumaiParser";
 import { DeclarationContext } from "./FurumaiParser";
-import { ValueContext } from "./FurumaiParser";
+import { ValContext } from "./FurumaiParser";
 
 
 /**
@@ -139,13 +138,6 @@ export interface FurumaiVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitAttr_list?: (ctx: Attr_listContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `FurumaiParser.assignment`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitAssignment?: (ctx: AssignmentContext) => Result;
-
-	/**
 	 * Visit a parse tree produced by `FurumaiParser.style`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -223,10 +215,10 @@ export interface FurumaiVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitDeclaration?: (ctx: DeclarationContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `FurumaiParser.value`.
+	 * Visit a parse tree produced by `FurumaiParser.val`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitValue?: (ctx: ValueContext) => Result;
+	visitVal?: (ctx: ValContext) => Result;
 }
 

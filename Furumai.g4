@@ -4,7 +4,7 @@ story
   : config? ';'? layout ( '---' update )* '---'? EOF
   ;
 config
-  : '@config' '{' declaration? ( ';' declaration )* ';'? '}'
+  : 'config' '{' declaration? ( ';' declaration )* ';'? '}'
   ;
 layout
   : stmt_list
@@ -23,7 +23,7 @@ stmt
   | node_stmt
   | edge_stmt
   | hide
-  | assignment
+  | declaration
   | style
   ;
 
@@ -57,15 +57,11 @@ hide_edge
   ;
 
 attr_list
-  : '[' assignment ( ( ',' | ';' )?  assignment )* ( ',' | ';' )? ']'
-  ;
-
-assignment
-  : ID ( ':' | '=' ) value
+  : '[' declaration ( ( ',' | ';' )?  declaration )* ( ',' | ';' )? ']'
   ;
 
 style
-  : '@style' '{' css_stmt* '}'
+  : 'style' '{' css_stmt* '}'
   ;
 
 css_stmt
@@ -95,45 +91,40 @@ type_selector
   : ID
   ;
 class_selector
-  : '.' ID
+  : DOT
   ;
 id_selector
-  : '#' ID
+  : HASH
   ;
 edge_selector
   : ID EDGEOP ID
   ;
 
 declaration
-  : ID ':' value+
+  : ID ( ':' | '=' ) val+
   ;
 
-value
-  : COLOR
-  | STRING
+val
+  : STRING
   | ID
+  | HASH
   ;
 
 ID
-  : CHARS ('-' CHARS)*
+  : [a-zA-Z_0-9]+ ('-' [a-zA-Z_0-9]+)*
   ;
 
-fragment CHARS
-  : [a-zA-Z_0-9]+
+HASH
+  : '#' ID
+  ;
+
+DOT
+  : '.' ID
   ;
 
 STRING
   : '\'' ( ~'\'' )* '\'' { this.text = this.text.slice(1, -1)}
   | '"' ( ~'"' )* '"' { this.text = this.text.slice(1, -1) }
-  ;
-
-COLOR
-  : '#' HEX HEX HEX
-  | '#' HEX HEX HEX HEX HEX HEX
-  ;
-
-fragment HEX
-  : [a-fA-F0-9]
   ;
 
 EDGEOP
