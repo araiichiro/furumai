@@ -1,4 +1,4 @@
-import {Assigns, Context, Elem} from "@/style/Style";
+import {Assigns, Context, Elem, Styles} from "@/style/Style";
 
 export class Edge implements Elem {
   static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
@@ -13,7 +13,7 @@ export class Edge implements Elem {
       to,
       attrs.id || this.idName(from, op, to),
       classNames,
-      attrs,
+      attrs as Partial<Appearance>,
     )
   }
 
@@ -36,35 +36,32 @@ export class Edge implements Elem {
     }
   }
 
-  constructor(
+  private constructor(
     readonly from: string,
     readonly op: string,
     readonly to: string,
     readonly id: string,
     readonly classNames: string[] = [],
-    readonly attrs: Assigns = {},
+    readonly appearance: Partial<Appearance>,
     readonly context: Context = {},
   ) {
   }
 
-  visibility(): string {
-    return this.attrs.visibility
-  }
-
   visible() {
-    this.attrs.visibility = "visible"
+    this.appearance.visibility = "visible"
   }
 
   hide() {
-    this.attrs.visibility = "hidden"
+    this.appearance.visibility = "hidden"
   }
 
   setVisibility(visibility: string) {
-    this.attrs.visibility = visibility
+    this.appearance.visibility = visibility
   }
 }
 
 interface Appearance {
+  visibility: string
   label: string
   text: string
   dx: string

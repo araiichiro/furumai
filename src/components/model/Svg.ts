@@ -5,5 +5,4 @@ export interface Svg {
   style: string
   size: Boundary
   shapes: Shape[]
-  edges: Shape[]
 }

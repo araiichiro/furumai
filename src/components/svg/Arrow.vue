@@ -8,16 +8,13 @@
       v-bind:content="shape.text"
       v-bind:position="textPosition"
       v-bind:centering="true"
-      v-bind:attrs="textAttrs"
     ></TextContent>
-    <GridArea v-bind:box="shape.box"></GridArea>
   </g>
 </template>
 
 <script lang="ts">
 
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import GridArea from '@/components/svg/GridArea.vue'
 import {Shape} from '@/components/model/Shape'
 import {Vector2d} from '@/layout/Vector2d'
 import TextContent from '@/components/svg/TextContent.vue'
@@ -25,14 +22,12 @@ import TextContent from '@/components/svg/TextContent.vue'
 @Component({
   components: {
     TextContent,
-    GridArea,
   },
 })
 export default class Arrow extends Vue {
   @Prop()
   public shape!: Shape
 
-  // textPosition!: {x: number, y: number}
   get textPosition(): {x: number, y: number} {
     const {x1, y1, x2, y2} = this.xy
     const vec = new Vector2d(x1, y1, x2, y2)
@@ -43,20 +38,23 @@ export default class Arrow extends Vue {
 
     const cos = vec.dx / vec.length
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
-    const box = this.shape.box
+    const box = this.shape.area
+    const base = this.shape.base
+
     return {
-      x: box.cx + v.dx - u.dx,
-      y: box.cy + v.dy - u.dy,
+      x: base.x.pixel + box.cx.pixel + v.dx - u.dx,
+      y: base.y.pixel + box.cy.pixel + v.dy - u.dy,
     }
   }
 
   private get xy(): {x1: number, y1: number, x2: number, y2: number} {
-    const {x, y, width, height} = this.shape.box
-    return {x1: x, y1: y, x2: x + width, y2: y + height}
+    const {x, y} = this.shape.base
+    const {width, height} = this.shape.area
+    return {x1: x.pixel, y1: y.pixel, x2: x.add(width).pixel, y2: y.add(height).pixel}
   }
 
   get d(): string {
-    return this.shape.type === 'arrow' ? this.arrow : this.line
+    return this.shape.shape === 'arrow' ? this.arrow : this.line
   }
 
   get line(): string {
@@ -85,11 +83,11 @@ L ${x2} ${y2}`
   }
 
   public get shapeAttrs() {
-    return this.shape.svgAttrs.svgAttrs
-  }
-
-  public get textAttrs() {
-    return this.shape.text.textAttrs.svgAttrs
+    return {
+      class: this.shape.class,
+      visibility: this.shape.visibility,
+      ...this.shape.svgAttrs.svgAttrs,
+    }
   }
 
   private defaults = {

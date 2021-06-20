@@ -99,23 +99,38 @@ export function toModels(furumaiCode: string): Svg[] {
     return p.shape(box.point, box.area)
   })
 
-  // edges.forEach((edge) => {
-  //   const f = dic[edge.from]
-  //   const t = dic[edge.to]
-  //
-  //   const appearance = {
-  //     ...edge.appearance,
-  //   }
-  //
-  //   const shape = Arrow.fit()
-  //
-  // })
+  const es = edges.map((edge) => {
+    const f = dic[edge.from]
+    const t = dic[edge.to]
+    const style = styles.query({
+      id: edge.id,
+      classNames: edge.classNames,
+      context: {},
+    })
+    const attrs = {...style, ...edge.appearance}
+    const {dx, dy} = attrs
+    const location = Arrow.fit(f, t, Length.parse(dx || "0px").pixel, Length.parse(dy || "0px").pixel)
+    const op = edge.op === "--" ? "edge" : "arrow";
+    return {
+      id: edge.id,
+      "class" : edge.classNames.join(" "),
+      base: location.point,
+      area: location.area,
+      visibility: "",
+      shape: op,
+      icon: "",
+      label: "",
+      text: "",
+      svgAttrs: SecureSvgAttrs.of({}),
+      ...edge.appearance,
+    } as Shape
+  })
+  shapes.push(...es)
 
-  const svg =  {
+  const svg = {
     style: styles.toCss(),
     size: root.totalSize,
     shapes,
-    edges: [],
   }
 
   console.log(svg.shapes)
