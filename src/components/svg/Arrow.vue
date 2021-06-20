@@ -1,5 +1,5 @@
 <template>
-  <g>
+  <g v-bind:visibility="shape.visibility">
     <path
       v-bind:d="d"
       v-bind="shapeAttrs"
@@ -83,6 +83,7 @@ L ${x2} ${y2}`
 
   public get shapeAttrs() {
     return {
+      id: this.shape.id,
       class: this.shape.class,
       visibility: this.shape.visibility,
       ...this.shape.svgAttrs.svgAttrs,
@@ -92,7 +93,7 @@ L ${x2} ${y2}`
   private defaults = {
     arrow: {
       head: {
-        size: 26,
+        size: 16,
         degree: 27,
       },
     },

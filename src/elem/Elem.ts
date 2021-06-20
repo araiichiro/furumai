@@ -11,6 +11,10 @@ export class Elem {
     attrs: Assigns = {},
     children: Elem[] = []
   ): Elem {
+    const appearance: Partial<Appearance> = {
+      text: attrs["t"],
+      ...attrs,
+    }
     const classNames = attrs["class"] ?
       [...attrs["class"].split(" "), className] :
       [className]
@@ -18,7 +22,7 @@ export class Elem {
       id,
       classNames,
       children,
-      attrs as Partial<Appearance>,
+      appearance,
       attrs as Partial<Layout>,
     )
   }
@@ -73,7 +77,7 @@ export class Elem {
       {
         visibility: "",
         shape: "box",
-        icon: "server",
+        icon: "",
         label: this.id,
         text: "-",
         ...myStyles as Partial<Appearance>,

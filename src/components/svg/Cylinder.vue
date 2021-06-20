@@ -33,6 +33,7 @@ export default class Cylinder extends Vue {
 
   get shapeAttrs() {
     return {
+      id: this.shape.id,
       class: this.shape.class,
       visibility: this.shape.visibility,
       ...this.shape.svgAttrs.svgAttrs,
@@ -49,10 +50,10 @@ export default class Cylinder extends Vue {
   }
 
   get d(): string {
-    const box = this.shape.box
-    const cx = box.cx
-    const cy = box.cy
-    const {width, height} = box
+    const box = this.shape.location
+    const cx = box.cx.pixel
+    const cy = box.cy.pixel
+    const {width, height} = box.area.asPixel()
 
     const curve = 8 + (width * 1.2) / 20  // FIXME
     const xl = cx - (width / 2)

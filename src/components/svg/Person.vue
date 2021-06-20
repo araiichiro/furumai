@@ -1,5 +1,5 @@
 <template>
-  <g>
+  <g v-bind:visibility="shape.visibility">
     <path
       v-bind:d="d"
       v-bind="shapeAttrs"
@@ -7,55 +7,66 @@
     <TextContent
       v-bind:content="shape.text"
       v-bind:position="textPosition"
-      v-bind:attrs="textAttrs"
     ></TextContent>
-    <GridArea v-bind:box="shape.box"></GridArea>
+    <LabelComponent
+      v-bind:content="shape.label"
+      v-bind:position="labelPosition"
+    ></LabelComponent>
   </g>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import GridArea from '@/components/svg/GridArea.vue'
 import {Shape} from '@/components/model/Shape'
 import TextContent from '@/components/svg/TextContent.vue'
+import {Length} from "@/layout/types";
+import LabelComponent from "@/components/svg/LabelComponent.vue";
 
 @Component({
   components: {
+    LabelComponent,
     TextContent,
-    GridArea,
   },
 })
 export default class Person extends Vue {
   @Prop()
   public shape!: Shape
 
-  get shapeAttrs() {
-    return this.shape.svgAttrs.svgAttrs
-  }
-
-  get textAttrs() {
+  public get shapeAttrs() {
     return {
-      'text-anchor': 'middle',
-      ...this.shape.text.textAttrs.svgAttrs,
+      id: this.shape.id,
+      class: this.shape.class,
+      visibility: this.shape.visibility,
+      ...this.shape.svgAttrs.svgAttrs,
     }
   }
 
-  get textPosition(): {x: number, y: number} {
-    const {x, y, width} = this.shape.box
+  get textPosition(): {x: string, y: string} {
+    const {x, y} = this.shape.location.start
+    const {padding} = this.shape.location.area
     return {
-      x: x + width / 2,
-      y: y - 32, // FIXME
+      x: x.add(padding.left).toString(),
+      y: y.add(padding.top).sub(Length.pixel(32)).toString(), // FIXME
+    }
+  }
+
+  get labelPosition(): {x: string, y: string} {
+    const {x, y} = this.shape.location.start
+    return {
+      x: x.toString(),
+      y: y.toString(),
     }
   }
 
   get d(): string {
-    const box = this.shape.box
-    const {x, y, width, height} = box
-    return this.person(x + width / 4, y, width / 2, height)
+    const box = this.shape.location
+    const {x, y} = box.start
+    const {width, height} = box.area
+    return this.person(x.pixel + width.pixel / 4, y.pixel, width.pixel / 2, height.pixel)
   }
 
   private person(x: number, y: number, width: number, height: number): string {
-    const cx = this.shape.box.cx
+    const cx = this.shape.location.cx.pixel
     const xx = x + width
     const yy = y + height
     const cr = height / 5

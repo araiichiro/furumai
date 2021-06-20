@@ -30,12 +30,9 @@ export default class Box extends Vue {
   @Prop()
   public shape!: Shape
 
-  public get visibility(): string {
-    return this.shape.visibility
-  }
-
   public get shapeAttrs() {
     return {
+      id: this.shape.id,
       class: this.shape.class,
       visibility: this.shape.visibility,
       ...this.shape.svgAttrs.svgAttrs,

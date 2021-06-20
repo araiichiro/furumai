@@ -222,6 +222,13 @@ export class Area {
   get center(): Point {
     return new Point(this.cx, this.cy)
   }
+
+  asPixel(): {width: number, height: number} {
+    return {
+      width: this.width.pixel,
+      height: this.height.pixel,
+    }
+  }
 }
 
 export interface AreaAttrs {
