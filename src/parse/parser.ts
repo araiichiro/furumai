@@ -38,7 +38,7 @@ import {Config, Layout, Story, Update} from '@/elem/Story'
 import {Elem} from "@/elem/Elem";
 import {Edge} from "@/elem/Edge";
 import {Hide} from "@/elem/Hide";
-import {BasicSelector, CombinedSelector, Ruleset, Selector, Styles, UnivSelector,} from "@/style/Style";
+import {Assigns, BasicSelector, CombinedSelector, Ruleset, Selector, Styles, UnivSelector} from "@/style/Style";
 
 export function parse(text: string): Story {
   const inputStream = CharStreams.fromString(text)
@@ -358,7 +358,7 @@ class Declaration {
     return attrs.reduce((map, obj) => {
       map[obj.key] = obj.value
       return map
-    }, {} as {[key: string]: string})
+    }, {} as Assigns)
   }
 
   constructor(readonly key: string, readonly value: string) {

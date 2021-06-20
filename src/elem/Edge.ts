@@ -127,6 +127,6 @@ class Styled {
       text: "",
       svgAttrs: SecureSvgAttrs.of({}),
       ...this.appearance,
-    } as Shape
+    }
   }
 }

@@ -6,14 +6,14 @@ import {Svg} from "@/components/model/Svg";
 import {Location, Point} from "@/layout/types";
 
 export const defaultString = `config {
-  mode: diff;
+  mode: snapshot;
+  // mode: diff;
   orientation: portrait;
+  // orientation: landscape;
 };
 
 style {
   .root {
-    margin: 30px;
-    padding: 15px;
     visibility: hidden;
   }
 };

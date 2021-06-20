@@ -89,7 +89,7 @@ export class Elem {
         text: "-",
         ...myStyles as Partial<Appearance>,
         ...this.appearance,
-      } as Appearance,
+      },
     )
     return [p, ...children]
   }
@@ -121,7 +121,7 @@ export class Styled {
     return new Styled(id, classNames, appearance)
   }
 
-  constructor(
+  private constructor(
     readonly id: string,
     private readonly classNames: string[],
     private readonly appearance: Appearance,
@@ -147,7 +147,7 @@ export function asString(arg: any): {[key: string]: string} {
   return Object.keys(arg).reduce((obj, k) => {
     obj[k] = arg[k].toString()
     return obj
-  }, {} as {[key: string]: string})
+  }, {} as Assigns)
 }
 
 interface Appearance {
