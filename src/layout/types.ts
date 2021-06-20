@@ -251,13 +251,19 @@ function deleteUndefined<T extends any>(t: Partial<T>): Partial<T> {
 export class Location {
   constructor(
     readonly id: string,
-    readonly point: Point,
+    readonly start: Point,
     readonly area: Area,
   ) {
   }
 
+  get end(): Point {
+    const {x, y} = this.start
+    const {width, height} = this.area.base
+    return new Point(x.add(width), y.add(height))
+  }
+
   get center(): Point {
-    return this.point.add(this.area.center)
+    return this.start.add(this.area.center)
   }
 
   get width(): Length {

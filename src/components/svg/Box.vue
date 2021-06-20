@@ -19,7 +19,6 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Shape} from '@/components/model/Shape'
 import TextContent from '@/components/svg/TextContent.vue'
 import LabelComponent from "@/components/svg/LabelComponent.vue";
-import {Length} from "@/layout/types";
 
 @Component({
   components: {
@@ -44,8 +43,8 @@ export default class Box extends Vue {
   }
 
   get textPosition(): {x: string, y: string} {
-    const {x, y} = this.shape.base
-    const {padding} = this.shape.area
+    const {x, y} = this.shape.location.start
+    const {padding} = this.shape.location.area
     return {
       x: x.add(padding.left).toString(),
       y: y.add(padding.top).toString(),
@@ -53,13 +52,12 @@ export default class Box extends Vue {
   }
 
   get labelPosition(): {x: string, y: string} {
-    const {x, y} = this.shape.base
+    const {x, y} = this.shape.location.start
     return {
       x: x.toString(),
       y: y.toString(),
     }
   }
-
 }
 </script>
 

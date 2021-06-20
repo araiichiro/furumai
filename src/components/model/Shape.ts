@@ -1,11 +1,10 @@
 import {SecureSvgAttrs} from '@/style/security'
-import {Area, Point} from "@/layout/types";
+import {Location} from "@/layout/types";
 
 export interface Shape {
   id: string
   class: string
-  base: Point
-  area: Area
+  location: Location
   visibility: string
   shape: string
   icon: string

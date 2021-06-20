@@ -1,4 +1,4 @@
-import {Area, Point} from "@/layout/types";
+import {Area, Location, Point} from "@/layout/types";
 import {Assigns, Context, Styles} from "@/style/Style";
 import {Box} from "@/layout/Box";
 import {Shape} from "@/components/model/Shape";
@@ -121,8 +121,7 @@ export class Presentation {
     return {
       id: this.id,
       "class" : this.classNames.join(" "),
-      base: point,
-      area,
+      location: new Location(this.id, point, area),
       svgAttrs: SecureSvgAttrs.of(asString(attrs)),
       ...this.appearance,
     }

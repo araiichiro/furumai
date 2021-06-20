@@ -38,19 +38,18 @@ export default class Arrow extends Vue {
 
     const cos = vec.dx / vec.length
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
-    const box = this.shape.area
-    const base = this.shape.base
+    const loc = this.shape.location
 
     return {
-      x: base.x.pixel + box.cx.pixel + v.dx - u.dx,
-      y: base.y.pixel + box.cy.pixel + v.dy - u.dy,
+      x: loc.cx.pixel + v.dx - u.dx,
+      y: loc.cy.pixel + v.dy - u.dy,
     }
   }
 
   private get xy(): {x1: number, y1: number, x2: number, y2: number} {
-    const {x, y} = this.shape.base
-    const {width, height} = this.shape.area
-    return {x1: x.pixel, y1: y.pixel, x2: x.add(width).pixel, y2: y.add(height).pixel}
+    const start = this.shape.location.start
+    const end = this.shape.location.end
+    return {x1: start.x.pixel, y1: start.y.pixel, x2: end.x.pixel, y2: end.y.pixel}
   }
 
   get d(): string {

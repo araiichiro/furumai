@@ -52,7 +52,7 @@ export function toModels(furumaiCode: string): Svg[] {
   const ps = rootElem.toPresentation(styles)
   const shapes = ps.map((p) => {
     const box = dic[p.id]
-    return p.shape(box.point, box.area)
+    return p.shape(box.start, box.area)
   })
 
   const es = edges.map((edge) => {
@@ -70,8 +70,7 @@ export function toModels(furumaiCode: string): Svg[] {
     return {
       id: edge.id,
       "class" : edge.classNames.join(" "),
-      base: location.point,
-      area: location.area,
+      location,
       visibility: "",
       shape: op,
       icon: "",
