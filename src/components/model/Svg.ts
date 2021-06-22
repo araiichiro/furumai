@@ -25,11 +25,11 @@ export function createElem(
   territory: Territory,
   appearance: Partial<Appearance>,
 ): SvgElem {
-  const elem = new BasicElem(id, className, territory, appearance)
-  if (elem.icon) {
+  const elem = BasicElem.of(id, className, territory, appearance)
+  if (appearance.icon) {
     return VIcon.of(elem)
-  } else if (elem.appearance.shape) {
-    switch (elem.appearance.shape) {
+  } else if (appearance.shape) {
+    switch (appearance.shape) {
       case "arrow":
         return new Arrow(elem, territory).arrow
       case "edge":
@@ -43,7 +43,7 @@ export function createElem(
       case "pipe":
         return new Pipe(elem, territory).elem
       default:
-        throw new Error("not implemented: " + elem.appearance.shape)
+        throw new Error("not implemented: " + appearance.shape)
     }
   } else {
     return Box.of(elem)
@@ -57,21 +57,28 @@ export interface Svg {
 }
 
 class BasicElem implements SvgElem {
-  constructor(
-    readonly id: string,
-    readonly className: string,
-    readonly territory: Territory,
-    readonly appearance: Partial<Appearance>,
-  ) {
-    validateAppearance(appearance as Assigns)
+  static of(
+    id: string,
+    className: string,
+    territory: Territory,
+    appearance: Partial<Appearance>,
+  ): BasicElem {
+    return new BasicElem(
+      undefined,
+      appearance.icon,
+      BasicElem.label(territory, appearance),
+      BasicElem.attrs(id, className, territory),
+      BasicElem.text(territory, appearance),
+      appearance.visibility,
+    )
   }
 
-  get secureAttrs(): SecureSvgAttrs {
-    const {x, y} = this.territory.start
-    const {width, height} = this.territory.area
+  static attrs(id: string, className: string, territory: Territory): SecureSvgAttrs {
+    const {x, y} = territory.start
+    const {width, height} = territory.area
     const attrs = {
-      id: this.id,
-      class: this.className,
+      id,
+      class: className,
       x,
       y,
       width,
@@ -80,30 +87,30 @@ class BasicElem implements SvgElem {
     return SecureSvgAttrs.of(asString(attrs))
   }
 
-  get visibility(): string | undefined {
-    return this.appearance.visibility
-  }
-  get d(): undefined {
-    return undefined
-  }
-
-  get icon(): string | undefined {
-    return this.appearance.icon
-  }
-
-  get label(): TextElem | undefined {
-    if (this.appearance.label) {
-      return new TextElem(this.appearance.label, false, this.territory.start)
+  static label(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
+    if (appearance.label) {
+      return new TextElem(appearance.label, false, territory.start)
     }
     return undefined
   }
 
-  get text(): TextElem | undefined {
-    const text = this.appearance.text || this.appearance.t
+  static text(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
+    const text = appearance.text || appearance.t
     if (text) {
-      const {padding} = this.territory.area
-      const textPosition = this.territory.start.move(padding.left, padding.top)
+      const {padding} = territory.area
+      const textPosition = territory.start.move(padding.left, padding.top)
       return new TextElem(text, false, textPosition)
     }
+    return undefined
+  }
+
+  constructor(
+    readonly d: string | undefined,
+    readonly icon: string | undefined,
+    readonly label: TextElem | undefined,
+    readonly secureAttrs: SecureSvgAttrs,
+    readonly text: TextElem | undefined,
+    readonly visibility: string | undefined,
+  ) {
   }
 }

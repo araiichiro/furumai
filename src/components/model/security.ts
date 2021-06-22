@@ -36,11 +36,21 @@ export function validatedVisibility(visibility: string): string {
 }
 
 export function validatedShape(shape: string): string {
-  const type = shape || 'box'
-  if (type === 'box' || type === 'person' || type === 'cylinder' || type === 'pipe') {
-    return type
-  } else {
-    throw new Error(`Sorry, the attribute is not used for security reason: shape => ${type}`)
+  switch (shape) {
+    case "arrow":
+      return shape
+    case "edge":
+      return shape
+    case "box":
+      return shape
+    case "cylinder":
+      return shape
+    case "person":
+      return shape
+    case "pipe":
+      return shape
+    default:
+      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${shape}`)
   }
 }
 

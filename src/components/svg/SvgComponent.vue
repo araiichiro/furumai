@@ -46,7 +46,7 @@ export default class SvgComponent extends Vue {
 
   public roughHtml: string = ``
 
-  svgStyle(): string {
+  get svgStyle(): string {
     return this.svg.styles.toCss()
   }
 
