@@ -1,9 +1,9 @@
 import {Assigns, Styles} from "@/style/Style";
-import {Elem} from "@/elem/Elem";
-import {Shape} from "@/components/model/Shape";
-import {SecureSvgAttrs} from "@/style/security";
-import {Length, Location} from "@/layout/types";
+import {Length, Territory} from "@/layout/types";
 import {Arrow} from "@/layout/Arrow";
+import {createElem} from "@/components/model/Svg";
+import {SvgElem as SvgElem} from "@/components/model/SvgElem";
+import {Elem} from "@/elem/Elem";
 
 export class Edge {
   static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
@@ -14,11 +14,13 @@ export class Edge {
     }
     return new Edge(
       from,
-      op,
       to,
       attrs.id || this.idName(from, op, to),
       classNames,
-      attrs as Partial<Appearance>,
+      {
+        shape: op === "--" ? "edge" : "arrow",
+        ...attrs,
+      } as Partial<Appearance>,
     )
   }
 
@@ -43,7 +45,6 @@ export class Edge {
 
   private constructor(
     readonly from: string,
-    readonly op: string,
     readonly to: string,
     readonly id: string,
     readonly classNames: string[] = [],
@@ -57,10 +58,6 @@ export class Edge {
 
   hide() {
     this.appearance.visibility = "hidden"
-  }
-
-  setVisibility(visibility: string) {
-    this.appearance.visibility = visibility
   }
 
   update(elem: Elem) {
@@ -79,13 +76,12 @@ export class Edge {
     return new Styled(
       this.id,
       this.classNames,
-      this.op,
       {...style, ...this.appearance}
     )
   }
 
   same(other: Edge): boolean {
-    return this.from === other.from && this.op === other.op && this.to === other.to
+    return this.from === other.from && this.appearance.shape === other.appearance.shape && this.to === other.to
   }
 
   updateAppearance(other: Edge) {
@@ -99,7 +95,9 @@ export class Edge {
 interface Appearance {
   visibility: string
   label: string
+  shape: string
   text: string
+  t: string
   dx: string
   dy: string
 }
@@ -108,25 +106,18 @@ class Styled {
   constructor(
     readonly id: string,
     readonly classNames: string[],
-    readonly op: string,
     readonly appearance: Partial<Appearance>,
   ) {
   }
 
-  shape(tail: Location, head: Location): Shape {
+  shape(tail: Territory, head: Territory): SvgElem {
     const {dx, dy} = this.appearance
-    const location = Arrow.fit(tail, head, Length.parse(dx || "0px").pixel, Length.parse(dy || "0px").pixel)
-    return {
-      id: this.id,
-      "class" : this.classNames.join(" "),
-      location,
-      visibility: "",
-      shape: this.op === "--" ? "edge" : "arrow",
-      icon: "",
-      label: "",
-      text: "",
-      svgAttrs: SecureSvgAttrs.of({}),
-      ...this.appearance,
-    }
+    const territory = Arrow.fit(tail, head, Length.parse(dx || "0px").pixel, Length.parse(dy || "0px").pixel)
+    return createElem(
+      this.id,
+      this.classNames.join(" "),
+      territory,
+      this.appearance,
+    )
   }
 }

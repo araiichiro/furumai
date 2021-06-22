@@ -1,4 +1,4 @@
-import {Area, Boundary, Gap, Location, Point} from "@/layout/types";
+import {Area, Boundary, Gap, Territory, Point, TerritoryMap} from "@/layout/types";
 import {defaultStyle, Style} from "@/layout/Style";
 import {Engine} from "@/layout/Engine";
 import {Assigns} from "@/style/Style";
@@ -83,19 +83,20 @@ export class Box {
     )
   }
 
-  flatten(parent: Point): Array<Location> {
+  flatten(parent: Point): TerritoryMap {
     const point = parent.add(this.point)
     const children = this.children.reduce((flat, child) => {
-      flat.push(...child.flatten(point.addGap(this.area.padding)))
-      return flat
-    }, [] as Array<Location>)
-    return [
-      new Location(
-        this.id,
+      return {
+        ...flat,
+        ...child.flatten(point.addGap(this.area.padding)),
+      }
+    }, {} as TerritoryMap)
+    return {
+      [this.id]: new Territory(
         point,
         this.area,
       ),
       ...children,
-    ]
+    }
   }
 }

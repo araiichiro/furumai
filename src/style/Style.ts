@@ -1,5 +1,29 @@
 export type Assigns = {[key: string]: string}
 
+export function m<A, B>(fn: (a: A)=>B, a: A | undefined): B | undefined {
+  if (a) {
+    return fn(a)
+  }
+  return undefined
+}
+
+export function deleteUndefined<T extends any>(t: Partial<T>): Partial<T> {
+  return Object.keys(t).reduce((p, k) => {
+    if (t[k]) {
+      return {...p, [k]: t[k]}
+    } else {
+      return p
+    }
+  }, {} as Partial<T>)
+}
+
+export function asString(arg: any): Assigns {
+  return Object.keys(arg).reduce((obj, k) => {
+    obj[k] = arg[k].toString()
+    return obj
+  }, {} as Assigns)
+}
+
 export class Ruleset {
   static of(selectors: Selector[], declarations: Assigns) {
     return new Ruleset(selectors, declarations)
@@ -97,7 +121,7 @@ export class Styles {
     return this
   }
 
-  query(elem: Elem): Assigns {
+  query(elem: Condition): Assigns {
     const classAttrs = elem.classNames.reduce((ret, className) => {
       return {
         ...ret,
@@ -127,7 +151,7 @@ export class Styles {
 
 }
 
-export interface Elem {
+export interface Condition {
   id?: string
   classNames: string[]
   context: Context
@@ -135,9 +159,3 @@ export interface Elem {
 
 export interface Context {
 }
-
-
-// <path id= class="edge edge_from_to" .. />
-// export class EdgeSelector {
-//   constructor(readonly from: string, readonly to: string) {}
-// }

@@ -1,11 +1,11 @@
 import {Vector2d} from '@/layout/Vector2d'
-import {Area, Gap, Length, Location, Point} from "@/layout/types";
+import {Area, Gap, Length, Territory, Point} from "@/layout/types";
 
 export class Arrow {
   public static singleton = new Arrow()
 
-  public static fit(tail: Location, head: Location, dx: number, dy: number): Location {
-    function cut(v: Vector2d, box: Location): Vector2d {
+  public static fit(tail: Territory, head: Territory, dx: number, dy: number): Territory {
+    function cut(v: Vector2d, box: Territory): Vector2d {
       const candidates: Vector2d[] = []
       if (v.dx < 0) {
         const ratio = -(v.x1 - box.cx.pixel + box.width.pixel / 2) / v.dx
@@ -60,6 +60,6 @@ export class Arrow {
       Gap.zero,
       Gap.zero,
     )
-    return new Location("-", start, area)
+    return new Territory(start, area)
   }
 }

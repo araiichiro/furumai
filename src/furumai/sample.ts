@@ -1,6 +1,8 @@
 import {DataEncoderDecoderV1} from '@/codec/codec'
 
-const sampleCode = `group clients {
+const sampleCode = ``
+
+const sampleCode0 = `group clients {
   c1;
   c2;
 };
@@ -27,4 +29,4 @@ c2 -> s2 [label='read x=1'];
 
 const codec = new DataEncoderDecoderV1()
 export const formatVersion = codec.formatVersion
-export const sampleFragment = codec.encode({version: 1, code: sampleCode, rough: true})
+export const sampleFragment = codec.encode({version: 1, code: sampleCode, rough: false})

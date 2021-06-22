@@ -1,8 +1,9 @@
-import {Area, Location, Point} from "@/layout/types";
-import {Assigns, Context, Styles} from "@/style/Style";
+import {Area, Territory, Point} from "@/layout/types";
+import {Assigns, asString, Context, Styles} from "@/style/Style";
 import {Box} from "@/layout/Box";
-import {Shape} from "@/components/model/Shape";
-import {SecureSvgAttrs} from "@/style/security";
+import {SecureSvgAttrs} from "@/components/model/security";
+import {Appearance, createElem} from "@/components/model/Svg";
+import {SvgElem} from "@/components/model/SvgElem";
 
 export class Elem {
   static of(
@@ -82,11 +83,6 @@ export class Elem {
       this.id,
       this.classNames,
       {
-        visibility: "",
-        shape: "box",
-        icon: "",
-        label: this.id,
-        text: "-",
         ...myStyles as Partial<Appearance>,
         ...this.appearance,
       },
@@ -116,7 +112,7 @@ export class Styled {
   static of(
     id: string,
     classNames: string[],
-    appearance: Appearance,
+    appearance: Partial<Appearance>,
   ): Styled {
     return new Styled(id, classNames, appearance)
   }
@@ -124,38 +120,21 @@ export class Styled {
   private constructor(
     readonly id: string,
     private readonly classNames: string[],
-    private readonly appearance: Appearance,
+    private readonly appearance: Partial<Appearance>,
   ) {
   }
 
-  shape(point: Point, area: Area): Shape {
-    const attrs = {
-      ...point,
-      ...area,
-    }
-    return {
-      id: this.id,
-      "class" : this.classNames.join(" "),
-      location: new Location(this.id, point, area),
-      svgAttrs: SecureSvgAttrs.of(asString(attrs)),
-      ...this.appearance,
-    }
+  shape(point: Point, area: Area): SvgElem {
+    const shape = this.appearance.shape || "box"
+    const classNames = [...this.classNames]
+    classNames.push(shape)
+    return createElem(
+      this.id,
+      classNames.join(" "),
+      new Territory(point, area),
+      this.appearance,
+    )
   }
-}
-
-export function asString(arg: any): {[key: string]: string} {
-  return Object.keys(arg).reduce((obj, k) => {
-    obj[k] = arg[k].toString()
-    return obj
-  }, {} as Assigns)
-}
-
-interface Appearance {
-  visibility: string
-  shape: string
-  icon: string
-  label: string
-  text: string
 }
 
 interface Layout {

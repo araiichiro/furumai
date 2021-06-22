@@ -1,3 +1,5 @@
+import {deleteUndefined, m} from "@/style/Style";
+
 class Pixel {
   static unit = "px"
   static zero = new Pixel(0)
@@ -75,6 +77,10 @@ export class Point {
   addGap(gap: Gap): Point {
     const {top, left} = gap
     return new Point(this.x.add(top), this.y.add(left))
+  }
+
+  move(dx: Length, dy: Length): Point {
+    return new Point(this.x.add(dx), this.y.add(dy))
   }
 }
 
@@ -238,26 +244,10 @@ export interface AreaAttrs {
   margin: string
 }
 
-function m<A, B>(fn: (a: A)=>B, a: A | undefined): B | undefined {
-  if (a) {
-    return fn(a)
-  }
-  return undefined
-}
+export type TerritoryMap = {[key: string]: Territory}
 
-function deleteUndefined<T extends any>(t: Partial<T>): Partial<T> {
-  return Object.keys(t).reduce((p, k) => {
-    if (t[k]) {
-      return {...p, [k]: t[k]}
-    } else {
-      return p
-    }
-  }, {} as Partial<T>)
-}
-
-export class Location {
+export class Territory {
   constructor(
-    readonly id: string,
     readonly start: Point,
     readonly area: Area,
   ) {
@@ -269,7 +259,7 @@ export class Location {
     return new Point(x.add(width), y.add(height))
   }
 
-  get center(): Point {
+  private get center(): Point {
     return this.start.add(this.area.center)
   }
 

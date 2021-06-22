@@ -34,7 +34,7 @@ import {
 } from '@/generated/antlr4ts/FurumaiParser'
 import {FurumaiLexer} from '@/generated/antlr4ts/FurumaiLexer'
 import {FurumaiVisitor} from '@/generated/antlr4ts/FurumaiVisitor'
-import {Config, Layout, Story, Update} from '@/elem/Story'
+import {Config, Layout, Story, Update} from '@/furumai/Story'
 import {Elem} from "@/elem/Elem";
 import {Edge} from "@/elem/Edge";
 import {Hide} from "@/elem/Hide";

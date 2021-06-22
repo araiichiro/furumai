@@ -19,23 +19,22 @@
       :height="height.toString()"
       id="svgRoot"
     >
-      <svg:style type="text/css">{{ svg.style }}</svg:style>
-      <Group v-bind:shapes="svg.shapes"></Group>
+      <svg:style type="text/css">{{ svgStyle }}</svg:style>
+      <Group v-bind:elems="svg.elems"></Group>
     </svg>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-import {Shape} from '@/components/model/Shape'
-import Group from './Group.vue'
+import GroupComponent from './GroupComponent.vue'
 import {convertSvg} from '@/effect/rougher'
 import {Svg} from "@/components/model/Svg";
 import {Length} from "@/layout/types";
 
 @Component({
   components: {
-    Group,
+    Group: GroupComponent,
   },
 })
 export default class SvgComponent extends Vue {
@@ -43,19 +42,20 @@ export default class SvgComponent extends Vue {
   public svg!: Svg
 
   @Prop()
-  public svgStyle!: string
-
-  @Prop()
   public rough!: boolean
 
   public roughHtml: string = ``
+
+  svgStyle(): string {
+    return this.svg.styles.toCss()
+  }
 
   public mounted() {
     Vue.nextTick(() => this.refresh())
   }
 
-  @Watch('shape')
-  public onShapeChanged(val: Shape, newVal: Shape) {
+  @Watch('svg')
+  public onShapeChanged(val: Svg, newVal: Svg) {
     this.roughHtml = ''
     Vue.nextTick(() => this.refresh())
   }

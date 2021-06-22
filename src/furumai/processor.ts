@@ -1,9 +1,9 @@
 import {parse} from "@/parse/parser";
 import {Elem} from "@/elem/Elem";
-import {Config, Layout} from "@/elem/Story";
+import {Config, Layout} from "@/furumai/Story";
 import {Engine as LayoutEngine} from "@/layout/Engine";
 import {Svg} from "@/components/model/Svg";
-import {Location, Point} from "@/layout/types";
+import {Point} from "@/layout/types";
 
 export const defaultString = `config {
   mode: snapshot;
@@ -15,6 +15,10 @@ export const defaultString = `config {
 style {
   .root {
     visibility: hidden;
+  }
+  .node {
+    width: 40px;
+    height: 40px;
   }
 };
 `
@@ -54,37 +58,28 @@ export function toModels(furumaiCode: string): Svg[] {
   return ret
 }
 
-type Locations = {[key: string]: Location}
-
 function createSvg(engine: LayoutEngine, layout: Layout): Svg {
   const styles = layout.styles
   const root = layout.root.toLayoutBox(styles)
   const size = root.fit(engine, Point.zero)
   root.refit(engine, Point.zero, size.totalSize)
-  const flatten = root.flatten(Point.zero)
-  const locations = flatten.reduce((ret, location) => {
-    return {
-      [location.id]: location,
-      ...ret,
-    }
-  }, {} as Locations)
-
+  const territories = root.flatten(Point.zero)
   const ss = layout.root.resolveStyle(styles)
   const shapes = ss.map((s) => {
-    const location = locations[s.id]
+    const location = territories[s.id]
     return s.shape(location.start, location.area)
   })
 
   const es = layout.edges.map((edge) => {
-    const f = locations[edge.from]
-    const t = locations[edge.to]
+    const f = territories[edge.from]
+    const t = territories[edge.to]
     return edge.resolveStyle(styles).shape(f, t)
   })
   shapes.push(...es)
 
   return {
-    style: styles.toCss(),
+    styles: styles,
     size: root.totalSize,
-    shapes,
+    elems: shapes,
   }
 }

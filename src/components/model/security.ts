@@ -1,5 +1,7 @@
+import {Assigns, m} from "@/style/Style";
+
 export class SecureSvgAttrs {
-  public static of(svgAttrs: { [key: string]: any }): SecureSvgAttrs {
+  public static of(svgAttrs: Assigns): SecureSvgAttrs {
     Object.keys(svgAttrs).forEach((k) => {
       const v = svgAttrs[k]
       // check attribute for security reason
@@ -15,8 +17,22 @@ export class SecureSvgAttrs {
   ) {}
 }
 
-export function parseIconShape(shape: string): string[] {
-  return shape.split(':')
+export function validateAppearance(appearance: Assigns) {
+  const {
+    visibility,
+    shape,
+    icon,
+  } = appearance
+  m(validatedVisibility, visibility)
+  m(validatedShape, shape)
+  m(validateIcon, icon)
+}
+
+export function validatedVisibility(visibility: string): string {
+  if (visibility !== "visible" && visibility !== "hidden") {
+    throw new Error(`Sorry, the attribute is not used for security reason: visibility => ${visibility}`)
+  }
+  return visibility
 }
 
 export function validatedShape(shape: string): string {
@@ -29,8 +45,7 @@ export function validatedShape(shape: string): string {
 }
 
 export function validateIcon(icon: string): string {
-  const sp = parseIconShape(icon)
-  if (sp.length === 2 && sp[0] === 'icon' && /^[0-9a-zA-Z\-\/]*$/.test(sp[1])) {
+  if (/^[0-9a-zA-Z\-\/]*$/.test(icon)) {
     return icon
   } else {
     throw new Error(`Sorry, the attribute is not used for security reason: shape => ${icon}`)
@@ -44,6 +59,7 @@ function isColor(text: string) {
 }
 
 const availableSvgAttributes = new Set([
+  'class',
   'cx',
   'cy',
   'd',
@@ -128,3 +144,12 @@ function isValid(attrName: string, attrValue: string) {
 
   return checkName(attrName) && checkValue(attrValue)
 }
+
+export function validateTerritory(attrs: Assigns) {
+
+}
+
+// export function validateAppearance() {
+//
+// }
+//

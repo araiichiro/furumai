@@ -1,34 +1,42 @@
-<template>
-  <g v-bind:visibility="shape.visibility">
-    <path
-      v-bind:d="d"
-      v-bind="shapeAttrs"
-    ></path>
-    <TextContent
-      v-bind:content="shape.text"
-      v-bind:position="textPosition"
-      v-bind:centering="true"
-    ></TextContent>
-  </g>
-</template>
+import {Vector2d} from "@/layout/Vector2d";
+import {SvgElem} from "@/components/model/SvgElem";
+import {Length, Point, Territory} from "@/layout/types";
+import {TextElem} from "@/components/model/TextElem";
 
-<script lang="ts">
+export class Arrow {
+  constructor(
+    readonly base: SvgElem,
+    readonly territory: Territory,
+  ) {
+  }
 
-import {Component, Prop, Vue} from 'vue-property-decorator'
-import {Shape} from '@/components/model/Shape'
-import {Vector2d} from '@/layout/Vector2d'
-import TextContent from '@/components/svg/TextContent.vue'
+  get arrow(): SvgElem {
+    return {
+      ...this.base,
+      d: this.arrowPath(),
+      text: this.text,
+    }
+  }
 
-@Component({
-  components: {
-    TextContent,
-  },
-})
-export default class Arrow extends Vue {
-  @Prop()
-  public shape!: Shape
+  get edge(): SvgElem {
+    return {
+      ...this.base,
+      d: this.line(),
+      text: this.text,
+    }
+  }
 
-  get textPosition(): {x: number, y: number} {
+  get text(): TextElem | undefined {
+    if (this.base.text) {
+      const {x, y} = this.textPosition
+      this.base.text.base = new Point(Length.pixel(x), Length.pixel(y))
+      this.base.text.centering(true)
+      return this.base.text
+    }
+    return undefined
+  }
+
+  private get textPosition(): {x: number, y: number} {
     const {x1, y1, x2, y2} = this.xy
     const vec = new Vector2d(x1, y1, x2, y2)
 
@@ -38,7 +46,7 @@ export default class Arrow extends Vue {
 
     const cos = vec.dx / vec.length
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
-    const loc = this.shape.location
+    const loc = this.territory
 
     return {
       x: loc.cx.pixel + v.dx - u.dx,
@@ -47,21 +55,17 @@ export default class Arrow extends Vue {
   }
 
   private get xy(): {x1: number, y1: number, x2: number, y2: number} {
-    const start = this.shape.location.start
-    const end = this.shape.location.end
+    const start = this.territory.start
+    const end = this.territory.end
     return {x1: start.x.pixel, y1: start.y.pixel, x2: end.x.pixel, y2: end.y.pixel}
   }
 
-  get d(): string {
-    return this.shape.shape === 'arrow' ? this.arrow : this.line
-  }
-
-  get line(): string {
+  private line(): string {
     const {x1, y1, x2, y2} = this.xy
     return `M${x1} ${y1} L${x2} ${y2}`
   }
 
-  get arrow(): string {
+  private arrowPath(): string {
     const {x1, y1, x2, y2} = this.xy
     function rotateBase(deg: number, pump: number) {
       const v1 = new Vector2d(x1, y1, x2, y2).normalize().multiple(pump).rotate(deg).negate()
@@ -81,15 +85,6 @@ M ${vb.x2} ${vb.y2}
 L ${x2} ${y2}`
   }
 
-  public get shapeAttrs() {
-    return {
-      id: this.shape.id,
-      class: this.shape.class,
-      visibility: this.shape.visibility,
-      ...this.shape.svgAttrs.svgAttrs,
-    }
-  }
-
   private defaults = {
     arrow: {
       head: {
@@ -98,10 +93,6 @@ L ${x2} ${y2}`
       },
     },
   }
+
+
 }
-
-</script>
-
-<style scoped>
-
-</style>

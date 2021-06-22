@@ -1,19 +1,9 @@
 <template>
-  <g v-bind:visibility="shape.visibility">
-    <v-icon
-      v-bind:name="name"
-      v-bind="shapeAttrs"
-      class="no_rough"
-    ></v-icon>
-    <TextContent
-      v-bind:content="shape.text"
-      v-bind:position="textPosition"
-    ></TextContent>
-    <LabelComponent
-      v-bind:content="shape.label"
-      v-bind:position="labelPosition"
-    ></LabelComponent>
-  </g>
+  <v-icon
+    v-bind:name="name"
+    v-bind="elem.secureAttrs.svgAttrs"
+    class="no_rough"
+  ></v-icon>
 </template>
 
 <script lang="ts">
@@ -22,7 +12,7 @@ import 'vue-awesome/icons'
 import TextContent from '@/components/svg/TextContent.vue'
 import LabelComponent from "@/components/svg/LabelComponent.vue";
 import Icon from 'vue-awesome/components/Icon.vue'
-import {Shape} from '@/components/model/Shape'
+import {SvgElem} from "@/components/model/SvgElem";
 
 @Component({
   components: {
@@ -43,40 +33,14 @@ export default class VIcon extends Vue {
   }
 
   @Prop()
-  public shape!: Shape
+  public elem!: SvgElem
 
   get name(): string {
-    const requiredName = this.shape.icon
+    const requiredName = this.elem.icon || ""
     if (VIcon.validIcons.has(requiredName)) {
       return requiredName
     } else {
-      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${this.shape.icon}`)
-    }
-  }
-
-  public get shapeAttrs() {
-    return {
-      id: this.shape.id,
-      class: this.shape.class,
-      visibility: this.shape.visibility,
-      ...this.shape.svgAttrs.svgAttrs,
-    }
-  }
-
-  get textPosition(): {x: string, y: string} {
-    const {x, y} = this.shape.location.start
-    const {padding} = this.shape.location.area
-    return {
-      x: x.add(padding.left).toString(),
-      y: y.add(padding.top).toString(),
-    }
-  }
-
-  get labelPosition(): {x: string, y: string} {
-    const {x, y} = this.shape.location.start
-    return {
-      x: x.toString(),
-      y: y.toString(),
+      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${this.elem.icon}`)
     }
   }
 }

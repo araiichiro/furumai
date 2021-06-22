@@ -170,7 +170,7 @@ function convertElem(elem: Element): Element {
     case 'polygon':
       throw new Error('not implemented')
     default:
-      throw new Error('not implemented')
+      throw new Error('not implemented: ' + tag)
   }
 }
 

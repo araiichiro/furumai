@@ -1,3 +1,104 @@
+@config{
+orientation: portrait
+}
+
+@style {
+.root {
+ width: 500px;
+ label: "";
+}
+.group {
+fill: none;
+}
+
+.label{
+font-size:30pt;
+}
+.node {
+ width: 100px;
+ height: 100px;
+fill: #f6f;
+stroke:red;
+stroke-width: 15px;
+padding: 10px;
+}
+.node .text {
+// com
+fill: blue;
+font-size:24pt;
+
+}
+.edge {
+stroke: blue;
+}
+}; //a;
+
+group g {
+
+// comment here
+a[a=#a12, b=2, text="ab\ncd"];
+//comment a
+c;
+};
+
+a -> c;
+
+////////////////////////////
+////////////////////////////
+
+ * {
+    display: inline-flex;
+    justify-content: space-between;
+    align-self: center;
+    flex-direction: row;
+
+    font-size: 24;
+  }
+
+  .group, .zone {
+    stroke: gray;
+    stroke-dasharray: 10 8;
+    fill: gray;
+  }
+
+  .group {
+    flex-direction: row;
+  }
+
+  .zone {
+    flex-direction: column;
+  }
+
+  .node {
+    width: 160px;
+    height: 160px;
+    fill: none;
+    stroke: black;
+    stroke-width: 2;
+  }
+
+  .edge {
+    stroke: black;
+    stroke-width: 2;
+  }
+
+  text {
+    fill: gray;
+  }
+
+  .text {
+    stroke: gray;
+    stroke-width: 1;
+  }
+
+  .label {
+    stroke: black;
+  }
+
+
+///////////////////////////
+
+
 config {
   mode: diff;
   align: center;
