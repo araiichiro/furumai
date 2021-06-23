@@ -6,8 +6,8 @@ import {Svg} from "@/components/model/Svg";
 import {Point} from "@/layout/types";
 
 export const defaultString = `config {
-  mode: snapshot;
-  // mode: diff;
+  mode: diff;
+  // mode: snapshot;
   orientation: portrait;
   // orientation: landscape;
 };
