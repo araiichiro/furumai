@@ -1,11 +1,11 @@
-import {Styles} from "@/style/Style";
-import {Elem} from "@/elem/Elem";
-import {Edge} from "@/elem/Edge";
-import {Orientation} from "@/layout/Engine";
-import {Hide} from "@/elem/Hide";
+import {Styles} from '@/style/Style'
+import {Elem} from '@/elem/Elem'
+import {Edge} from '@/elem/Edge'
+import {Orientation} from '@/layout/Engine'
+import {Hide} from '@/elem/Hide'
 
 export interface Config {
-  mode: "snapshot" | "diff"
+  mode: 'snapshot' | 'diff'
   orientation: Orientation
 }
 
@@ -25,23 +25,23 @@ export class Layout {
   ) {
   }
 
-  update(update: Update): Layout {
+  public update(update: Update): Layout {
     update.boxes.forEach((box) => {
       const target = this.root.find(box.id) || this.edges.find((edge) => edge.id === box.id)
       if (target) {
         target.visible()
         target.update(box)
       } else {
-        throw new Error("not found: " + box.id)
+        throw new Error('not found: ' + box.id)
       }
     })
-    update.edges.forEach((update) => {
-      const target = this.edges.find((edge) => edge.same(update))
+    update.edges.forEach((up) => {
+      const target = this.edges.find((edge) => edge.same(up))
       if (target) {
         target.visible()
-        target.updateAppearance(update)
+        target.updateAppearance(up)
       } else {
-        this.edges.push(update)
+        this.edges.push(up)
       }
     })
     update.hides.forEach((hide) => {

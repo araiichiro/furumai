@@ -1,22 +1,22 @@
-import {Area, Point, Territory} from "@/layout/types";
-import {Assigns, Styles} from "@/style/Style";
-import {Box} from "@/layout/Box";
-import {Appearance, createElem} from "@/components/model/Svg";
-import {SvgElem} from "@/components/model/SvgElem";
+import {Area, Point, Territory} from '@/layout/types'
+import {Assigns, Styles} from '@/style/Style'
+import {Box} from '@/layout/Box'
+import {Appearance, createElem} from '@/components/model/Svg'
+import {SvgElem} from '@/components/model/SvgElem'
 
 export class Elem {
-  static of(
+  public static of(
     id: string,
     className: string,
     attrs: Assigns = {},
-    children: Elem[] = []
+    children: Elem[] = [],
   ): Elem {
     const appearance: Partial<Appearance> = {
-      text: attrs["t"],
+      text: attrs.t,
       ...attrs,
     }
-    const classNames = attrs["class"] ?
-      [...attrs["class"].split(" "), className] :
+    const classNames = attrs.class ?
+      [...attrs.class.split(' '), className] :
       [className]
     return new Elem(
       id,
@@ -36,14 +36,14 @@ export class Elem {
   ) {
   }
 
-  find(id: string): Elem | undefined {
+  public find(id: string): Elem | undefined {
     if (this.id === id) {
       return this
     }
     return this.children.find((elem) => elem.find(id))
   }
 
-  update(other: Elem) {
+  public update(other: Elem) {
     this.appearance = {
       ...this.appearance,
       ...other.appearance,
@@ -55,19 +55,19 @@ export class Elem {
     return this
   }
 
-  setVisibility(visibility: string) {
+  public setVisibility(visibility: string) {
     this.appearance.visibility = visibility
   }
 
-  visible() {
-    this.setVisibility("visible")
+  public visible() {
+    this.setVisibility('visible')
   }
 
-  hide() {
-    this.setVisibility("hidden")
+  public hide() {
+    this.setVisibility('hidden')
   }
 
-  resolveStyle(styles: Styles): Styled[] {
+  public resolveStyle(styles: Styles): Styled[] {
     const myStyles = styles.query({
       id: this.id,
       classNames: this.classNames,
@@ -88,7 +88,7 @@ export class Elem {
     return [p, ...children]
   }
 
-  toLayoutBox(styles: Styles): Box {
+  public toLayoutBox(styles: Styles): Box {
     const myStyles = styles.query({
       id: this.id,
       classNames: this.classNames,
@@ -107,7 +107,7 @@ export class Elem {
 }
 
 export class Styled {
-  static of(
+  public static of(
     id: string,
     classNames: string[],
     appearance: Partial<Appearance>,
@@ -122,13 +122,13 @@ export class Styled {
   ) {
   }
 
-  shape(point: Point, area: Area): SvgElem {
-    const shape = this.appearance.shape || "box"
+  public shape(point: Point, area: Area): SvgElem {
+    const shape = this.appearance.shape || 'box'
     const classNames = [...this.classNames]
     classNames.push(shape)
     return createElem(
       this.id,
-      classNames.join(" "),
+      classNames.join(' '),
       new Territory(point, area),
       this.appearance,
     )

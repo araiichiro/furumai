@@ -1,10 +1,10 @@
-import {Area, Boundary, Gap, Territory, Point, TerritoryMap} from "@/layout/types";
-import {defaultStyle, Style} from "@/layout/Style";
-import {Engine} from "@/layout/Engine";
-import {Assigns} from "@/style/Style";
+import {Area, Boundary, Gap, Territory, Point, TerritoryMap} from '@/layout/types'
+import {defaultStyle, Style} from '@/layout/Style'
+import {Engine} from '@/layout/Engine'
+import {Assigns} from '@/style/Style'
 
 export class Box {
-  static of(
+  public static of(
     id: string,
     children: Box[],
     assigns: Assigns,
@@ -18,13 +18,14 @@ export class Box {
     )
   }
 
+  private fitArea?: Area
+
   private constructor(
     readonly id: string,
     readonly children: Box[],
     private readonly style: Style,
     private readonly requested: Partial<Area>,
     private base: Point = Point.zero, // relative position
-    private fitArea: Area | undefined = undefined
   ) {
   }
   get point(): Point {
@@ -35,7 +36,7 @@ export class Box {
     if (this.fitArea) {
       return this.fitArea
     } else {
-      throw new Error("internal error: unexpected call")
+      throw new Error('internal error: unexpected call')
     }
   }
 
@@ -43,7 +44,7 @@ export class Box {
     return this.area.totalSize
   }
 
-  fit(engine: Engine, base: Point): Area {
+  public fit(engine: Engine, base: Point): Area {
     this.base = base
     const content = engine.fit(this.children, this.style)
     const {width, height, padding, margin} = {
@@ -61,7 +62,7 @@ export class Box {
     return this.fitArea
   }
 
-  refit(engine: Engine, point: Point, boundary: Boundary) {
+  public refit(engine: Engine, point: Point, boundary: Boundary) {
     const {width, height, padding, margin} = {
       padding: Gap.zero,
       margin: Gap.zero,
@@ -83,7 +84,7 @@ export class Box {
     )
   }
 
-  flatten(parent: Point): TerritoryMap {
+  public flatten(parent: Point): TerritoryMap {
     const point = parent.add(this.point)
     const children = this.children.reduce((flat, child) => {
       return {

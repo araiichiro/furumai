@@ -1,6 +1,6 @@
-export type Assigns = {[key: string]: string}
+export interface Assigns {[key: string]: string}
 
-export function m<A, B>(fn: (a: A)=>B, a: A | undefined): B | undefined {
+export function m<A, B>(fn: (a: A) => B, a: A | undefined): B | undefined {
   if (a) {
     return fn(a)
   }
@@ -25,7 +25,7 @@ export function asString(arg: any): Assigns {
 }
 
 export class Ruleset {
-  static of(selectors: Selector[], declarations: Assigns) {
+  public static of(selectors: Selector[], declarations: Assigns) {
     return new Ruleset(selectors, declarations)
   }
 
@@ -35,27 +35,27 @@ export class Ruleset {
   ) {
   }
 
-  keys(): string[] {
+  public keys(): string[] {
     return this.selectors.map((s) => s.base.key)
   }
 
-  toCss(): string {
+  public toCss(): string {
     const ar = []
     for (const key of Object.keys(this.declarations)) {
-      ar.push(key + ": " + this.declarations[key])
+      ar.push(key + ': ' + this.declarations[key])
     }
-    const selectors = this.keys().join(", ")
-    const s = ar.join(";\n  ")
+    const selectors = this.keys().join(', ')
+    const s = ar.join(';\n  ')
     return `${selectors} {\n  ${s}\n}`
   }
 
-  isMatch(selector: BasicSelector, context: {}): boolean {
+  public isMatch(selector: BasicSelector, context: {}): boolean {
     return this.selectors.some((s) => s.isMatch(selector, context))
   }
 }
 
 export class Selector {
-  static of(
+  public static of(
     selector: BasicSelector,
     parents: BasicSelector[] = [],
   ): Selector {
@@ -71,13 +71,13 @@ export class Selector {
   ) {
   }
 
-  isMatch(selector: BasicSelector, context: {}) {
+  public isMatch(selector: BasicSelector, context: {}) {
     return this.base.key === selector.key && this.filter.filter(context)
   }
 }
 
 export class Filter {
-  static of(v: boolean): Filter {
+  public static of(v: boolean): Filter {
     return new Filter(v)
   }
 
@@ -86,7 +86,7 @@ export class Filter {
   ) {
   }
 
-  filter(_: {}): boolean {
+  public filter(_: {}): boolean {
     return this.v
   }
 }
@@ -98,7 +98,7 @@ export class BasicSelector {
 }
 
 export function UnivSelector(): BasicSelector {
-  return new BasicSelector("*")
+  return new BasicSelector('*')
 }
 
 export function CombinedSelector(selectors: BasicSelector[]): Selector {
@@ -107,7 +107,7 @@ export function CombinedSelector(selectors: BasicSelector[]): Selector {
 }
 
 export class Styles {
-  static of(rules: Ruleset[]): Styles {
+  public static of(rules: Ruleset[]): Styles {
     return new Styles(rules)
   }
 
@@ -116,23 +116,27 @@ export class Styles {
   ) {
   }
 
-  update(other: Styles): Styles {
+  public update(other: Styles): Styles {
     this.rules.push(...other.rules)
     return this
   }
 
-  query(elem: Condition): Assigns {
+  public query(elem: Condition): Assigns {
     const classAttrs = elem.classNames.reduce((ret, className) => {
       return {
         ...ret,
-        ...this.get(new BasicSelector("." + className), elem.context)
+        ...this.get(new BasicSelector('.' + className), elem.context),
       }
     }, {} as Assigns)
     return {
       ...this.get(UnivSelector(), elem.context),
       ...classAttrs,
-      ...elem.id ? this.get(new BasicSelector("#" + elem.id), elem.context) : {},
+      ...elem.id ? this.get(new BasicSelector('#' + elem.id), elem.context) : {},
     }
+  }
+
+  public toCss(): string {
+    return this.rules.map((rule) => rule.toCss()).join('\n')
   }
 
   private get(selector: BasicSelector, context: {}): Assigns {
@@ -143,10 +147,6 @@ export class Styles {
         ...rule.declarations,
       }
     }, {} as Assigns)
-  }
-
-  toCss(): string {
-    return this.rules.map((rule) => rule.toCss()).join("\n")
   }
 
 }

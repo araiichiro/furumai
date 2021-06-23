@@ -1,14 +1,9 @@
-import {Vector2d} from "@/layout/Vector2d";
-import {SvgElem} from "@/components/model/SvgElem";
-import {Length, Point, Territory} from "@/layout/types";
-import {TextElem} from "@/components/model/TextElem";
+import {Vector2d} from '@/layout/Vector2d'
+import {SvgElem} from '@/components/model/SvgElem'
+import {Length, Point, Territory} from '@/layout/types'
+import {TextElem} from '@/components/model/TextElem'
 
 export class Arrow {
-  constructor(
-    readonly base: SvgElem,
-    readonly territory: Territory,
-  ) {
-  }
 
   get arrow(): SvgElem {
     return {
@@ -60,6 +55,20 @@ export class Arrow {
     return {x1: start.x.pixel, y1: start.y.pixel, x2: end.x.pixel, y2: end.y.pixel}
   }
 
+  private defaults = {
+    arrow: {
+      head: {
+        size: 16,
+        degree: 27,
+      },
+    },
+  }
+  constructor(
+    readonly base: SvgElem,
+    readonly territory: Territory,
+  ) {
+  }
+
   private line(): string {
     const {x1, y1, x2, y2} = this.xy
     return `M${x1} ${y1} L${x2} ${y2}`
@@ -83,15 +92,6 @@ M ${va.x2} ${va.y2}
 L ${x2} ${y2}
 M ${vb.x2} ${vb.y2}
 L ${x2} ${y2}`
-  }
-
-  private defaults = {
-    arrow: {
-      head: {
-        size: 16,
-        degree: 27,
-      },
-    },
   }
 
 

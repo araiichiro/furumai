@@ -29,8 +29,8 @@
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import GroupComponent from './GroupComponent.vue'
 import {convertSvg} from '@/effect/rougher'
-import {Svg} from "@/components/model/Svg";
-import {Length} from "@/layout/types";
+import {Svg} from '@/components/model/Svg'
+import {Length} from '@/layout/types'
 
 @Component({
   components: {
@@ -80,7 +80,7 @@ export default class SvgComponent extends Vue {
   public get viewBox(): string {
     const widthString = this.width.toString()
     const heightString = this.height.toString()
-    if (widthString.endsWith("px") && heightString.endsWith("px")) {
+    if (widthString.endsWith('px') && heightString.endsWith('px')) {
       const width = widthString.substr(0, widthString.length - 2)
       const height = heightString.substr(0, heightString.length - 2)
       return `0 0 ${width} ${height}`

@@ -1,6 +1,6 @@
-import {Length, Point, Territory} from "@/layout/types";
-import {SvgElem} from "@/components/model/SvgElem";
-import {TextElem} from "@/components/model/TextElem";
+import {Length, Point, Territory} from '@/layout/types'
+import {SvgElem} from '@/components/model/SvgElem'
+import {TextElem} from '@/components/model/TextElem'
 
 export class Pipe {
   constructor(

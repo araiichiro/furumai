@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import ElemComponent from "@/components/svg/ElemComponent.vue";
-import {SvgElem} from "@/components/model/SvgElem";
+import ElemComponent from '@/components/svg/ElemComponent.vue'
+import {SvgElem} from '@/components/model/SvgElem'
 
 @Component({
   name: 'Group',

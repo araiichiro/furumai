@@ -1,6 +1,6 @@
 import {DataEncoderDecoderV1} from '@/codec/codec'
 
-//const sampleCode = ``
+// const sampleCode = ``
 
 const sampleCode = `group clients {
   c1;

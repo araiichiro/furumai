@@ -1,14 +1,14 @@
-import {Boundary, Territory} from "@/layout/types";
-import {Assigns, asString, Styles} from "@/style/Style";
-import {SecureSvgAttrs, validateAppearance} from "@/components/model/security";
-import {VIcon} from "@/components/model/VIcon";
-import {Box} from "@/components/model/Box";
-import {Arrow} from "@/components/model/Arrow";
-import {Cylinder} from "@/components/model/Cylinder";
-import {TextElem} from "@/components/model/TextElem";
-import {SvgElem} from "@/components/model/SvgElem";
-import {Person} from "@/components/model/Person";
-import {Pipe} from "@/components/model/Pipe";
+import {Boundary, Territory} from '@/layout/types'
+import {Assigns, asString, Styles} from '@/style/Style'
+import {SecureSvgAttrs, validateAppearance} from '@/components/model/security'
+import {VIcon} from '@/components/model/VIcon'
+import {Box} from '@/components/model/Box'
+import {Arrow} from '@/components/model/Arrow'
+import {Cylinder} from '@/components/model/Cylinder'
+import {TextElem} from '@/components/model/TextElem'
+import {SvgElem} from '@/components/model/SvgElem'
+import {Person} from '@/components/model/Person'
+import {Pipe} from '@/components/model/Pipe'
 
 export interface Appearance {
   visibility: string
@@ -30,20 +30,20 @@ export function createElem(
     return VIcon.of(elem)
   } else if (appearance.shape) {
     switch (appearance.shape) {
-      case "arrow":
+      case 'arrow':
         return new Arrow(elem, territory).arrow
-      case "edge":
+      case 'edge':
         return new Arrow(elem, territory).edge
-      case "box":
+      case 'box':
         return Box.of(elem)
-      case "cylinder":
+      case 'cylinder':
         return new Cylinder(elem, territory).elem
-      case "person":
+      case 'person':
         return new Person(elem, territory).elem
-      case "pipe":
+      case 'pipe':
         return new Pipe(elem, territory).elem
       default:
-        throw new Error("not implemented: " + appearance.shape)
+        throw new Error('not implemented: ' + appearance.shape)
     }
   } else {
     return Box.of(elem)
@@ -57,7 +57,7 @@ export interface Svg {
 }
 
 class BasicElem implements SvgElem {
-  static of(
+  public static of(
     id: string,
     className: string,
     territory: Territory,
@@ -73,7 +73,7 @@ class BasicElem implements SvgElem {
     )
   }
 
-  static attrs(id: string, className: string, territory: Territory): SecureSvgAttrs {
+  public static attrs(id: string, className: string, territory: Territory): SecureSvgAttrs {
     const {x, y} = territory.start
     const {width, height} = territory.area
     const attrs = {
@@ -87,14 +87,14 @@ class BasicElem implements SvgElem {
     return SecureSvgAttrs.of(asString(attrs))
   }
 
-  static label(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
+  public static label(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
     if (appearance.label) {
       return new TextElem(appearance.label, false, territory.start)
     }
     return undefined
   }
 
-  static text(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
+  public static text(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
     const text = appearance.text || appearance.t
     if (text) {
       const {padding} = territory.area

@@ -27,10 +27,10 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import 'vue-awesome/icons'
 import TextContent from '@/components/svg/TextContent.vue'
-import LabelComponent from "@/components/svg/LabelComponent.vue";
-import VIcon from "@/components/svg/VIcon.vue";
-import {Assigns} from "@/style/Style";
-import {SvgElem} from "@/components/model/SvgElem";
+import LabelComponent from '@/components/svg/LabelComponent.vue'
+import VIcon from '@/components/svg/VIcon.vue'
+import {Assigns} from '@/style/Style'
+import {SvgElem} from '@/components/model/SvgElem'
 
 @Component({
   components: {

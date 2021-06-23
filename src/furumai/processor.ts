@@ -1,9 +1,9 @@
-import {parse} from "@/parse/parser";
-import {Elem} from "@/elem/Elem";
-import {Config, Layout} from "@/furumai/Story";
-import {Engine as LayoutEngine} from "@/layout/Engine";
-import {Svg} from "@/components/model/Svg";
-import {Point} from "@/layout/types";
+import {parse} from '@/parse/parser'
+import {Elem} from '@/elem/Elem'
+import {Config, Layout} from '@/furumai/Story'
+import {Engine as LayoutEngine} from '@/layout/Engine'
+import {Svg} from '@/components/model/Svg'
+import {Point} from '@/layout/types'
 
 export const defaultString = `config {
   mode: diff;
@@ -41,16 +41,15 @@ export function toModels(furumaiCode: string): Svg[] {
   )
   const ret = [createSvg(engine, layout)]
 
-  for (let update of story.updates) {
-    if (config.mode === "diff") {
+  for (const update of story.updates) {
+    if (config.mode === 'diff') {
       layout = layout.update(update)
       ret.push(createSvg(engine, layout))
     } else {
-      const defaults = parse(defaultString)
       layout = new Layout(
-        Elem.of("_root", "root", {}, update.boxes),
+        Elem.of('_root', 'root', {}, update.boxes),
         update.edges,
-        defaults.layout.styles.update(base.styles).update(update.styles),
+        parse(defaultString).layout.styles.update(base.styles).update(update.styles),
       )
       ret.push(createSvg(engine, layout))
     }
@@ -78,7 +77,7 @@ function createSvg(engine: LayoutEngine, layout: Layout): Svg {
   shapes.push(...es)
 
   return {
-    styles: styles,
+    styles,
     size: root.totalSize,
     elems: shapes,
   }

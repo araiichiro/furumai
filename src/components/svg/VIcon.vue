@@ -10,9 +10,9 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import 'vue-awesome/icons'
 import TextContent from '@/components/svg/TextContent.vue'
-import LabelComponent from "@/components/svg/LabelComponent.vue";
+import LabelComponent from '@/components/svg/LabelComponent.vue'
 import Icon from 'vue-awesome/components/Icon.vue'
-import {SvgElem} from "@/components/model/SvgElem";
+import {SvgElem} from '@/components/model/SvgElem'
 
 @Component({
   components: {
@@ -36,7 +36,7 @@ export default class VIcon extends Vue {
   public elem!: SvgElem
 
   get name(): string {
-    const requiredName = this.elem.icon || ""
+    const requiredName = this.elem.icon || ''
     if (VIcon.validIcons.has(requiredName)) {
       return requiredName
     } else {
@@ -44,7 +44,6 @@ export default class VIcon extends Vue {
     }
   }
 }
-
 </script>
 
 <style scoped>

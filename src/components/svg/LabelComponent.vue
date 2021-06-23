@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import {TextElem} from "@/components/model/TextElem";
+import {TextElem} from '@/components/model/TextElem'
 
 @Component
 export default class LabelComponent extends Vue {

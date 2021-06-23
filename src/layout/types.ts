@@ -1,31 +1,41 @@
-import {deleteUndefined, m} from "@/style/Style";
+import {deleteUndefined, m} from '@/style/Style'
 
 class Pixel {
-  static unit = "px"
-  static zero = new Pixel(0)
-  static parse(attr: string): Pixel {
+  public static unit = 'px'
+  public static zero = new Pixel(0)
+  public static parse(attr: string): Pixel {
     return new Pixel(Number(attr.substr(0, attr.length - this.unit.length)))
   }
 
   constructor(
-    readonly px: number
+    readonly px: number,
   ) {
   }
 
-  toString(): string {
+  public toString(): string {
     return `${this.px}${Pixel.unit}`
   }
 }
 
 export class Length {
-  static zero = Length.create(0)
 
-  static pixel(v: number): Length {
+  get pixel(): number {
+    return this.v.px
+  }
+  public static zero = Length.create(0)
+
+  public static pixel(v: number): Length {
     return new Length(new Pixel(v))
   }
 
-  static parse(attr: string): Length {
+  public static parse(attr: string): Length {
     return new Length(Pixel.parse(attr))
+  }
+
+  public static max(...lengths: Length[]): Length {
+    return lengths.reduce((ret, length) => {
+      return ret.v.px > length.v.px ? ret : length
+    }, Length.zero)
   }
 
   private static create(px: number): Length {
@@ -35,59 +45,49 @@ export class Length {
   private constructor(private v: Pixel) {
   }
 
-  add(other: Length): Length {
+  public add(other: Length): Length {
     return Length.create(this.v.px + other.v.px)
   }
 
-  sub(other: Length): Length {
+  public sub(other: Length): Length {
     return Length.create(this.v.px - other.v.px)
   }
 
-  div(n: number): Length {
+  public div(n: number): Length {
     return Length.create(Math.floor(this.v.px / n))
   }
 
-  get pixel(): number {
-    return this.v.px
-  }
-
-  toString(): string {
+  public toString(): string {
     return this.v.toString()
-  }
-
-  static max(...lengths: Length[]): Length {
-    return lengths.reduce((ret, length) => {
-      return ret.v.px > length.v.px ? ret : length
-    }, Length.zero)
   }
 }
 
 export class Point {
-  static zero = new Point(Length.zero, Length.zero)
+  public static zero = new Point(Length.zero, Length.zero)
   constructor(
     readonly x: Length,
     readonly y: Length,
   ) {
   }
 
-  add(other: Point): Point {
+  public add(other: Point): Point {
     return new Point(this.x.add(other.x), this.y.add(other.y))
   }
 
-  addGap(gap: Gap): Point {
+  public addGap(gap: Gap): Point {
     const {top, left} = gap
     return new Point(this.x.add(top), this.y.add(left))
   }
 
-  move(dx: Length, dy: Length): Point {
+  public move(dx: Length, dy: Length): Point {
     return new Point(this.x.add(dx), this.y.add(dy))
   }
 }
 
 export class Boundary {
-  static zero: Boundary = new Boundary(Length.zero, Length.zero)
+  public static zero: Boundary = new Boundary(Length.zero, Length.zero)
 
-  static max(...bounds: Boundary[]): Boundary {
+  public static max(...bounds: Boundary[]): Boundary {
     return bounds.reduce((ret, size) => {
       return new Boundary(Length.max(ret.width, size.width), Length.max(ret.height, size.height))
     }, Boundary.zero)
@@ -99,7 +99,7 @@ export class Boundary {
   ) {
   }
 
-  add(gap: Gap): Boundary {
+  public add(gap: Gap): Boundary {
     const {top, right, bottom, left} = gap
     const {width, height} = this
     return new Boundary(
@@ -108,7 +108,7 @@ export class Boundary {
     )
   }
 
-  sub(gap: Gap): Boundary {
+  public sub(gap: Gap): Boundary {
     const {top, right, bottom, left} = gap
     const {width, height} = this
     return new Boundary(
@@ -117,7 +117,7 @@ export class Boundary {
     )
   }
 
-  diff(content: Boundary): Boundary {
+  public diff(content: Boundary): Boundary {
     return new Boundary(
       this.width.sub(content.width),
       this.height.sub(content.height),
@@ -126,7 +126,9 @@ export class Boundary {
 }
 
 export class Gap {
-  static of(attr: string): Gap {
+
+  public static zero = Gap.gap1(Length.zero)
+  public static of(attr: string): Gap {
     const vs = attr.split(' ').map(Length.parse)
     switch (vs.length) {
       case 0:
@@ -141,8 +143,6 @@ export class Gap {
         throw new Error(`invalid attr for Gap: ${attr}`)
     }
   }
-
-  public static zero = Gap.gap1(Length.zero)
 
   public static gap1(gap: Length): Gap {
     return new Gap(gap, gap, gap, gap)
@@ -170,14 +170,14 @@ export class Gap {
 }
 
 export class Area {
-  static zero = Area.of(Boundary.zero, Gap.zero, Gap.zero)
+  public static zero = Area.of(Boundary.zero, Gap.zero, Gap.zero)
 
-  static of(base: Boundary, padding: Gap, margin: Gap): Area {
+  public static of(base: Boundary, padding: Gap, margin: Gap): Area {
     const {width, height} = base
     return new Area(width, height, padding, margin)
   }
 
-  static parse(attrs: Partial<AreaAttrs>): Partial<Area> {
+  public static parse(attrs: Partial<AreaAttrs>): Partial<Area> {
     const { width, height, padding, margin } = attrs
     const ret: Partial<Area> = {
       width: m(Length.parse, width),
@@ -200,7 +200,7 @@ export class Area {
     return new Boundary(this.width, this.height)
   }
 
-  diff(content: Boundary): Boundary {
+  public diff(content: Boundary): Boundary {
     const {width, height} = this.base
     const {top, right, bottom, left} = this.padding
     return new Boundary(
@@ -229,7 +229,7 @@ export class Area {
     return new Point(this.cx, this.cy)
   }
 
-  asPixel(): {width: number, height: number} {
+  public asPixel(): {width: number, height: number} {
     return {
       width: this.width.pixel,
       height: this.height.pixel,
@@ -244,7 +244,7 @@ export interface AreaAttrs {
   margin: string
 }
 
-export type TerritoryMap = {[key: string]: Territory}
+export interface TerritoryMap {[key: string]: Territory}
 
 export class Territory {
   constructor(

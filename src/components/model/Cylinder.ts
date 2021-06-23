@@ -1,5 +1,5 @@
-import {SvgElem} from "@/components/model/SvgElem";
-import {Territory} from "@/layout/types";
+import {SvgElem} from '@/components/model/SvgElem'
+import {Territory} from '@/layout/types'
 
 export class Cylinder {
   constructor(

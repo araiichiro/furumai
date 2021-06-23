@@ -1,6 +1,6 @@
-import {Length, Point, Territory} from "@/layout/types";
-import {TextElem} from "@/components/model/TextElem";
-import {SvgElem} from "@/components/model/SvgElem";
+import {Length, Point, Territory} from '@/layout/types'
+import {TextElem} from '@/components/model/TextElem'
+import {SvgElem} from '@/components/model/SvgElem'
 
 export class Person {
   constructor(

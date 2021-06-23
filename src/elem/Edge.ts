@@ -1,16 +1,16 @@
-import {Assigns, Styles} from "@/style/Style";
-import {Length, Territory} from "@/layout/types";
-import {Arrow} from "@/layout/Arrow";
-import {createElem} from "@/components/model/Svg";
-import {SvgElem as SvgElem} from "@/components/model/SvgElem";
-import {Elem} from "@/elem/Elem";
+import {Assigns, Styles} from '@/style/Style'
+import {Length, Territory} from '@/layout/types'
+import {Arrow} from '@/layout/Arrow'
+import {createElem} from '@/components/model/Svg'
+import {SvgElem as SvgElem} from '@/components/model/SvgElem'
+import {Elem} from '@/elem/Elem'
 
 export class Edge {
-  static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
-    const classNames = ["edge", this.className(from, op, to)]
-    const cls = attrs["class"]
+  public static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
+    const classNames = ['edge', this.className(from, op, to)]
+    const cls = attrs.class
     if (cls) {
-      classNames.push(...attrs["class"].split(" "))
+      classNames.push(...attrs.class.split(' '))
     }
     return new Edge(
       from,
@@ -18,28 +18,28 @@ export class Edge {
       attrs.id || this.idName(from, op, to),
       classNames,
       {
-        shape: op === "--" ? "edge" : "arrow",
+        shape: op === '--' ? 'edge' : 'arrow',
         ...attrs,
       } as Partial<Appearance>,
     )
   }
 
-  static idName(from: string, op: string, to: string): string {
+  public static idName(from: string, op: string, to: string): string {
     return `_furumai_${from}_${this.connectorName(op)}_${to}`
   }
 
-  static className(from: string, op: string, to: string): string {
+  public static className(from: string, op: string, to: string): string {
     return `_furumai_${from}_${this.connectorName(op)}_${to}`
   }
 
   private static connectorName(op: string): string {
     switch (op) {
-      case "->":
-        return "to"
-      case "--":
-        return  "edge"
+      case '->':
+        return 'to'
+      case '--':
+        return  'edge'
       default:
-        throw new Error("not implemented")
+        throw new Error('not implemented')
     }
   }
 
@@ -52,22 +52,22 @@ export class Edge {
   ) {
   }
 
-  visible() {
-    this.appearance.visibility = "visible"
+  public visible() {
+    this.appearance.visibility = 'visible'
   }
 
-  hide() {
-    this.appearance.visibility = "hidden"
+  public hide() {
+    this.appearance.visibility = 'hidden'
   }
 
-  update(elem: Elem) {
+  public update(elem: Elem) {
     this.appearance = {
       ...this.appearance,
       ...elem._appearance,
     }
   }
 
-  resolveStyle(styles: Styles): Styled {
+  public resolveStyle(styles: Styles): Styled {
     const style = styles.query({
       id: this.id,
       classNames: this.classNames,
@@ -76,15 +76,15 @@ export class Edge {
     return new Styled(
       this.id,
       this.classNames,
-      {...style, ...this.appearance}
+      {...style, ...this.appearance},
     )
   }
 
-  same(other: Edge): boolean {
+  public same(other: Edge): boolean {
     return this.from === other.from && this.appearance.shape === other.appearance.shape && this.to === other.to
   }
 
-  updateAppearance(other: Edge) {
+  public updateAppearance(other: Edge) {
     this.appearance = {
       ...this.appearance,
       ...other.appearance,
@@ -110,12 +110,12 @@ class Styled {
   ) {
   }
 
-  shape(tail: Territory, head: Territory): SvgElem {
+  public shape(tail: Territory, head: Territory): SvgElem {
     const {dx, dy} = this.appearance
-    const territory = Arrow.fit(tail, head, Length.parse(dx || "0px").pixel, Length.parse(dy || "0px").pixel)
+    const territory = Arrow.fit(tail, head, Length.parse(dx || '0px').pixel, Length.parse(dy || '0px').pixel)
     return createElem(
       this.id,
-      this.classNames.join(" "),
+      this.classNames.join(' '),
       territory,
       this.appearance,
     )

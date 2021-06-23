@@ -1,4 +1,4 @@
-import {Assigns, m} from "@/style/Style";
+import {Assigns, m} from '@/style/Style'
 
 export class SecureSvgAttrs {
   public static of(svgAttrs: Assigns): SecureSvgAttrs {
@@ -29,7 +29,7 @@ export function validateAppearance(appearance: Assigns) {
 }
 
 export function validatedVisibility(visibility: string): string {
-  if (visibility !== "visible" && visibility !== "hidden") {
+  if (visibility !== 'visible' && visibility !== 'hidden') {
     throw new Error(`Sorry, the attribute is not used for security reason: visibility => ${visibility}`)
   }
   return visibility
@@ -37,17 +37,17 @@ export function validatedVisibility(visibility: string): string {
 
 export function validatedShape(shape: string): string {
   switch (shape) {
-    case "arrow":
+    case 'arrow':
       return shape
-    case "edge":
+    case 'edge':
       return shape
-    case "box":
+    case 'box':
       return shape
-    case "cylinder":
+    case 'cylinder':
       return shape
-    case "person":
+    case 'person':
       return shape
-    case "pipe":
+    case 'pipe':
       return shape
     default:
       throw new Error(`Sorry, the attribute is not used for security reason: shape => ${shape}`)

@@ -1,5 +1,5 @@
-import {TextElem} from "@/components/model/TextElem";
-import {SecureSvgAttrs} from "@/components/model/security";
+import {TextElem} from '@/components/model/TextElem'
+import {SecureSvgAttrs} from '@/components/model/security'
 
 export interface SvgElem {
   secureAttrs: SecureSvgAttrs

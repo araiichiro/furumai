@@ -1,4 +1,4 @@
-import {Point} from "@/layout/types";
+import {Point} from '@/layout/types'
 
 export class TextElem {
   constructor(
@@ -9,7 +9,7 @@ export class TextElem {
   ) {
   }
 
-  centering(centering: boolean) {
+  public centering(centering: boolean) {
     this.centered = centering
   }
 

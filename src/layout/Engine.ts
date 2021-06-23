@@ -1,17 +1,17 @@
-import {Length, Point, Boundary} from "@/layout/types";
-import {Style} from "@/layout/Style";
-import {Box} from "@/layout/Box";
+import {Length, Point, Boundary} from '@/layout/types'
+import {Style} from '@/layout/Style'
+import {Box} from '@/layout/Box'
 
 export class Engine {
   constructor(readonly config: Config) {
   }
 
-  fit(children: Box[], style: Style): Boundary {
-    if (style["justify-content"] !== "space-around") {
-      throw new Error("not implemented")
+  public fit(children: Box[], style: Style): Boundary {
+    if (style['justify-content'] !== 'space-around') {
+      throw new Error('not implemented')
     }
     const direction = this.direction(style)
-    if (direction === "row") {
+    if (direction === 'row') {
       return children.reduce((ret, child) => {
         const base = new Point(ret.width, Length.zero)
         const area = child.fit(this, base)
@@ -21,7 +21,7 @@ export class Engine {
           Length.max(ret.height, height),
         )
       }, Boundary.zero)
-    } else if (direction === "column") {
+    } else if (direction === 'column') {
       return children.reduce((ret, child) => {
         const base = new Point(Length.zero, ret.height)
         const area = child.fit(this, base)
@@ -32,18 +32,18 @@ export class Engine {
         )
       }, Boundary.zero)
     } else {
-      throw new Error("not implemented")
+      throw new Error('not implemented')
     }
   }
 
-  refit(children: Box[], style: Style, boundary: Boundary) {
-    if (style["justify-content"] === "start") {
+  public refit(children: Box[], style: Style, boundary: Boundary) {
+    if (style['justify-content'] === 'start') {
       return
-    } else if (style["justify-content"] !== "space-around") {
-      throw new Error("not implemented")
+    } else if (style['justify-content'] !== 'space-around') {
+      throw new Error('not implemented')
     }
     const direction = this.direction(style)
-    if (direction === "row") {
+    if (direction === 'row') {
       const content = children.reduce((ret, child) => {
         const {width, height} = child.totalSize
         return new Boundary(
@@ -60,7 +60,7 @@ export class Engine {
         child.refit(this, new Point(left, Length.zero), size)
         return left.add(size.width)
       }, Length.zero)
-    } else if (direction === "column") {
+    } else if (direction === 'column') {
       const content = children.reduce((ret, child) => {
         const {width, height} = child.totalSize
         return new Boundary(
@@ -78,24 +78,24 @@ export class Engine {
         return top.add(size.height)
       }, Length.zero)
     } else {
-      throw new Error("not implemented")
+      throw new Error('not implemented')
     }
   }
 
-  private direction(style: Style): "row" | "column" {
+  private direction(style: Style): 'row' | 'column' {
     switch (this.config.orientation) {
-      case "portrait":
-        return style["flex-direction"]
-      case "landscape":
-        if (style["flex-direction"] === "row") {
-          return "column"
-        } else if (style["flex-direction"] === "column") {
-          return "row"
+      case 'portrait':
+        return style['flex-direction']
+      case 'landscape':
+        if (style['flex-direction'] === 'row') {
+          return 'column'
+        } else if (style['flex-direction'] === 'column') {
+          return 'row'
         } else {
-          throw new Error("not implemented")
+          throw new Error('not implemented')
         }
       default:
-        throw new Error("not implemented")
+        throw new Error('not implemented')
     }
   }
 }
@@ -104,4 +104,4 @@ export interface Config {
   orientation: Orientation
 }
 
-export type Orientation = "portrait" | "landscape"
+export type Orientation = 'portrait' | 'landscape'

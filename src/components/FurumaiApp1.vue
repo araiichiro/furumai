@@ -57,7 +57,7 @@ import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
 import * as model from '@/components/model/Svg'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
-import {defaultString, toModels} from "@/furumai/processor";
+import {defaultString, toModels} from '@/furumai/processor'
 
 interface AppParams1 {
   code: string
@@ -75,6 +75,8 @@ interface AppParams1 {
   },
 })
 export default class FurumaiApp1 extends Vue {
+
+  public svgs: model.Svg[] = []
   @Prop({default: {}}) private furumaiData!: AppParams1
   @Prop() private changeUrl!: (data: AppParams1) => void
   @Prop({default: true}) private editorMode!: boolean
@@ -83,8 +85,6 @@ export default class FurumaiApp1 extends Vue {
   private errors: string = ''
 
   private defaults = defaultString
-
-  svgs: model.Svg[] = []
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {

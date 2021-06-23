@@ -1,5 +1,5 @@
 import {Vector2d} from '@/layout/Vector2d'
-import {Area, Gap, Length, Territory, Point} from "@/layout/types";
+import {Area, Gap, Length, Territory, Point} from '@/layout/types'
 
 export class Arrow {
   public static singleton = new Arrow()
