@@ -1,15 +1,15 @@
 <template>
   <text
     v-if="text"
-    v-bind:x="text.attrs.x"
-    v-bind:y="text.attrs.y"
+    v-bind:x="text.base.x"
+    v-bind:y="text.base.y"
     class="label text"
   >
     <tspan
       v-if="text"
       v-for="t in text.lines"
       v-bind:dy="`-0.4em`"
-      v-bind:x="text.attrs.x"
+      v-bind:x="text.base.x"
     >{{ t.text }}</tspan>
   </text>
 </template>
