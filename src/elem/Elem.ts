@@ -1,7 +1,6 @@
-import {Area, Territory, Point} from "@/layout/types";
-import {Assigns, asString, Context, Styles} from "@/style/Style";
+import {Area, Point, Territory} from "@/layout/types";
+import {Assigns, Styles} from "@/style/Style";
 import {Box} from "@/layout/Box";
-import {SecureSvgAttrs} from "@/components/model/security";
 import {Appearance, createElem} from "@/components/model/Svg";
 import {SvgElem} from "@/components/model/SvgElem";
 
@@ -34,7 +33,6 @@ export class Elem {
     private readonly children: Elem[],
     private appearance: Partial<Appearance>,
     private layout: Partial<Layout>,
-    private readonly context: Context = {},
   ) {
   }
 
@@ -73,7 +71,7 @@ export class Elem {
     const myStyles = styles.query({
       id: this.id,
       classNames: this.classNames,
-      context: this.context,
+      context: {},
     })
     const children = this.children.reduce((ret, child) => {
       ret.push(...child.resolveStyle(styles))
@@ -94,7 +92,7 @@ export class Elem {
     const myStyles = styles.query({
       id: this.id,
       classNames: this.classNames,
-      context: this.context,
+      context: {},
     })
     return Box.of(
       this.id,

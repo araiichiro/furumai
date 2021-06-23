@@ -49,7 +49,7 @@ export class Ruleset {
     return `${selectors} {\n  ${s}\n}`
   }
 
-  isMatch(selector: BasicSelector, context: Context): boolean {
+  isMatch(selector: BasicSelector, context: {}): boolean {
     return this.selectors.some((s) => s.isMatch(selector, context))
   }
 }
@@ -71,7 +71,7 @@ export class Selector {
   ) {
   }
 
-  isMatch(selector: BasicSelector, context: Context) {
+  isMatch(selector: BasicSelector, context: {}) {
     return this.base.key === selector.key && this.filter.filter(context)
   }
 }
@@ -86,7 +86,7 @@ export class Filter {
   ) {
   }
 
-  filter(_: Context): boolean {
+  filter(_: {}): boolean {
     return this.v
   }
 }
@@ -135,7 +135,7 @@ export class Styles {
     }
   }
 
-  private get(selector: BasicSelector, context: Context): Assigns {
+  private get(selector: BasicSelector, context: {}): Assigns {
     const filtered = this.rules.filter((r) => r.isMatch(selector, context))
     return  filtered.reduce((ret, rule) => {
       return {
@@ -154,8 +154,5 @@ export class Styles {
 export interface Condition {
   id?: string
   classNames: string[]
-  context: Context
-}
-
-export interface Context {
+  context: {}
 }
