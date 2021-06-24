@@ -19,7 +19,7 @@
       :height="height.toString()"
       id="svgRoot"
     >
-      <svg:style type="text/css">{{ svgStyle }}</svg:style>
+      <svg:style type="text/css">{{ svg.styles }}</svg:style>
       <Group v-bind:elems="svg.elems"></Group>
     </svg>
   </div>
@@ -45,10 +45,6 @@ export default class SvgComponent extends Vue {
   public rough!: boolean
 
   public roughHtml: string = ``
-
-  get svgStyle(): string {
-    return this.svg.styles.toCss()
-  }
 
   public mounted() {
     Vue.nextTick(() => this.refresh())

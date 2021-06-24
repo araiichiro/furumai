@@ -51,7 +51,7 @@ export function createElem(
 }
 
 export interface Svg {
-  styles: Styles
+  styles: string
   size: Boundary
   elems: SvgElem[]
 }

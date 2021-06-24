@@ -85,7 +85,7 @@ function createSvg(engine: LayoutEngine, layout: Layout): Svg {
   shapes.push(...es)
 
   return {
-    styles,
+    styles: styles.toCss(),
     size: root.totalSize,
     elems: shapes,
   }
