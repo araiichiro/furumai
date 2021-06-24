@@ -17,6 +17,7 @@ style {
   .root {
     visibility: hidden;
     flex-direction: column;
+    padding: 10px;
   }
   .group {
     fill: none;
@@ -25,6 +26,11 @@ style {
     width: 60px;
     height: 60px;
     fill: none;
+    stroke: black;
+    padding: 10px;
+    margin: 10px;
+  }
+  .edge {
     stroke: black;
   }
 };

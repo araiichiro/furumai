@@ -1,5 +1,4 @@
-import {Length, Point, Boundary, Area, Gap, TerritoryMap, Territory, AreaAttrs} from '@/layout/types'
-import {Assigns} from '@/style/Style'
+import {Area, AreaAttrs, Boundary, Gap, Length, Point, Territory, TerritoryMap} from '@/layout/types'
 
 export interface Config {
   orientation: Orientation

@@ -66,7 +66,7 @@ class BasicElem implements SvgElem {
     return new BasicElem(
       undefined,
       appearance.icon,
-      BasicElem.label(territory, appearance),
+      BasicElem.label(territory, appearance) || BasicElem.idLabel(territory, id),
       BasicElem.attrs(id, className, territory),
       BasicElem.text(territory, appearance),
       appearance.visibility,
@@ -92,6 +92,10 @@ class BasicElem implements SvgElem {
       return new TextElem(appearance.label, false, territory.start)
     }
     return undefined
+  }
+
+  public static idLabel(territory: Territory, id: string): TextElem | undefined {
+    return new TextElem(id, false, territory.start)
   }
 
   public static text(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {

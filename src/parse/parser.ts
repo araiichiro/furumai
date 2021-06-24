@@ -322,8 +322,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
   public visitEdge_selector(ctx: Edge_selectorContext): BasicSelector {
     const ids = ctx.ID().map((id) => id.text)
-    const className = '_edge_' + ids[0] + '_to_' + ids[1]
-    return new ClassSelector(className)
+    return new ClassSelector(Edge.className(ids[0], ctx.EDGEOP().text, ids[1]))
   }
 
   public visitDeclaration(ctx: DeclarationContext): Declaration {

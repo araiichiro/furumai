@@ -60,7 +60,9 @@ export class Elem {
     if (this.id === id) {
       return this
     }
-    return this.children.find((elem) => elem.find(id))
+    return this.children.reduce((ret, elem) => {
+      return ret || elem.find(id)
+    }, undefined as Elem | undefined)
   }
 
   public update(other: Elem) {
