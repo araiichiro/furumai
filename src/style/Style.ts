@@ -35,8 +35,8 @@ export class Ruleset {
   ) {
   }
 
-  public keys(): string[] {
-    return this.selectors.map((s) => s.base.key)
+  public selectorList(): string[] {
+    return this.selectors.map((s) => s.toCss())
   }
 
   public toCss(): string {
@@ -44,66 +44,111 @@ export class Ruleset {
     for (const key of Object.keys(this.declarations)) {
       ar.push(key + ': ' + this.declarations[key])
     }
-    const selectors = this.keys().join(', ')
+    const selectors = this.selectorList().join(', ')
     const s = ar.join(';\n  ')
     return `${selectors} {\n  ${s}\n}`
-  }
-
-  public isMatch(selector: BasicSelector, context: {}): boolean {
-    return this.selectors.some((s) => s.isMatch(selector, context))
   }
 }
 
 export class Selector {
   public static of(
     selector: BasicSelector,
-    parents: BasicSelector[] = [],
   ): Selector {
-    // TODO implement combined selector
-    // note: this means combined selector is not implemented
-    const filter = parents.length === 0 ? Filter.of(true) : Filter.of(false)
-    return new Selector(selector, filter)
+    return new Selector(selector, Qualifier.of([]))
+  }
+
+  public static combined(selectorList: BasicSelector[]): Selector {
+    const [head, ...parents] = selectorList.reverse()
+    return new Selector(head, Qualifier.of(parents))
   }
 
   constructor(
     readonly base: BasicSelector,
-    readonly filter: Filter,
+    readonly qualifier: Qualifier,
   ) {
   }
 
-  public isMatch(selector: BasicSelector, context: {}) {
-    return this.base.key === selector.key && this.filter.filter(context)
+  public isMatch(context: Context) {
+    this.base.isMatch(context)&& this.qualifier.isMatch(context.parent)
+  }
+
+  toCss() {
+    return this.qualifier.parents.reverse().map((s) => s.toCss()) + this.base.toCss()
   }
 }
 
-export class Filter {
-  public static of(v: boolean): Filter {
-    return new Filter(v)
+export class Qualifier {
+  public static of(qualifiers: BasicSelector[]): Qualifier {
+    return new Qualifier(qualifiers)
   }
 
   private constructor(
-    private v: boolean,
-  ) {
+    readonly parents: BasicSelector[]) {
   }
 
-  public filter(_: {}): boolean {
-    return this.v
+  public isMatch(parent?: Context): boolean {
+    let p = 0
+    while (parent && p < this.parents.length) {
+      if (this.parents[p].isMatch(parent)) {
+        p++
+        parent = parent.parent
+      } else {
+        parent = parent.parent
+      }
+    }
+    return p >= this.parents.length
   }
 }
 
+export interface BasicSelector {
+  isMatch(context: Context): boolean
+  toCss(): string
+}
 
-export class BasicSelector {
-  constructor(readonly key: string) {
+export class UnivSelector implements BasicSelector {
+  isMatch(context: Context): boolean {
+    return true
+  }
+
+  toCss(): string {
+    return "*"
+  }
+
+}
+
+export class IdSelector implements BasicSelector {
+  static of(hash: string): IdSelector {
+    return new IdSelector(hash.substr(1, hash.length - 1))
+  }
+
+  constructor(readonly id: string) {
+  }
+
+  isMatch(context: Context): boolean {
+    return context.id === this.id
+  }
+
+  toCss(): string {
+    return "#" + this.id
   }
 }
 
-export function UnivSelector(): BasicSelector {
-  return new BasicSelector('*')
-}
+export class ClassSelector implements BasicSelector {
+  static of(dot: string): ClassSelector {
+    return new ClassSelector(dot.substr(1, dot.length - 1))
+  }
 
-export function CombinedSelector(selectors: BasicSelector[]): Selector {
-  const [head, ...parents] = selectors.reverse()
-  return Selector.of(head, parents)
+  constructor(readonly className: string) {
+  }
+
+  isMatch(context: Context): boolean {
+    return this.className in context.classNames
+  }
+
+  toCss(): string {
+    return "." + this.className
+  }
+
 }
 
 export class Styles {
@@ -121,27 +166,9 @@ export class Styles {
     return this
   }
 
-  public query(elem: Condition): Assigns {
-    const classAttrs = elem.classNames.reduce((ret, className) => {
-      return {
-        ...ret,
-        ...this.get(new BasicSelector('.' + className), elem.context),
-      }
-    }, {} as Assigns)
-    return {
-      ...this.get(UnivSelector(), elem.context),
-      ...classAttrs,
-      ...elem.id ? this.get(new BasicSelector('#' + elem.id), elem.context) : {},
-    }
-  }
-
-  public toCss(): string {
-    return this.rules.map((rule) => rule.toCss()).join('\n')
-  }
-
-  private get(selector: BasicSelector, context: {}): Assigns {
-    const filtered = this.rules.filter((r) => r.isMatch(selector, context))
-    return  filtered.reduce((ret, rule) => {
+  public query(context: Context): Assigns {
+    const filtered = this.rules.filter((r) => r.selectors.some((s) => s.isMatch(context)))
+    return filtered.reduce((ret, rule) => {
       return {
         ...ret,
         ...rule.declarations,
@@ -149,10 +176,28 @@ export class Styles {
     }, {} as Assigns)
   }
 
+  public toCss(): string {
+    return this.rules.map((rule) => rule.toCss()).join('\n')
+  }
+
 }
 
-export interface Condition {
-  id?: string
+export interface Context {
+  id: string
   classNames: string[]
-  context: {}
+  parent?: Context
 }
+
+export class Contexts {
+  static of(contexts: Context[]): Contexts {
+    const cs = contexts.reduce((ret, context) => {
+      ret[context.id] = context
+      return ret
+    }, {} as {[key: string]: Context})
+    return new Contexts(cs)
+  }
+
+  constructor(readonly map: {[key: string]: Context}) {
+  }
+}
+

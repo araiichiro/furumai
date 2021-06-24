@@ -4,6 +4,7 @@ import {Config, Layout} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
 import {Svg} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
+import {Contexts} from "@/style/Style";
 
 export const defaultString = `config {
   mode: diff;
@@ -15,10 +16,16 @@ export const defaultString = `config {
 style {
   .root {
     visibility: hidden;
+    flex-direction: column;
+  }
+  .group {
+    fill: none;
   }
   .node {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
+    fill: none;
+    stroke: black;
   }
 };
 `
@@ -47,7 +54,7 @@ export function toModels(furumaiCode: string): Svg[] {
       ret.push(createSvg(engine, layout))
     } else {
       layout = new Layout(
-        Elem.of('_root', 'root', {}, update.boxes),
+        Elem.of('_root', 'root', {}, update.elems),
         update.edges,
         parse(defaultString).layout.styles.update(base.styles).update(update.styles),
       )
@@ -59,11 +66,12 @@ export function toModels(furumaiCode: string): Svg[] {
 
 function createSvg(engine: LayoutEngine, layout: Layout): Svg {
   const styles = layout.styles
-  const root = layout.root.toLayoutBox(styles)
+  const contexts = Contexts.of(layout.root.contexts)
+  const root = layout.root.toLayoutBox(styles, contexts)
   const size = root.fit(engine, Point.zero)
   root.refit(engine, Point.zero, size.totalSize)
   const territories = root.flatten(Point.zero)
-  const ss = layout.root.resolveStyle(styles)
+  const ss = layout.root.resolveStyle(styles, contexts)
   const shapes = ss.map((s) => {
     const location = territories[s.id]
     return s.shape(location.start, location.area)

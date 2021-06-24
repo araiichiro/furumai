@@ -71,7 +71,6 @@ export class Edge {
     const style = styles.query({
       id: this.id,
       classNames: this.classNames,
-      context: {},
     })
     return new Styled(
       this.id,

@@ -26,13 +26,13 @@ export class Layout {
   }
 
   public update(update: Update): Layout {
-    update.boxes.forEach((box) => {
-      const target = this.root.find(box.id) || this.edges.find((edge) => edge.id === box.id)
+    update.elems.forEach((elem) => {
+      const target = this.root.find(elem.id) || this.edges.find((edge) => edge.id === elem.id)
       if (target) {
         target.visible()
-        target.update(box)
+        target.update(elem)
       } else {
-        throw new Error('not found: ' + box.id)
+        throw new Error('not found: ' + elem.id)
       }
     })
     update.edges.forEach((up) => {
@@ -54,7 +54,7 @@ export class Layout {
 
 export class Update {
   constructor(
-    readonly boxes: Elem[],
+    readonly elems: Elem[],
     readonly edges: Edge[],
     readonly hides: Hide[],
     readonly styles: Styles,

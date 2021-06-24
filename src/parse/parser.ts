@@ -38,7 +38,16 @@ import {Config, Layout, Story, Update} from '@/furumai/Story'
 import {Elem} from '@/elem/Elem'
 import {Edge} from '@/elem/Edge'
 import {Hide} from '@/elem/Hide'
-import {Assigns, BasicSelector, CombinedSelector, Ruleset, Selector, Styles, UnivSelector} from '@/style/Style'
+import {
+  Assigns,
+  BasicSelector,
+  ClassSelector,
+  IdSelector,
+  Ruleset,
+  Selector,
+  Styles,
+  UnivSelector
+} from '@/style/Style'
 
 export function parse(text: string): Story {
   const inputStream = CharStreams.fromString(text)
@@ -111,7 +120,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       throw new Error('not supported hide in layout')
     }
     return new Layout(
-      Elem.of('_root', 'root', {}, s.boxes),
+      Elem.of('_root', 'root',  {}, s.elems),
       s.edges,
       Style.flatten(s.styles),
     )
@@ -123,7 +132,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       throw new Error('not implemented top level assignment')
     }
     return new Update(
-      s.boxes,
+      s.elems,
       s.edges,
       s.hides,
       Style.flatten(s.styles),
@@ -132,7 +141,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
   public visitStmt_list(ctx: Stmt_listContext): StatementList {
     const statements = ctx.stmt().map((stmt) => this.visit(stmt))
-    const boxes: Elem[] = []
+    const elems: Elem[] = []
     const edges: Edge[] = []
     const hides: Hide[] = []
     const assigns: Declaration[] = []
@@ -148,12 +157,12 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       } else if (a instanceof Style) {
         styles.push(a)
       } else {
-        boxes.push(a)
+        elems.push(a)
       }
     })
 
     return {
-      boxes,
+      elems,
       edges,
       hides,
       assigns,
@@ -197,7 +206,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       if (s.hides.length > 0) {
         throw new Error('not implemented inner hide description')
       }
-      return Elem.of(id, className, Declaration.reduce(s.assigns), s.boxes)
+      return Elem.of(id, className, Declaration.reduce(s.assigns), s.elems)
     } else {
       return Elem.of(id, className)
     }
@@ -278,7 +287,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
   public visitSelector(ctx: SelectorContext): Selector {
     const ss = ctx.basic_selector().map((s) => this.visit(s))
-    return CombinedSelector(ss)
+    return Selector.combined(ss)
   }
 
   public visitBasic_selector(ctx: Basic_selectorContext): any {
@@ -296,7 +305,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   public visitUniv_selector(ctx: Univ_selectorContext): any {
-    return UnivSelector()
+    return new UnivSelector()
   }
 
   public visitType_selector(ctx: Type_selectorContext): any {
@@ -304,17 +313,17 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   public visitClass_selector(ctx: Class_selectorContext): any {
-    return new BasicSelector(ctx.DOT().text)
+    return ClassSelector.of(ctx.DOT().text)
   }
 
   public visitId_selector(ctx: Id_selectorContext): any {
-    return new BasicSelector(ctx.HASH().text)
+    return IdSelector.of(ctx.HASH().text)
   }
 
   public visitEdge_selector(ctx: Edge_selectorContext): BasicSelector {
     const ids = ctx.ID().map((id) => id.text)
     const className = '_edge_' + ids[0] + '_to_' + ids[1]
-    return new BasicSelector('.' + className)
+    return new ClassSelector(className)
   }
 
   public visitDeclaration(ctx: DeclarationContext): Declaration {
@@ -346,7 +355,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 }
 
 interface StatementList {
-  boxes: Elem[]
+  elems: Elem[]
   edges: Edge[]
   hides: Hide[]
   assigns: Declaration[]

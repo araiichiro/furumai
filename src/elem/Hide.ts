@@ -1,5 +1,5 @@
 import {Edge} from '@/elem/Edge'
-import {BasicSelector, Ruleset, Selector, Styles} from '@/style/Style'
+import {BasicSelector, ClassSelector, IdSelector, Ruleset, Selector, Styles} from '@/style/Style'
 
 export class Hide {
   public static elem(id: string): Hide {
@@ -19,10 +19,10 @@ export class Hide {
   public style(): Styles {
     const selectors = []
     if (this.id) {
-      selectors.push(Selector.of(new BasicSelector('#' + this.id)))
+      selectors.push(Selector.of(new IdSelector(this.id)))
     }
     if (this.className) {
-      selectors.push(Selector.of(new BasicSelector('.' + this.className)))
+      selectors.push(Selector.of(new ClassSelector(this.className)))
     }
     const rules = [Ruleset.of(
       selectors, {

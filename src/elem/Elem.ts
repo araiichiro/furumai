@@ -1,5 +1,5 @@
 import {Area, Point, Territory} from '@/layout/types'
-import {Assigns, Styles} from '@/style/Style'
+import {Assigns, Context, Styles, Contexts} from '@/style/Style'
 import {Box} from '@/layout/Box'
 import {Appearance, createElem} from '@/components/model/Svg'
 import {SvgElem} from '@/components/model/SvgElem'
@@ -29,8 +29,8 @@ export class Elem {
 
   private constructor(
     readonly id: string,
-    private readonly classNames: string[],
-    private readonly children: Elem[],
+     readonly classNames: string[],
+     readonly children: Elem[],
     private appearance: Partial<Appearance>,
     private layout: Partial<Layout>,
   ) {
@@ -67,14 +67,10 @@ export class Elem {
     this.setVisibility('hidden')
   }
 
-  public resolveStyle(styles: Styles): Styled[] {
-    const myStyles = styles.query({
-      id: this.id,
-      classNames: this.classNames,
-      context: {},
-    })
+  public resolveStyle(styles: Styles, contexts: Contexts): Styled[] {
+    const myStyles = styles.query(contexts.map[this.id])
     const children = this.children.reduce((ret, child) => {
-      ret.push(...child.resolveStyle(styles))
+      ret.push(...child.resolveStyle(styles, contexts))
       return ret
     }, [] as Styled[])
     const p = Styled.of(
@@ -88,15 +84,11 @@ export class Elem {
     return [p, ...children]
   }
 
-  public toLayoutBox(styles: Styles): Box {
-    const myStyles = styles.query({
-      id: this.id,
-      classNames: this.classNames,
-      context: {},
-    })
+  public toLayoutBox(styles: Styles, contexts: Contexts): Box {
+    const myStyles = styles.query(contexts.map[this.id])
     return Box.of(
       this.id,
-      this.children.map((child) => child.toLayoutBox(styles)),
+      this.children.map((child) => child.toLayoutBox(styles, contexts)),
       {...myStyles, ...this.layout as Assigns},
     )
   }
@@ -104,6 +96,23 @@ export class Elem {
   get _appearance(): Partial<Appearance> {
     return this.appearance
   }
+
+  get contexts(): Context[] {
+    return Elem.retrieve(this)
+  }
+
+  private static retrieve(elem: Elem, parent?: Context): Context[] {
+    const context = {
+      id:       elem.id,
+      classNames: elem.classNames,
+      parent: parent,
+    }
+    return elem.children.reduce((ret, child) => {
+      ret.push(...Elem.retrieve(child, context))
+      return ret
+    }, [context] as Context[])
+  }
+
 }
 
 export class Styled {
