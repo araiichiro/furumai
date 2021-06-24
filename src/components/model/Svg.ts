@@ -46,6 +46,7 @@ export function createElem(
         throw new Error('not implemented: ' + appearance.shape)
     }
   } else {
+    elem.secureAttrs.svgAttrs['class'] += ' box'
     return Box.of(elem)
   }
 }
@@ -88,7 +89,7 @@ class BasicElem implements SvgElem {
   }
 
   public static label(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
-    if (appearance.label) {
+    if (appearance.label || appearance.label === '') {
       return new TextElem(appearance.label, false, territory.start)
     }
     return undefined

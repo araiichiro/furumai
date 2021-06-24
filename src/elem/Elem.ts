@@ -142,9 +142,11 @@ export class AppearanceResolved {
   }
 
   public shape(point: Point, area: Area): SvgElem {
-    const shape = this.appearance.shape || 'box'
     const classNames = [...this.classNames]
-    classNames.push(shape)
+    const shape = this.appearance.shape
+    if (shape) {
+      classNames.push(shape)
+    }
     return createElem(
       this.id,
       classNames.join(' '),

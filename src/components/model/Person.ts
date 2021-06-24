@@ -28,7 +28,7 @@ export class Person {
   get textPosition(): Point {
     const {padding} = this.territory.area
     const dx = padding.left
-    const dy = padding.top.sub(Length.pixel(32)) // FIXME
+    const dy = padding.top.sub(Length.pixel(28)) // FIXME
     return this.territory.start.move(dx, dy)
   }
 
