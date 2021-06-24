@@ -71,7 +71,7 @@ function createSvg(engine: LayoutEngine, layout: Layout): Svg {
   const size = root.fit(engine, Point.zero)
   root.refit(engine, Point.zero, size.totalSize)
   const territories = root.flatten(Point.zero)
-  const ss = layout.root.resolveStyle(styles, contexts)
+  const ss = layout.root.resolveAppearance(styles, contexts)
   const shapes = ss.map((s) => {
     const location = territories[s.id]
     return s.shape(location.start, location.area)

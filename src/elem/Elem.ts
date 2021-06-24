@@ -1,8 +1,8 @@
-import {Area, Point, Territory} from '@/layout/types'
+import {Area, AreaAttrs, Point, Territory} from '@/layout/types'
 import {Assigns, Context, Styles, Contexts} from '@/style/Style'
-import {Box} from '@/layout/Box'
 import {Appearance, createElem} from '@/components/model/Svg'
 import {SvgElem} from '@/components/model/SvgElem'
+import {Box, LayoutStyle} from '@/layout/Engine'
 
 export class Elem {
 
@@ -87,13 +87,13 @@ export class Elem {
     this.setVisibility('hidden')
   }
 
-  public resolveStyle(styles: Styles, contexts: Contexts): Styled[] {
+  public resolveAppearance(styles: Styles, contexts: Contexts): AppearanceResolved[] {
     const myStyles = styles.query(contexts.map[this.id])
     const children = this.children.reduce((ret, child) => {
-      ret.push(...child.resolveStyle(styles, contexts))
+      ret.push(...child.resolveAppearance(styles, contexts))
       return ret
-    }, [] as Styled[])
-    const p = Styled.of(
+    }, [] as AppearanceResolved[])
+    const p = AppearanceResolved.of(
       this.id,
       this.classNames,
       {
@@ -106,22 +106,30 @@ export class Elem {
 
   public toLayoutBox(styles: Styles, contexts: Contexts): Box {
     const myStyles = styles.query(contexts.map[this.id])
+    const layoutStyle: Partial<LayoutStyle> = {
+      ...myStyles,
+    }
+    const area: Partial<AreaAttrs> = {
+      ...myStyles,
+      ...this.layout,
+    }
     return Box.of(
       this.id,
       this.children.map((child) => child.toLayoutBox(styles, contexts)),
-      {...myStyles, ...this.layout as Assigns},
+      layoutStyle,
+      area,
     )
   }
 
 }
 
-export class Styled {
+export class AppearanceResolved {
   public static of(
     id: string,
     classNames: string[],
     appearance: Partial<Appearance>,
-  ): Styled {
-    return new Styled(id, classNames, appearance)
+  ): AppearanceResolved {
+    return new AppearanceResolved(id, classNames, appearance)
   }
 
   private constructor(
