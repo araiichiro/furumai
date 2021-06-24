@@ -5,6 +5,14 @@ import {Appearance, createElem} from '@/components/model/Svg'
 import {SvgElem} from '@/components/model/SvgElem'
 
 export class Elem {
+
+  get _appearance(): Partial<Appearance> {
+    return this.appearance
+  }
+
+  get contexts(): Context[] {
+    return Elem.retrieve(this)
+  }
   public static of(
     id: string,
     className: string,
@@ -27,10 +35,22 @@ export class Elem {
     )
   }
 
+  private static retrieve(elem: Elem, parent?: Context): Context[] {
+    const context = {
+      id:       elem.id,
+      classNames: elem.classNames,
+      parent,
+    }
+    return elem.children.reduce((ret, child) => {
+      ret.push(...Elem.retrieve(child, context))
+      return ret
+    }, [context] as Context[])
+  }
+
   private constructor(
     readonly id: string,
-     readonly classNames: string[],
-     readonly children: Elem[],
+    readonly classNames: string[],
+    readonly children: Elem[],
     private appearance: Partial<Appearance>,
     private layout: Partial<Layout>,
   ) {
@@ -91,26 +111,6 @@ export class Elem {
       this.children.map((child) => child.toLayoutBox(styles, contexts)),
       {...myStyles, ...this.layout as Assigns},
     )
-  }
-
-  get _appearance(): Partial<Appearance> {
-    return this.appearance
-  }
-
-  get contexts(): Context[] {
-    return Elem.retrieve(this)
-  }
-
-  private static retrieve(elem: Elem, parent?: Context): Context[] {
-    const context = {
-      id:       elem.id,
-      classNames: elem.classNames,
-      parent: parent,
-    }
-    return elem.children.reduce((ret, child) => {
-      ret.push(...Elem.retrieve(child, context))
-      return ret
-    }, [context] as Context[])
   }
 
 }

@@ -4,7 +4,7 @@ import {Config, Layout} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
 import {Svg} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
-import {Contexts} from "@/style/Style";
+import {Contexts} from '@/style/Style'
 
 export const defaultString = `config {
   mode: diff;

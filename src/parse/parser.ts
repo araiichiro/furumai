@@ -46,7 +46,7 @@ import {
   Ruleset,
   Selector,
   Styles,
-  UnivSelector
+  UnivSelector,
 } from '@/style/Style'
 
 export function parse(text: string): Story {

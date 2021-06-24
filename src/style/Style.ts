@@ -68,11 +68,11 @@ export class Selector {
   ) {
   }
 
-  public isMatch(context: Context) {
-    this.base.isMatch(context)&& this.qualifier.isMatch(context.parent)
+  public isMatch(context: Context): boolean {
+    return this.base.isMatch(context) && this.qualifier.isMatch(context.parent)
   }
 
-  toCss() {
+  public toCss() {
     return this.qualifier.parents.reverse().map((s) => s.toCss()) + this.base.toCss()
   }
 }
@@ -106,47 +106,47 @@ export interface BasicSelector {
 }
 
 export class UnivSelector implements BasicSelector {
-  isMatch(context: Context): boolean {
+  public isMatch(context: Context): boolean {
     return true
   }
 
-  toCss(): string {
-    return "*"
+  public toCss(): string {
+    return '*'
   }
 
 }
 
 export class IdSelector implements BasicSelector {
-  static of(hash: string): IdSelector {
+  public static of(hash: string): IdSelector {
     return new IdSelector(hash.substr(1, hash.length - 1))
   }
 
   constructor(readonly id: string) {
   }
 
-  isMatch(context: Context): boolean {
+  public isMatch(context: Context): boolean {
     return context.id === this.id
   }
 
-  toCss(): string {
-    return "#" + this.id
+  public toCss(): string {
+    return '#' + this.id
   }
 }
 
 export class ClassSelector implements BasicSelector {
-  static of(dot: string): ClassSelector {
+  public static of(dot: string): ClassSelector {
     return new ClassSelector(dot.substr(1, dot.length - 1))
   }
 
   constructor(readonly className: string) {
   }
 
-  isMatch(context: Context): boolean {
+  public isMatch(context: Context): boolean {
     return this.className in context.classNames
   }
 
-  toCss(): string {
-    return "." + this.className
+  public toCss(): string {
+    return '.' + this.className
   }
 
 }
@@ -189,7 +189,7 @@ export interface Context {
 }
 
 export class Contexts {
-  static of(contexts: Context[]): Contexts {
+  public static of(contexts: Context[]): Contexts {
     const cs = contexts.reduce((ret, context) => {
       ret[context.id] = context
       return ret
