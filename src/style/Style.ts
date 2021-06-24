@@ -142,7 +142,9 @@ export class ClassSelector implements BasicSelector {
   }
 
   public isMatch(context: Context): boolean {
-    return this.className in context.classNames
+    return context.classNames.reduce((b, className) => {
+      return b || this.className === className
+    }, false as boolean)
   }
 
   public toCss(): string {
