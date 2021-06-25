@@ -31,7 +31,6 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
-import ElemComponent from '@/components/svg/ElemComponent.vue'
 import {Group} from '@/components/model/Svg'
 import LabelComponent from '@/components/svg/LabelComponent.vue'
 import TextContent from '@/components/svg/TextContent.vue'
@@ -44,7 +43,6 @@ import {Assigns} from '@/style/Style'
     LabelComponent,
     TextContent,
     VIcon,
-    ElemComponent,
   },
 })
 export default class GroupComponent extends Vue {
