@@ -1,6 +1,6 @@
-import {Area, AreaAttrs, Point, Territory} from '@/layout/types'
-import {Assigns, Context, Styles, Contexts} from '@/style/Style'
-import {Appearance, createElem} from '@/components/model/Svg'
+import {Area, AreaAttrs, Point, Territory, TerritoryMap} from '@/layout/types'
+import {Assigns, Context, Styles, ContextMap} from '@/style/Style'
+import {Appearance, createElem, Group} from '@/components/model/Svg'
 import {SvgElem} from '@/components/model/SvgElem'
 import {Box, LayoutStyle} from '@/layout/Engine'
 
@@ -10,9 +10,25 @@ export class Elem {
     return this.appearance
   }
 
-  get contexts(): Context[] {
-    return Elem.retrieve(this)
+  get contextMap(): ContextMap {
+    const m = Elem.retrieve(this)
+    return new ContextMap(m)
   }
+
+  private static retrieve(elem: Elem, parent?: Context): {[key: string]: Context} {
+    const context = {
+      id:       elem.id,
+      classNames: elem.classNames,
+      parent,
+    }
+    return elem.children.reduce((ret, child) => {
+      return {
+        ...ret,
+        ...Elem.retrieve(child, context)
+      }
+    }, {[elem.id]: context} as {[key: string]: Context})
+  }
+
   public static of(
     id: string,
     className: string,
@@ -33,18 +49,6 @@ export class Elem {
       appearance,
       attrs as Partial<Layout>,
     )
-  }
-
-  private static retrieve(elem: Elem, parent?: Context): Context[] {
-    const context = {
-      id:       elem.id,
-      classNames: elem.classNames,
-      parent,
-    }
-    return elem.children.reduce((ret, child) => {
-      ret.push(...Elem.retrieve(child, context))
-      return ret
-    }, [context] as Context[])
   }
 
   private constructor(
@@ -89,25 +93,8 @@ export class Elem {
     this.setVisibility('hidden')
   }
 
-  public resolveAppearance(styles: Styles, contexts: Contexts): AppearanceResolved[] {
-    const myStyles = styles.query(contexts.map[this.id])
-    const children = this.children.reduce((ret, child) => {
-      ret.push(...child.resolveAppearance(styles, contexts))
-      return ret
-    }, [] as AppearanceResolved[])
-    const p = AppearanceResolved.of(
-      this.id,
-      this.classNames,
-      {
-        ...myStyles as Partial<Appearance>,
-        ...this.appearance,
-      },
-    )
-    return [p, ...children]
-  }
-
-  public toLayoutBox(styles: Styles, contexts: Contexts): Box {
-    const myStyles = styles.query(contexts.map[this.id])
+  styled(styles: Styles, contextMap: ContextMap): Styled {
+    const myStyles = styles.query(contextMap.map[this.id])
     const layoutStyle: Partial<LayoutStyle> = {
       ...myStyles,
     }
@@ -115,44 +102,62 @@ export class Elem {
       ...myStyles,
       ...this.layout,
     }
-    return Box.of(
-      this.id,
-      this.children.map((child) => child.toLayoutBox(styles, contexts)),
-      layoutStyle,
-      area,
-    )
+    const children = this.children.reduce((ret, child) => {
+      ret.push(child.styled(styles, contextMap))
+      return ret
+    }, [] as Styled[])
+    return new Styled(
+        this.id,
+        this.classNames,
+        {
+          ...myStyles as Partial<Appearance>,
+          ...this.appearance,
+        },
+        layoutStyle,
+        area,
+        children,
+      )
   }
-
 }
 
-export class AppearanceResolved {
-  public static of(
-    id: string,
-    classNames: string[],
-    appearance: Partial<Appearance>,
-  ): AppearanceResolved {
-    return new AppearanceResolved(id, classNames, appearance)
-  }
-
-  private constructor(
+export class Styled {
+  constructor(
     readonly id: string,
-    private readonly classNames: string[],
-    private readonly appearance: Partial<Appearance>,
+    readonly classNames: string[],
+    readonly appearance: Partial<Appearance>,
+    readonly layoutStyle: Partial<LayoutStyle>,
+    readonly area: Partial<AreaAttrs>,
+    readonly children: Styled[],
   ) {
   }
 
-  public shape(point: Point, area: Area): SvgElem {
+  layoutBox(): Box {
+    return Box.of(
+      this.id,
+      this.children.map((child) => child.layoutBox()),
+      this.layoutStyle,
+      this.area,
+    )
+  }
+
+  shape(territoryMap: TerritoryMap): Group {
     const classNames = [...this.classNames]
     const shape = this.appearance.shape
     if (shape) {
       classNames.push(shape)
     }
-    return createElem(
+    const territory = territoryMap[this.id]
+    const elem =  createElem(
       this.id,
       classNames.join(' '),
-      new Territory(point, area),
+      territory,
       this.appearance,
     )
+    const children = this.children.map((child) => child.shape(territoryMap))
+    return {
+      elem,
+      children,
+    }
   }
 }
 

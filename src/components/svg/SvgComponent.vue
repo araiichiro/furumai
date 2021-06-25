@@ -20,7 +20,7 @@
       id="svgRoot"
     >
       <svg:style type="text/css">{{ svg.styles }}</svg:style>
-      <Group v-bind:elems="svg.elems"></Group>
+      <Group v-bind:g="svg.root"></Group>
     </svg>
   </div>
 </template>

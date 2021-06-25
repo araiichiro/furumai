@@ -22,12 +22,6 @@ export interface LayoutStyle {
   // | "center"
 }
 
-export const defaultStyle: LayoutStyle = {
-  'flex-direction': 'row',
-  'align-items': 'flex-start',
-  'justify-content': 'space-around',
-}
-
 export class Engine {
   constructor(readonly config: Config) {
   }
@@ -136,7 +130,7 @@ export class Box {
     return new Box(
       id,
       children,
-      {...defaultStyle, ...layoutStyle},
+      layoutStyle as LayoutStyle,
       Area.parse(area),
     )
   }

@@ -51,10 +51,15 @@ export function createElem(
   }
 }
 
+export interface Group {
+  elem: SvgElem
+  children: Group[]
+}
+
 export interface Svg {
   styles: string
   size: Boundary
-  elems: SvgElem[]
+  root: Group
 }
 
 class BasicElem implements SvgElem {
@@ -67,7 +72,7 @@ class BasicElem implements SvgElem {
     return new BasicElem(
       undefined,
       appearance.icon,
-      BasicElem.label(territory, appearance) || BasicElem.idLabel(territory, id),
+      BasicElem.label(territory, appearance, id),
       BasicElem.attrs(id, className, territory),
       BasicElem.text(territory, appearance),
       appearance.visibility,
@@ -88,15 +93,14 @@ class BasicElem implements SvgElem {
     return SecureSvgAttrs.of(asString(attrs))
   }
 
-  public static label(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
-    if (appearance.label || appearance.label === '') {
+  private static label(territory: Territory, appearance: Partial<Appearance>, id: string): TextElem | undefined {
+    if (appearance.label) {
       return new TextElem(appearance.label, false, territory.start)
+    } else if (appearance.label === '') {
+      return  undefined
+    } else {
+      return new TextElem(id, false, territory.start)
     }
-    return undefined
-  }
-
-  public static idLabel(territory: Territory, id: string): TextElem | undefined {
-    return new TextElem(id, false, territory.start)
   }
 
   public static text(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {

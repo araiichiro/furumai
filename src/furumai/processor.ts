@@ -4,7 +4,6 @@ import {Config, Layout} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
 import {Svg} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
-import {Contexts} from '@/style/Style'
 
 export const defaultString = `config {
   mode: diff;
@@ -14,24 +13,39 @@ export const defaultString = `config {
 };
 
 style {
+  * {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
   .root {
-    visibility: hidden;
-    flex-direction: column;
+//    visibility: hidden;
     padding: 10px;
   }
-  .group {
+  .group, .zone {
     fill: none;
+    padding: 10px;
+    margin: 10px;
+    stroke: #eee;
+    stroke-dasharray: 7px;
+  }
+  .group {
+  }
+  .zone {
   }
   .node {
     width: 60px;
     height: 60px;
-    fill: none;
     stroke: black;
     padding: 10px;
     margin: 10px;
   }
   .edge {
     stroke: black;
+    label: "";
+  }
+  .box, .cylinder, .person, .pipe {
+    fill: none;
   }
 };
 `
@@ -72,27 +86,27 @@ export function toModels(furumaiCode: string): Svg[] {
 
 function createSvg(engine: LayoutEngine, layout: Layout): Svg {
   const styles = layout.styles
-  const contexts = Contexts.of(layout.root.contexts)
-  const root = layout.root.toLayoutBox(styles, contexts)
-  const size = root.fit(engine, Point.zero)
-  root.refit(engine, Point.zero, size.totalSize)
-  const territories = root.flatten(Point.zero)
-  const ss = layout.root.resolveAppearance(styles, contexts)
-  const shapes = ss.map((s) => {
-    const location = territories[s.id]
-    return s.shape(location.start, location.area)
-  })
+  const styled = layout.root.styled(styles, layout.root.contextMap)
+  const rootBox = styled.layoutBox()
+  const size = rootBox.fit(engine, Point.zero)
+  rootBox.refit(engine, Point.zero, size.totalSize)
+  const territories = rootBox.flatten(Point.zero)
+  const root = styled.shape(territories)
 
   const es = layout.edges.map((edge) => {
     const f = territories[edge.from]
     const t = territories[edge.to]
-    return edge.resolveStyle(styles).shape(f, t)
+    const elem = edge.resolveStyle(styles).shape(f, t)
+    return {
+      elem,
+      children: [],
+    }
   })
-  shapes.push(...es)
+  root.children.push(...es)
 
   return {
     styles: styles.toCss(),
-    size: root.totalSize,
-    elems: shapes,
+    size: rootBox.totalSize,
+    root,
   }
 }

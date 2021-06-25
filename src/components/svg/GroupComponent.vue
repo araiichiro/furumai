@@ -1,27 +1,65 @@
 <template>
-  <g>
-    <ElemComponent
-      v-for="c in elems"
-      v-bind:key="c.secureAttrs.id"
-      v-bind:elem="c"
-    ></ElemComponent>
+  <g v-bind="visibility">
+    <path
+      v-if="g.elem.d"
+      v-bind:d="g.elem.d"
+      v-bind="g.elem.secureAttrs.svgAttrs"
+    ></path>
+    <VIcon
+      v-else-if="g.elem.icon"
+      v-bind:elem="g.elem"
+    ></VIcon>
+    <rect
+      v-else
+      v-bind="g.elem.secureAttrs.svgAttrs"
+    ></rect>
+
+    <TextContent
+      v-bind:text="g.elem.text"
+    ></TextContent>
+    <LabelComponent
+      v-bind:text="g.elem.label"
+    ></LabelComponent>
+
+    <Group
+      v-for="c in g.children"
+      v-bind:key="c.elem.secureAttrs.svgAttrs.id"
+      v-bind:g="c"
+    ></Group>
   </g>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import ElemComponent from '@/components/svg/ElemComponent.vue'
-import {SvgElem} from '@/components/model/SvgElem'
+import {Group} from "@/components/model/Svg";
+import LabelComponent from "@/components/svg/LabelComponent.vue";
+import TextContent from "@/components/svg/TextContent.vue";
+import VIcon from "@/components/svg/VIcon.vue";
+import {Assigns} from "@/style/Style";
 
 @Component({
   name: 'Group',
   components: {
+    LabelComponent,
+    TextContent,
+    VIcon,
     ElemComponent,
   },
 })
 export default class GroupComponent extends Vue {
   @Prop()
-  public elems!: SvgElem[]
+  public g!: Group
+
+  get visibility(): Assigns {
+    if (this.g.elem.visibility) {
+      return {
+        visibility: this.g.elem.visibility,
+      }
+    } else {
+      return {}
+    }
+  }
 }
 </script>
 

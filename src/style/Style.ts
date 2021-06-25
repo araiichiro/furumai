@@ -190,16 +190,11 @@ export interface Context {
   parent?: Context
 }
 
-export class Contexts {
-  public static of(contexts: Context[]): Contexts {
-    const cs = contexts.reduce((ret, context) => {
-      ret[context.id] = context
-      return ret
-    }, {} as {[key: string]: Context})
-    return new Contexts(cs)
-  }
-
+export class ContextMap {
   constructor(readonly map: {[key: string]: Context}) {
   }
-}
 
+  add(context: Context) {
+    this.map[context.id] = context
+  }
+}
