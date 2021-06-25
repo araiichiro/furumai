@@ -46,7 +46,7 @@ export function createElem(
         throw new Error('not implemented: ' + appearance.shape)
     }
   } else {
-    elem.secureAttrs.svgAttrs['class'] += ' box'
+    elem.secureAttrs.svgAttrs.class += ' box'
     return Box.of(elem)
   }
 }
@@ -93,16 +93,6 @@ class BasicElem implements SvgElem {
     return SecureSvgAttrs.of(asString(attrs))
   }
 
-  private static label(territory: Territory, appearance: Partial<Appearance>, id: string): TextElem | undefined {
-    if (appearance.label) {
-      return new TextElem(appearance.label, false, territory.start)
-    } else if (appearance.label === '') {
-      return  undefined
-    } else {
-      return new TextElem(id, false, territory.start)
-    }
-  }
-
   public static text(territory: Territory, appearance: Partial<Appearance>): TextElem | undefined {
     const text = appearance.text || appearance.t
     if (text) {
@@ -111,6 +101,16 @@ class BasicElem implements SvgElem {
       return new TextElem(text, false, textPosition)
     }
     return undefined
+  }
+
+  private static label(territory: Territory, appearance: Partial<Appearance>, id: string): TextElem | undefined {
+    if (appearance.label) {
+      return new TextElem(appearance.label, false, territory.start)
+    } else if (appearance.label === '') {
+      return  undefined
+    } else {
+      return new TextElem(id, false, territory.start)
+    }
   }
 
   constructor(

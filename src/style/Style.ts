@@ -194,7 +194,7 @@ export class ContextMap {
   constructor(readonly map: {[key: string]: Context}) {
   }
 
-  add(context: Context) {
+  public add(context: Context) {
     this.map[context.id] = context
   }
 }

@@ -121,7 +121,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     }
     return new Layout(
       Elem.of('_root', 'root',  {
-        label: "",
+        label: '',
       }, s.elems),
       s.edges,
       Style.flatten(s.styles),

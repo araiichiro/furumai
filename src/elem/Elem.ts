@@ -15,20 +15,6 @@ export class Elem {
     return new ContextMap(m)
   }
 
-  private static retrieve(elem: Elem, parent?: Context): {[key: string]: Context} {
-    const context = {
-      id:       elem.id,
-      classNames: elem.classNames,
-      parent,
-    }
-    return elem.children.reduce((ret, child) => {
-      return {
-        ...ret,
-        ...Elem.retrieve(child, context)
-      }
-    }, {[elem.id]: context} as {[key: string]: Context})
-  }
-
   public static of(
     id: string,
     className: string,
@@ -49,6 +35,20 @@ export class Elem {
       appearance,
       attrs as Partial<Layout>,
     )
+  }
+
+  private static retrieve(elem: Elem, parent?: Context): {[key: string]: Context} {
+    const context = {
+      id:       elem.id,
+      classNames: elem.classNames,
+      parent,
+    }
+    return elem.children.reduce((ret, child) => {
+      return {
+        ...ret,
+        ...Elem.retrieve(child, context),
+      }
+    }, {[elem.id]: context} as {[key: string]: Context})
   }
 
   private constructor(
@@ -93,7 +93,7 @@ export class Elem {
     this.setVisibility('hidden')
   }
 
-  styled(styles: Styles, contextMap: ContextMap): Styled {
+  public styled(styles: Styles, contextMap: ContextMap): Styled {
     const myStyles = styles.query(contextMap.map[this.id])
     const layoutStyle: Partial<LayoutStyle> = {
       ...myStyles,
@@ -131,7 +131,7 @@ export class Styled {
   ) {
   }
 
-  layoutBox(): Box {
+  public layoutBox(): Box {
     return Box.of(
       this.id,
       this.children.map((child) => child.layoutBox()),
@@ -140,7 +140,7 @@ export class Styled {
     )
   }
 
-  shape(territoryMap: TerritoryMap): Group {
+  public shape(territoryMap: TerritoryMap): Group {
     const classNames = [...this.classNames]
     const shape = this.appearance.shape
     if (shape) {
