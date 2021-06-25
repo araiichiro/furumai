@@ -1,9 +1,9 @@
 <template>
-  <g v-bind="visibility">
+  <g v-bind="attrs">
     <path
       v-if="g.elem.d"
       v-bind:d="g.elem.d"
-      v-bind="g.elem.secureAttrs.svgAttrs"
+      v-bind="childAttrs"
     ></path>
     <VIcon
       v-else-if="g.elem.icon"
@@ -11,7 +11,7 @@
     ></VIcon>
     <rect
       v-else
-      v-bind="g.elem.secureAttrs.svgAttrs"
+      v-bind="childAttrs"
     ></rect>
 
     <TextContent
@@ -49,15 +49,28 @@ export default class GroupComponent extends Vue {
   @Prop()
   public g!: Group
 
-  get visibility(): Assigns {
+  get attrs(): Assigns {
     if (this.g.elem.visibility) {
       return {
         visibility: this.g.elem.visibility,
+        id: this.g.elem.id,
+        'class': this.g.elem.className,
       }
     } else {
-      return {}
+      return {
+        id: this.g.elem.id,
+        'class': this.g.elem.className,
+      }
     }
   }
+
+  get childAttrs(): Assigns {
+    return {
+      'class': 'self',
+      ...this.g.elem.secureAttrs.svgAttrs,
+    }
+  }
+
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <v-icon
     v-bind:name="name"
-    v-bind="elem.secureAttrs.svgAttrs"
+    v-bind="svgAttrs"
     class="no_rough"
   ></v-icon>
 </template>
@@ -13,6 +13,7 @@ import TextContent from '@/components/svg/TextContent.vue'
 import LabelComponent from '@/components/svg/LabelComponent.vue'
 import Icon from 'vue-awesome/components/Icon.vue'
 import {SvgElem} from '@/components/model/SvgElem'
+import {Assigns} from "@/style/Style";
 
 @Component({
   components: {
@@ -43,6 +44,14 @@ export default class VIcon extends Vue {
       throw new Error(`Sorry, the attribute is not used for security reason: shape => ${this.elem.icon}`)
     }
   }
+
+  get svgAttrs(): Assigns {
+    return {
+      'class': 'self',
+      ...this.elem.secureAttrs.svgAttrs,
+    }
+  }
+
 }
 </script>
 

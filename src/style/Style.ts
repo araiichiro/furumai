@@ -111,7 +111,7 @@ export class UnivSelector implements BasicSelector {
   }
 
   public toCss(): string {
-    return '*'
+    return ' * '
   }
 
 }
@@ -129,7 +129,7 @@ export class IdSelector implements BasicSelector {
   }
 
   public toCss(): string {
-    return '#' + this.id
+    return ' #' + this.id + ' '
   }
 }
 

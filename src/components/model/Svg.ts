@@ -1,6 +1,6 @@
 import {Boundary, Territory} from '@/layout/types'
-import {Assigns, asString, Styles} from '@/style/Style'
-import {SecureSvgAttrs, validateAppearance} from '@/components/model/security'
+import {asString} from '@/style/Style'
+import {SecureSvgAttrs} from '@/components/model/security'
 import {VIcon} from '@/components/model/VIcon'
 import {Box} from '@/components/model/Box'
 import {Arrow} from '@/components/model/Arrow'
@@ -24,6 +24,7 @@ export function createElem(
   className: string,
   territory: Territory,
   appearance: Partial<Appearance>,
+  hasChildren: boolean,
 ): SvgElem {
   const elem = BasicElem.of(id, className, territory, appearance)
   if (appearance.icon) {
@@ -46,7 +47,9 @@ export function createElem(
         throw new Error('not implemented: ' + appearance.shape)
     }
   } else {
-    elem.secureAttrs.svgAttrs.class += ' box'
+    if (!hasChildren) {
+      elem.secureAttrs.svgAttrs.class += ' box'
+    }
     return Box.of(elem)
   }
 }
@@ -70,6 +73,8 @@ class BasicElem implements SvgElem {
     appearance: Partial<Appearance>,
   ): BasicElem {
     return new BasicElem(
+      id,
+      className,
       undefined,
       appearance.icon,
       BasicElem.label(territory, appearance, id),
@@ -83,8 +88,6 @@ class BasicElem implements SvgElem {
     const {x, y} = territory.start
     const {width, height} = territory.area
     const attrs = {
-      id,
-      class: className,
       x,
       y,
       width,
@@ -114,6 +117,8 @@ class BasicElem implements SvgElem {
   }
 
   constructor(
+    readonly id: string,
+    readonly className: string,
     readonly d: string | undefined,
     readonly icon: string | undefined,
     readonly label: TextElem | undefined,

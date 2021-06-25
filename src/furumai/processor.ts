@@ -2,7 +2,7 @@ import {parse} from '@/parse/parser'
 import {Elem} from '@/elem/Elem'
 import {Config, Layout} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
-import {Svg} from '@/components/model/Svg'
+import {Svg, Group} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
 
 export const defaultString = `config {
@@ -18,34 +18,49 @@ style {
     align-items: flex-start;
     justify-content: space-around;
   }
+.root * {
+//all: initial;
+}
   .root {
+  //all: initial;
 //    visibility: hidden;
     padding: 10px;
+    fill: none;
   }
   .group, .zone {
+
     fill: none;
     padding: 10px;
     margin: 10px;
-    stroke: #eee;
-    stroke-dasharray: 7px;
   }
   .group {
   }
   .zone {
-  }
-  .node {
-    width: 60px;
-    height: 60px;
-    stroke: black;
-    padding: 10px;
-    margin: 10px;
   }
   .edge {
     stroke: black;
     label: "";
   }
   .box, .cylinder, .person, .pipe {
+    stroke: black;
+  //all: initial;
+    //all: unset;
+
+    //fill: none;
+  }
+  .node {
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    margin: 10px;
     fill: none;
+  // all: initial;
+  }
+  .text {
+  //all: unset;
+  all: initial;
+  //stroke: black;
+
   }
 };
 `
@@ -105,8 +120,21 @@ function createSvg(engine: LayoutEngine, layout: Layout): Svg {
   root.children.push(...es)
 
   return {
-    styles: styles.toCss(),
+    styles: styles.toCss(), // + f(root),
     size: rootBox.totalSize,
     root,
   }
+}
+
+function f(g: Group): string {
+  const {id, x, y, width, height } = g.elem.secureAttrs.svgAttrs as {[key: string]: string}
+  const base = `#${id} {
+    x: ${x};
+    y: ${y};
+    width: ${width};
+    height: ${height};
+  }
+  `
+  const ss = g.children.map((child) => f(child))
+  return base + ss.join('\n')
 }

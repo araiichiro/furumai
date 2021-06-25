@@ -117,6 +117,7 @@ class Styled {
       this.classNames.join(' '),
       territory,
       this.appearance,
+      false,
     )
   }
 }

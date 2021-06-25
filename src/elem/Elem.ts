@@ -147,11 +147,12 @@ export class Styled {
       classNames.push(shape)
     }
     const territory = territoryMap[this.id]
-    const elem =  createElem(
+    const elem = createElem(
       this.id,
       classNames.join(' '),
       territory,
       this.appearance,
+      this.children.length > 0,
     )
     const children = this.children.map((child) => child.shape(territoryMap))
     return {
