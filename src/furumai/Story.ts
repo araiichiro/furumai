@@ -42,13 +42,30 @@ export class Layout {
         target.visible()
         target.updateAppearance(up)
       } else {
+        up.visible()
         this.edges.push(up)
       }
     })
     update.hides.forEach((hide) => {
-      this.styles.update(hide.style())
+      const {id, edge} = hide
+      if (id) {
+        const target = this.root.find(id) || this.edges.find((edge) => edge.id === id)
+        if (target) {
+          target.hide()
+        } else {
+          throw new Error('not found: ' + id)
+        }
+      } else if (edge) {
+        const target = this.edges.find((ed) => ed.same(edge))
+        if (target) {
+          target.hide()
+        } else {
+          throw new Error('not found: ' + edge)
+        }
+      } else {
+        throw new Error('unsupported')
+      }
     })
-    this.styles.update(update.styles)
     return this
   }
 }

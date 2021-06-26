@@ -7,28 +7,12 @@ export class Hide {
   }
 
   public static edge(from: string, op: string, to: string): Hide {
-    return new Hide(undefined, Edge.className(from, op, to))
+    return new Hide(undefined, Edge.of(from, op, to))
   }
 
   constructor(
-    private id: string | undefined,
-    private className: string | undefined,
+    readonly id: string | undefined,
+    readonly edge: Edge | undefined,
   ) {
-  }
-
-  public style(): Styles {
-    const selectors = []
-    if (this.id) {
-      selectors.push(Selector.of(new IdSelector(this.id)))
-    }
-    if (this.className) {
-      selectors.push(Selector.of(new ClassSelector(this.className)))
-    }
-    const rules = [Ruleset.of(
-      selectors, {
-        visibility: 'hidden',
-      },
-    )]
-    return  Styles.of(rules)
   }
 }
