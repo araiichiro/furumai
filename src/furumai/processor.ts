@@ -1,6 +1,6 @@
 import {parse} from '@/parse/parser'
 import {Elem} from '@/elem/Elem'
-import {Config, Layout} from '@/furumai/Story'
+import {Config, Layout, Story} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
 import {Svg, Group, SingleGroup} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
@@ -62,6 +62,7 @@ style {
   .text {
   //all: unset;
   all: initial;
+  visibility: inherit;
   //stroke: black;
 
   }
@@ -69,21 +70,10 @@ style {
 `
 
 export function toModels(furumaiCode: string): Svg[] {
-  const defaults = parse(defaultString)
-  const story = parse(furumaiCode)
-  const config = {
-    ...defaults.config as Config,
-    ...story.config,
-  }
+  const story = parseStory(furumaiCode)
+  const config = story.config as Config
+  let layout = story.layout
   const engine = new LayoutEngine(config)
-
-  const base = story.layout
-  const styles = defaults.layout.styles.update(base.styles)
-  let layout = new Layout(
-    base.root,
-    base.edges,
-    styles,
-  )
   const ret = [createSvg(engine, layout, config)]
 
   for (const update of story.updates) {
@@ -91,15 +81,17 @@ export function toModels(furumaiCode: string): Svg[] {
       layout = layout.update(update)
       ret.push(createSvg(engine, layout, config))
     } else {
-      layout = new Layout(
-        Elem.of('_root', 'root', {}, update.elems),
-        update.edges,
-        parse(defaultString).layout.styles.update(base.styles).update(update.styles),
-      )
+      const story = parseStory(furumaiCode)
+      layout =story.layout.update(update)
       ret.push(createSvg(engine, layout, config))
     }
   }
   return ret
+}
+
+function parseStory(furumaiCode: string): Story {
+  const defaults = parse(defaultString)
+  return parse(furumaiCode).withDefault(defaults.config as Config, defaults.layout.styles)
 }
 
 function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
@@ -123,14 +115,14 @@ function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
   root.children.push(...es)
   if (config.structure === 'nest') {
     return {
-      styles: styles.toCss(), // + f(root),
+      styles: styles.toCss(),
       size: rootBox.totalSize,
       root,
     }
   } else if (config.structure === 'flat') {
     const elems = flatten(root.children)
     return {
-      styles: styles.toCss(), // + f(root),
+      styles: styles.toCss(),
       size: rootBox.totalSize,
       root: {
         elem: root.elem,
@@ -150,17 +142,4 @@ function flatten(gs: Group[]): SvgElem[] {
     }
     return ret
   }, [] as SvgElem[])
-}
-
-function f(g: Group): string {
-  const {id, x, y, width, height } = g.elem.secureAttrs.svgAttrs as {[key: string]: string}
-  const base = `#${id} {
-    x: ${x};
-    y: ${y};
-    width: ${width};
-    height: ${height};
-  }
-  `
-  const ss = g.children.map((child) => f(child))
-  return base + ss.join('\n')
 }

@@ -28,7 +28,7 @@ export class Engine {
 
   public fit(children: Box[], style: LayoutStyle): Boundary {
     if (style['justify-content'] !== 'space-around') {
-      throw new Error('not implemented')
+      throw new Error('justify-content not supported: ' + style['justify-content'])
     }
     const direction = this.direction(style)
     if (direction === 'row') {
@@ -52,7 +52,7 @@ export class Engine {
         )
       }, Boundary.zero)
     } else {
-      throw new Error('not implemented')
+      throw new Error('direction not supported: ' + direction)
     }
   }
 

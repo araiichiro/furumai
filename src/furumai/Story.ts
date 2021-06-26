@@ -16,6 +16,21 @@ export class Story {
     readonly layout: Layout,
     readonly updates: Update[]) {
   }
+
+  withDefault(config: Config, styles: Styles): Story {
+    return new Story(
+      {
+        ...config,
+        ...this.config,
+      },
+      new Layout(
+        this.layout.root,
+        this.layout.edges,
+        styles.update(this.layout.styles),
+      ),
+      this.updates,
+    )
+  }
 }
 
 export class Layout {
@@ -66,6 +81,7 @@ export class Layout {
         throw new Error('unsupported')
       }
     })
+    this.styles.update(update.styles)
     return this
   }
 }
