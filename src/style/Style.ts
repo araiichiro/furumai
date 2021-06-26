@@ -36,7 +36,7 @@ export class Ruleset {
   }
 
   public selectorList(): string[] {
-    return this.selectors.map((s) => s.toCss())
+    return this.selectors.map((s) => s.toCssSelector())
   }
 
   public toCss(): string {
@@ -72,8 +72,10 @@ export class Selector {
     return this.base.isMatch(context) && this.qualifier.isMatch(context.parent)
   }
 
-  public toCss() {
-    return this.qualifier.parents.reverse().map((s) => s.toCss()) + this.base.toCss()
+  public toCssSelector() {
+    const selectors = this.qualifier.parents.reverse()
+    selectors.push(this.base)
+    return selectors.map((s) => s.toCssSelector()).join(' ')
   }
 }
 
@@ -102,7 +104,7 @@ export class Qualifier {
 
 export interface BasicSelector {
   isMatch(context: Context): boolean
-  toCss(): string
+  toCssSelector(): string
 }
 
 export class UnivSelector implements BasicSelector {
@@ -110,8 +112,8 @@ export class UnivSelector implements BasicSelector {
     return true
   }
 
-  public toCss(): string {
-    return ' * '
+  public toCssSelector(): string {
+    return '*'
   }
 
 }
@@ -128,8 +130,8 @@ export class IdSelector implements BasicSelector {
     return context.id === this.id
   }
 
-  public toCss(): string {
-    return ' #' + this.id + ' '
+  public toCssSelector(): string {
+    return '#' + this.id
   }
 }
 
@@ -147,7 +149,7 @@ export class ClassSelector implements BasicSelector {
     }, false as boolean)
   }
 
-  public toCss(): string {
+  public toCssSelector(): string {
     return '.' + this.className
   }
 
