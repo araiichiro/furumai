@@ -54,51 +54,49 @@ export class Selector {
   public static of(
     selector: BasicSelector,
   ): Selector {
-    return new Selector(selector, Qualifier.of([]))
+    return new Selector(selector, [])
   }
 
-  public static combined(selectorList: BasicSelector[]): Selector {
-    const [head, ...parents] = selectorList.reverse()
-    return new Selector(head, Qualifier.of(parents))
+  public static combined(
+    combined: CombinedSelector[],
+    basic: BasicSelector,
+  ): Selector {
+    return new Selector(basic, combined.reverse())
   }
 
   constructor(
     readonly base: BasicSelector,
-    readonly qualifier: Qualifier,
+    readonly combined: CombinedSelector[],
   ) {
   }
 
   public isMatch(context: Context): boolean {
-    return this.base.isMatch(context) && this.qualifier.isMatch(context.parent)
-  }
-
-  public toCssSelector() {
-    const selectors = this.qualifier.parents.reverse()
-    selectors.push(this.base)
-    return selectors.map((s) => s.toCssSelector()).join(' ')
-  }
-}
-
-export class Qualifier {
-  public static of(qualifiers: BasicSelector[]): Qualifier {
-    return new Qualifier(qualifiers)
-  }
-
-  private constructor(
-    readonly parents: BasicSelector[]) {
-  }
-
-  public isMatch(parent?: Context): boolean {
+    if (!this.base.isMatch(context)) {
+      return false
+    }
     let p = 0
-    while (parent && p < this.parents.length) {
-      if (this.parents[p].isMatch(parent)) {
+    let parent = context.parent
+    while (parent && p < this.combined.length) {
+      if (this.combined[p].selector.isMatch(parent)) {
         p++
         parent = parent.parent
       } else {
-        parent = parent.parent
+        if (this.combined[p].combinator instanceof ChildCombinator) {
+          return false
+        } else if (this.combined[p].combinator instanceof DescendantCombinator) {
+          parent = parent.parent
+        } else {
+          throw new Error('not implemented')
+        }
       }
     }
-    return p >= this.parents.length
+    return p >= this.combined.length
+  }
+
+  public toCssSelector(): string {
+    const selectors = this.combined.reverse().map((c) => c.toCssSelector())
+    selectors.push(this.base.toCssSelector())
+    return selectors.join('')
   }
 }
 
@@ -153,6 +151,34 @@ export class ClassSelector implements BasicSelector {
     return '.' + this.className
   }
 
+}
+
+export class CombinedSelector {
+  constructor(
+    readonly selector: BasicSelector,
+    readonly combinator: Combinator,
+  ) {
+  }
+
+  toCssSelector(): string {
+    return this.selector.toCssSelector() + this.combinator.toCssCombinator()
+  }
+}
+
+export interface Combinator {
+  toCssCombinator(): string
+}
+
+export class DescendantCombinator implements Combinator {
+  toCssCombinator(): string {
+    return ' '
+  }
+}
+
+export class ChildCombinator implements Combinator{
+  toCssCombinator(): string {
+    return ' > '
+  }
 }
 
 export class Styles {

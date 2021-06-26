@@ -59,6 +59,14 @@ export interface Group {
   children: Group[]
 }
 
+export class SingleGroup implements Group {
+  children: Group[] = []
+  constructor(
+    readonly elem: SvgElem
+  ) {
+  }
+}
+
 export interface Svg {
   styles: string
   size: Boundary

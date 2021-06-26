@@ -73,7 +73,15 @@ selector_list
   ;
 
 selector
-  : basic_selector+
+  : combined_selector* basic_selector
+  ;
+
+combined_selector
+  : basic_selector combinator?
+  ;
+
+combinator
+  : '>'
   ;
 
 basic_selector

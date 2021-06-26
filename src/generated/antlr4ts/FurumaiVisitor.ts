@@ -21,6 +21,8 @@ import { StyleContext } from "./FurumaiParser";
 import { Css_stmtContext } from "./FurumaiParser";
 import { Selector_listContext } from "./FurumaiParser";
 import { SelectorContext } from "./FurumaiParser";
+import { Combined_selectorContext } from "./FurumaiParser";
+import { CombinatorContext } from "./FurumaiParser";
 import { Basic_selectorContext } from "./FurumaiParser";
 import { Univ_selectorContext } from "./FurumaiParser";
 import { Type_selectorContext } from "./FurumaiParser";
@@ -164,6 +166,20 @@ export interface FurumaiVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitSelector?: (ctx: SelectorContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `FurumaiParser.combined_selector`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitCombined_selector?: (ctx: Combined_selectorContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `FurumaiParser.combinator`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitCombinator?: (ctx: CombinatorContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `FurumaiParser.basic_selector`.

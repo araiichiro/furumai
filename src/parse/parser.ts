@@ -7,6 +7,8 @@ import {
   Attr_listContext,
   Basic_selectorContext,
   Class_selectorContext,
+  CombinatorContext,
+  Combined_selectorContext,
   ConfigContext,
   Css_stmtContext,
   DeclarationContext,
@@ -41,7 +43,11 @@ import {Hide} from '@/elem/Hide'
 import {
   Assigns,
   BasicSelector,
+  ChildCombinator,
   ClassSelector,
+  Combinator,
+  CombinedSelector,
+  DescendantCombinator,
   IdSelector,
   Ruleset,
   Selector,
@@ -288,8 +294,19 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   }
 
   public visitSelector(ctx: SelectorContext): Selector {
-    const ss = ctx.basic_selector().map((s) => this.visit(s))
-    return Selector.combined(ss)
+    const combined = ctx.combined_selector().map((s) => this.visit(s))
+    const basic = this.visit(ctx.basic_selector())
+    return Selector.combined(combined, basic)
+  }
+
+  public visitCombined_selector(ctx: Combined_selectorContext) {
+    const c = ctx.combinator()
+    const combinator: Combinator = c ? this.visit(c) : new DescendantCombinator()
+    const basic: BasicSelector = this.visit(ctx.basic_selector())
+    return new CombinedSelector(basic, combinator)
+}
+  public visitCombinator(ctx: CombinatorContext) {
+    return new ChildCombinator()
   }
 
   public visitBasic_selector(ctx: Basic_selectorContext): any {

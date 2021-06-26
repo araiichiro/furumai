@@ -46,10 +46,7 @@ export default class VIcon extends Vue {
   }
 
   get svgAttrs(): Assigns {
-    return {
-      'class': 'self',
-      ...this.elem.secureAttrs.svgAttrs,
-    }
+    return this.elem.secureAttrs.svgAttrs
   }
 
 }

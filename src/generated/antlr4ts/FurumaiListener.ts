@@ -21,6 +21,8 @@ import { StyleContext } from "./FurumaiParser";
 import { Css_stmtContext } from "./FurumaiParser";
 import { Selector_listContext } from "./FurumaiParser";
 import { SelectorContext } from "./FurumaiParser";
+import { Combined_selectorContext } from "./FurumaiParser";
+import { CombinatorContext } from "./FurumaiParser";
 import { Basic_selectorContext } from "./FurumaiParser";
 import { Univ_selectorContext } from "./FurumaiParser";
 import { Type_selectorContext } from "./FurumaiParser";
@@ -233,6 +235,28 @@ export interface FurumaiListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitSelector?: (ctx: SelectorContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `FurumaiParser.combined_selector`.
+	 * @param ctx the parse tree
+	 */
+	enterCombined_selector?: (ctx: Combined_selectorContext) => void;
+	/**
+	 * Exit a parse tree produced by `FurumaiParser.combined_selector`.
+	 * @param ctx the parse tree
+	 */
+	exitCombined_selector?: (ctx: Combined_selectorContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `FurumaiParser.combinator`.
+	 * @param ctx the parse tree
+	 */
+	enterCombinator?: (ctx: CombinatorContext) => void;
+	/**
+	 * Exit a parse tree produced by `FurumaiParser.combinator`.
+	 * @param ctx the parse tree
+	 */
+	exitCombinator?: (ctx: CombinatorContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `FurumaiParser.basic_selector`.

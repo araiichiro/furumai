@@ -1,25 +1,27 @@
 <template>
   <g v-bind="attrs">
-    <path
-      v-if="g.elem.d"
-      v-bind:d="g.elem.d"
-      v-bind="childAttrs"
-    ></path>
-    <VIcon
-      v-else-if="g.elem.icon"
-      v-bind:elem="g.elem"
-    ></VIcon>
-    <rect
-      v-else
-      v-bind="childAttrs"
-    ></rect>
+    <g class="self">
+      <path
+        v-if="g.elem.d"
+        v-bind:d="g.elem.d"
+        v-bind="childAttrs"
+      ></path>
+      <VIcon
+        v-else-if="g.elem.icon"
+        v-bind:elem="g.elem"
+      ></VIcon>
+      <rect
+        v-else
+        v-bind="childAttrs"
+      ></rect>
 
-    <TextContent
-      v-bind:text="g.elem.text"
-    ></TextContent>
-    <LabelComponent
-      v-bind:text="g.elem.label"
-    ></LabelComponent>
+      <TextContent
+        v-bind:text="g.elem.text"
+      ></TextContent>
+      <LabelComponent
+        v-bind:text="g.elem.label"
+      ></LabelComponent>
+    </g>
 
     <Group
       v-for="c in g.children"
@@ -65,10 +67,7 @@ export default class GroupComponent extends Vue {
   }
 
   get childAttrs(): Assigns {
-    return {
-      'class': 'self',
-      ...this.g.elem.secureAttrs.svgAttrs,
-    }
+    return this.g.elem.secureAttrs.svgAttrs
   }
 
 }

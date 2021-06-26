@@ -7,6 +7,7 @@ import {Hide} from '@/elem/Hide'
 export interface Config {
   mode: 'snapshot' | 'diff'
   orientation: Orientation
+  structure: 'flat' | 'nest'
 }
 
 export class Story {
