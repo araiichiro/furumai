@@ -2,6 +2,7 @@ import {Vector2d} from '@/layout/Vector2d'
 import {SvgElem} from '@/components/model/SvgElem'
 import {Length, Point, Territory} from '@/layout/types'
 import {TextElem} from '@/components/model/TextElem'
+import {m} from "@/style/Style";
 
 export class Arrow {
 
@@ -43,9 +44,10 @@ export class Arrow {
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
     const loc = this.territory
 
+    const {dx, dy} = this.dxdy()
     return {
-      x: loc.cx.pixel + v.dx - u.dx,
-      y: loc.cy.pixel + v.dy - u.dy,
+      x: loc.cx.pixel + v.dx - u.dx + dx,
+      y: loc.cy.pixel + v.dy - u.dy + dy,
     }
   }
 
@@ -66,6 +68,7 @@ export class Arrow {
   constructor(
     readonly base: SvgElem,
     readonly territory: Territory,
+    readonly options: Partial<ArrowOptions>,
   ) {
   }
 
@@ -94,5 +97,26 @@ M ${vb.x2} ${vb.y2}
 L ${x2} ${y2}`
   }
 
+  private dxdy(): {dx: number, dy: number} {
+    const parsed = m((opt) => {
+      return {
+        dx: m(Length.parse, opt.dx) || Length.zero,
+        dy: m(Length.parse, opt.dy) || Length.zero,
+      }
+    }, this.options.text)
+    if (parsed) {
+      return {dx: parsed.dx.pixel, dy: parsed.dy.pixel}
+    }
+    return {dx: 0, dy: 0}
+  }
 
+}
+
+export interface ArrowOptions {
+  text: Partial<TextAttrs>
+}
+
+export interface TextAttrs {
+  dx: string
+  dy: string
 }

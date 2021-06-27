@@ -3,7 +3,7 @@ import {asString} from '@/style/Style'
 import {SecureSvgAttrs} from '@/components/model/security'
 import {VIcon} from '@/components/model/VIcon'
 import {Box} from '@/components/model/Box'
-import {Arrow} from '@/components/model/Arrow'
+import {Arrow, ArrowOptions} from '@/components/model/Arrow'
 import {Cylinder} from '@/components/model/Cylinder'
 import {TextElem} from '@/components/model/TextElem'
 import {SvgElem} from '@/components/model/SvgElem'
@@ -19,12 +19,16 @@ export interface Appearance {
   t: string
 }
 
+export interface ElemOptions extends ArrowOptions {
+  hasChildren: boolean
+}
+
 export function createElem(
   id: string,
   className: string,
   territory: Territory,
   appearance: Partial<Appearance>,
-  hasChildren: boolean,
+  options: Partial<ElemOptions>,
 ): SvgElem {
   const elem = BasicElem.of(id, className, territory, appearance)
   if (appearance.icon) {
@@ -32,9 +36,9 @@ export function createElem(
   } else if (appearance.shape) {
     switch (appearance.shape) {
       case 'arrow':
-        return new Arrow(elem, territory).arrow
+        return new Arrow(elem, territory, options).arrow
       case 'edge':
-        return new Arrow(elem, territory).edge
+        return new Arrow(elem, territory, options).edge
       case 'box':
         return Box.of(elem)
       case 'cylinder':
@@ -47,7 +51,7 @@ export function createElem(
         throw new Error('not implemented: ' + appearance.shape)
     }
   } else {
-    if (!hasChildren) {
+    if (!options.hasChildren) {
       elem.secureAttrs.svgAttrs.class += ' box'
     }
     return Box.of(elem)

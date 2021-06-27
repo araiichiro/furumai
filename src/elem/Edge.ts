@@ -4,6 +4,7 @@ import {Arrow} from '@/layout/Arrow'
 import {createElem} from '@/components/model/Svg'
 import {SvgElem as SvgElem} from '@/components/model/SvgElem'
 import {Elem} from '@/elem/Elem'
+import {TextAttrs} from "@/components/model/Arrow";
 
 export class Edge {
   public static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
@@ -73,11 +74,15 @@ export class Edge {
       classNames: this.classNames,
     }
     const style = styles.query(context)
+    const textAttrs = styles.query({
+      classNames: ['text'],
+      parent: context,
     })
     return new Styled(
       this.id,
       this.classNames,
       {...style, ...this.appearance},
+      textAttrs,
     )
   }
 
@@ -108,6 +113,7 @@ class Styled {
     readonly id: string,
     readonly classNames: string[],
     readonly appearance: Partial<Appearance>,
+    readonly textAttrs: Partial<TextAttrs>,
   ) {
   }
 
@@ -119,7 +125,10 @@ class Styled {
       this.classNames.join(' '),
       territory,
       this.appearance,
-      false,
+      {
+        text: this.textAttrs,
+        hasChildren: false
+      }
     )
   }
 }

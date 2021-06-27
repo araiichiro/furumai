@@ -152,7 +152,9 @@ export class Styled {
       classNames.join(' '),
       territory,
       this.appearance,
-      this.children.length > 0,
+      {
+        hasChildren: this.children.length > 0,
+      },
     )
     const children = this.children.map((child) => child.shape(territoryMap))
     return {
