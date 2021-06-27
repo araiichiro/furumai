@@ -16,7 +16,6 @@ update
 stmt_list
   : stmt ( ';' stmt )* ';'?
   ;
-
 stmt
   : group
   | zone
@@ -30,56 +29,44 @@ stmt
 group
   : 'group' ID '{' stmt_list '}'
   ;
-
 zone
   : 'zone' ID '{' stmt_list '}'
   ;
-
 node_stmt
   : ID attr_list?
   ;
-
 edge_stmt
   : ID EDGEOP ID attr_list?
   ;
-
+attr_list
+  : '[' declaration ( ( ',' | ';' )?  declaration )* ( ',' | ';' )? ']'
+  ;
 hide
   : hide_elem
   | hide_edge
   ;
-
 hide_elem
   : 'hide' ID
   ;
-
 hide_edge
   : 'hide' ID EDGEOP ID
-  ;
-
-attr_list
-  : '[' declaration ( ( ',' | ';' )?  declaration )* ( ',' | ';' )? ']'
   ;
 
 style
   : 'style' '{' css_stmt* '}'
   ;
-
 css_stmt
   : selector_list '{' declaration? ( ';' declaration )* ';'? '}'
   ;
-
 selector_list
   : selector ( ',' selector )* ','?
   ;
-
 selector
   : combined_selector* basic_selector
   ;
-
 combined_selector
   : basic_selector combinator?
   ;
-
 combinator
   : '>'
   ;
@@ -91,7 +78,6 @@ basic_selector
   | id_selector
   | edge_selector
   ;
-
 univ_selector
   : '*'
   ;
@@ -111,7 +97,6 @@ edge_selector
 declaration
   : ID ( ':' | '=' ) val+
   ;
-
 val
   : STRING
   | ID

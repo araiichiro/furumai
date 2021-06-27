@@ -13,10 +13,10 @@ import { GroupContext } from "./FurumaiParser";
 import { ZoneContext } from "./FurumaiParser";
 import { Node_stmtContext } from "./FurumaiParser";
 import { Edge_stmtContext } from "./FurumaiParser";
+import { Attr_listContext } from "./FurumaiParser";
 import { HideContext } from "./FurumaiParser";
 import { Hide_elemContext } from "./FurumaiParser";
 import { Hide_edgeContext } from "./FurumaiParser";
-import { Attr_listContext } from "./FurumaiParser";
 import { StyleContext } from "./FurumaiParser";
 import { Css_stmtContext } from "./FurumaiParser";
 import { Selector_listContext } from "./FurumaiParser";
@@ -149,6 +149,17 @@ export interface FurumaiListener extends ParseTreeListener {
 	exitEdge_stmt?: (ctx: Edge_stmtContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `FurumaiParser.attr_list`.
+	 * @param ctx the parse tree
+	 */
+	enterAttr_list?: (ctx: Attr_listContext) => void;
+	/**
+	 * Exit a parse tree produced by `FurumaiParser.attr_list`.
+	 * @param ctx the parse tree
+	 */
+	exitAttr_list?: (ctx: Attr_listContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `FurumaiParser.hide`.
 	 * @param ctx the parse tree
 	 */
@@ -180,17 +191,6 @@ export interface FurumaiListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitHide_edge?: (ctx: Hide_edgeContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `FurumaiParser.attr_list`.
-	 * @param ctx the parse tree
-	 */
-	enterAttr_list?: (ctx: Attr_listContext) => void;
-	/**
-	 * Exit a parse tree produced by `FurumaiParser.attr_list`.
-	 * @param ctx the parse tree
-	 */
-	exitAttr_list?: (ctx: Attr_listContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `FurumaiParser.style`.

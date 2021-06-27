@@ -13,10 +13,10 @@ import { GroupContext } from "./FurumaiParser";
 import { ZoneContext } from "./FurumaiParser";
 import { Node_stmtContext } from "./FurumaiParser";
 import { Edge_stmtContext } from "./FurumaiParser";
+import { Attr_listContext } from "./FurumaiParser";
 import { HideContext } from "./FurumaiParser";
 import { Hide_elemContext } from "./FurumaiParser";
 import { Hide_edgeContext } from "./FurumaiParser";
-import { Attr_listContext } from "./FurumaiParser";
 import { StyleContext } from "./FurumaiParser";
 import { Css_stmtContext } from "./FurumaiParser";
 import { Selector_listContext } from "./FurumaiParser";
@@ -112,6 +112,13 @@ export interface FurumaiVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitEdge_stmt?: (ctx: Edge_stmtContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `FurumaiParser.attr_list`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitAttr_list?: (ctx: Attr_listContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `FurumaiParser.hide`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -131,13 +138,6 @@ export interface FurumaiVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitHide_edge?: (ctx: Hide_edgeContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `FurumaiParser.attr_list`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitAttr_list?: (ctx: Attr_listContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `FurumaiParser.style`.
