@@ -5,21 +5,21 @@
       v-html="roughHtml"
       xmlns="http://www.w3.org/2000/svg"
       :viewBox="viewBox"
-      :width="width.toString()"
-      :height="height.toString()"
+      :width="width.pixel"
+      :height="height.pixel"
       class="svg-root"
     ></svg>
     <svg
       v-else
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:svgns="http://www.w3.org/2000/svg"
       class="svg-root"
       :viewBox="viewBox"
-      :width="width.toString()"
-      :height="height.toString()"
+      :width="width.pixel"
+      :height="height.pixel"
       id="svgRoot"
     >
-      <svg:style type="text/css">{{ svg.styles }}</svg:style>
+      <svgns:style type="text/css">{{ svg.styles }}</svgns:style>
       <Group v-bind:g="svg.root"></Group>
     </svg>
   </div>

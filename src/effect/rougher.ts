@@ -8,6 +8,7 @@ export function convertSvg(root: SVGElement): SVGElement {
   const height = root.getAttribute('height') || 0
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+  svg.setAttribute('xmlns:svgns', 'http://www.w3.org/2000/svg')
   svg.setAttribute('width', `${width}`)
   svg.setAttribute('height', `${height}`)
   svg.setAttribute('viewBox', `0 0 ${Number(width) * 2} ${Number(height) * 2}`)
@@ -17,7 +18,11 @@ export function convertSvg(root: SVGElement): SVGElement {
   for (let i = 0; i < cs.length; i++) {
     const c = cs.item(i)
     if (c) {
-      svg.append(convert(c, convertIfPossible))
+      if (c.tagName === 'svgns:style') {
+        svg.append(c)
+      } else {
+        svg.append(convert(c, convertIfPossible))
+      }
     } else {
       throw new Error('null')
     }
