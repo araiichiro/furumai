@@ -68,9 +68,11 @@ export class Edge {
   }
 
   public resolveStyle(styles: Styles): Styled {
-    const style = styles.query({
+    const context = {
       id: this.id,
       classNames: this.classNames,
+    }
+    const style = styles.query(context)
     })
     return new Styled(
       this.id,

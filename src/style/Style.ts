@@ -70,7 +70,7 @@ export class Selector {
   ) {
   }
 
-  public isMatch(context: Context): boolean {
+  public isMatch(context: Partial<Context>): boolean {
     if (!this.base.isMatch(context)) {
       return false
     }
@@ -101,12 +101,12 @@ export class Selector {
 }
 
 export interface BasicSelector {
-  isMatch(context: Context): boolean
+  isMatch(context: Partial<Context>): boolean
   toCssSelector(): string
 }
 
 export class UnivSelector implements BasicSelector {
-  public isMatch(context: Context): boolean {
+  public isMatch(context: Partial<Context>): boolean {
     return true
   }
 
@@ -124,7 +124,7 @@ export class IdSelector implements BasicSelector {
   constructor(readonly id: string) {
   }
 
-  public isMatch(context: Context): boolean {
+  public isMatch(context: Partial<Context>): boolean {
     return context.id === this.id
   }
 
@@ -141,8 +141,9 @@ export class ClassSelector implements BasicSelector {
   constructor(readonly className: string) {
   }
 
-  public isMatch(context: Context): boolean {
-    return context.classNames.reduce((b, className) => {
+  public isMatch(context: Partial<Context>): boolean {
+    const classNames = context.classNames ? context.classNames : []
+    return classNames.reduce((b, className) => {
       return b || this.className === className
     }, false as boolean)
   }
@@ -196,7 +197,7 @@ export class Styles {
     return this
   }
 
-  public query(context: Context): Assigns {
+  public query(context: Partial<Context>): Assigns {
     const filtered = this.rules.filter((r) => r.selectors.some((s) => s.isMatch(context)))
     return filtered.reduce((ret, rule) => {
       return {
