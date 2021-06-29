@@ -1,10 +1,21 @@
-import {Area, AreaAttrs, Point, Territory, TerritoryMap} from '@/layout/types'
-import {Assigns, Context, Styles, ContextMap} from '@/style/Style'
+import {AreaAttrs, TerritoryMap} from '@/layout/types'
+import {Assigns, Context, ContextMap, Styles} from '@/style/Style'
 import {Appearance, createElem, Group} from '@/components/model/Svg'
-import {SvgElem} from '@/components/model/SvgElem'
 import {Box, LayoutStyle} from '@/layout/Engine'
 
 export class Elem {
+  static noSvgAttrs = [
+    'flex-direction',
+    'align-items',
+    'justify-content',
+    'padding',
+    'margin',
+    'shape',
+    'icon',
+    'label',
+    'text',
+    't',
+  ]
 
   get _appearance(): Partial<Appearance> {
     return this.appearance
@@ -21,10 +32,6 @@ export class Elem {
     attrs: Assigns = {},
     children: Elem[] = [],
   ): Elem {
-    const appearance: Partial<Appearance> = {
-      text: attrs.t,
-      ...attrs,
-    }
     const classNames = attrs.class ?
       [...attrs.class.split(' '), className] :
       [className]
@@ -32,7 +39,7 @@ export class Elem {
       id,
       classNames,
       children,
-      appearance,
+      attrs as Partial<Appearance>,
       attrs as Partial<Layout>,
     )
   }
@@ -95,6 +102,10 @@ export class Elem {
 
   public styled(styles: Styles, contextMap: ContextMap): Styled {
     const myStyles = styles.query(contextMap.map[this.id])
+    const appearance: Partial<Appearance> = {
+      ...myStyles,
+      ...this.appearance,
+    }
     const layoutStyle: Partial<LayoutStyle> = {
       ...myStyles,
     }
@@ -106,17 +117,19 @@ export class Elem {
       ret.push(child.styled(styles, contextMap))
       return ret
     }, [] as Styled[])
+
+    const svgAttrs = {...myStyles}
+    Elem.noSvgAttrs.forEach((attr) => delete svgAttrs[attr])
+
     return new Styled(
-        this.id,
-        this.classNames,
-        {
-          ...myStyles as Partial<Appearance>,
-          ...this.appearance,
-        },
-        layoutStyle,
-        area,
-        children,
-      )
+      this.id,
+      this.classNames,
+      appearance,
+      layoutStyle,
+      area,
+      svgAttrs,
+      children,
+    )
   }
 }
 
@@ -127,6 +140,7 @@ export class Styled {
     readonly appearance: Partial<Appearance>,
     readonly layoutStyle: Partial<LayoutStyle>,
     readonly area: Partial<AreaAttrs>,
+    readonly svgAttrs: Assigns,
     readonly children: Styled[],
   ) {
   }
@@ -140,7 +154,7 @@ export class Styled {
     )
   }
 
-  public shape(territoryMap: TerritoryMap): Group {
+  public shape(territoryMap: TerritoryMap, includeStyle: boolean): Group {
     const classNames = [...this.classNames]
     const shape = this.appearance.shape
     if (shape) {
@@ -152,11 +166,12 @@ export class Styled {
       classNames.join(' '),
       territory,
       this.appearance,
+      includeStyle ? this.svgAttrs : {},
       {
         hasChildren: this.children.length > 0,
       },
     )
-    const children = this.children.map((child) => child.shape(territoryMap))
+    const children = this.children.map((child) => child.shape(territoryMap, includeStyle))
     return {
       elem,
       children,

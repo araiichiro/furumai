@@ -69,7 +69,6 @@ function isColor(text: string) {
 }
 
 const availableSvgAttributes = new Set([
-  'class',
   'cx',
   'cy',
   'd',
@@ -85,7 +84,6 @@ const availableSvgAttributes = new Set([
   'fx',
   'fy',
   'height',
-  'id',
   'lengthAdjust',
   'markerHeight',
   'markerUnits',
@@ -139,8 +137,6 @@ const availableSvgAttributes = new Set([
   'visibility',
   'word-spacing',
   'writing-mode',
-  'margin',
-  'padding',
 ])
 
 function isValid(attrName: string, attrValue: string) {

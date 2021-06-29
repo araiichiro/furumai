@@ -1,8 +1,7 @@
 import {parse} from '@/parse/parser'
-import {Elem} from '@/elem/Elem'
 import {Config, Layout, Story} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
-import {Svg, Group, SingleGroup} from '@/components/model/Svg'
+import {Group, SingleGroup, Svg} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
 import {SvgElem} from "@/components/model/SvgElem";
 
@@ -17,10 +16,13 @@ export const defaultString = `config {
 
 style {
   .root, .root * {
-    flex-direction: row;
     align-items: flex-start;
     justify-content: space-around;
   }
+  .root {
+    flex-direction: column;
+  }
+
 .root * {
 //all: initial;
 }
@@ -31,14 +33,15 @@ style {
     fill: none;
   }
   .group, .zone {
-
     fill: none;
     padding: 10px;
     margin: 10px;
   }
   .group {
+    flex-direction: row;
   }
   .zone {
+    flex-direction: column;
   }
   .edge {
     stroke: black;
@@ -52,7 +55,7 @@ style {
     //fill: none;
   }
   .node {
-    width: 60px;
+    width: 100px;
     height: 60px;
     padding: 10px;
     margin: 10px;
@@ -64,7 +67,6 @@ style {
   all: initial;
   visibility: inherit;
   //stroke: black;
-
   }
 };
 `
@@ -101,12 +103,13 @@ function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
   const size = rootBox.fit(engine, Point.zero)
   rootBox.refit(engine, Point.zero, size.totalSize)
   const territories = rootBox.flatten(Point.zero)
-  const root = styled.shape(territories)
+  const includeStyle = !config.styleTag
+  const root = styled.shape(territories, includeStyle)
 
   const es = layout.edges.map((edge) => {
     const f = territories[edge.from]
     const t = territories[edge.to]
-    const elem = edge.resolveStyle(styles).shape(f, t)
+    const elem = edge.resolveStyle(styles).shape(f, t, includeStyle)
     return {
       elem,
       children: [],

@@ -8,13 +8,15 @@ export interface Config {
   mode: 'snapshot' | 'diff'
   orientation: Orientation
   structure: 'flat' | 'nest'
+  styleTag: 'enabled' | undefined
 }
 
 export class Story {
   constructor(
     readonly config: Partial<Config>,
     readonly layout: Layout,
-    readonly updates: Update[]) {
+    readonly updates: Update[],
+  ) {
   }
 
   withDefault(config: Config, styles: Styles): Story {

@@ -73,16 +73,20 @@ export class Edge {
       id: this.id,
       classNames: this.classNames,
     }
-    const style = styles.query(context)
+    const myStyles = styles.query(context)
     const textAttrs = styles.query({
       classNames: ['text'],
       parent: context,
     })
+    const svgAttrs = {...myStyles}
+    Elem.noSvgAttrs.forEach((attr) => delete svgAttrs[attr])
+
     return new Styled(
       this.id,
       this.classNames,
-      {...style, ...this.appearance},
+      {...myStyles, ...this.appearance},
       textAttrs,
+      svgAttrs
     )
   }
 
@@ -114,10 +118,11 @@ class Styled {
     readonly classNames: string[],
     readonly appearance: Partial<Appearance>,
     readonly textAttrs: Partial<TextAttrs>,
+    readonly svgAttrs: Assigns,
   ) {
   }
 
-  public shape(tail: Territory, head: Territory): SvgElem {
+  public shape(tail: Territory, head: Territory, includeStyle: boolean): SvgElem {
     const {dx, dy} = this.appearance
     const territory = Arrow.fit(tail, head, Length.parse(dx || '0px').pixel, Length.parse(dy || '0px').pixel)
     return createElem(
@@ -125,6 +130,7 @@ class Styled {
       this.classNames.join(' '),
       territory,
       this.appearance,
+      includeStyle ? this.svgAttrs : {},
       {
         text: this.textAttrs,
         hasChildren: false

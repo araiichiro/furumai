@@ -27,8 +27,11 @@ export class Engine {
   }
 
   public fit(children: Box[], style: LayoutStyle): Boundary {
-    if (style['justify-content'] !== 'space-around') {
+    if (style['justify-content'] !== 'space-around' && style['justify-content'] !== 'start') {
       throw new Error('justify-content not supported: ' + style['justify-content'])
+    }
+    if (children.length === 0) {
+      return Boundary.zero
     }
     const direction = this.direction(style)
     if (direction === 'row') {
@@ -57,6 +60,9 @@ export class Engine {
   }
 
   public refit(children: Box[], style: LayoutStyle, boundary: Boundary) {
+    if (children.length === 0) {
+      return
+    }
     if (style['justify-content'] === 'start') {
       return
     } else if (style['justify-content'] !== 'space-around') {

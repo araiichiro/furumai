@@ -1,5 +1,5 @@
 import {Boundary, Territory} from '@/layout/types'
-import {asString} from '@/style/Style'
+import {Assigns, asString} from '@/style/Style'
 import {SecureSvgAttrs} from '@/components/model/security'
 import {VIcon} from '@/components/model/VIcon'
 import {Box} from '@/components/model/Box'
@@ -28,9 +28,10 @@ export function createElem(
   className: string,
   territory: Territory,
   appearance: Partial<Appearance>,
+  svgAttrs: Assigns,
   options: Partial<ElemOptions>,
 ): SvgElem {
-  const elem = BasicElem.of(id, className, territory, appearance)
+  const elem = BasicElem.of(id, className, territory, appearance, svgAttrs)
   if (appearance.icon) {
     return VIcon.of(elem)
   } else if (appearance.shape) {
@@ -83,6 +84,7 @@ class BasicElem implements SvgElem {
     className: string,
     territory: Territory,
     appearance: Partial<Appearance>,
+    svgAttrs: Assigns,
   ): BasicElem {
     return new BasicElem(
       id,
@@ -90,16 +92,17 @@ class BasicElem implements SvgElem {
       undefined,
       appearance.icon,
       BasicElem.label(territory, appearance, id),
-      BasicElem.attrs(id, className, territory),
+      BasicElem.attrs(territory, svgAttrs),
       BasicElem.text(territory, appearance),
       appearance.visibility,
     )
   }
 
-  public static attrs(id: string, className: string, territory: Territory): SecureSvgAttrs {
+  public static attrs(territory: Territory, svgAttrs: Assigns): SecureSvgAttrs {
     const {x, y} = territory.start
     const {width, height} = territory.area
     const attrs = {
+      ...svgAttrs,
       x,
       y,
       width,
