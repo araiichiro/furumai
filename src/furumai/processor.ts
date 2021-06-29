@@ -28,7 +28,7 @@ style {
   .group, .zone {
     fill: none;
     padding: 10px;
-    margin: 10px;
+    margin: 20px;
     stroke: none;
   }
   .group {
@@ -45,8 +45,8 @@ style {
     stroke: black;
     width: 100px;
     height: 60px;
-    padding: 16px 8px;
-    margin: 16px;
+    padding: 14px 8px;
+    margin: 20px;
     fill: none;
   }
   .icon {

@@ -8,7 +8,7 @@
     <tspan
       v-if="text"
       v-for="t in text.lines"
-      v-bind:dy="`-0.4em`"
+      v-bind:dy="`-0.9em`"
       v-bind:x="text.base.x"
     >{{ t.text }}</tspan>
   </text>
