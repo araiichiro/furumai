@@ -57,7 +57,7 @@ export class Layout {
       const target = this.edges.find((edge) => edge.same(up))
       if (target) {
         target.visible()
-        target.updateAppearance(up)
+        target.updateEdge(up)
       } else {
         up.visible()
         this.edges.push(up)

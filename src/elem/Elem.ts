@@ -21,6 +21,10 @@ export class Elem {
     return this.appearance
   }
 
+  get _svgAttrs(): Assigns {
+    return this.svgAttrs
+  }
+
   get contextMap(): ContextMap {
     const m = Elem.retrieve(this)
     return new ContextMap(m)
@@ -41,6 +45,7 @@ export class Elem {
       children,
       attrs as Partial<Appearance>,
       attrs as Partial<Layout>,
+      attrs,
     )
   }
 
@@ -64,6 +69,7 @@ export class Elem {
     readonly children: Elem[],
     private appearance: Partial<Appearance>,
     private layout: Partial<Layout>,
+    private svgAttrs: Assigns,
   ) {
   }
 
@@ -84,6 +90,10 @@ export class Elem {
     this.layout = {
       ...this.layout,
       ...other.layout,
+    }
+    this.svgAttrs = {
+      ...this.svgAttrs,
+      ...other.svgAttrs,
     }
     return this
   }
@@ -118,7 +128,7 @@ export class Elem {
       return ret
     }, [] as Styled[])
 
-    const svgAttrs = {...myStyles}
+    const svgAttrs = {...myStyles, ...this.svgAttrs}
     Elem.noSvgAttrs.forEach((attr) => delete svgAttrs[attr])
 
     return new Styled(

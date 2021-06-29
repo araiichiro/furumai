@@ -29,6 +29,7 @@ export class Edge {
         ...attrs,
       } as Partial<Appearance>,
       textAttrs,
+      attrs,
     )
   }
 
@@ -58,6 +59,7 @@ export class Edge {
     readonly classNames: string[] = [],
     private appearance: Partial<Appearance>,
     private textAttrs: Partial<TextAttrs>,
+    private svgAttrs: Assigns,
   ) {
   }
 
@@ -73,6 +75,10 @@ export class Edge {
     this.appearance = {
       ...this.appearance,
       ...elem._appearance,
+    }
+    this.svgAttrs = {
+      ...this.svgAttrs,
+      ...elem._svgAttrs,
     }
   }
 
@@ -102,10 +108,14 @@ export class Edge {
     return this.from === other.from && this.appearance.shape === other.appearance.shape && this.to === other.to
   }
 
-  public updateAppearance(other: Edge) {
+  public updateEdge(other: Edge) {
     this.appearance = {
       ...this.appearance,
       ...other.appearance,
+    }
+    this.svgAttrs = {
+      ...this.svgAttrs,
+      ...other.svgAttrs,
     }
   }
 }
