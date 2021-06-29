@@ -19,7 +19,7 @@
       :height="height.pixel"
       id="svgRoot"
     >
-      <svgns:style type="text/css">{{ svg.styles }}</svgns:style>
+      <svgns:style v-if="svg.styles.length > 0" type="text/css">{{ svg.styles }}</svgns:style>
       <Group v-bind:g="svg.root"></Group>
     </svg>
   </div>

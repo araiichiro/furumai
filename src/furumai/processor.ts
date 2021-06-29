@@ -21,14 +21,7 @@ style {
   }
   .root {
     flex-direction: column;
-  }
-
-.root * {
-//all: initial;
-}
-  .root {
-  //all: initial;
-//    visibility: hidden;
+    stroke: none;
     padding: 10px;
     fill: none;
   }
@@ -36,6 +29,7 @@ style {
     fill: none;
     padding: 10px;
     margin: 10px;
+    stroke: none;
   }
   .group {
     flex-direction: row;
@@ -47,27 +41,21 @@ style {
     stroke: black;
     label: "";
   }
-  .box, .cylinder, .person, .pipe {
-    stroke: black;
-  //all: initial;
-    //all: unset;
-
-    //fill: none;
-  }
   .node {
+    stroke: black;
     width: 100px;
     height: 60px;
     padding: 16px 8px;
     margin: 16px;
     fill: none;
-  // all: initial;
+  }
+  .icon {
+    stroke: none;
   }
   .text {
-  //all: unset;
   all: initial;
   visibility: inherit;
   font-size: 9pt;
-  //stroke: black;
   }
 };
 `
@@ -119,14 +107,14 @@ function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
   root.children.push(...es)
   if (config.structure === 'nest') {
     return {
-      styles: styles.toCss(),
+      styles: includeStyle ? '' : styles.toCss(),
       size: rootBox.totalSize,
       root,
     }
   } else if (config.structure === 'flat') {
     const elems = flatten(root.children)
     return {
-      styles: styles.toCss(),
+      styles: includeStyle ? '' : styles.toCss(),
       size: rootBox.totalSize,
       root: {
         elem: root.elem,

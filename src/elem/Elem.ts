@@ -165,15 +165,10 @@ export class Styled {
   }
 
   public shape(territoryMap: TerritoryMap, includeStyle: boolean): Group {
-    const classNames = [...this.classNames]
-    const shape = this.appearance.shape
-    if (shape) {
-      classNames.push(shape)
-    }
     const territory = territoryMap[this.id]
     const elem = createElem(
       this.id,
-      classNames.join(' '),
+      this.classNames.join(' '),
       territory,
       this.appearance,
       includeStyle ? this.svgAttrs : {},
