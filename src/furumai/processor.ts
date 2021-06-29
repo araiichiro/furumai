@@ -57,8 +57,8 @@ style {
   .node {
     width: 100px;
     height: 60px;
-    padding: 10px;
-    margin: 10px;
+    padding: 16px 8px;
+    margin: 16px;
     fill: none;
   // all: initial;
   }
@@ -66,6 +66,7 @@ style {
   //all: unset;
   all: initial;
   visibility: inherit;
+  font-size: 9pt;
   //stroke: black;
   }
 };

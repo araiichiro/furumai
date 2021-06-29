@@ -46,8 +46,8 @@ export class Arrow {
 
     const {dx, dy} = this.dxdy()
     return {
-      x: loc.cx.pixel + v.dx - u.dx + dx,
-      y: loc.cy.pixel + v.dy - u.dy + dy,
+      x: loc.cx.pixel + v.dx / 4 - u.dx / 4 + dx,
+      y: loc.cy.pixel + v.dy / 4 - u.dy / 4 + dy,
     }
   }
 
