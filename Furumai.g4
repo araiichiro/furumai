@@ -95,7 +95,7 @@ edge_selector
   ;
 
 declaration
-  : ID ( ':' | '=' ) val+
+  : ID DOT* ( ':' | '=' ) val+
   ;
 val
   : STRING

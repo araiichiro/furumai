@@ -13,6 +13,12 @@ export class Edge {
     if (cls) {
       classNames.push(...attrs.class.split(' '))
     }
+
+    const textAttrs: Partial<TextAttrs> = {
+      dx: attrs['text.dx'],
+      dy: attrs['text.dy'],
+    }
+
     return new Edge(
       from,
       to,
@@ -22,6 +28,7 @@ export class Edge {
         shape: op === '--' ? 'edge' : 'arrow',
         ...attrs,
       } as Partial<Appearance>,
+      textAttrs,
     )
   }
 
@@ -50,6 +57,7 @@ export class Edge {
     readonly id: string,
     readonly classNames: string[] = [],
     private appearance: Partial<Appearance>,
+    private textAttrs: Partial<TextAttrs>,
   ) {
   }
 
@@ -85,7 +93,7 @@ export class Edge {
       this.id,
       this.classNames,
       {...myStyles, ...this.appearance},
-      textAttrs,
+      {...textAttrs, ...this.textAttrs},
       svgAttrs
     )
   }

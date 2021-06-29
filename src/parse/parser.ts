@@ -265,7 +265,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
   public visitAttr_list(ctx: Attr_listContext): Declaration[] {
     return ctx.declaration().map((a) => {
       const vs = a.val().map((v) => this.visit(v))
-      return new Declaration(a.ID().text, vs.join(' '))
+      const key = a.ID().text + a.DOT().reduce((ret, dot) => ret + dot.text, "")
+      return new Declaration(key, vs.join(' '))
     })
   }
 
