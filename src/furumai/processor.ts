@@ -19,16 +19,18 @@ style {
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
+
     stroke: none;
-    padding: 10px;
+    padding: 16px;
     fill: none;
   }
   .group, .zone {
     align-items: flex-start;
     justify-content: space-around;
+
     fill: none;
-    padding: 10px;
-    margin: 20px;
+    padding: 18px;
+    margin: 24px;
     stroke: none;
   }
   .group {
@@ -51,11 +53,11 @@ style {
   }
   .icon {
     stroke: none;
+    fill: black;
   }
   .text {
-  //all: initial;
-  visibility: inherit;
-  font-size: 9pt;
+    visibility: inherit;
+    font-size: 9pt;
   }
 };
 `

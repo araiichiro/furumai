@@ -68,7 +68,7 @@ export class Edge {
     }
   }
 
-  public resolveStyle(styles: StyleList): Styled {
+  public resolveStyle(styles: StyleList): StyleResolved {
     const context = {
       id: this.id,
       classNames: this.classNames,
@@ -82,12 +82,19 @@ export class Edge {
       classNames: ['text'],
       parent: context,
     })
+
+    const className = this.attrs['class']
+    if (className) {
+      this.classNames.push(className)
+      delete this.attrs['class']
+    }
+
     const style = ElemStyle.of(
       labelAttrs,
       textAttrs,
       {...myAttrs, ...this.attrs},
     )
-    return Styled.of(
+    return StyleResolved.of(
       this.id,
       this.classNames,
       style,
@@ -106,7 +113,7 @@ export class Edge {
   }
 }
 
-class Styled {
+class StyleResolved {
   public static of(
     id: string,
     classNames: string[],
@@ -120,7 +127,7 @@ class Styled {
       dx: style.shapeAttrs.dx,
       dy: style.shapeAttrs.dy,
     }
-    return new Styled(
+    return new StyleResolved(
       id,
       classNames,
       deleteUndefined(arrowStyle),

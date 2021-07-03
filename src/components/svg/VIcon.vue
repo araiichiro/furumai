@@ -42,9 +42,15 @@ export default class VIcon extends Vue {
   }
 
   get svgAttrs(): Assigns {
-    return this.elem.secureAttrs.svgAttrs
+    const {x, y, width, height, ...rest} = this.elem.secureAttrs.svgAttrs
+    return {
+      x,
+      y,
+      width,
+      height,
+      style: Object.keys(rest).map((k) => `${k}:${rest[k]}`).join(';'),
+    }
   }
-
 }
 </script>
 

@@ -23,6 +23,10 @@ export class Elem {
     const classNames = attrs.class ?
       [...attrs.class.split(' '), className] :
       [className]
+    if (attrs.icon) {
+      classNames.push('icon')
+    }
+
     return new Elem(
       id,
       classNames,
@@ -97,11 +101,17 @@ export class Elem {
       classNames: ['text'],
       parent: context,
     })
-    const shapeAttrs = {...myStyles, ...this.attrs}
-    const elemStyle = ElemStyle.of(
+
+    const className = this.attrs['class']
+    if (className) {
+      this.classNames.push(className)
+      delete this.attrs['class']
+    }
+
+    const style = ElemStyle.of(
       labelAttrs,
       textAttrs,
-      shapeAttrs,
+      {...myStyles, ...this.attrs},
     )
 
     const children = this.children.reduce((ret, child) => {
@@ -112,7 +122,7 @@ export class Elem {
     return StyleResolved.of(
       this.id,
       this.classNames,
-      elemStyle,
+      style,
       children,
     )
   }

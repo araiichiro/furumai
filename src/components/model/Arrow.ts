@@ -6,6 +6,22 @@ import {m} from '@/style/Style'
 import {Shape} from '@/components/model/Svg'
 
 export class Arrow {
+  private defaults = {
+    arrow: {
+      head: {
+        size: 16,
+        degree: 27,
+      },
+    },
+  }
+
+  constructor(
+    readonly id: string,
+    readonly className: string,
+    readonly shape: Shape,
+    readonly textAttrs: Partial<TextAttrs>,
+  ) {
+  }
 
   get arrow(): SvgElem {
     return {
@@ -52,8 +68,8 @@ export class Arrow {
     }
 
     return {
-      x: loc.cx.pixel + v.dx / 4 - u.dx / 4 + parsed.dx.pixel,
-      y: loc.cy.pixel + v.dy / 4 - u.dy / 4 + parsed.dy.pixel,
+      x: loc.cx.pixel + v.dx / 2 - u.dx / 4 + parsed.dx.pixel,
+      y: loc.cy.pixel + v.dy / 2 - u.dy / 4 + parsed.dy.pixel,
     }
   }
 
@@ -62,22 +78,6 @@ export class Arrow {
     const start = territory.start
     const end = territory.end
     return {x1: start.x.pixel, y1: start.y.pixel, x2: end.x.pixel, y2: end.y.pixel}
-  }
-
-  private defaults = {
-    arrow: {
-      head: {
-        size: 16,
-        degree: 27,
-      },
-    },
-  }
-  constructor(
-    readonly id: string,
-    readonly className: string,
-    readonly shape: Shape,
-    readonly textAttrs: Partial<TextAttrs>,
-  ) {
   }
 
   private line(): string {
@@ -104,7 +104,6 @@ L ${x2} ${y2}
 M ${vb.x2} ${vb.y2}
 L ${x2} ${y2}`
   }
-
 }
 
 export interface TextAttrs {
