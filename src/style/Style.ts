@@ -167,7 +167,7 @@ export class CombinedSelector {
   ) {
   }
 
-  toCssSelector(): string {
+  public toCssSelector(): string {
     return this.selector.toCssSelector() + this.combinator.toCssCombinator()
   }
 }
@@ -177,13 +177,13 @@ export interface Combinator {
 }
 
 export class DescendantCombinator implements Combinator {
-  toCssCombinator(): string {
+  public toCssCombinator(): string {
     return ' '
   }
 }
 
-export class ChildCombinator implements Combinator{
-  toCssCombinator(): string {
+export class ChildCombinator implements Combinator {
+  public toCssCombinator(): string {
     return ' > '
   }
 }

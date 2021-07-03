@@ -107,18 +107,18 @@ export class Edge {
 }
 
 class Styled {
-  static of(
+  public static of(
     id: string,
     classNames: string[],
     style: ElemStyle,
   ) {
     const textAttrs: TextAttrs = {
-      dx: style.textAttrs['dx'] || style.shapeAttrs['text.dx'],
-      dy: style.textAttrs['dy'] || style.shapeAttrs['text.dy'],
+      dx: style.textAttrs.dx || style.shapeAttrs['text.dx'],
+      dy: style.textAttrs.dy || style.shapeAttrs['text.dy'],
     }
     const arrowStyle: Partial<ArrowStyle> = {
-      dx: style.shapeAttrs['dx'],
-      dy: style.shapeAttrs['dy'],
+      dx: style.shapeAttrs.dx,
+      dy: style.shapeAttrs.dy,
     }
     return new Styled(
       id,

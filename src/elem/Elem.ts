@@ -2,7 +2,7 @@ import {AreaAttrs, TerritoryMap} from '@/layout/types'
 import {Assigns, Context, deleteField, StyleList} from '@/style/Style'
 import {Appearance, createElem, Group, Shape, SvgStyle} from '@/components/model/Svg'
 import {Box, LayoutStyle} from '@/layout/Engine'
-import {SecureSvgAttrs} from "@/components/model/security";
+import {SecureSvgAttrs} from '@/components/model/security'
 
 export class Elem {
   get _attrs(): Assigns {
@@ -119,7 +119,7 @@ export class Elem {
 }
 
 class StyleResolved {
-  static of(
+  public static of(
     id: string,
     classNames: string[],
     style: ElemStyle,
@@ -185,9 +185,9 @@ class ContextMap {
 }
 
 export class ElemStyle {
-  static empty: ElemStyle = ElemStyle.of({},{},{})
+  public static empty: ElemStyle = ElemStyle.of({}, {}, {})
 
-  static of(
+  public static of(
      labelAttrs: Assigns,
      textAttrs: Assigns,
      elemAttrs: Assigns,
@@ -197,21 +197,6 @@ export class ElemStyle {
       textAttrs,
       elemAttrs,
     )
-  }
-
-  constructor(
-    readonly labelAttrs: Assigns,
-    readonly textAttrs: Assigns,
-    readonly shapeAttrs: Assigns,
-  ) {
-  }
-
-  toSvgStyle(): SvgStyle {
-    return {
-      labelAttrs: ElemStyle.toSecure(this.shapeAttrs),
-      textAttrs: ElemStyle.toSecure(this.textAttrs),
-      shapeAttrs: ElemStyle.toSecure(this.labelAttrs),
-    }
   }
 
   private static toSecure(attrs: Assigns): SecureSvgAttrs {
@@ -228,6 +213,21 @@ export class ElemStyle {
       't',
     ]
     return SecureSvgAttrs.of(deleteField(attrs, noSvgAttrs))
+  }
+
+  constructor(
+    readonly labelAttrs: Assigns,
+    readonly textAttrs: Assigns,
+    readonly shapeAttrs: Assigns,
+  ) {
+  }
+
+  public toSvgStyle(): SvgStyle {
+    return {
+      labelAttrs: ElemStyle.toSecure(this.shapeAttrs),
+      textAttrs: ElemStyle.toSecure(this.textAttrs),
+      shapeAttrs: ElemStyle.toSecure(this.labelAttrs),
+    }
   }
 
 }

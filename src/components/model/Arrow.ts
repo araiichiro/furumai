@@ -2,17 +2,10 @@ import {Vector2d} from '@/layout/Vector2d'
 import {SvgElem} from '@/components/model/SvgElem'
 import {Length, Point} from '@/layout/types'
 import {TextElem} from '@/components/model/TextElem'
-import {m} from "@/style/Style";
-import {Shape} from "@/components/model/Svg";
+import {m} from '@/style/Style'
+import {Shape} from '@/components/model/Svg'
 
 export class Arrow {
-  constructor(
-    readonly id: string,
-    readonly className: string,
-    readonly shape: Shape,
-    readonly textAttrs: Partial<TextAttrs>,
-  ) {
-  }
 
   get arrow(): SvgElem {
     return {
@@ -53,7 +46,7 @@ export class Arrow {
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
     const loc = this.shape.territory
 
-    const parsed=    {
+    const parsed =    {
       dx: m(Length.parse, this.textAttrs.dx) || Length.zero,
       dy: m(Length.parse, this.textAttrs.dy) || Length.zero,
     }
@@ -78,6 +71,13 @@ export class Arrow {
         degree: 27,
       },
     },
+  }
+  constructor(
+    readonly id: string,
+    readonly className: string,
+    readonly shape: Shape,
+    readonly textAttrs: Partial<TextAttrs>,
+  ) {
   }
 
   private line(): string {

@@ -1,5 +1,5 @@
 import {SvgElem} from '@/components/model/SvgElem'
-import {Shape} from "@/components/model/Svg";
+import {Shape} from '@/components/model/Svg'
 
 export class Cylinder {
     constructor(

@@ -19,7 +19,7 @@ export class Story {
   ) {
   }
 
-  withDefault(config: Config, styles: StyleList): Story {
+  public withDefault(config: Config, styles: StyleList): Story {
     return new Story(
       {
         ...config,
@@ -66,7 +66,7 @@ export class Layout {
     update.hides.forEach((hide) => {
       const {id, edge} = hide
       if (id) {
-        const target = this.root.find(id) || this.edges.find((edge) => edge.id === id)
+        const target = this.root.find(id) || this.edges.find((ed) => ed.id === id)
         if (target) {
           target.hide()
         } else {

@@ -56,12 +56,12 @@ export default class GroupComponent extends Vue {
       return {
         visibility: this.g.elem.visibility,
         id: this.g.elem.id,
-        'class': this.g.elem.className,
+        class: this.g.elem.className,
       }
     } else {
       return {
         id: this.g.elem.id,
-        'class': this.g.elem.className,
+        class: this.g.elem.className,
       }
     }
   }

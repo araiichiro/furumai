@@ -1,13 +1,13 @@
 import {Length, Point} from '@/layout/types'
 import {TextElem} from '@/components/model/TextElem'
 import {SvgElem} from '@/components/model/SvgElem'
-import {Shape} from "@/components/model/Svg";
+import {Shape} from '@/components/model/Svg'
 
 export class Person {
     constructor(
         readonly id: string,
         readonly className: string,
-        readonly shape: Shape
+        readonly shape: Shape,
     ) {
   }
 

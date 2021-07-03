@@ -3,7 +3,7 @@ import {Config, Layout, Story} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
 import {Group, Svg} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
-import {SvgElem} from "@/components/model/SvgElem";
+import {SvgElem} from '@/components/model/SvgElem'
 
 export const defaultString = `config {
   mode: diff;
@@ -72,8 +72,7 @@ export function toModels(furumaiCode: string): Svg[] {
       layout = layout.update(update)
       ret.push(createSvg(engine, layout, config))
     } else {
-      const story = parseStory(furumaiCode)
-      layout =story.layout.update(update)
+      layout = parseStory(furumaiCode).layout.update(update)
       ret.push(createSvg(engine, layout, config))
     }
   }
@@ -118,7 +117,7 @@ function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
       size: rootBox.totalSize,
       root: {
         elem: root.elem,
-        children: elems.map((elem) => new SingleGroup(elem))
+        children: elems.map((elem) => new SingleGroup(elem)),
       },
     }
   } else {
@@ -137,9 +136,9 @@ function flatten(gs: Group[]): SvgElem[] {
 }
 
 export class SingleGroup implements Group {
-  children: Group[] = []
+  public children: Group[] = []
   constructor(
-    readonly elem: SvgElem
+    readonly elem: SvgElem,
   ) {
   }
 }

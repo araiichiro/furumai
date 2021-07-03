@@ -8,7 +8,7 @@ import {TextElem} from '@/components/model/TextElem'
 import {SvgElem} from '@/components/model/SvgElem'
 import {Person} from '@/components/model/Person'
 import {Pipe} from '@/components/model/Pipe'
-import {asString} from "@/style/Style";
+import {asString} from '@/style/Style'
 
 export interface Svg {
   styles: string
@@ -28,7 +28,7 @@ export class Shape {
     readonly style: SvgStyle,
   ) {
   }
-  label(defaultLabel: string): TextElem | undefined {
+  public label(defaultLabel: string): TextElem | undefined {
     const appearance = this.appearance
     const territory = this.territory
     const attrs = this.style.labelAttrs
@@ -41,7 +41,7 @@ export class Shape {
     }
   }
 
-  get text(): TextElem | undefined{
+  get text(): TextElem | undefined {
     const territory = this.territory
     const {padding} = territory.area
     const textPosition = territory.start.move(padding.left, padding.top)
@@ -66,12 +66,12 @@ export class Shape {
     return SecureSvgAttrs.of(asString(attrs))
   }
 
-  elem(id: string, className: string): SvgElem {
+  public elem(id: string, className: string): SvgElem {
     return {
-      className: className,
+      className,
       d: undefined,
       icon: this.appearance.icon,
-      id: id,
+      id,
       label: this.label(id),
       secureAttrs: this.attrs,
       text: this.text,
