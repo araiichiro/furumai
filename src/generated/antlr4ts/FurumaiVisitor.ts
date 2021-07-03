@@ -31,6 +31,7 @@ import { Id_selectorContext } from "./FurumaiParser";
 import { Edge_selectorContext } from "./FurumaiParser";
 import { DeclarationContext } from "./FurumaiParser";
 import { ValContext } from "./FurumaiParser";
+import { Semi_colonContext } from "./FurumaiParser";
 
 
 /**
@@ -236,5 +237,12 @@ export interface FurumaiVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitVal?: (ctx: ValContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `FurumaiParser.semi_colon`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitSemi_colon?: (ctx: Semi_colonContext) => Result;
 }
 

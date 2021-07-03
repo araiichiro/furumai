@@ -23,7 +23,7 @@ import {
   LayoutContext,
   Node_stmtContext,
   Selector_listContext,
-  SelectorContext,
+  SelectorContext, Semi_colonContext,
   Stmt_listContext,
   StmtContext,
   StoryContext,
@@ -164,6 +164,8 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
         assigns.push(a)
       } else if (a instanceof Style) {
         styles.push(a)
+      } else if (a instanceof SemiColon) {
+        // pass
       } else {
         elems.push(a)
       }
@@ -187,6 +189,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       || ctx.hide()
       || ctx.declaration()
       || ctx.style()
+      || ctx.semi_colon()
     if (stmt) {
       return this.visit(stmt)
     } else {
@@ -350,6 +353,10 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
     return new Declaration(ctx.ID().text, vs.join(' '))
   }
 
+  public visitSemi_colon(ctx: Semi_colonContext): SemiColon {
+    return new SemiColon()
+  }
+
   public visit(tree: ParseTree): any {
     return tree.accept(this)
   }
@@ -406,4 +413,7 @@ class Style {
     readonly rules: Ruleset[],
   ) {
   }
+}
+
+class SemiColon {
 }

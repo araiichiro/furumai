@@ -1,7 +1,7 @@
 grammar Furumai;
 
 story
-  : config? ';'? layout ( '---' update )* '---'? EOF
+  : config? layout ( '---' update )* '---'? EOF
   ;
 config
   : 'config' '{' declaration? ( ';' declaration )* ';'? '}'
@@ -14,7 +14,7 @@ update
   ;
 
 stmt_list
-  : stmt ( ';' stmt )* ';'?
+  : stmt*
   ;
 stmt
   : group
@@ -24,6 +24,7 @@ stmt
   | hide
   | declaration
   | style
+  | semi_colon
   ;
 
 group
@@ -33,23 +34,26 @@ zone
   : 'zone' ID '{' stmt_list '}'
   ;
 node_stmt
-  : ID attr_list?
+  : ID ';'
+  | ID attr_list
   ;
 edge_stmt
-  : ID EDGEOP ID attr_list?
+  : ID EDGEOP ID ';'
+  | ID EDGEOP ID attr_list
   ;
 attr_list
   : '[' declaration ( ( ',' | ';' )?  declaration )* ( ',' | ';' )? ']'
+  | '[' ']'
   ;
 hide
   : hide_elem
   | hide_edge
   ;
 hide_elem
-  : 'hide' ID
+  : 'hide' ID ';'
   ;
 hide_edge
-  : 'hide' ID EDGEOP ID
+  : 'hide' ID EDGEOP ID ';'
   ;
 
 style
@@ -101,6 +105,10 @@ val
   : STRING
   | ID
   | HASH
+  ;
+
+semi_colon
+  : ';'
   ;
 
 ID
