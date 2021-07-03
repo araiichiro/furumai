@@ -9,16 +9,12 @@
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import 'vue-awesome/icons'
-import TextContent from '@/components/svg/TextContent.vue'
-import LabelComponent from '@/components/svg/LabelComponent.vue'
 import Icon from 'vue-awesome/components/Icon.vue'
 import {SvgElem} from '@/components/model/SvgElem'
 import {Assigns} from '@/style/Style'
 
 @Component({
   components: {
-    LabelComponent,
-    TextContent,
     'v-icon': Icon,
   },
 })
