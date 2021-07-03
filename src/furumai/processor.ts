@@ -55,7 +55,7 @@ style {
     stroke: none;
     fill: black;
   }
-  .text {
+  .text, .label {
     visibility: inherit;
     font-size: 9pt;
   }

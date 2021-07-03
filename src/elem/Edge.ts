@@ -89,6 +89,14 @@ export class Edge {
       delete this.attrs.class
     }
 
+    Object.keys(this.attrs).forEach((key) => {
+      const prefix = 'text.'
+      if (key.startsWith(prefix)) {
+        textAttrs[key.substring(prefix.length)] = this.attrs[key]
+        delete this.attrs[key]
+      }
+    })
+
     const style = ElemStyle.of(
       labelAttrs,
       textAttrs,
@@ -119,18 +127,16 @@ class StyleResolved {
     classNames: string[],
     style: ElemStyle,
   ) {
+    const shapeAttrs = style.shapeAttrs
     const textAttrs: TextAttrs = {
-      dx: style.textAttrs.dx || style.shapeAttrs['text.dx'],
-      dy: style.textAttrs.dy || style.shapeAttrs['text.dy'],
+      dx: style.textAttrs.dx || shapeAttrs['text.dx'],
+      dy: style.textAttrs.dy || shapeAttrs['text.dy'],
     }
-    const arrowStyle: Partial<ArrowStyle> = {
-      dx: style.shapeAttrs.dx,
-      dy: style.shapeAttrs.dy,
-    }
+    const {dx, dy} = shapeAttrs
     return new StyleResolved(
       id,
       classNames,
-      deleteUndefined(arrowStyle),
+      deleteUndefined({dx, dy} as Partial<ArrowStyle>),
       style.shapeAttrs as Partial<Appearance>,
       style.toSvgStyle(),
       deleteUndefined(textAttrs),

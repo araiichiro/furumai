@@ -108,6 +108,15 @@ export class Elem {
       delete this.attrs.class
     }
 
+    Object.keys(this.attrs).forEach((key) => {
+      const prefix = 'text.'
+      if (key.startsWith(prefix)) {
+        const k = key.substring(prefix.length)
+        textAttrs[k] = this.attrs[k]
+        delete this.attrs[key]
+      }
+    })
+
     const style = ElemStyle.of(
       labelAttrs,
       textAttrs,
@@ -200,12 +209,12 @@ export class ElemStyle {
   public static of(
      labelAttrs: Assigns,
      textAttrs: Assigns,
-     elemAttrs: Assigns,
+     shapeAttrs: Assigns,
   ): ElemStyle {
     return new ElemStyle(
       labelAttrs,
       textAttrs,
-      elemAttrs,
+      shapeAttrs,
     )
   }
 
