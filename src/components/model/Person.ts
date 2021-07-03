@@ -1,46 +1,50 @@
-import {Length, Point, Territory} from '@/layout/types'
+import {Length, Point} from '@/layout/types'
 import {TextElem} from '@/components/model/TextElem'
 import {SvgElem} from '@/components/model/SvgElem'
+import {Shape} from "@/components/model/Svg";
 
 export class Person {
-  constructor(
-    readonly base: SvgElem,
-    readonly territory: Territory,
-  ) {
+    constructor(
+        readonly id: string,
+        readonly className: string,
+        readonly shape: Shape
+    ) {
   }
 
   get elem(): SvgElem {
     return {
-      ...this.base,
-      text: this.text,
+      ...this.shape.elem(this.id, this.className),
       d: this.d,
+      icon: undefined,
     }
   }
 
   get text(): TextElem | undefined {
-    if (this.base.text) {
-      this.base.text.base = this.textPosition
-      return this.base.text
+    const text = this.shape.text
+    if (text) {
+      text.base = this.textPosition
+      return text
     }
     return undefined
   }
 
   get textPosition(): Point {
-    const {padding} = this.territory.area
+    const territory = this.shape.territory
+    const {padding} = territory.area
     const dx = padding.left
     const dy = padding.top.sub(Length.pixel(28)) // FIXME
-    return this.territory.start.move(dx, dy)
+    return territory.start.move(dx, dy)
   }
 
   get d(): string {
-    const box = this.territory
+    const box = this.shape.territory
     const {x, y} = box.start
     const {width, height} = box.area
     return this.person(x.pixel + width.pixel / 4, y.pixel, width.pixel / 2, height.pixel)
   }
 
   private person(x: number, y: number, width: number, height: number): string {
-    const cx = this.territory.cx.pixel
+    const cx = this.shape.territory.cx.pixel
     const xx = x + width
     const yy = y + height
     const cr = height / 5

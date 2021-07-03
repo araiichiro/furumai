@@ -1,5 +1,4 @@
 import {Edge} from '@/elem/Edge'
-import {BasicSelector, ClassSelector, IdSelector, Ruleset, Selector, Styles} from '@/style/Style'
 
 export class Hide {
   public static elem(id: string): Hide {

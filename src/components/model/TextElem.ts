@@ -1,10 +1,12 @@
 import {Point} from '@/layout/types'
+import {SecureSvgAttrs} from "@/components/model/security";
 
 export class TextElem {
   constructor(
     readonly content: string,
     private centered: boolean,
     public base: Point,
+    readonly svgAttrs: SecureSvgAttrs,
     readonly dy: number = 0.5,
   ) {
   }

@@ -1,22 +1,24 @@
 import {SvgElem} from '@/components/model/SvgElem'
-import {Territory} from '@/layout/types'
+import {Shape} from "@/components/model/Svg";
 
 export class Cylinder {
-  constructor(
-    readonly base: SvgElem,
-    readonly territory: Territory,
-  ) {
+    constructor(
+        readonly id: string,
+        readonly className: string,
+        readonly shape: Shape,
+    ) {
   }
 
   get elem(): SvgElem {
     return {
-      ...this.base,
+      ...this.shape.elem(this.id, this.className),
       d: this.d,
+      icon: undefined,
     }
   }
 
   get d(): string {
-    const box = this.territory
+    const box = this.shape.territory
     const cx = box.cx.pixel
     const cy = box.cy.pixel
     const {width, height} = box.area.asPixel()

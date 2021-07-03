@@ -1,7 +1,7 @@
 import {parse} from '@/parse/parser'
 import {Config, Layout, Story} from '@/furumai/Story'
 import {Engine as LayoutEngine} from '@/layout/Engine'
-import {Group, SingleGroup, Svg} from '@/components/model/Svg'
+import {Group, Svg} from '@/components/model/Svg'
 import {Point} from '@/layout/types'
 import {SvgElem} from "@/components/model/SvgElem";
 
@@ -87,18 +87,18 @@ function parseStory(furumaiCode: string): Story {
 
 function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
   const styles = layout.styles
-  const styled = layout.root.styled(styles, layout.root.contextMap)
+  const styled = layout.root.resolveStyle(styles, layout.root.contextMap)
   const rootBox = styled.layoutBox()
   const size = rootBox.fit(engine, Point.zero)
   rootBox.refit(engine, Point.zero, size.totalSize)
   const territories = rootBox.flatten(Point.zero)
-  const includeStyle = !config.styleTag
+  const includeStyle = !config.css
   const root = styled.shape(territories, includeStyle)
 
   const es = layout.edges.map((edge) => {
     const f = territories[edge.from]
     const t = territories[edge.to]
-    const elem = edge.resolveStyle(styles).shape(f, t, includeStyle)
+    const elem = edge.resolveStyle(styles).arrow(f, t, includeStyle)
     return {
       elem,
       children: [],
@@ -134,4 +134,12 @@ function flatten(gs: Group[]): SvgElem[] {
     }
     return ret
   }, [] as SvgElem[])
+}
+
+export class SingleGroup implements Group {
+  children: Group[] = []
+  constructor(
+    readonly elem: SvgElem
+  ) {
+  }
 }

@@ -1,10 +1,10 @@
-import {Assigns, Styles} from '@/style/Style'
+import {Assigns, deleteUndefined, StyleList} from '@/style/Style'
 import {Length, Territory} from '@/layout/types'
 import {Arrow} from '@/layout/Arrow'
-import {createElem} from '@/components/model/Svg'
+import {Appearance, createArrow, Shape, SvgStyle} from '@/components/model/Svg'
+import {TextAttrs} from '@/components/model/Arrow'
 import {SvgElem as SvgElem} from '@/components/model/SvgElem'
-import {Elem} from '@/elem/Elem'
-import {TextAttrs} from "@/components/model/Arrow";
+import {Elem, ElemStyle} from '@/elem/Elem'
 
 export class Edge {
   public static of(from: string, op: string, to: string, attrs: Assigns = {}): Edge {
@@ -14,21 +14,12 @@ export class Edge {
       classNames.push(...attrs.class.split(' '))
     }
 
-    const textAttrs: Partial<TextAttrs> = {
-      dx: attrs['text.dx'],
-      dy: attrs['text.dy'],
-    }
-
     return new Edge(
       from,
+      op,
       to,
       attrs.id || this.idName(from, op, to),
       classNames,
-      {
-        shape: op === '--' ? 'edge' : 'arrow',
-        ...attrs,
-      } as Partial<Appearance>,
-      textAttrs,
       attrs,
     )
   }
@@ -54,105 +45,118 @@ export class Edge {
 
   private constructor(
     readonly from: string,
+    readonly op: string,
     readonly to: string,
     readonly id: string,
     readonly classNames: string[] = [],
-    private appearance: Partial<Appearance>,
-    private textAttrs: Partial<TextAttrs>,
-    private svgAttrs: Assigns,
+    private attrs: Assigns,
   ) {
   }
 
   public visible() {
-    this.appearance.visibility = 'visible'
+    this.attrs.visibility = 'visible'
   }
 
   public hide() {
-    this.appearance.visibility = 'hidden'
+    this.attrs.visibility = 'hidden'
   }
 
   public update(elem: Elem) {
-    this.appearance = {
-      ...this.appearance,
-      ...elem._appearance,
-    }
-    this.svgAttrs = {
-      ...this.svgAttrs,
-      ...elem._svgAttrs,
+    this.attrs = {
+      ...this.attrs,
+      ...elem._attrs,
     }
   }
 
-  public resolveStyle(styles: Styles): Styled {
+  public resolveStyle(styles: StyleList): Styled {
     const context = {
       id: this.id,
       classNames: this.classNames,
     }
-    const myStyles = styles.query(context)
+    const myAttrs = styles.query(context)
+    const labelAttrs = styles.query({
+      classNames: ['label'],
+      parent: context,
+    })
     const textAttrs = styles.query({
       classNames: ['text'],
       parent: context,
     })
-    const svgAttrs = {...myStyles}
-    Elem.noSvgAttrs.forEach((attr) => delete svgAttrs[attr])
-
-    return new Styled(
+    const style = ElemStyle.of(
+      labelAttrs,
+      textAttrs,
+      {...myAttrs, ...this.attrs},
+    )
+    return Styled.of(
       this.id,
       this.classNames,
-      {...myStyles, ...this.appearance},
-      {...textAttrs, ...this.textAttrs},
-      svgAttrs
+      style,
     )
   }
 
   public same(other: Edge): boolean {
-    return this.from === other.from && this.appearance.shape === other.appearance.shape && this.to === other.to
+    return this.from === other.from && this.op === other.op && this.to === other.to
   }
 
   public updateEdge(other: Edge) {
-    this.appearance = {
-      ...this.appearance,
-      ...other.appearance,
-    }
-    this.svgAttrs = {
-      ...this.svgAttrs,
-      ...other.svgAttrs,
+    this.attrs = {
+      ...this.attrs,
+      ...other.attrs,
     }
   }
-}
-
-interface Appearance {
-  visibility: string
-  label: string
-  shape: string
-  text: string
-  t: string
-  dx: string
-  dy: string
 }
 
 class Styled {
+  static of(
+    id: string,
+    classNames: string[],
+    style: ElemStyle,
+  ) {
+    const textAttrs: TextAttrs = {
+      dx: style.textAttrs['dx'] || style.shapeAttrs['text.dx'],
+      dy: style.textAttrs['dy'] || style.shapeAttrs['text.dy'],
+    }
+    const arrowStyle: Partial<ArrowStyle> = {
+      dx: style.shapeAttrs['dx'],
+      dy: style.shapeAttrs['dy'],
+    }
+    return new Styled(
+      id,
+      classNames,
+      deleteUndefined(arrowStyle),
+      style.shapeAttrs as Partial<Appearance>,
+      style.toSvgStyle(),
+      deleteUndefined(textAttrs),
+    )
+  }
+
   constructor(
     readonly id: string,
     readonly classNames: string[],
+    readonly arrowStyle: Partial<ArrowStyle>,
     readonly appearance: Partial<Appearance>,
+    readonly svgStyle: SvgStyle,
     readonly textAttrs: Partial<TextAttrs>,
-    readonly svgAttrs: Assigns,
   ) {
   }
-
-  public shape(tail: Territory, head: Territory, includeStyle: boolean): SvgElem {
-    const {dx, dy} = this.appearance
+  public arrow(tail: Territory, head: Territory, includeStyle: boolean): SvgElem {
+    const {dx, dy} = this.arrowStyle
     const territory = Arrow.fit(tail, head, Length.parse(dx || '0px').pixel, Length.parse(dy || '0px').pixel)
-    return createElem(
-      this.id,
-      this.classNames.join(' '),
+    const shape = new Shape(
       territory,
       this.appearance,
-      includeStyle ? this.svgAttrs : {},
-      {
-        text: this.textAttrs,
-        hasChildren: false
-      }
+      includeStyle ? this.svgStyle : ElemStyle.empty.toSvgStyle(),
+    )
+    return createArrow(
+      this.id,
+      this.classNames.join(' '),
+      shape,
+      this.textAttrs,
     )
   }
+}
+
+interface ArrowStyle {
+  dx: string
+  dy: string
 }

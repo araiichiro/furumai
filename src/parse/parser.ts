@@ -51,7 +51,7 @@ import {
   IdSelector,
   Ruleset,
   Selector,
-  Styles,
+  StyleList,
   UnivSelector,
 } from '@/style/Style'
 
@@ -394,12 +394,12 @@ class Declaration {
 }
 
 class Style {
-  public static flatten(styles: Style[]): Styles {
+  public static flatten(styles: Style[]): StyleList {
     const rules = styles.reduce((ruleset, style) => {
       ruleset.push(...style.rules)
       return ruleset
     }, [] as Ruleset[])
-    return Styles.of(rules)
+    return StyleList.of(rules)
   }
 
   constructor(

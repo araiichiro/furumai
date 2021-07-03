@@ -1,4 +1,4 @@
-import {Styles} from '@/style/Style'
+import {StyleList} from '@/style/Style'
 import {Elem} from '@/elem/Elem'
 import {Edge} from '@/elem/Edge'
 import {Orientation} from '@/layout/Engine'
@@ -8,7 +8,7 @@ export interface Config {
   mode: 'snapshot' | 'diff'
   orientation: Orientation
   structure: 'flat' | 'nest'
-  styleTag: 'enabled' | undefined
+  css: 'style-tag' | undefined
 }
 
 export class Story {
@@ -19,7 +19,7 @@ export class Story {
   ) {
   }
 
-  withDefault(config: Config, styles: Styles): Story {
+  withDefault(config: Config, styles: StyleList): Story {
     return new Story(
       {
         ...config,
@@ -39,7 +39,7 @@ export class Layout {
   constructor(
     readonly root: Elem,
     readonly edges: Edge[],
-    readonly styles: Styles,
+    readonly styles: StyleList,
   ) {
   }
 
@@ -93,7 +93,7 @@ export class Update {
     readonly elems: Elem[],
     readonly edges: Edge[],
     readonly hides: Hide[],
-    readonly styles: Styles,
+    readonly styles: StyleList,
   ) {
   }
 }

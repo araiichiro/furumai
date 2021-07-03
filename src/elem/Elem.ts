@@ -1,28 +1,12 @@
 import {AreaAttrs, TerritoryMap} from '@/layout/types'
-import {Assigns, Context, ContextMap, Styles} from '@/style/Style'
-import {Appearance, createElem, Group} from '@/components/model/Svg'
+import {Assigns, Context, deleteField, StyleList} from '@/style/Style'
+import {Appearance, createElem, Group, Shape, SvgStyle} from '@/components/model/Svg'
 import {Box, LayoutStyle} from '@/layout/Engine'
+import {SecureSvgAttrs} from "@/components/model/security";
 
 export class Elem {
-  static noSvgAttrs = [
-    'flex-direction',
-    'align-items',
-    'justify-content',
-    'padding',
-    'margin',
-    'shape',
-    'icon',
-    'label',
-    'text',
-    't',
-  ]
-
-  get _appearance(): Partial<Appearance> {
-    return this.appearance
-  }
-
-  get _svgAttrs(): Assigns {
-    return this.svgAttrs
+  get _attrs(): Assigns {
+    return this.attrs
   }
 
   get contextMap(): ContextMap {
@@ -43,8 +27,8 @@ export class Elem {
       id,
       classNames,
       children,
-      attrs as Partial<Appearance>,
-      attrs as Partial<Layout>,
+      // style as Partial<Appearance>,
+      // style as Partial<Layout>,
       attrs,
     )
   }
@@ -67,9 +51,9 @@ export class Elem {
     readonly id: string,
     readonly classNames: string[],
     readonly children: Elem[],
-    private appearance: Partial<Appearance>,
-    private layout: Partial<Layout>,
-    private svgAttrs: Assigns,
+    // private appearance: Partial<Appearance>,
+    // private layout: Partial<Layout>,
+    private attrs: Assigns,
   ) {
   }
 
@@ -83,23 +67,15 @@ export class Elem {
   }
 
   public update(other: Elem) {
-    this.appearance = {
-      ...this.appearance,
-      ...other.appearance,
-    }
-    this.layout = {
-      ...this.layout,
-      ...other.layout,
-    }
-    this.svgAttrs = {
-      ...this.svgAttrs,
-      ...other.svgAttrs,
+    this.attrs = {
+      ...this.attrs,
+      ...other.attrs,
     }
     return this
   }
 
   public setVisibility(visibility: string) {
-    this.appearance.visibility = visibility
+    this.attrs.visibility = visibility
   }
 
   public visible() {
@@ -110,48 +86,64 @@ export class Elem {
     this.setVisibility('hidden')
   }
 
-  public styled(styles: Styles, contextMap: ContextMap): Styled {
-    const myStyles = styles.query(contextMap.map[this.id])
-    const appearance: Partial<Appearance> = {
-      ...myStyles,
-      ...this.appearance,
-    }
-    const layoutStyle: Partial<LayoutStyle> = {
-      ...myStyles,
-    }
-    const area: Partial<AreaAttrs> = {
-      ...myStyles,
-      ...this.layout,
-    }
+  public resolveStyle(styles: StyleList, contextMap: ContextMap): StyleResolved {
+    const context = contextMap.map[this.id]
+    const myStyles = styles.query(context)
+    const labelAttrs = styles.query({
+      classNames: ['label'],
+      parent: context,
+    })
+    const textAttrs = styles.query({
+      classNames: ['text'],
+      parent: context,
+    })
+    const shapeAttrs = {...myStyles, ...this.attrs}
+    const elemStyle = ElemStyle.of(
+      labelAttrs,
+      textAttrs,
+      shapeAttrs,
+    )
+
     const children = this.children.reduce((ret, child) => {
-      ret.push(child.styled(styles, contextMap))
+      ret.push(child.resolveStyle(styles, contextMap))
       return ret
-    }, [] as Styled[])
+    }, [] as StyleResolved[])
 
-    const svgAttrs = {...myStyles, ...this.svgAttrs}
-    Elem.noSvgAttrs.forEach((attr) => delete svgAttrs[attr])
-
-    return new Styled(
+    return StyleResolved.of(
       this.id,
       this.classNames,
-      appearance,
-      layoutStyle,
-      area,
-      svgAttrs,
+      elemStyle,
       children,
     )
   }
 }
 
-export class Styled {
+class StyleResolved {
+  static of(
+    id: string,
+    classNames: string[],
+    style: ElemStyle,
+    children: StyleResolved[],
+  ) {
+    return new StyleResolved(
+      id,
+      classNames,
+      style.shapeAttrs as Partial<Appearance>,
+      style.shapeAttrs as Partial<LayoutStyle>,
+      style.shapeAttrs as Partial<AreaAttrs>,
+      style.toSvgStyle(),
+      children,
+    )
+  }
+
   constructor(
     readonly id: string,
     readonly classNames: string[],
     readonly appearance: Partial<Appearance>,
     readonly layoutStyle: Partial<LayoutStyle>,
     readonly area: Partial<AreaAttrs>,
-    readonly svgAttrs: Assigns,
-    readonly children: Styled[],
+    readonly svgStyle: SvgStyle,
+    readonly children: StyleResolved[],
   ) {
   }
 
@@ -165,16 +157,15 @@ export class Styled {
   }
 
   public shape(territoryMap: TerritoryMap, includeStyle: boolean): Group {
-    const territory = territoryMap[this.id]
+    const shape = new Shape(
+      territoryMap[this.id],
+      this.appearance,
+      includeStyle ? this.svgStyle : ElemStyle.empty.toSvgStyle(),
+    )
     const elem = createElem(
       this.id,
       this.classNames.join(' '),
-      territory,
-      this.appearance,
-      includeStyle ? this.svgAttrs : {},
-      {
-        hasChildren: this.children.length > 0,
-      },
+      shape,
     )
     const children = this.children.map((child) => child.shape(territoryMap, includeStyle))
     return {
@@ -184,7 +175,59 @@ export class Styled {
   }
 }
 
-interface Layout {
-  width: string
-  height: string
+class ContextMap {
+  constructor(readonly map: {[key: string]: Context}) {
+  }
+
+  public add(context: Context) {
+    this.map[context.id] = context
+  }
+}
+
+export class ElemStyle {
+  static empty: ElemStyle = ElemStyle.of({},{},{})
+
+  static of(
+     labelAttrs: Assigns,
+     textAttrs: Assigns,
+     elemAttrs: Assigns,
+  ): ElemStyle {
+    return new ElemStyle(
+      labelAttrs,
+      textAttrs,
+      elemAttrs,
+    )
+  }
+
+  constructor(
+    readonly labelAttrs: Assigns,
+    readonly textAttrs: Assigns,
+    readonly shapeAttrs: Assigns,
+  ) {
+  }
+
+  toSvgStyle(): SvgStyle {
+    return {
+      labelAttrs: ElemStyle.toSecure(this.shapeAttrs),
+      textAttrs: ElemStyle.toSecure(this.textAttrs),
+      shapeAttrs: ElemStyle.toSecure(this.labelAttrs),
+    }
+  }
+
+  private static toSecure(attrs: Assigns): SecureSvgAttrs {
+    const noSvgAttrs = [
+      'flex-direction',
+      'align-items',
+      'justify-content',
+      'padding',
+      'margin',
+      'shape',
+      'icon',
+      'label',
+      'text',
+      't',
+    ]
+    return SecureSvgAttrs.of(deleteField(attrs, noSvgAttrs))
+  }
+
 }

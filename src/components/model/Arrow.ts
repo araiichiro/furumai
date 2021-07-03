@@ -1,14 +1,22 @@
 import {Vector2d} from '@/layout/Vector2d'
 import {SvgElem} from '@/components/model/SvgElem'
-import {Length, Point, Territory} from '@/layout/types'
+import {Length, Point} from '@/layout/types'
 import {TextElem} from '@/components/model/TextElem'
 import {m} from "@/style/Style";
+import {Shape} from "@/components/model/Svg";
 
 export class Arrow {
+  constructor(
+    readonly id: string,
+    readonly className: string,
+    readonly shape: Shape,
+    readonly textAttrs: Partial<TextAttrs>,
+  ) {
+  }
 
   get arrow(): SvgElem {
     return {
-      ...this.base,
+      ...this.shape.elem(this.id, this.className),
       d: this.arrowPath(),
       text: this.text,
     }
@@ -16,18 +24,19 @@ export class Arrow {
 
   get edge(): SvgElem {
     return {
-      ...this.base,
+      ...this.shape.elem(this.id, this.className),
       d: this.line(),
       text: this.text,
     }
   }
 
   get text(): TextElem | undefined {
-    if (this.base.text) {
+    const text = this.shape.text
+    if (text) {
       const {x, y} = this.textPosition
-      this.base.text.base = new Point(Length.pixel(x), Length.pixel(y))
-      this.base.text.centering(true)
-      return this.base.text
+      text.base = new Point(Length.pixel(x), Length.pixel(y))
+      text.centering(true)
+      return text
     }
     return undefined
   }
@@ -42,18 +51,23 @@ export class Arrow {
 
     const cos = vec.dx / vec.length
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
-    const loc = this.territory
+    const loc = this.shape.territory
 
-    const {dx, dy} = this.dxdy()
+    const parsed=    {
+      dx: m(Length.parse, this.textAttrs.dx) || Length.zero,
+      dy: m(Length.parse, this.textAttrs.dy) || Length.zero,
+    }
+
     return {
-      x: loc.cx.pixel + v.dx / 4 - u.dx / 4 + dx,
-      y: loc.cy.pixel + v.dy / 4 - u.dy / 4 + dy,
+      x: loc.cx.pixel + v.dx / 4 - u.dx / 4 + parsed.dx.pixel,
+      y: loc.cy.pixel + v.dy / 4 - u.dy / 4 + parsed.dy.pixel,
     }
   }
 
   private get xy(): {x1: number, y1: number, x2: number, y2: number} {
-    const start = this.territory.start
-    const end = this.territory.end
+    const territory = this.shape.territory
+    const start = territory.start
+    const end = territory.end
     return {x1: start.x.pixel, y1: start.y.pixel, x2: end.x.pixel, y2: end.y.pixel}
   }
 
@@ -64,12 +78,6 @@ export class Arrow {
         degree: 27,
       },
     },
-  }
-  constructor(
-    readonly base: SvgElem,
-    readonly territory: Territory,
-    readonly options: Partial<ArrowOptions>,
-  ) {
   }
 
   private line(): string {
@@ -97,23 +105,6 @@ M ${vb.x2} ${vb.y2}
 L ${x2} ${y2}`
   }
 
-  private dxdy(): {dx: number, dy: number} {
-    const parsed = m((opt) => {
-      return {
-        dx: m(Length.parse, opt.dx) || Length.zero,
-        dy: m(Length.parse, opt.dy) || Length.zero,
-      }
-    }, this.options.text)
-    if (parsed) {
-      return {dx: parsed.dx.pixel, dy: parsed.dy.pixel}
-    }
-    return {dx: 0, dy: 0}
-  }
-
-}
-
-export interface ArrowOptions {
-  text: Partial<TextAttrs>
 }
 
 export interface TextAttrs {

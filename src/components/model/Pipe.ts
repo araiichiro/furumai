@@ -1,39 +1,43 @@
-import {Length, Point, Territory} from '@/layout/types'
+import {Length, Point} from '@/layout/types'
 import {SvgElem} from '@/components/model/SvgElem'
 import {TextElem} from '@/components/model/TextElem'
+import {Shape} from "@/components/model/Svg";
 
 export class Pipe {
-  constructor(
-    readonly base: SvgElem,
-    readonly territory: Territory,
-  ) {
+    constructor(
+        readonly id: string,
+        readonly className: string,
+        readonly shape: Shape
+    ) {
   }
 
   get elem(): SvgElem {
     return {
-      ...this.base,
-      text: this.text,
+      ...this.shape.elem(this.id, this.className),
       d: this.d,
+      icon: undefined,
     }
   }
 
   get text(): TextElem | undefined {
-    if (this.base.text) {
-      this.base.text.base = this.textPosition
-      return this.base.text
+      const text = this.shape.text
+    if (text) {
+      text.base = this.textPosition
+      return text
     }
     return undefined
   }
 
   get textPosition(): Point {
-    const {padding} = this.territory.area
+      const territory = this.shape.territory
+    const {padding} = territory.area
     const dx = padding.left.add(Length.pixel(10)) // FIXME
     const dy = padding.top.sub(Length.pixel(10)) // FIXME
-    return this.territory.start.move(dx, dy)
+    return territory.start.move(dx, dy)
   }
 
   get d(): string {
-    const box = this.territory
+    const box = this.shape.territory
     const cx = box.cx.pixel
     const cy = box.cy.pixel
     const {width, height} = box.area.asPixel()

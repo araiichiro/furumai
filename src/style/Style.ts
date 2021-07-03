@@ -7,6 +7,12 @@ export function m<A, B>(fn: (a: A) => B, a: A | undefined): B | undefined {
   return undefined
 }
 
+export function deleteField(base: Assigns, deletes: string[]): Assigns {
+  const ret = {...base}
+  deletes.forEach((key) => delete ret[key])
+  return ret
+}
+
 export function deleteUndefined<T extends any>(t: Partial<T>): Partial<T> {
   return Object.keys(t).reduce((p, k) => {
     if (t[k]) {
@@ -182,9 +188,9 @@ export class ChildCombinator implements Combinator{
   }
 }
 
-export class Styles {
-  public static of(rules: Ruleset[]): Styles {
-    return new Styles(rules)
+export class StyleList {
+  public static of(rules: Ruleset[]): StyleList {
+    return new StyleList(rules)
   }
 
   constructor(
@@ -192,7 +198,7 @@ export class Styles {
   ) {
   }
 
-  public update(other: Styles): Styles {
+  public update(other: StyleList): StyleList {
     this.rules.push(...other.rules)
     return this
   }
@@ -217,13 +223,4 @@ export interface Context {
   id: string
   classNames: string[]
   parent?: Context
-}
-
-export class ContextMap {
-  constructor(readonly map: {[key: string]: Context}) {
-  }
-
-  public add(context: Context) {
-    this.map[context.id] = context
-  }
 }
