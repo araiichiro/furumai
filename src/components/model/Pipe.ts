@@ -14,25 +14,26 @@ export class Pipe {
   get elem(): SvgElem {
     return {
       ...this.shape.elem(this.id, this.className),
+      text: this.text,
       d: this.d,
       icon: undefined,
     }
   }
 
   get text(): TextElem | undefined {
-      const text = this.shape.text
-      if (text) {
+    const text = this.shape.text
+    if (text) {
       text.base = this.textPosition
       return text
     }
-      return undefined
+    return undefined
   }
 
   get textPosition(): Point {
       const territory = this.shape.territory
       const {padding} = territory.area
       const dx = padding.left.add(Length.pixel(10)) // FIXME
-      const dy = padding.top.sub(Length.pixel(10)) // FIXME
+      const dy = padding.top.sub(Length.pixel(6)) // FIXME
       return territory.start.move(dx, dy)
   }
 
