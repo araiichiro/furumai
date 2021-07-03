@@ -83,10 +83,10 @@ export class Edge {
       parent: context,
     })
 
-    const className = this.attrs['class']
+    const className = this.attrs.class
     if (className) {
       this.classNames.push(className)
-      delete this.attrs['class']
+      delete this.attrs.class
     }
 
     const style = ElemStyle.of(
