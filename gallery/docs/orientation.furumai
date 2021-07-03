@@ -1,0 +1,5 @@
+config {orientation=landscape}
+
+node1;
+actor1[shape=person];
+store1[shape=cylinder];

@@ -1,19 +1,17 @@
-node[margin='70 20'];
+style {
+  #n1 { stroke: #6af }
+  #n1 .label { fill: #f6a; font-size: 32px; }
+  #n1 .text { fill: #a6f;}
+};
 
-n1[
-  stroke='#09f',
-  stroke-linecap="round"
-  fill='#8bc'
-  font-size="72"
-  text.stroke='#f6a';
-  text.fill="#f6a"
-];
-
+n1[t='text 1', fill=aquamarine];
 n2;
 
 n1 -> n2[
-  stroke-width='10',
+  stroke-width=7,
   stroke-linecap='round',
-  stroke-dasharray="16 24"
+  stroke-dasharray="3 9"
   opacity="0.5"
+  t='a text',
+  text.fill=#a6f,
 ];

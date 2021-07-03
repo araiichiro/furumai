@@ -1,0 +1,17 @@
+style {
+  .root { visibility=hidden; }
+  .node{ margin:0; padding:10; width:50; height:55; label: ''}
+}
+
+group array {
+  c1;
+  c2;
+  c3[t='...', stroke='none'];
+  c4;
+};
+---
+c1;
+c2[t='127'];
+---
+c3;
+c4[t='128'];

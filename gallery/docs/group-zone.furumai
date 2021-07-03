@@ -1,22 +1,25 @@
 group c1 {
-  node[margin="70"];
+  fill=#ffe;
   me[shape='person'];
   browser1;
   tool1;
-};
+}
 group service1 {
+  fill: #fef;
   zone az1 {
+    fill=#ffe;
     proxy1;
-    backend1
-  };
+    backend1;
+  }
   zone az2 {
+    fill=#ffe;
     proxy2;
-    backend2
-  };
-};
+    backend2;
+  }
+}
 
 me -> browser1;
-tool1 -> browser1;
+tool1 -> browser1[];
 
 browser1 -> proxy1;
 browser1 -> proxy2;

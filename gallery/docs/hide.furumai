@@ -1,0 +1,11 @@
+config {mode: snapshot}
+
+a;
+b;
+a -> b;
+
+---
+hide a -> b;
+
+---
+hide b;

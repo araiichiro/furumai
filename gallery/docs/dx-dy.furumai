@@ -8,7 +8,7 @@ group g2 {
   f;
 };
 
-a -> c[dx=30];
+a -> c[dx=30px];
 b -> c;
 d -> f;
-e -> f[dy=30];
+e -> f[dy=20];
