@@ -29,7 +29,10 @@ export class Length {
   }
 
   public static parse(attr: string): Length {
-    return new Length(Pixel.parse(attr))
+    if (attr.endsWith('px')) {
+      return new Length(Pixel.parse(attr))
+    }
+    return Length.pixel(Number(attr))
   }
 
   public static max(...lengths: Length[]): Length {
