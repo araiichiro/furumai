@@ -15,17 +15,17 @@ export const defaultString = `config {
 };
 
 style {
-  .root, .root * {
-    align-items: flex-start;
-    justify-content: space-around;
-  }
   .root {
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
     stroke: none;
     padding: 10px;
     fill: none;
   }
   .group, .zone {
+    align-items: flex-start;
+    justify-content: space-around;
     fill: none;
     padding: 10px;
     margin: 20px;
@@ -53,7 +53,7 @@ style {
     stroke: none;
   }
   .text {
-  all: initial;
+  //all: initial;
   visibility: inherit;
   font-size: 9pt;
   }
@@ -97,7 +97,7 @@ function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
   const es = layout.edges.map((edge) => {
     const f = territories[edge.from]
     const t = territories[edge.to]
-    const elem = edge.resolveStyle(styles).arrow(f, t, includeStyle)
+    const elem = edge.resolveStyle(styles).arrow(f, edge.op, t, includeStyle)
     return {
       elem,
       children: [],

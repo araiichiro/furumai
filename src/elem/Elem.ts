@@ -211,6 +211,8 @@ export class ElemStyle {
       'label',
       'text',
       't',
+      'text.dx',
+      'text.dy',
     ]
     return SecureSvgAttrs.of(deleteField(attrs, noSvgAttrs))
   }
@@ -224,9 +226,9 @@ export class ElemStyle {
 
   public toSvgStyle(): SvgStyle {
     return {
-      labelAttrs: ElemStyle.toSecure(this.shapeAttrs),
+      labelAttrs: ElemStyle.toSecure(this.labelAttrs),
       textAttrs: ElemStyle.toSecure(this.textAttrs),
-      shapeAttrs: ElemStyle.toSecure(this.labelAttrs),
+      shapeAttrs: ElemStyle.toSecure(this.shapeAttrs),
     }
   }
 

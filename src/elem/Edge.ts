@@ -139,12 +139,15 @@ class Styled {
     readonly textAttrs: Partial<TextAttrs>,
   ) {
   }
-  public arrow(tail: Territory, head: Territory, includeStyle: boolean): SvgElem {
+  public arrow(tail: Territory, op: string, head: Territory, includeStyle: boolean): SvgElem {
     const {dx, dy} = this.arrowStyle
     const territory = Arrow.fit(tail, head, Length.parse(dx || '0px').pixel, Length.parse(dy || '0px').pixel)
     const shape = new Shape(
       territory,
-      this.appearance,
+      {
+        shape: op === '--' ? 'edge' : 'arrow',
+        ...this.appearance,
+      },
       includeStyle ? this.svgStyle : ElemStyle.empty.toSvgStyle(),
     )
     return createArrow(

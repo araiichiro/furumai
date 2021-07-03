@@ -46,7 +46,7 @@ export class Arrow {
     const u = Math.abs(cos) > 0.98 ? vec.multiple(cos).multiple(0.35) : vec.multiple(0.1)
     const loc = this.shape.territory
 
-    const parsed =    {
+    const parsed = {
       dx: m(Length.parse, this.textAttrs.dx) || Length.zero,
       dy: m(Length.parse, this.textAttrs.dy) || Length.zero,
     }

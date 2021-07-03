@@ -3,7 +3,7 @@
     v-if="text"
     v-bind:x="text.base.x"
     v-bind:y="text.base.y"
-    v-bind="text.svgAttrs"
+    v-bind="text.svgAttrs.svgAttrs"
     class="label"
   >
     <tspan
