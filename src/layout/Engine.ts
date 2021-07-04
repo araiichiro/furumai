@@ -146,14 +146,14 @@ export class Engine {
     }
   }
 
-  move(fitArea: Area, point: Point, boundary: Boundary, style: LayoutStyle): Territory {
-    let {top, left} = fitArea.margin
-    let {padding, margin} = fitArea
+  public move(fitArea: Area, point: Point, boundary: Boundary, style: LayoutStyle): Territory {
+    const {top, left} = fitArea.margin
+    const {padding, margin} = fitArea
     const gap = boundary.diff(fitArea.base)
 
     const direction = this.direction(style)
     if (direction === 'column') {
-      switch (style["align-items"]) {
+      switch (style['align-items']) {
         case 'flex-start':
           return new Territory(
             new Point(point.x.add(left), point.y.add(gap.top)),
@@ -162,32 +162,32 @@ export class Engine {
         case 'stretch':
           return new Territory(
             new Point(point.x.add(left), point.y.add(top)),
-            Area.of(boundary.sub(gap), padding, margin)
+            Area.of(boundary.sub(gap), padding, margin),
           )
         case 'center':
           return new Territory(
             new Point(point.x.add(gap.left), point.y.add(gap.top)),
-            fitArea
+            fitArea,
           )
         default:
           throw new Error('not implemented')
       }
     } else if (direction === 'row') {
-      switch (style["align-items"]) {
+      switch (style['align-items']) {
         case 'flex-start':
           return new Territory(
             new Point(point.x.add(gap.left), point.y.add(top)),
-            fitArea
+            fitArea,
           )
         case 'stretch':
           return new Territory(
             new Point(point.x.add(left), point.y.add(top)),
-            Area.of(boundary.sub(gap), padding, margin)
+            Area.of(boundary.sub(gap), padding, margin),
           )
         case 'center':
           return new Territory(
             new Point(point.x.add(gap.left), point.y.add(gap.top)),
-            fitArea
+            fitArea,
           )
         default:
           throw new Error('not implemented')
@@ -287,7 +287,7 @@ export class Box {
     return this.fitArea
   }
 
-  populate(territory: Territory) {
+  public populate(territory: Territory) {
     this.base = territory.start
     this.fitArea = territory.area
   }

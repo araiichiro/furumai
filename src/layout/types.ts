@@ -175,7 +175,7 @@ export class Gap {
     return `${this.top} ${this.right} ${this.bottom} ${this.left}`
   }
 
-  div(n: number): Gap {
+  public div(n: number): Gap {
     return new Gap(
       this.top.div(n),
       this.right.div(n),
