@@ -9,7 +9,7 @@
     <tspan
       v-if="text"
       v-for="t in text.lines"
-      v-bind:dy="`-12px`"
+      v-bind:dy="t.dy"
       v-bind:x="text.base.x"
     >{{ t.text }}</tspan>
   </text>

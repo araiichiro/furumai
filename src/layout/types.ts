@@ -35,6 +35,10 @@ export class Length {
     return Length.pixel(Number(attr))
   }
 
+  public static isAuto(attr: string): boolean {
+    return attr === 'auto'
+  }
+
   public static max(...lengths: Length[]): Length {
     return lengths.reduce((ret, length) => {
       return ret.v.px > length.v.px ? ret : length
@@ -183,8 +187,8 @@ export class Area {
   public static parse(attrs: Partial<AreaAttrs>): Partial<Area> {
     const { width, height, padding, margin } = attrs
     const ret: Partial<Area> = {
-      width: m(Length.parse, width),
-      height: m(Length.parse, height),
+      width: m(Length.isAuto, width) ? undefined : m(Length.parse, width),
+      height: m(Length.isAuto, height) ? undefined : m(Length.parse, height),
       padding: m(Gap.of, padding),
       margin: m(Gap.of, margin),
     }

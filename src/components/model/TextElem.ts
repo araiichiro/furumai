@@ -1,4 +1,4 @@
-import {Point} from '@/layout/types'
+import {Length, Point} from '@/layout/types'
 import {SecureSvgAttrs} from '@/components/model/security'
 
 export class TextElem {
@@ -7,7 +7,6 @@ export class TextElem {
     private centered: boolean,
     public base: Point,
     readonly svgAttrs: SecureSvgAttrs,
-    readonly dy: number = 0.5,
   ) {
   }
 
@@ -26,8 +25,9 @@ export class TextElem {
         })
         return [first, ...rest]
       } else {
+        const dy = this.svgAttrs.svgAttrs.dy ? this.svgAttrs.svgAttrs.dy.toString() : Length.zero.toString()
         const [head, ...tail] = txt.split('\\n')
-        const first = {text: head, dy: `${this.dy + 0.35}em`}
+        const first = {text: head, dy}
         const rest = tail.map((s) => {
           return {text: s, dy: '1em'}
         })

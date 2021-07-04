@@ -59,6 +59,12 @@ style {
     visibility: inherit;
     font-size: 9pt;
   }
+  .text {
+    dy: 5px;
+  }
+  .label {
+    dy: -14px;
+  }
 };
 `
 
