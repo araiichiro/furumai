@@ -1,3 +1,8 @@
+config { mode: snapshot }
+style {
+  .group, .zone { label: ''; }
+}
+
 group clients {
   zone real {
     User[shape='person'];
@@ -17,11 +22,11 @@ group servers {
 }
 ---
 
-Browser -> Service [t='request a service', dx='-24', dy='-24'];
-Service -> Browser [t='reply: 303 https://[authorizer url..]', dx='24', dy='24'];
+Browser -> Service [t='request a service',dx=-16px, text.dy=-20px];
+Service -> Browser [t='reply: 303 https://[authorizer url..]', dx=16px, text.dy=20px];
 ---
 
-Browser -> Authorizer[t='request auth page', dx='-10', dy='-28'];
+Browser -> Authorizer[t='request auth page', dx=-20px, dy=-20px, text.dy=-20px, text.dx=10px];
 Authorizer -> Browser [t='reply input form', dx='10', dy='20'];
 ---
 

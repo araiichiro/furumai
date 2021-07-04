@@ -1,18 +1,29 @@
+config { mode: snapshot; }
+
+style {
+  .group, .zone { label: '';}
+  #clients { justify-content: start }
+  #services { justify-content: start; }
+
+  #KDC {fill: #f0f0f0}
+  #KDC .node { fill: #FFE5C0; stroke: none; }
+  #KDC .text { fill: #555555; }
+}
+
 group client_server {
   zone clients {
-    Client
-  };
-  zone KDC {
-    t='Key Distribution Center';
-    node[fill='#FFE5C0', stroke='#FD475D', text.stroke='#555555', text.fill='#555555'];
-    AS[t='Authentication Service'];
-    TGS[t='Ticket Granting Service'];
+    Client;
   }
-};
+  zone KDC {
+    label='Key Distribution Center';
+    AS[t='Authentication \nService'];
+    TGS[t='Ticket \nGranting \nService'];
+  }
+}
 
 group services {
-  web[t='Web Server'];
-  file[t='File Server'];
+  web[label='Web Server'];
+  file[label='File Server'];
 }
 
 ---
@@ -20,17 +31,17 @@ Client -> AS [t = 'TGT? \n(for each service)']
 ---
 AS -> Client [t = 'TGT!']
 ---
-Client -> TGS [t='ST? (My TGT here)']
+Client -> TGS [t='ST? (My TGT here)', text.dx=-8px, text.dy=-8px]
 ---
-TGS -> Client [t='ST! (encrypted for Web Server)']
+TGS -> Client [t='ST! (encrypted for Web Server)', text.dx=-8px, text.dy=-8px]
 ---
 Client -> web [t = 'OK? (Web Server ST here)']
 ---
 web -> Client [t = 'OK!']
 ---
-Client -> TGS [t =' ST? (My TGT here)']
+Client -> TGS [t =' ST? (My TGT here)', text.dx=-8px, text.dy=-8px]
 ---
-TGS -> Client [t='ST! (encrypted for File Server)']
+TGS -> Client [t='ST! (encrypted for File Server)', text.dx=-8px, text.dy=-8px]
 ---
 Client -> file [t = 'OK? (File Server ST here)']
 ---
