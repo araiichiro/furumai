@@ -126,7 +126,7 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
       throw new Error('not supported hide in layout')
     }
     return new Layout(
-      Elem.of('_root', 'root',  {
+      Elem.of('root', 'root',  {
         label: '',
       }, s.elems),
       s.edges,

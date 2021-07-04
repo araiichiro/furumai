@@ -15,7 +15,7 @@ export const defaultString = `config {
 };
 
 style {
-  .root {
+  #root {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
