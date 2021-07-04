@@ -63,82 +63,82 @@ export class Engine {
     if (children.length === 0) {
       return
     }
-   if (style['justify-content'] === 'space-around') {
-     const direction = this.direction(style)
-     if (direction === 'row') {
-       const content = children.reduce((ret, child) => {
-         const {width, height} = child.totalSize
-         return new Boundary(
-           ret.width.add(width),
-           Length.max(ret.height, height),
-         )
-       }, Boundary.zero)
-       const gap = boundary.diff(content).width.div(2 * children.length)
-       children.reduce((left, child) => {
-         const size = new Boundary(
-           gap.add(child.totalSize.width).add(gap),
-           boundary.height,
-         )
-         child.refit(this, new Point(left, Length.zero), size)
-         return left.add(size.width)
-       }, Length.zero)
-     } else if (direction === 'column') {
-       const content = children.reduce((ret, child) => {
-         const {width, height} = child.totalSize
-         return new Boundary(
-           Length.max(ret.width, width),
-           ret.height.add(height),
-         )
-       }, Boundary.zero)
-       const gap = boundary.diff(content).height.div(2 * children.length)
-       children.reduce((top, child) => {
-         const size = new Boundary(
-           boundary.width,
-           gap.add(child.totalSize.height).add(gap),
-         )
-         child.refit(this, new Point(Length.zero, top), size)
-         return top.add(size.height)
-       }, Length.zero)
-     } else {
-       throw new Error('not implemented')
-     }
-   } else if (style['justify-content'] === 'start') {
-     const direction = this.direction(style)
-     if (direction === 'row') {
-       const content = children.reduce((ret, child) => {
-         const {width, height} = child.totalSize
-         return new Boundary(
-           ret.width.add(width),
-           Length.max(ret.height, height),
-         )
-       }, Boundary.zero)
-       children.reduce((left, child) => {
-         const size = new Boundary(
-           child.totalSize.width,
-           boundary.height,
-         )
-         child.refit(this, new Point(left, Length.zero), size)
-         return left.add(size.width)
-       }, Length.zero)
-     } else if (direction === 'column') {
-       const content = children.reduce((ret, child) => {
-         const {width, height} = child.totalSize
-         return new Boundary(
-           Length.max(ret.width, width),
-           ret.height.add(height),
-         )
-       }, Boundary.zero)
-       children.reduce((top, child) => {
-         const size = new Boundary(
-           boundary.width,
-           child.totalSize.height,
-         )
-         child.refit(this, new Point(Length.zero, top), size)
-         return top.add(size.height)
-       }, Length.zero)
-     } else {
-       throw new Error('not implemented')
-     }
+    if (style['justify-content'] === 'space-around') {
+      const direction = this.direction(style)
+      if (direction === 'row') {
+        const content = children.reduce((ret, child) => {
+          const {width, height} = child.totalSize
+          return new Boundary(
+            ret.width.add(width),
+            Length.max(ret.height, height),
+          )
+        }, Boundary.zero)
+        const gap = boundary.diff(content).width.div(2 * children.length)
+        children.reduce((left, child) => {
+          const size = new Boundary(
+            gap.add(child.totalSize.width).add(gap),
+            boundary.height,
+          )
+          child.refit(this, new Point(left, Length.zero), size)
+          return left.add(size.width)
+        }, Length.zero)
+      } else if (direction === 'column') {
+        const content = children.reduce((ret, child) => {
+          const {width, height} = child.totalSize
+          return new Boundary(
+            Length.max(ret.width, width),
+            ret.height.add(height),
+          )
+        }, Boundary.zero)
+        const gap = boundary.diff(content).height.div(2 * children.length)
+        children.reduce((top, child) => {
+          const size = new Boundary(
+            boundary.width,
+            gap.add(child.totalSize.height).add(gap),
+          )
+          child.refit(this, new Point(Length.zero, top), size)
+          return top.add(size.height)
+        }, Length.zero)
+      } else {
+        throw new Error('not implemented')
+      }
+    } else if (style['justify-content'] === 'start') {
+      const direction = this.direction(style)
+      if (direction === 'row') {
+        const content = children.reduce((ret, child) => {
+          const {width, height} = child.totalSize
+          return new Boundary(
+            ret.width.add(width),
+            Length.max(ret.height, height),
+          )
+        }, Boundary.zero)
+        children.reduce((left, child) => {
+          const size = new Boundary(
+            child.totalSize.width,
+            boundary.height,
+          )
+          child.refit(this, new Point(left, Length.zero), size)
+          return left.add(size.width)
+        }, Length.zero)
+      } else if (direction === 'column') {
+        const content = children.reduce((ret, child) => {
+          const {width, height} = child.totalSize
+          return new Boundary(
+            Length.max(ret.width, width),
+            ret.height.add(height),
+          )
+        }, Boundary.zero)
+        children.reduce((top, child) => {
+          const size = new Boundary(
+            boundary.width,
+            child.totalSize.height,
+          )
+          child.refit(this, new Point(Length.zero, top), size)
+          return top.add(size.height)
+        }, Length.zero)
+      } else {
+        throw new Error('not implemented')
+      }
 
     } else if (style['justify-content'] !== 'space-around') {
       throw new Error('not implemented')

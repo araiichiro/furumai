@@ -54,6 +54,7 @@ export class Layout {
       }
     })
     update.edges.forEach((up) => {
+      // change edge visibility
       const target = this.edges.find((edge) => edge.same(up))
       if (target) {
         target.visible()
@@ -62,6 +63,17 @@ export class Layout {
         up.visible()
         this.edges.push(up)
       }
+      // change node visibility
+      this.edges.forEach((edge) => {
+        const tail = this.root.find(edge.from)
+        if (tail) {
+          tail.visible()
+        }
+        const head = this.root.find(edge.to)
+        if (head) {
+          head.visible()
+        }
+      })
     })
     update.hides.forEach((hide) => {
       const {id, edge} = hide
