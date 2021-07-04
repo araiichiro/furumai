@@ -186,7 +186,7 @@ export class Engine {
           )
         case 'center':
           return new Territory(
-            new Point(point.x.add(left), point.y.add(gap.top)),
+            new Point(point.x.add(gap.left), point.y.add(gap.top)),
             fitArea
           )
         default:
