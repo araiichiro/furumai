@@ -1,11 +1,10 @@
 style {
-  .root { visibility: hidden}
-.node{fill: #60EFDB; stroke: #A3B5FD; }
-.node .text { stroke: #6F89A2; fill: #6F89A2 }
+  #root { visibility: hidden}
+  .node{fill: #60EFDB; stroke: #A3B5FD; }
+  .node .text { stroke: #6F89A2; fill: #6F89A2 }
 
-.edge{stroke='#C3C5F8'}
-.transient {dy: 20px}
-
+  .edge{stroke='#C3C5F8'}
+  .transient {dy: 20px}
 }
 
 group layer0 {

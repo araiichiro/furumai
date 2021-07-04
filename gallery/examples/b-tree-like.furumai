@@ -1,5 +1,5 @@
 style {
-  .root { visibility: hidden }
+  #root { visibility: hidden }
   .node { fill: #60EFDB; stroke: none; }
   .node.text { fill: #6F89A2 }
   .edge { stroke: #C3C5F8 }

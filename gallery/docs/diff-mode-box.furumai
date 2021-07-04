@@ -1,5 +1,5 @@
 style {
-  .root { visibility=hidden; }
+  #root { visibility=hidden; }
   .node{ margin:0; padding:10; width:50; height:55; label: ''}
 }
 

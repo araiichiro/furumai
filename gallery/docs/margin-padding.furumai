@@ -1,9 +1,3 @@
-style {
-  .root {
-    justify-content: start;
-  }
-}
-
-n1[margin='50px', t='text!', padding=1px];
-n2[margin='2px', t='text!!', padding='8px 24px'];
+n1[margin='60px', t='text!', padding=16px];
+n2[margin='2px', t='text!!', padding='10px 28px'];
 n22[margin=30px];

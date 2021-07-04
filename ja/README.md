@@ -39,7 +39,7 @@
 	- 要素の位置の指定がしにくい
 	- 状態変化を表現しにくい
 		- 要素の追加・削除で他要素の位置が変わってしまう
-		- 変更点だけを記述できず、記述量が多くなりがち（図全体を枚数分だけ記述しないといけない）
+		- 記述量が多くなりがち（図全体を枚数分だけ記述しないといけない）
 
 そこで自動で図中の各要素の配置を調整して動作図を作成できるツールを開発しました。
 
@@ -47,7 +47,7 @@
 
 ## 基本図形
 
-基本図形として `box` / `person` / `cylinder` / `Pipe` が指定できます。要素間に矢印 (`->` or `--`) を配置できます。
+基本図形として `box` / `person` / `cylinder` / `pipe` が指定できます。要素間に矢印 (`->` or `--`) を配置できます。
 
 <ClientOnly>
 <DocSnippet
@@ -57,9 +57,9 @@
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
 
-## アイコン図形
+## アイコン
 
-`shape` に `icon:` から始まるアイコン名を指定すると、Font Awesomeアイコンを使用できます。
+`icon` 属性によりアイコン名を指定すると、Font Awesomeアイコンを使用できます。
 
 <ClientOnly>
 <DocSnippet
@@ -104,14 +104,16 @@ SVGの属性が指定できます。
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
 
+
+
 ## Zone / Group
 
 図表の構成要素をまとめる方法として下記のものがあります。
 
-- `Group`
-	- 横方向にならべてまとめます
-- `Zone`
-	- 縦方向にならべてまとめます
+- `group`
+  - 横方向にならべてまとめます
+- `zone`
+  - 縦方向にならべてまとめます
 
 <ClientOnly>
 <DocSnippet
@@ -120,6 +122,24 @@ SVGの属性が指定できます。
   viewCode="true"></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+
+## スタイル指定
+
+CSSのようにスタイル指定ができます。
+
+
+
+
+
+
+IDおよびクラスの指定として下記を使用できます。
+
+- `#root` : トップレベル要素
+- `.group`, `.zone` : グループ、ゾーン
+- `.node`, `.edge` : ノード、エッジ
+- `.text`, `.label` : テキスト、ラベル
+
+
 
 ## Margin / Padding
 
@@ -135,8 +155,7 @@ SVGの属性が指定できます。
 
 ## dx / dy
 
-自動配置の結果、矢印が重なってしまうケースがあります。その場合、 `dx` / `dy` 属性を指定して矢印の配置をずらせます。
-また、基本図形（`node`）も`dx` / `dy` 属性を指定して配置をずらせます。
+矢印の配置が重なってしまうケースがあります。その場合、 `dx` / `dy` 属性により配置をずらせます。
 
 <ClientOnly>
 <DocSnippet
@@ -146,7 +165,9 @@ SVGの属性が指定できます。
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
 
-## 均等配置（左詰めしない）
+## 自動配置
+
+CSSのFlexboxのように `justify-content` により自動で配置できます。
 
 <ClientOnly>
 <DocSnippet
@@ -179,7 +200,8 @@ SVGの属性が指定できます。
 
 ## 方向
 
-レイアウト方向を左から右にします (デフォルト: `top to bottom`)。
+`style` における `flex-direction` の指定、 `config` における `orientation` の指定により配置方向を変更できます。
+
 
 <ClientOnly>
 <DocSnippet
@@ -190,7 +212,7 @@ SVGの属性が指定できます。
 
 ## 表示済み要素の非表示
 
-表示済み要素を非表示にするには下記のように `hide` もしくは `delete` を使用します。
+表示済み要素を非表示にするには下記のように `hide` を使用します。
 
 <ClientOnly>
 <DocSnippet
@@ -199,6 +221,10 @@ SVGの属性が指定できます。
   viewCode="true"></DocSnippet>
 </ClientOnly>
 <a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+
+## コメント
+
+`//` によりラインコメントとなります。
 
 ## Rough Mode
 

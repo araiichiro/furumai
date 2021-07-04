@@ -1,5 +1,5 @@
 style {
-  .root {visibility: hidden;}
+  #root {visibility: hidden;}
   .transient { dy: 20px; }
 }
 
