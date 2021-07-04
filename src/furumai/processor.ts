@@ -96,8 +96,8 @@ function createSvg(engine: LayoutEngine, layout: Layout, config: Config): Svg {
   const styles = layout.styles
   const styled = layout.root.resolveStyle(styles, layout.root.contextMap)
   const rootBox = styled.layoutBox()
-  const size = rootBox.fit(engine, Point.zero)
-  rootBox.refit(engine, Point.zero, size.totalSize)
+  engine.fitRoot(rootBox)
+
   const territories = rootBox.flatten(Point.zero)
   const includeStyle = !config.css
   const root = styled.shape(territories, includeStyle)

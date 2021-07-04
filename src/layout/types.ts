@@ -124,10 +124,10 @@ export class Boundary {
     )
   }
 
-  public diff(content: Boundary): Boundary {
-    return new Boundary(
-      this.width.sub(content.width),
-      this.height.sub(content.height),
+  public diff(content: Boundary): Gap {
+    return Gap.gap2(
+      this.height.sub(content.height).div(2),
+      this.width.sub(content.width).div(2),
     )
   }
 }

@@ -12,18 +12,23 @@ export interface LayoutStyle {
     | 'column'
   'align-items':
     'center'
-    // | 'stretch'
-    // | 'flex-start'
-
+    | 'stretch'
+    | 'flex-start'
+    // | 'flex-end'
   'justify-content':
     'start'
     | 'space-around'
-  // | "space-between"
-  // | "center"
+    // | "space-between"
+    // | "center"
 }
 
 export class Engine {
   constructor(readonly config: Config) {
+  }
+
+  public fitRoot(root: Box) {
+    const size = root.fit(this)
+    root.refit(this, Point.zero, size.totalSize)
   }
 
   public fit(children: Box[], style: LayoutStyle): Boundary {
@@ -39,8 +44,7 @@ export class Engine {
     const direction = this.direction(style)
     if (direction === 'row') {
       return children.reduce((ret, child) => {
-        const base = new Point(ret.width, Length.zero)
-        const area = child.fit(this, base)
+        const area = child.fit(this)
         const {width, height} = area.totalSize
         return new Boundary(
           ret.width.add(width),
@@ -49,8 +53,7 @@ export class Engine {
       }, Boundary.zero)
     } else if (direction === 'column') {
       return children.reduce((ret, child) => {
-        const base = new Point(Length.zero, ret.height)
-        const area = child.fit(this, base)
+        const area = child.fit(this)
         const {width, height} = area.totalSize
         return new Boundary(
           Length.max(ret.width, width),
@@ -76,7 +79,7 @@ export class Engine {
             Length.max(ret.height, height),
           )
         }, Boundary.zero)
-        const gap = boundary.diff(content).width.div(2 * children.length)
+        const gap = boundary.diff(content).left.div(children.length)
         children.reduce((left, child) => {
           const size = new Boundary(
             gap.add(child.totalSize.width).add(gap),
@@ -93,7 +96,7 @@ export class Engine {
             ret.height.add(height),
           )
         }, Boundary.zero)
-        const gap = boundary.diff(content).height.div(2 * children.length)
+        const gap = boundary.diff(content).top.div(children.length)
         children.reduce((top, child) => {
           const size = new Boundary(
             boundary.width,
@@ -182,17 +185,14 @@ export class Box {
   }
 
   private fitArea?: Area
+  private base: Point = Point.zero // relative position
 
   private constructor(
     readonly id: string,
     readonly children: Box[],
     private readonly style: LayoutStyle,
     private readonly requested: Partial<Area>,
-    private base: Point = Point.zero, // relative position
   ) {
-  }
-  get point(): Point {
-    return this.base
   }
 
   get area(): Area {
@@ -207,8 +207,7 @@ export class Box {
     return this.area.totalSize
   }
 
-  public fit(engine: Engine, base: Point): Area {
-    this.base = base
+  public fit(engine: Engine): Area {
     const content = engine.fit(this.children, this.style)
     const {width, height, padding, margin} = {
       padding: Gap.zero,
@@ -242,13 +241,13 @@ export class Box {
 
     const diff = boundary.diff(this.fitArea.base)
     this.base = new Point(
-      point.x.add(diff.width.div(2)),
-      point.y.add(diff.height.div(2)),
+      point.x.add(diff.left),
+      point.y.add(diff.top),
     )
   }
 
   public flatten(parent: Point): TerritoryMap {
-    const point = parent.add(this.point)
+    const point = parent.add(this.base)
     const children = this.children.reduce((flat, child) => {
       return {
         ...flat,
