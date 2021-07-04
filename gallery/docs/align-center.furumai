@@ -1,9 +1,0 @@
-style {
-  #g2 {
-    justify-content: start;
-  }
-}
-
-group g1 { a; b; }
-group g2 { c; }
-group g3 { d; }

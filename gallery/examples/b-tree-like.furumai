@@ -1,0 +1,41 @@
+style {
+  .root { visibility: hidden }
+  .node { fill: #60EFDB; stroke: none; }
+  .node.text { fill: #6F89A2 }
+  .edge { stroke: #C3C5F8 }
+}
+
+group layer1 {
+  b1;
+  b2;
+};
+
+group layer2 {
+  a1;
+  a2;
+  a3;
+  a4;
+};
+
+---
+b1[t='thresholds=[10]', label='root'];
+a1[t='v=[8,9]'];
+a3[t='v=[9]'];
+a4[t='v=[10]'];
+
+b1 -> a1;
+b1 -> a4;
+a1 -> a4[dy=20px];
+a3 -> a4;
+
+---
+hide a1 -> a4;
+
+b1[t='threshold=[9,10]', label='root'];
+b2[t='threshold=[9,10]'];
+a1[t='v=[8]'];
+
+a1 -> a3;
+b1 -> a3;
+b2 -> a3;
+b2 -> a4;

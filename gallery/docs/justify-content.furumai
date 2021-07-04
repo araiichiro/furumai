@@ -1,0 +1,13 @@
+style {
+  #g2 {
+    justify-content: start;
+  }
+  #g3 {
+    justify-content: space-around;
+  }
+}
+
+group g1 { a; b; }
+group g2 { c; }
+group g3 { d; }
+group g4 { e; }
