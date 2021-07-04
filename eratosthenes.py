@@ -5,19 +5,21 @@ upper = 70
 table = [[j * 10 + i + 1 for i in range(10)] for j in range(upper // 10)]
 
 config = """
-config='mode=diff';
-group[margin=0, padding=0];
-zone[margin=0, padding=0];
-node[margin=0, width=60, height=60];
+style {
+  .group{margin: 0; padding: 0; label: '';}
+  .node{margin: 0; width: 45; height: 45}
+  .group .node .label {dy: 14px; dx: 8px}
+  #primes {width: auto; margin: 30px 0px;}
+}
 
-primes[label='prime list:', t='[]', width=550, height=80, margin=30];
+primes[label='prime list:', t='[]'];
 """
 
 print(config)
 for row in table:
     print('group g' + str(row[0]) + 'to' + str(row[-1]) + ' {')
-    s_row = [str(column) if column != 1 else '1[visibility=hidden]' for column in row]
-    print(' ', '; '.join(s_row))
+    s_row = [str(column) + ';' if column != 1 else '1[visibility=hidden]' for column in row]
+    print(' ', ''.join(s_row))
     print('};')
 print('---')
 
