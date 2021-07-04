@@ -871,7 +871,17 @@ export class FurumaiParser extends Parser {
 					{
 					{
 					this.state = 188;
-					this.match(FurumaiParser.T__3);
+					_la = this._input.LA(1);
+					if (!(_la === FurumaiParser.T__3 || _la === FurumaiParser.T__8)) {
+					this._errHandler.recoverInline(this);
+					} else {
+						if (this._input.LA(1) === Token.EOF) {
+							this.matchedEOF = true;
+						}
+
+						this._errHandler.reportMatch(this);
+						this.consume();
+					}
 					this.state = 189;
 					this.declaration();
 					}
@@ -884,10 +894,20 @@ export class FurumaiParser extends Parser {
 			this.state = 196;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la === FurumaiParser.T__3) {
+			if (_la === FurumaiParser.T__3 || _la === FurumaiParser.T__8) {
 				{
 				this.state = 195;
-				this.match(FurumaiParser.T__3);
+				_la = this._input.LA(1);
+				if (!(_la === FurumaiParser.T__3 || _la === FurumaiParser.T__8)) {
+				this._errHandler.recoverInline(this);
+				} else {
+					if (this._input.LA(1) === Token.EOF) {
+						this.matchedEOF = true;
+					}
+
+					this._errHandler.reportMatch(this);
+					this.consume();
+				}
 				}
 			}
 
@@ -1480,10 +1500,10 @@ export class FurumaiParser extends Parser {
 		"\x02\x02\x02\xB5\xB7\x03\x02\x02\x02\xB6\xB4\x03\x02\x02\x02\xB7\xB8\x07" +
 		"\x07\x02\x02\xB8\x1F\x03\x02\x02\x02\xB9\xBA\x05\"\x12\x02\xBA\xBC\x07" +
 		"\x05\x02\x02\xBB\xBD\x056\x1C\x02\xBC\xBB\x03\x02\x02\x02\xBC\xBD\x03" +
-		"\x02\x02\x02\xBD\xC2\x03\x02\x02\x02\xBE\xBF\x07\x06\x02\x02\xBF\xC1\x05" +
+		"\x02\x02\x02\xBD\xC2\x03\x02\x02\x02\xBE\xBF\t\x02\x02\x02\xBF\xC1\x05" +
 		"6\x1C\x02\xC0\xBE\x03\x02\x02\x02\xC1\xC4\x03\x02\x02\x02\xC2\xC0\x03" +
 		"\x02\x02\x02\xC2\xC3\x03\x02\x02\x02\xC3\xC6\x03\x02\x02\x02\xC4\xC2\x03" +
-		"\x02\x02\x02\xC5\xC7\x07\x06\x02\x02\xC6\xC5\x03\x02\x02\x02\xC6\xC7\x03" +
+		"\x02\x02\x02\xC5\xC7\t\x02\x02\x02\xC6\xC5\x03\x02\x02\x02\xC6\xC7\x03" +
 		"\x02\x02\x02\xC7\xC8\x03\x02\x02\x02\xC8\xC9\x07\x07\x02\x02\xC9!\x03" +
 		"\x02\x02\x02\xCA\xCF\x05$\x13\x02\xCB\xCC\x07\v\x02\x02\xCC\xCE\x05$\x13" +
 		"\x02\xCD\xCB\x03\x02\x02\x02\xCE\xD1\x03\x02\x02\x02\xCF\xCD\x03\x02\x02" +

@@ -60,7 +60,7 @@ style
   : 'style' '{' css_stmt* '}'
   ;
 css_stmt
-  : selector_list '{' declaration? ( ';' declaration )* ';'? '}'
+  : selector_list '{' declaration? ( ( ',' | ';' ) declaration )* ( ',' | ';' )? '}'
   ;
 selector_list
   : selector ( ',' selector )* ','?
