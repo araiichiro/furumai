@@ -174,6 +174,15 @@ export class Gap {
   public toString(): string {
     return `${this.top} ${this.right} ${this.bottom} ${this.left}`
   }
+
+  div(n: number): Gap {
+    return new Gap(
+      this.top.div(n),
+      this.right.div(n),
+      this.bottom.div(n),
+      this.left.div(n),
+    )
+  }
 }
 
 export class Area {

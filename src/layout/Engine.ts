@@ -28,18 +28,12 @@ export class Engine {
 
   public fitRoot(root: Box) {
     const size = root.fit(this)
-    root.refit(this, Point.zero, size.totalSize)
+    root.refit(this, size.totalSize)
   }
 
   public fit(children: Box[], style: LayoutStyle): Boundary {
     if (children.length === 0) {
       return Boundary.zero
-    }
-    if (style['justify-content'] !== 'space-around' && style['justify-content'] !== 'start') {
-      throw new Error('justify-content not supported: ' + style['justify-content'])
-    }
-    if (style['align-items'] !== 'center' && style['align-items'] !== 'stretch') {
-      throw new Error('not supported: ' + style['align-items'])
     }
     const direction = this.direction(style)
     if (direction === 'row') {
@@ -79,13 +73,17 @@ export class Engine {
             Length.max(ret.height, height),
           )
         }, Boundary.zero)
-        const gap = boundary.diff(content).left.div(children.length)
+        const gap = boundary.diff(content).div(children.length)
         children.reduce((left, child) => {
+          const point = new Point(left, Length.zero)
           const size = new Boundary(
-            gap.add(child.totalSize.width).add(gap),
+            child.totalSize.add(gap).width,
             boundary.height,
           )
-          child.refit(this, new Point(left, Length.zero), size)
+          const fitArea = child.refit(this, size)
+          const territory = this.move(fitArea, point, size, style)
+          child.populate(territory)
+
           return left.add(size.width)
         }, Length.zero)
       } else if (direction === 'column') {
@@ -96,13 +94,17 @@ export class Engine {
             ret.height.add(height),
           )
         }, Boundary.zero)
-        const gap = boundary.diff(content).top.div(children.length)
+        const gap = boundary.diff(content).div(children.length)
         children.reduce((top, child) => {
+          const point = new Point(Length.zero, top)
           const size = new Boundary(
             boundary.width,
-            gap.add(child.totalSize.height).add(gap),
+            child.totalSize.add(gap).height,
           )
-          child.refit(this, new Point(Length.zero, top), size)
+          const fitArea = child.refit(this, size)
+          const territory = this.move(fitArea, point, size, style)
+          child.populate(territory)
+
           return top.add(size.height)
         }, Length.zero)
       } else {
@@ -111,42 +113,86 @@ export class Engine {
     } else if (style['justify-content'] === 'start') {
       const direction = this.direction(style)
       if (direction === 'row') {
-        const content = children.reduce((ret, child) => {
-          const {width, height} = child.totalSize
-          return new Boundary(
-            ret.width.add(width),
-            Length.max(ret.height, height),
-          )
-        }, Boundary.zero)
         children.reduce((left, child) => {
+          const point = new Point(left, Length.zero)
           const size = new Boundary(
             child.totalSize.width,
             boundary.height,
           )
-          child.refit(this, new Point(left, Length.zero), size)
+          const fitArea = child.refit(this, size)
+          const territory = this.move(fitArea, point, size, style)
+          child.populate(territory)
+
           return left.add(size.width)
         }, Length.zero)
       } else if (direction === 'column') {
-        const content = children.reduce((ret, child) => {
-          const {width, height} = child.totalSize
-          return new Boundary(
-            Length.max(ret.width, width),
-            ret.height.add(height),
-          )
-        }, Boundary.zero)
         children.reduce((top, child) => {
+          const point = new Point(Length.zero, top)
           const size = new Boundary(
             boundary.width,
             child.totalSize.height,
           )
-          child.refit(this, new Point(Length.zero, top), size)
+          const fitArea = child.refit(this, size)
+          const territory = this.move(fitArea, point, size, style)
+          child.populate(territory)
+
           return top.add(size.height)
         }, Length.zero)
       } else {
         throw new Error('not implemented')
       }
-
     } else if (style['justify-content'] !== 'space-around') {
+      throw new Error('not implemented')
+    }
+  }
+
+  move(fitArea: Area, point: Point, boundary: Boundary, style: LayoutStyle): Territory {
+    let {top, left} = fitArea.margin
+    let {padding, margin} = fitArea
+    const gap = boundary.diff(fitArea.base)
+
+    const direction = this.direction(style)
+    if (direction === 'column') {
+      switch (style["align-items"]) {
+        case 'flex-start':
+          return new Territory(
+            new Point(point.x.add(left), point.y.add(gap.top)),
+            fitArea,
+          )
+        case 'stretch':
+          return new Territory(
+            new Point(point.x.add(left), point.y.add(top)),
+            Area.of(boundary.sub(gap), padding, margin)
+          )
+        case 'center':
+          return new Territory(
+            new Point(point.x.add(gap.left), point.y.add(gap.top)),
+            fitArea
+          )
+        default:
+          throw new Error('not implemented')
+      }
+    } else if (direction === 'row') {
+      switch (style["align-items"]) {
+        case 'flex-start':
+          return new Territory(
+            new Point(point.x.add(gap.left), point.y.add(top)),
+            fitArea
+          )
+        case 'stretch':
+          return new Territory(
+            new Point(point.x.add(left), point.y.add(top)),
+            Area.of(boundary.sub(gap), padding, margin)
+          )
+        case 'center':
+          return new Territory(
+            new Point(point.x.add(left), point.y.add(gap.top)),
+            fitArea
+          )
+        default:
+          throw new Error('not implemented')
+      }
+    } else {
       throw new Error('not implemented')
     }
   }
@@ -224,7 +270,7 @@ export class Box {
     return this.fitArea
   }
 
-  public refit(engine: Engine, point: Point, boundary: Boundary) {
+  public refit(engine: Engine, boundary: Boundary): Area {
     const {width, height, padding, margin} = {
       padding: Gap.zero,
       margin: Gap.zero,
@@ -238,12 +284,12 @@ export class Box {
       margin,
     )
     engine.refit(this.children, this.style, this.fitArea.contentSize)
+    return this.fitArea
+  }
 
-    const diff = boundary.diff(this.fitArea.base)
-    this.base = new Point(
-      point.x.add(diff.left),
-      point.y.add(diff.top),
-    )
+  populate(territory: Territory) {
+    this.base = territory.start
+    this.fitArea = territory.area
   }
 
   public flatten(parent: Point): TerritoryMap {
