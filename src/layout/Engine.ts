@@ -11,9 +11,9 @@ export interface LayoutStyle {
     'row'
     | 'column'
   'align-items':
-    'flex-start'
-  // | "flex-end"
-  // | "center"
+    'center'
+    // | 'stretch'
+    // | 'flex-start'
 
   'justify-content':
     'start'
@@ -32,6 +32,9 @@ export class Engine {
     }
     if (style['justify-content'] !== 'space-around' && style['justify-content'] !== 'start') {
       throw new Error('justify-content not supported: ' + style['justify-content'])
+    }
+    if (style['align-items'] !== 'center' && style['align-items'] !== 'stretch') {
+      throw new Error('not supported: ' + style['align-items'])
     }
     const direction = this.direction(style)
     if (direction === 'row') {

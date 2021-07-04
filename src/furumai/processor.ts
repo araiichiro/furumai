@@ -17,7 +17,7 @@ export const defaultString = `config {
 style {
   .root {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-around;
 
     stroke: none;
@@ -25,7 +25,7 @@ style {
     fill: none;
   }
   .group, .zone {
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-around;
 
     fill: none;

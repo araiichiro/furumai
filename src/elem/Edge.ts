@@ -96,6 +96,14 @@ export class Edge {
         delete this.attrs[key]
       }
     })
+    Object.keys(this.attrs).forEach((key) => {
+      const prefix = 'label.'
+      if (key.startsWith(prefix)) {
+        const k = key.substring(prefix.length)
+        labelAttrs[k] = this.attrs[key]
+        delete this.attrs[key]
+      }
+    })
 
     const style = ElemStyle.of(
       labelAttrs,

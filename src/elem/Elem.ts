@@ -112,11 +112,18 @@ export class Elem {
       const prefix = 'text.'
       if (key.startsWith(prefix)) {
         const k = key.substring(prefix.length)
-        textAttrs[k] = this.attrs[k]
+        textAttrs[k] = this.attrs[key]
         delete this.attrs[key]
       }
     })
-
+    Object.keys(this.attrs).forEach((key) => {
+      const prefix = 'label.'
+      if (key.startsWith(prefix)) {
+        const k = key.substring(prefix.length)
+        labelAttrs[k] = this.attrs[key]
+        delete this.attrs[key]
+      }
+    })
     const style = ElemStyle.of(
       labelAttrs,
       textAttrs,
@@ -230,8 +237,6 @@ export class ElemStyle {
       'label',
       'text',
       't',
-      'text.dx',
-      'text.dy',
     ]
     return SecureSvgAttrs.of(deleteField(attrs, noSvgAttrs))
   }
