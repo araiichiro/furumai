@@ -14,11 +14,11 @@ export default {
 </script>
 
 <style scoped>
-  #footer {
-    float: left;
-  }
+#footer {
+  float: left;
+}
 
-  #footer a {
-    margin-right: 1rem;
-  }
+#footer a {
+  margin-right: 1rem;
+}
 </style>

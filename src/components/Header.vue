@@ -19,7 +19,7 @@ export default class Header extends Vue {
 </script>
 
 <style scoped>
-  nav {
-    padding-bottom: 1rem;
-  }
+nav {
+  padding-bottom: 1rem;
+}
 </style>

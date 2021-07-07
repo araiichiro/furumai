@@ -41,6 +41,6 @@ module.exports = {
     },
   },
   head: [
-    ['meta', { name: 'og:image', content: '/furumai/docs/og.png' }]
+    ['meta', {name: 'og:image', content: '/furumai/docs/og.png'}]
   ]
 }

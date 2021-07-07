@@ -19,9 +19,9 @@ export default class App extends Vue {
 </script>
 
 <style>
-  @import "https://unpkg.com/chota@0.6.2/dist/chota.min.css";
+@import "https://unpkg.com/chota@0.6.2/dist/chota.min.css";
 
-  :root {
-    --font-size: 1.4rem;
-  }
+:root {
+  --font-size: 1.4rem;
+}
 </style>
