@@ -119,15 +119,16 @@ class FurumaiVisitorImpl implements FurumaiVisitor<any> {
 
   public visitLayout(ctx: LayoutContext): Layout {
     const s: StatementList = this.visit(ctx.stmt_list())
-    if (s.assigns.length > 0) {
-      throw new Error('not supported top level assignment')
-    }
     if (s.hides.length > 0) {
       throw new Error('not supported hide in layout')
     }
+    const attrs = s.assigns.reduce((ret, a) => {
+      return {...ret, [a.key]: a.value}
+    }, {} as Assigns)
     return new Layout(
       Elem.of('root', 'root',  {
         label: '',
+        ...attrs,
       }, s.elems),
       s.edges,
       Style.flatten(s.styles),
