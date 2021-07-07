@@ -67,9 +67,8 @@ export class Shape {
   }
 
   public elem(id: string, className: string): SvgElem {
-    let visibility = undefined
-    if (this.appearance.visibility) {
-      visibility = this.appearance.visibility
+    const visibility = this.appearance.visibility
+    if (visibility) {
       if (visibility !== 'visible' && visibility !== 'hidden') {
         throw new Error('not supported: ' + visibility)
       }

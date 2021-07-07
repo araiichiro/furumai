@@ -150,12 +150,3 @@ function isValid(attrName: string, attrValue: string) {
 
   return checkName(attrName) && checkValue(attrValue)
 }
-
-export function validateTerritory(attrs: Assigns) {
-
-}
-
-// export function validateAppearance() {
-//
-// }
-//
