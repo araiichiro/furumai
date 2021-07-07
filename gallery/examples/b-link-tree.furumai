@@ -1,21 +1,23 @@
-config='mode=diff,align=center';
-visibility='hidden';
+style {
+  #root { visibility: hidden; }
+  .transient { dy: 20px; }
+}
 
 group layer0 {
   c1;
-};
+}
 
 group layer1 {
   b1;
   b2;
-};
+}
 
 group layer2 {
   a1;
   a2;
   a3;
   a4;
-};
+}
 
 ---
 a1[t='v=[1]', label='root'];
@@ -28,24 +30,24 @@ a3[t='v=[3]'];
 
 ---
 a1[t='v=[1]', label='root'];
-a1 -> a3[dy=28];
+a1 -> a3[class=transient];
 
 ---
 b1 -> a1;
 b1 -> a3;
 b1[t='thresholds=[3]', label='root'];
-a1[t='v=[1]'];
+a1[t='v=[1]', label='a1'];
 
 ---
 a1[t='v=[1,2]']
 
 ---
 a2[t='v=[2]'];
-a2 -> a3
+a2 -> a3;
 
 ---
 a1 -> a2;
-delete a1 -> a3
+hide a1 -> a3;
 
 ---
 b1 -> a2;
@@ -56,10 +58,10 @@ b2 -> a3;
 ---
 b1[t='threshold=[2],\nsibling=3', label='root'];
 b1 -> b2;
-delete b1 -> a3
+hide b1 -> a3;
 
 ---
 c1 -> b1;
 c1 -> b2;
-b1[t='threshold=[3]'];
+b1[t='threshold=[3]', label='b1'];
 c1[t='threshold=[3]', label='root'];

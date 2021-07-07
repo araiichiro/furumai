@@ -1,8 +1,6 @@
-padding='20';
-
 actor1[shape='person'];
 node1[shape='box'];
-storage1[shape='cylinder'];
+store1[shape='cylinder'];
 
-actor1 -> node1;
-node1 -> storage1;
+actor1 -- node1;
+node1 -> store1;

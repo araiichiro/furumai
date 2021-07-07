@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Furumai</title>
+    <meta name="description" content="Furumai: Behavior description tool">
+    <meta name="og:image" content="/furumai/docs/og.png">
+    
+    <link rel="preload" href="/furumai/docs/assets/css/0.styles.bd99ae35.css" as="style"><link rel="preload" href="/furumai/docs/assets/js/app.f249e9bb.js" as="script"><link rel="preload" href="/furumai/docs/assets/js/11.1931d878.js" as="script"><link rel="prefetch" href="/furumai/docs/assets/js/10.f518f7fb.js"><link rel="prefetch" href="/furumai/docs/assets/js/12.0742a15a.js"><link rel="prefetch" href="/furumai/docs/assets/js/2.89526c53.js"><link rel="prefetch" href="/furumai/docs/assets/js/3.bb188c84.js"><link rel="prefetch" href="/furumai/docs/assets/js/4.6aabbaa9.js"><link rel="prefetch" href="/furumai/docs/assets/js/5.39e6f0bb.js"><link rel="prefetch" href="/furumai/docs/assets/js/6.ffc3e8b8.js"><link rel="prefetch" href="/furumai/docs/assets/js/7.46012cec.js"><link rel="prefetch" href="/furumai/docs/assets/js/8.37ae9f8e.js"><link rel="prefetch" href="/furumai/docs/assets/js/9.bc798ef6.js">
+    <link rel="stylesheet" href="/furumai/docs/assets/css/0.styles.bd99ae35.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/furumai/docs/ja/" class="home-link router-link-active"><!----> <span class="site-name">Furumai</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/furumai/docs/" class="nav-link">en-US</a></li><li class="dropdown-item"><!----> <a href="/furumai/docs/ja/internal.html" class="nav-link router-link-exact-active router-link-active">ja-JP</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/furumai/docs/" class="nav-link">en-US</a></li><li class="dropdown-item"><!----> <a href="/furumai/docs/ja/internal.html" class="nav-link router-link-exact-active router-link-active">ja-JP</a></li></ul></div></div> <!----></nav>  <!----> </div> <div class="page"> <div class="content"><p>本アプリの処理フローは下記の流れになっています。</p> <ol><li>メタ情報の把握
+<ul><li>URLで指定された下記のメタ情報を把握
+<ul><li>データフォーマットバージョン</li> <li>構文タイプ</li></ul></li> <li>ユーザーがテキストボックスに書いたfurumaiのコードは一旦URLに反映後に処理</li></ul></li> <li>デコード
+<ul><li>URLからfurumaiのコードをデコード</li> <li>このときデータフォーマットバージョンの指定にもとづきデコード</li></ul></li> <li>パース
+<ul><li>構文タイプにもとづきパース</li></ul></li> <li>オブジェクトツリー構築
+<ul><li>各オブジェクトの親子関係を構築</li></ul></li> <li>スタイルの特定
+<ul><li>各要素の幅、高さの指定があれば特定</li> <li>フレックスボックス関連のスタイルを特定</li></ul></li> <li>レイアウトの決定
+<ul><li>レイアウトエンジンが各要素のレイアウトを決定</li></ul></li> <li>描画
+<ul><li>各オブジェクトのレイアウト、スタイル指定にもとづき描画</li> <li>描画はVue.jsを利用</li></ul></li> <li>エフェクト
+<ul><li>rough.jsによる手書き風エフェクトの有無</li></ul></li></ol></div> <div class="page-edit"><!----> <!----></div> <!----> </div> <!----></div></div>
+    <script src="/furumai/docs/assets/js/app.f249e9bb.js" defer></script><script src="/furumai/docs/assets/js/11.1931d878.js" defer></script>
+  </body>
+</html>

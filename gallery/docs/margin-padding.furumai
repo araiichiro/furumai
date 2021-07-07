@@ -1,21 +1,3 @@
-n1[margin='20 1 100 300'];
-n2[margin='1 1 10 10'];
-
-group g1 {
-  zone z1 {
-    margin=100;
-    padding=100;
-    node[margin=100];
-    a1; b1;
-  };
-  zone z2 {
-    margin=1;
-    padding=1;
-    a; b;
-  };
-  zone z3 {
-    margin=1;
-    padding=1;
-    a3;
-  };
-}
+n1[margin='60px', t='text!', padding=16px];
+n2[margin='2px', t='text!!', padding='10px 28px'];
+n22[margin=30px];

@@ -1,0 +1,27 @@
+style {
+  .group, .zone { label: '' }
+  #native { fill: #d0f0fa }
+  .inner-edge { stroke-dasharray: 4 3; stroke: gray; }
+};
+
+group WebView {
+  user[shape=person];
+  chrome[icon='brands/chrome', label='WebView'];
+};
+
+group native {
+  label='Native App';
+  LogWriter[icon='undo', label='Log Writer'];
+  buffer[ label='Buffer', shape=pipe, t='  [event 1],\n[event 2],\n  ...' ];
+  LogSender[icon='redo', label='Log Sender'];
+};
+
+group backend {
+  server[icon='server', label='Backend'];
+};
+
+user -> chrome[t='Click'];
+chrome -> LogWriter[t='Publish'];
+LogWriter -> buffer[class=inner-edge];
+buffer -> LogSender[class=inner-edge];
+LogSender -> backend[t='Send'];

@@ -1,0 +1,9 @@
+config { mode: snapshot; }
+
+a;
+b;
+c;
+---
+a -> b;
+---
+b -> c;
