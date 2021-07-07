@@ -7,7 +7,7 @@
     <meta name="description" content="Furumai: Behavior description tool">
     <meta name="og:image" content="/furumai/docs/og.png">
     
-    <link rel="preload" href="/furumai/docs/assets/css/0.styles.1f60f0e9.css" as="style"><link rel="preload" href="/furumai/docs/assets/js/app.f35c8767.js" as="script"><link rel="preload" href="/furumai/docs/assets/js/7.23d16006.js" as="script"><link rel="preload" href="/furumai/docs/assets/js/4.ee24cb17.js" as="script"><link rel="prefetch" href="/furumai/docs/assets/js/10.de99ae43.js"><link rel="prefetch" href="/furumai/docs/assets/js/11.c4fdda81.js"><link rel="prefetch" href="/furumai/docs/assets/js/2.90e08604.js"><link rel="prefetch" href="/furumai/docs/assets/js/3.a2040991.js"><link rel="prefetch" href="/furumai/docs/assets/js/5.2dfbd45c.js"><link rel="prefetch" href="/furumai/docs/assets/js/6.8a8426bf.js"><link rel="prefetch" href="/furumai/docs/assets/js/8.c3066545.js"><link rel="prefetch" href="/furumai/docs/assets/js/9.206451ab.js">
+    <link rel="preload" href="/furumai/docs/assets/css/0.styles.1f60f0e9.css" as="style"><link rel="preload" href="/furumai/docs/assets/js/app.7839b39b.js" as="script"><link rel="preload" href="/furumai/docs/assets/js/7.7d0c4a98.js" as="script"><link rel="preload" href="/furumai/docs/assets/js/4.92ad4891.js" as="script"><link rel="prefetch" href="/furumai/docs/assets/js/10.151e8ff9.js"><link rel="prefetch" href="/furumai/docs/assets/js/11.fa218c66.js"><link rel="prefetch" href="/furumai/docs/assets/js/12.0742a15a.js"><link rel="prefetch" href="/furumai/docs/assets/js/2.89526c53.js"><link rel="prefetch" href="/furumai/docs/assets/js/3.f8f85757.js"><link rel="prefetch" href="/furumai/docs/assets/js/5.39e6f0bb.js"><link rel="prefetch" href="/furumai/docs/assets/js/6.ffc3e8b8.js"><link rel="prefetch" href="/furumai/docs/assets/js/8.37ae9f8e.js"><link rel="prefetch" href="/furumai/docs/assets/js/9.52b2377e.js">
     <link rel="stylesheet" href="/furumai/docs/assets/css/0.styles.1f60f0e9.css">
   </head>
   <body>
@@ -20,57 +20,149 @@
 Arrows (<code>-&gt;</code> or <code>--</code>) can be placed between elements.</p> <!----> <!----> <h2 id="icon-shapes"><a href="#icon-shapes" aria-hidden="true" class="header-anchor">#</a> Icon Shapes</h2> <p>You can specify <code>icon:</code> with Font Awesome icon as below.</p> <!----> <!----> <h2 id="behavior-motion-diagram-like-a-flipbook-comic"><a href="#behavior-motion-diagram-like-a-flipbook-comic" aria-hidden="true" class="header-anchor">#</a> Behavior motion diagram (like a flipbook comic)</h2> <p>Separate each frame of the motion diagram with <code>---</code>.</p> <!----> <!----> <h2 id="label-text"><a href="#label-text" aria-hidden="true" class="header-anchor">#</a> Label / Text</h2> <!----> <!----> <h2 id="svg-attribute"><a href="#svg-attribute" aria-hidden="true" class="header-anchor">#</a> SVG attribute</h2> <p>Attributes of SVG can be specified.</p> <!----> <!----> <h2 id="zone-group"><a href="#zone-group" aria-hidden="true" class="header-anchor">#</a> Zone / Group</h2> <p>There are the following methods to summarize the diagram elements.</p> <ul><li><code>Group</code> <ul><li>Lay it side by side</li></ul></li> <li><code>Zone</code> <ul><li>It arranges them in vertical direction</li></ul></li></ul> <!----> <!----> <h2 id="margin-padding"><a href="#margin-padding" aria-hidden="true" class="header-anchor">#</a> Margin / Padding</h2> <p>You can set <code>margin</code> / <code>padding</code>, like web pages.</p> <!----> <!----> <h2 id="dx-dy"><a href="#dx-dy" aria-hidden="true" class="header-anchor">#</a> dx / dy</h2> <p>There are cases where arrows overlap as a result of automatic placement.
 You can shift the arrangement of arrows by specifying the <code>dx</code> / <code>dy</code> attribute.
 You can also shift the arrangement of basic shape (<code>node</code>) by specifying the <code>dx</code> / <code>dy</code> attribute.</p> <!----> <!----> <h2 id="centering-no-left-justified"><a href="#centering-no-left-justified" aria-hidden="true" class="header-anchor">#</a> Centering (no left-justified)</h2> <!----> <!----> <h2 id="diff-mode-difference-description-mode"><a href="#diff-mode-difference-description-mode" aria-hidden="true" class="header-anchor">#</a> Diff mode (Difference description mode)</h2> <p>By writing it at the top of the file as shown below, it can be described by difference.
-Difference description mode is useful for cases such as &quot;description of algorithm operation&quot; such as &quot;small change makes a thing&quot;.</p> <p>If you hide it in the initial state, you can make it display after change.</p> <!----> <!----> <!----> <!----> <h2 id="direction"><a href="#direction" aria-hidden="true" class="header-anchor">#</a> Direction</h2> <p>Changing the direction of layout to left to right (default: <code>top to bottom</code>).</p> <!----> <!----> <h2 id="hide-displayed-elements"><a href="#hide-displayed-elements" aria-hidden="true" class="header-anchor">#</a> Hide displayed elements</h2> <p>To hide the displayed element, use <code>hide</code> or <code>delete</code> as follows.</p> <!----> <!----> <h2 id="rough-mode"><a href="#rough-mode" aria-hidden="true" class="header-anchor">#</a> Rough Mode</h2> <p>You can enable <code>Rough.js</code> when checkbox is checked.</p> <h1 id="syntax"><a href="#syntax" aria-hidden="true" class="header-anchor">#</a> Syntax</h1> <div class="language-g4 extra-class"><pre class="language-text"><code>grammar Furumai;
+Difference description mode is useful for cases such as &quot;description of algorithm operation&quot; such as &quot;small change makes a thing&quot;.</p> <p>If you hide it in the initial state, you can make it display after change.</p> <!----> <!----> <!----> <!----> <h2 id="direction"><a href="#direction" aria-hidden="true" class="header-anchor">#</a> Direction</h2> <p>Changing the direction of layout to left to right (default: <code>top to bottom</code>).</p> <!----> <!----> <h2 id="hide-displayed-elements"><a href="#hide-displayed-elements" aria-hidden="true" class="header-anchor">#</a> Hide displayed elements</h2> <p>To hide the displayed element, use <code>hide</code> or <code>delete</code> as follows.</p> <!----> <!----> <h2 id="rough-mode"><a href="#rough-mode" aria-hidden="true" class="header-anchor">#</a> Rough Mode</h2> <p>You can enable <code>Rough.js</code> when checkbox is checked.</p> <h1 id="syntax"><a href="#syntax" aria-hidden="true" class="header-anchor">#</a> Syntax</h1> <div class="language-g4 extra-class"><pre class="language-g4"><code><span class="token keyword">grammar</span> Furumai<span class="token punctuation">;</span>
 
-story: moment ('---' moment)* '---'? EOF;
-moment: stmt_list ;
+<span class="token definition rule class-name">story</span>
+  <span class="token punctuation">:</span> config<span class="token operator">?</span> layout <span class="token punctuation">(</span> <span class="token string">'---'</span> update <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token string">'---'</span><span class="token operator">?</span> <span class="token constant">EOF</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">config</span>
+  <span class="token punctuation">:</span> <span class="token string">'config'</span> <span class="token string">'{'</span> declaration<span class="token operator">?</span> <span class="token punctuation">(</span> <span class="token string">';'</span> declaration <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token string">';'</span><span class="token operator">?</span> <span class="token string">'}'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">layout</span>
+  <span class="token punctuation">:</span> stmt_list
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">update</span>
+  <span class="token punctuation">:</span> stmt_list
+  <span class="token punctuation">;</span>
 
-stmt_list: stmt (';' stmt)* ';'? ;
-stmt: node_stmt
-    | edge_stmt
-    | attr_stmt
-    | assignment
-    | group
-    | zone
-    | hide
-    | config
-    ;
+<span class="token definition rule class-name">stmt_list</span>
+  <span class="token punctuation">:</span> stmt<span class="token operator">*</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">stmt</span>
+  <span class="token punctuation">:</span> group
+  <span class="token operator">|</span> zone
+  <span class="token operator">|</span> node_stmt
+  <span class="token operator">|</span> edge_stmt
+  <span class="token operator">|</span> hide
+  <span class="token operator">|</span> declaration
+  <span class="token operator">|</span> style
+  <span class="token operator">|</span> semi_colon
+  <span class="token punctuation">;</span>
 
-attr_stmt : (GROUP | NODE | EDGE | ZONE) attr_list ;
-config : CONFIG attr_list
-       | CONFIG '=' ID // TODO @deprecated
-       ;
-attr_list : '[' assignment ( ( ',' | ';' )?  assignment)* ']' ;
-assignment : ID '=' ID ;
+<span class="token definition rule class-name">group</span>
+  <span class="token punctuation">:</span> <span class="token string">'group'</span> <span class="token constant">ID</span> <span class="token string">'{'</span> stmt_list <span class="token string">'}'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">zone</span>
+  <span class="token punctuation">:</span> <span class="token string">'zone'</span> <span class="token constant">ID</span> <span class="token string">'{'</span> stmt_list <span class="token string">'}'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">node_stmt</span>
+  <span class="token punctuation">:</span> <span class="token constant">ID</span> <span class="token string">';'</span>
+  <span class="token operator">|</span> <span class="token constant">ID</span> attr_list
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">edge_stmt</span>
+  <span class="token punctuation">:</span> <span class="token constant">ID</span> <span class="token constant">EDGEOP</span> <span class="token constant">ID</span> <span class="token string">';'</span>
+  <span class="token operator">|</span> <span class="token constant">ID</span> <span class="token constant">EDGEOP</span> <span class="token constant">ID</span> attr_list
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">attr_list</span>
+  <span class="token punctuation">:</span> <span class="token string">'['</span> declaration <span class="token punctuation">(</span> <span class="token punctuation">(</span> <span class="token string">','</span> <span class="token operator">|</span> <span class="token string">';'</span> <span class="token punctuation">)</span><span class="token operator">?</span>  declaration <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token punctuation">(</span> <span class="token string">','</span> <span class="token operator">|</span> <span class="token string">';'</span> <span class="token punctuation">)</span><span class="token operator">?</span> <span class="token string">']'</span>
+  <span class="token operator">|</span> <span class="token string">'['</span> <span class="token string">']'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">hide</span>
+  <span class="token punctuation">:</span> hide_elem
+  <span class="token operator">|</span> hide_edge
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">hide_elem</span>
+  <span class="token punctuation">:</span> <span class="token string">'hide'</span> <span class="token constant">ID</span> <span class="token string">';'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">hide_edge</span>
+  <span class="token punctuation">:</span> <span class="token string">'hide'</span> <span class="token constant">ID</span> <span class="token constant">EDGEOP</span> <span class="token constant">ID</span> <span class="token string">';'</span>
+  <span class="token punctuation">;</span>
 
-edge_stmt : ID EDGEOP ID attr_list? ;
+<span class="token definition rule class-name">style</span>
+  <span class="token punctuation">:</span> <span class="token string">'style'</span> <span class="token string">'{'</span> css_stmt<span class="token operator">*</span> <span class="token string">'}'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">css_stmt</span>
+  <span class="token punctuation">:</span> selector_list <span class="token string">'{'</span> declaration<span class="token operator">?</span> <span class="token punctuation">(</span> <span class="token punctuation">(</span> <span class="token string">','</span> <span class="token operator">|</span> <span class="token string">';'</span> <span class="token punctuation">)</span> declaration <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token punctuation">(</span> <span class="token string">','</span> <span class="token operator">|</span> <span class="token string">';'</span> <span class="token punctuation">)</span><span class="token operator">?</span> <span class="token string">'}'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">selector_list</span>
+  <span class="token punctuation">:</span> selector <span class="token punctuation">(</span> <span class="token string">','</span> selector <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token string">','</span><span class="token operator">?</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">selector</span>
+  <span class="token punctuation">:</span> combined_selector<span class="token operator">*</span> basic_selector
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">combined_selector</span>
+  <span class="token punctuation">:</span> basic_selector combinator<span class="token operator">?</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">combinator</span>
+  <span class="token punctuation">:</span> <span class="token string">'&gt;'</span>
+  <span class="token punctuation">;</span>
 
-node_stmt : ID attr_list? ;
+<span class="token definition rule class-name">basic_selector</span>
+  <span class="token punctuation">:</span> univ_selector
+  <span class="token operator">|</span> type_selector
+  <span class="token operator">|</span> class_selector
+  <span class="token operator">|</span> id_selector
+  <span class="token operator">|</span> edge_selector
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">univ_selector</span>
+  <span class="token punctuation">:</span> <span class="token string">'*'</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">type_selector</span>
+  <span class="token punctuation">:</span> <span class="token constant">ID</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">class_selector</span>
+  <span class="token punctuation">:</span> <span class="token constant">DOT</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">id_selector</span>
+  <span class="token punctuation">:</span> <span class="token constant">HASH</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">edge_selector</span>
+  <span class="token punctuation">:</span> <span class="token constant">ID</span> <span class="token constant">EDGEOP</span> <span class="token constant">ID</span>
+  <span class="token punctuation">;</span>
 
-group : GROUP ID '{' stmt_list '}' ;
-zone  : ZONE  ID '{' stmt_list '}' ;
+<span class="token definition rule class-name">declaration</span>
+  <span class="token punctuation">:</span> <span class="token constant">ID</span> <span class="token constant">DOT</span><span class="token operator">*</span> <span class="token punctuation">(</span> <span class="token string">':'</span> <span class="token operator">|</span> <span class="token string">'='</span> <span class="token punctuation">)</span> val<span class="token operator">+</span>
+  <span class="token punctuation">;</span>
+<span class="token definition rule class-name">val</span>
+  <span class="token punctuation">:</span> <span class="token constant">STRING</span>
+  <span class="token operator">|</span> <span class="token constant">ID</span>
+  <span class="token operator">|</span> <span class="token constant">HASH</span>
+  <span class="token punctuation">;</span>
 
-hide: (HIDE | DELETE) (ID | ID EDGEOP ID);
+<span class="token definition rule class-name">semi_colon</span>
+  <span class="token punctuation">:</span> <span class="token string">';'</span>
+  <span class="token punctuation">;</span>
 
-NODE : 'node' ;
-EDGE : 'edge' ;
-GROUP: 'group' ;
-ZONE : 'zone' ;
-HIDE: 'hide' ;
-DELETE: 'delete' ;
-CONFIG : 'config' ;
+<span class="token definition token constant">ID</span>
+  <span class="token punctuation">:</span> <span class="token string">'-'</span><span class="token operator">?</span> <span class="token character-class regex"><span class="token punctuation">[</span>a<span class="token range punctuation">-</span>zA<span class="token range punctuation">-</span>Z_0<span class="token range punctuation">-</span>9<span class="token punctuation">]</span></span><span class="token operator">+</span> <span class="token punctuation">(</span><span class="token string">'-'</span> <span class="token character-class regex"><span class="token punctuation">[</span>a<span class="token range punctuation">-</span>zA<span class="token range punctuation">-</span>Z_0<span class="token range punctuation">-</span>9<span class="token punctuation">]</span></span><span class="token operator">+</span><span class="token punctuation">)</span><span class="token operator">*</span>
+  <span class="token punctuation">;</span>
 
-EDGEOP : '-&gt;'
-       | '--'
-       ;
+<span class="token definition token constant">HASH</span>
+  <span class="token punctuation">:</span> <span class="token string">'#'</span> <span class="token constant">ID</span>
+  <span class="token punctuation">;</span>
 
-ID : '\'' (~'\'')* '\'' {this.text = this.text.slice(1, -1)}
-   | '&quot;' (~'&quot;')* '&quot;' {this.text = this.text.slice(1, -1)}
-   | [a-zA-Z_0-9\-] [a-zA-Z_0-9.\-]*
-   ;
+<span class="token definition token constant">DOT</span>
+  <span class="token punctuation">:</span> <span class="token string">'.'</span> <span class="token constant">ID</span>
+  <span class="token punctuation">;</span>
 
-SPACES : [ \u000B\t\r\n] -&gt; channel(HIDDEN) ;
+<span class="token definition token constant">STRING</span>
+  <span class="token punctuation">:</span> <span class="token string">'\''</span> <span class="token punctuation">(</span> <span class="token operator">~</span><span class="token string">'\''</span> <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token string">'\''</span> <span class="token action"><span class="token punctuation">{</span><span class="token content"> this.text = this.text.slice(1, -1)</span><span class="token punctuation">}</span></span>
+  <span class="token operator">|</span> <span class="token string">'&quot;'</span> <span class="token punctuation">(</span> <span class="token operator">~</span><span class="token string">'&quot;'</span> <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token string">'&quot;'</span> <span class="token action"><span class="token punctuation">{</span><span class="token content"> this.text = this.text.slice(1, -1) </span><span class="token punctuation">}</span></span>
+  <span class="token punctuation">;</span>
+
+<span class="token definition token constant">EDGEOP</span>
+  <span class="token punctuation">:</span> <span class="token string">'--'</span>
+  <span class="token operator">|</span> <span class="token string">'-&gt;'</span>
+  <span class="token punctuation">;</span>
+
+<span class="token definition token constant">SPACES</span>
+  <span class="token punctuation">:</span> <span class="token character-class regex"><span class="token punctuation">[</span> <span class="token escape">\u000B</span><span class="token escape">\t</span><span class="token escape">\r</span><span class="token escape">\n</span><span class="token punctuation">]</span></span> <span class="token operator">-&gt;</span> <span class="token command"><span class="token function">channel</span><span class="token punctuation">(</span>HIDDEN<span class="token punctuation">)</span></span>
+  <span class="token punctuation">;</span>
+
+<span class="token definition token constant">SINGLE_LINE_COMMENT</span>
+  <span class="token punctuation">:</span> <span class="token string">'//'</span> <span class="token punctuation">(</span> <span class="token operator">~</span><span class="token punctuation">(</span><span class="token string">'\r'</span> <span class="token operator">|</span> <span class="token string">'\n'</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token operator">*</span> <span class="token punctuation">(</span><span class="token string">'\r'</span> <span class="token operator">|</span> <span class="token string">'\n'</span> <span class="token operator">|</span> <span class="token constant">EOF</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token command"><span class="token function">channel</span><span class="token punctuation">(</span>HIDDEN<span class="token punctuation">)</span></span>
+  <span class="token punctuation">;</span>
 </code></pre></div><div id="footer" data-v-4c006914><hr data-v-4c006914> <a href="/furumai/docs/about.html" data-v-4c006914>About</a> <a href="/furumai/docs/gallery.html" data-v-4c006914>Gallery</a> <a href="https://github.com/araiichiro/furumai" data-v-4c006914>GitHub Repository</a></div></div> <div class="page-edit"><!----> <!----></div> <!----> </div> <!----></div></div>
-    <script src="/furumai/docs/assets/js/app.f35c8767.js" defer></script><script src="/furumai/docs/assets/js/7.23d16006.js" defer></script><script src="/furumai/docs/assets/js/4.ee24cb17.js" defer></script>
+    <script src="/furumai/docs/assets/js/app.7839b39b.js" defer></script><script src="/furumai/docs/assets/js/7.7d0c4a98.js" defer></script><script src="/furumai/docs/assets/js/4.92ad4891.js" defer></script>
   </body>
 </html>
