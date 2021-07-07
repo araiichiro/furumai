@@ -21,7 +21,7 @@ A tool of behavior visualization, via a DOT (Graphviz) like description:
   viewCode="false"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 # Features
 
@@ -60,7 +60,7 @@ Arrows (`->` or `--`) can be placed between elements.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhjgC4JToDaMAFiQA4QC8A5C7MuwLoDcAHSRICEWg2Zt2AIwQAPPkKQxKUcXUYsOOAJ4AbOEkJQlw4WTXoABAFpb10YXTKn4uwD5rqquOUhsEiQ4AFsSckQUVFBLOEg0cigAVwgAX1SgA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Icon Shapes
 
@@ -89,7 +89,7 @@ The `diff mode` is useful especially for "incremental small changes" such as exp
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhgNwA6SARpUjnQLTNUkAEjAfG7Vc41WoduDKiGwkkcALYkALohSpQJHAsho5UAK4QAvnqA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 If you hide it initial layout, it can be made to appear only after changes have been made.
 
@@ -99,7 +99,7 @@ If you hide it initial layout, it can be made to appear only after changes have 
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEa4c8ARnADZwAuAngLwAWc+hSA3ADpI8DmUBAFcADgAIAhlCgS6Y4DzFikBCAG0AtlL5wkDAAyYxIiW118G6Q2IDurGkwYAOa0whw+TGs4CsRyhJkEJQMAOShALrcSEo46NGxAEwJYjgAzCk4ACyZPpkAbGoBQSGhAHQVoUYwNIIA1hBhKkgQkZkA7JlO0QC+0QC0gzxxat6hEuiJaW3DiaNhZJNZM0jp86FxiT4r2ev4k-krg-3DPusQk+07+dE4ncPdPCDYEkhwWjSIKKigEjifkDQtSEEB6PSAA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ### Snapshot mode
 
@@ -111,7 +111,7 @@ If each frame is independent, use the `snapshot` mode.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYAEwVAtgRKlTEgIYAOMAFggC4BuKgF8AOknFsB4gEbSkOeQFoVkqkoB8VOeJVLZ6rYvEhsbJHDps+iFKlBscNyGj5QArhGHCgA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Label / Text
 
@@ -121,7 +121,7 @@ If each frame is independent, use the `snapshot` mode.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaISBE6A2jABYCGADhALwDkARggB4uYAEALqzxJ+EEb2rQILALoBuADpJaOfgiiUaDZi0axkPXgBtabCEda1eAVxjRZipDDVRyVOoyEBPI3CSEoQxMzCxZndQgAQkNBFgBrdFReMHQHJRBsWiQ4AFtafkQUVFAVAsg0fihrCABfGqA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## SVG attribute
 
@@ -131,7 +131,7 @@ If each frame is independent, use the `snapshot` mode.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIS6A2gC4C8A5BRAB4UAE6NmzAZnADY9UBDAI4BXAQFsBUOEggBdANwAdJEgBMypCtLMAtAD5m6siubMYFKAgDWEXQHc4+CgAsqAdkynzlm3Z4yEDgCAA60ViJI+OzeFla2uvgCMC5SUAIAnlRKIADMzACcOd4IIQI4cBRZOQAMAHQArMVIZtQ0Asz0TDEtnYwUddx8VADEAgBsnF5Iiiog2AJIcJIUiCiooOWrkGiWIhAAvgdAA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Zone / Group
 
@@ -148,7 +148,7 @@ There are the following methods to summarize the diagram elements.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIA5lAgK4AOABDujcADpI00BmcANlwLwDE7dhADcLNgFsIAbRgALAIZUIvAOTLYyVQF0xrGgCNyAdxjR0etgBcECLhZYBfFmUq0zUMHBwQGzfZw8qDSCwpY0AF7IEDQKEX7ibBzcfIIQ7OFsVOQAHgCeDvpsBgo4ANYQSPiFbM76UUgxcQBMjIlsganCGe002Qj5zZmGpRVVQ4l1dSxSNAC0AHyGJh6FNnYMi8sIpubSuiwsRjur80v9+YXHu1Cb57l5E0gXBWcj5ZXVei+tWyUf4z0IGwCiQcAkCisiBQqFApShkDQVigFAgjkcQA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Style
 
@@ -168,7 +168,7 @@ The following IDs and classes are provided by default.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIMALgJ4A2EABMADpI00DES6dNZUCA1hKlYA2AIYAzGgF9GzNhwB0lEQCMIlTmLiVKglmNEBuGmOSkAtPABeAmgGYATAAcAHkelNW7GvNIRnpDS0dVhEhMQN3SQNGRnYAbVIAXgByX38adGTMYyDEkQBHAFcRAFsRKDgkCABdaKQkezrYjjMAPhoGuJkuUh5+MwB3OHxSAAtEgHZMbu4+CDNKSogcEUcUnkKkfCyZ3rmzfBEYUfKoEXJE+hBbGgBOK+6ERxEcOApLkAAGeQBWB48kskRDQ0qQdgC-KR5JptIkWKExNMkLVGCBsCIkHAyqREChUKAXjjIGheoUIJJJEA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Margin / Padding
 
@@ -180,7 +180,7 @@ You can set `margin` / `padding`, like web pages.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIS6A2gLYCGUA5nEgLwDkAbAAwAOAHs5gAQAXFoIjdBAQj79OVfPga1G6VjwC6AbgA6SJACZKNek2Z6e04c1HiJUgbPmKW6Lt356AHOc079B6nQMjADMrj4o2FRIcNSCiCiooFQ4cZBoglAArhAAvjlAA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## dx / dy
 
@@ -193,7 +193,7 @@ You can shift the arrangement of arrows by specifying the `dx` / `dy` attribute.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIAhgNwA6SARpUjnVQOZQICuADgARMBMXwKly746wiGK4AzOgF9GSElwC0APi44A2vgAeAXgDMABg46AunWor1DKvmvS6EB1O0BPPbyMWqIbCSQ4AFsSABdEFFRQEhxwyDRQqDYIWVkgA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Layout like CSS Flexbox
 
@@ -203,7 +203,7 @@ You can shift the arrangement of arrows by specifying the `dx` / `dy` attribute.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIMALgJ4A2EABMADpI00DEA5gEx2PPMBWAVzJwAZuQC0eJKQjTUNMgEMopANw8aAXw3sAzNya9BwsZOQy5CgA6KcEccoQCk+dYe1IPjNlCdWabOh0NIqqNABGYR4+fgFcwDQ4Ud6+Av5s+gmuWimxbAAswRDJKNiKSHAAtoqkiCiooLa1kGikUAIQmppAA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Direction / Orientation
 
@@ -215,7 +215,7 @@ You can change the layout direction by specifying `flex-direction` in `style` or
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEaIMALgJ4A2EABMADpI00DEUCCpdjzzAZtQAeAWnxwoEHKURJUNdgHcA3DxoBfRhqSMAhkpoAjfThUpsOpHAC2O6cjSgdUuJDSkoAVwhq1QA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 <ClientOnly>
 <DocSnippet
@@ -223,7 +223,7 @@ You can change the layout direction by specifying `flex-direction` in `style` or
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYAEwCUcESALgIZOJIC8ANi0vjBwsADhAC+AHSRSkBCOgDcUljiZ10AbRgALERE6jYyALpKkMNVHlbdozjgCe3OP2impIbHzgBbNhzRQFXZINCYoAFdxMSA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Hide displayed elements
 
@@ -235,7 +235,7 @@ To hide the displayed element, use `hide` as follows.
   url="v1/N4IgbgpgTgzglgewHYgFwEYA0IDGCAmEauyAZnAOYAEwAtgRKlTEgIYAOMAFggC4C+AHSTDWAbmEAjCWyoBaAHxVpw4XPXCucQlVbylKkUnVzN2iMpkhsrJHFqteiFKlCscTyGl5QArhH5+IA"
 ></DocSnippet>
 </ClientOnly>
-<a v-if="false" href="https://araiichiro.github.io/furumai/docs/ja">Image not rendered. [view image]</a>
+<a v-if="false" href="https://araiichiro.github.io/furumai/docs">Image not rendered. [view image]</a>
 
 ## Comment
 
