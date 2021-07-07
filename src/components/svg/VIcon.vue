@@ -1,37 +1,20 @@
 <template>
-  <g>
-    <v-icon
-      v-bind:name="name"
-      v-bind="shapeAttrs"
-      class="no_rough"
-    ></v-icon>
-    <TextContent
-      v-bind:position="labelPosition"
-      v-bind:content="textContentLabel"
-      v-bind:dy="labelDy"
-      v-bind:attrs="labelAttrs"></TextContent>
-    <TextContent
-      v-bind:position="textPosition"
-      v-bind:content="textContentText"
-      v-bind:centering="true"
-      v-bind:attrs="textAttrs"></TextContent>
-    <GridArea v-bind:box="shape.box"></GridArea>
-  </g>
+  <v-icon
+    v-bind:name="name"
+    v-bind="svgAttrs"
+    class="no_rough"
+  ></v-icon>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import 'vue-awesome/icons'
-import TextContent from '@/components/svg/TextContent.vue'
 import Icon from 'vue-awesome/components/Icon.vue'
-import GridArea from '@/components/svg/GridArea.vue'
-import {Shape} from '@/components/model/Shape'
-import {asString} from '@/utils/types'
+import {SvgElem} from '@/components/model/SvgElem'
+import {Assigns} from '@/style/Style'
 
 @Component({
   components: {
-    GridArea,
-    TextContent,
     'v-icon': Icon,
   },
 })
@@ -47,74 +30,28 @@ export default class VIcon extends Vue {
   }
 
   @Prop()
-  public shape!: Shape
+  public elem!: SvgElem
 
   get name(): string {
-    const requiredName = this.shape.type.split(':')[1]
+    const requiredName = this.elem.icon || ''
     if (VIcon.validIcons.has(requiredName)) {
       return requiredName
     } else {
-      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${this.shape.type}`)
+      throw new Error(`Sorry, the attribute is not used for security reason: shape => ${this.elem.icon}`)
     }
   }
 
-  get labelPosition(): {x: number, y: number} {
-    const {x, y} = this.shape.box
+  get svgAttrs(): Assigns {
+    const {x, y, width, height, ...rest} = this.elem.secureAttrs.svgAttrs
     return {
       x,
       y,
-    }
-  }
-
-  get labelDy(): number {
-    const label = this.shape.text.label || ''
-    const lc = label.split('\\n').length
-    return -1 * lc
-  }
-
-  get textContentText() {
-    return {
-      t: this.shape.text.t,
-    }
-  }
-
-  get textContentLabel() {
-    return {
-      label: this.shape.text.label,
-    }
-  }
-
-  get textPosition(): {x: number, y: number} {
-    const {x, y, width, height, padding} = this.shape.box
-    return {
-      x: x + width / 2,
-      y: y + height / 2,
-    }
-  }
-
-  public get shapeAttrs() {
-    const {x, y, width, height, margin, padding} = asString(this.shape.box)
-    return {
-      id: `_icon_${this.shape.id}`,
-      x, y, width, height, margin, padding,
-      ...this.shape.svgAttrs.svgAttrs,
-    }
-  }
-
-  public get labelAttrs() {
-    return {
-      ...this.shape.text.textAttrs.svgAttrs,
-    }
-  }
-
-  public get textAttrs() {
-    return {
-      'text-anchor': 'middle',
-      ...this.shape.text.textAttrs.svgAttrs,
+      width,
+      height,
+      style: Object.keys(rest).map((k) => `${k}:${rest[k]}`).join(';'),
     }
   }
 }
-
 </script>
 
 <style scoped>

@@ -2,14 +2,14 @@
   <div>
     <FurumaiApp1 v-if="version === 1" v-bind:furumaiData="furumaiData" v-bind:changeUrl="changeUrl"></FurumaiApp1>
     <div v-else-if="version === -1">version = -1</div>
-    <div v-else>version error: {{version}}</div>
+    <div v-else>version error: {{ version }}</div>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
 import FurumaiApp1 from '@/components/FurumaiApp1.vue'
-import {DataEncoderDecoderV1} from '@/utils/types'
+import {DataEncoderDecoderV1} from '@/codec/codec'
 
 @Component({
   components: {

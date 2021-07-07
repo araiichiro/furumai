@@ -4,7 +4,7 @@
     v-bind:x="text.base.x"
     v-bind:y="text.base.y"
     v-bind="text.svgAttrs.svgAttrs"
-    class="text"
+    class="label"
   >
     <tspan
       v-if="text"
@@ -21,21 +21,9 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import {TextElem} from '@/components/model/TextElem'
 
 @Component
-export default class TextContent extends Vue {
+export default class LabelComponent extends Vue {
   @Prop()
   public text?: TextElem
-
-  // @Prop()
-  // public content!: string
-  //
-  // @Prop({default: false})
-  // public centering!: boolean
-  //
-  // @Prop({default: 0.5})
-  // public dy!: number
-  //
-  // @Prop({default: {x: 0, y: 0}})
-  // public position!: {x: string, y: string}
 }
 </script>
 

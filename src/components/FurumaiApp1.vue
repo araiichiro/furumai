@@ -23,10 +23,10 @@
               </label>
               <button class="button primary furumai-button" @click="furumai">View (Ctrl + Enter)</button>
             </div>
-            <hr />
+            <hr/>
             <div>
               Default settings:
-              <pre>{{ defaultConfig }}</pre>
+              <pre>{{ defaults }}</pre>
             </div>
           </label>
         </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="" ref="moments" v-else>
           <div class="card" v-for="s in svgs">
-            <SvgComponent v-bind:shape="s" v-bind:rough="furumaiData.rough"></SvgComponent>
+            <SvgComponent v-bind:svg="s" v-bind:rough="furumaiData.rough"></SvgComponent>
           </div>
         </div>
         <div class="nav-right moments-footer">
@@ -55,11 +55,9 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import {Route} from 'vue-router'
-import {parse} from '@/utils/parser'
-import {Story} from '@/utils/Story'
-import * as model from '@/components/model/Group'
-import {Group} from '@/components/model/Group'
+import * as model from '@/components/model/Svg'
 import SvgComponent from '@/components/svg/SvgComponent.vue'
+import {defaultString, toSvgModels} from '@/furumai/main'
 
 interface AppParams1 {
   code: string
@@ -77,6 +75,8 @@ interface AppParams1 {
   },
 })
 export default class FurumaiApp1 extends Vue {
+
+  public svgs: model.Svg[] = []
   @Prop({default: {}}) private furumaiData!: AppParams1
   @Prop() private changeUrl!: (data: AppParams1) => void
   @Prop({default: true}) private editorMode!: boolean
@@ -84,26 +84,7 @@ export default class FurumaiApp1 extends Vue {
 
   private errors: string = ''
 
-  private defaultConfig = `config [
-  orientation='top to bottom',
-  mode='no diff',
-  align='no center'
-];
-
-font-size = 24;
-group [margin='100 20', padding='20 16',
-       stroke=none, fill=none,
-       text.stroke=black, text.stroke-width=1, text.fill=black];
-zone  [margin='20 150', padding='20 16',
-       stroke=none, fill=none,
-       text.stroke=black, text.stroke-width=1, text.fill=black];
-node  [margin='24 20', padding='24 16', width=215, height=150,
-       fill=none, stroke=black, 'stroke-width'=2,
-       text.fill=black, text.stroke-width=1];
-edge  [stroke=black, 'stroke-width'=2
-       text.fill=black, text.stroke-width=1];`
-
-  private svgs: model.Group[] = []
+  private defaults = defaultString
 
   @Watch('$route')
   public onRouteChanged(route: Route, oldRoute: Route) {
@@ -145,77 +126,54 @@ edge  [stroke=black, 'stroke-width'=2
     }
   }
 
-  private toSvgOrError(text: string): model.Group[] | Error {
-    try {
-      return vue(text, this.defaultConfig)
-    } catch (e) {
-      return e
-    }
-  }
-
   private draw(text: string): void {
     this.errors = ''
     const animationConfig = {
       ...this.furumaiData.animation,
     }
-    let svgs = this.toSvgOrError(text)
-    if (svgs instanceof Error) {
-        const stack = svgs.stack || ''
-        this.errors = stack
-    } else {
-        if (!this.furumaiData.displayFirstSvg) {
-            const [first, ...rest] = svgs
-            svgs = rest.length > 0 ? rest : svgs
-        }
-        this.svgs = svgs
+    try {
+      let svgs = toSvgModels(text)
+      if (!this.furumaiData.displayFirstSvg) {
+        const [first, ...rest] = svgs
+        svgs = rest.length > 0 ? rest : svgs
+      }
+      this.svgs = svgs
+    } catch (e) {
+      this.errors = e.stack || ''
     }
-  }
-}
-
-function vue(furumaiCode: string, defaults: string): Group[] | SyntaxError {
-  const story = parse(furumaiCode)
-  if (story instanceof Story) {
-    const defaultConfig = parse(defaults) as Story
-    const ret: Group[] = []
-    for (const moment of story.moments(defaultConfig.frames)) {
-      ret.push(moment.vue())
-    }
-    return ret
-  } else {
-    return story
   }
 }
 </script>
 
 <style>
-  .code-editor-wrap {
-    max-width: 80rem;
-    padding-left: 1.5rem;
-  }
+.code-editor-wrap {
+  max-width: 80rem;
+  padding-left: 1.5rem;
+}
 
-  .code-editor {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    height: 70vh;
-  }
+.code-editor {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  height: 70vh;
+}
 
-  .card {
-    margin: 1.5rem;
-  }
+.card {
+  margin: 1.5rem;
+}
 
-  .options {
-    margin-right: 2rem;
-  }
+.options {
+  margin-right: 2rem;
+}
 
-  .moments-footer {
-    margin-right: 1.5rem;
-  }
+.moments-footer {
+  margin-right: 1.5rem;
+}
 
-  .card {
-    overflow: scroll;
-  }
+.card {
+  overflow: scroll;
+}
 
-  .text-error {
-    overflow: scroll;
-  }
+.text-error {
+  overflow: scroll;
+}
 </style>
