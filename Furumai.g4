@@ -1,50 +1,142 @@
 grammar Furumai;
 
-story: moment ('---' moment)* '---'? EOF;
-moment: stmt_list ;
+story
+  : config? layout ( '---' update )* '---'? EOF
+  ;
+config
+  : 'config' '{' declaration? ( ';' declaration )* ';'? '}'
+  ;
+layout
+  : stmt_list
+  ;
+update
+  : stmt_list
+  ;
 
-stmt_list: stmt (';' stmt)* ';'? ;
-stmt: node_stmt
-    | edge_stmt
-    | attr_stmt
-    | assignment
-    | group
-    | zone
-    | hide
-    | config
-    ;
+stmt_list
+  : stmt*
+  ;
+stmt
+  : group
+  | zone
+  | node_stmt
+  | edge_stmt
+  | hide
+  | declaration
+  | style
+  | semi_colon
+  ;
 
-attr_stmt : (GROUP | NODE | EDGE | ZONE) attr_list ;
-config : CONFIG attr_list
-       | CONFIG '=' ID // TODO @deprecated
-       ;
-attr_list : '[' assignment ( ( ',' | ';' )?  assignment)* ']' ;
-assignment : ID '=' ID ;
+group
+  : 'group' ID '{' stmt_list '}'
+  ;
+zone
+  : 'zone' ID '{' stmt_list '}'
+  ;
+node_stmt
+  : ID ';'
+  | ID attr_list
+  ;
+edge_stmt
+  : ID EDGEOP ID ';'
+  | ID EDGEOP ID attr_list
+  ;
+attr_list
+  : '[' declaration ( ( ',' | ';' )?  declaration )* ( ',' | ';' )? ']'
+  | '[' ']'
+  ;
+hide
+  : hide_elem
+  | hide_edge
+  ;
+hide_elem
+  : 'hide' ID ';'
+  ;
+hide_edge
+  : 'hide' ID EDGEOP ID ';'
+  ;
 
-edge_stmt : ID EDGEOP ID attr_list? ;
+style
+  : 'style' '{' css_stmt* '}'
+  ;
+css_stmt
+  : selector_list '{' declaration? ( ( ',' | ';' ) declaration )* ( ',' | ';' )? '}'
+  ;
+selector_list
+  : selector ( ',' selector )* ','?
+  ;
+selector
+  : combined_selector* basic_selector
+  ;
+combined_selector
+  : basic_selector combinator?
+  ;
+combinator
+  : '>'
+  ;
 
-node_stmt : ID attr_list? ;
+basic_selector
+  : univ_selector
+  | type_selector
+  | class_selector
+  | id_selector
+  | edge_selector
+  ;
+univ_selector
+  : '*'
+  ;
+type_selector
+  : ID
+  ;
+class_selector
+  : DOT
+  ;
+id_selector
+  : HASH
+  ;
+edge_selector
+  : ID EDGEOP ID
+  ;
 
-group : GROUP ID '{' stmt_list '}' ;
-zone  : ZONE  ID '{' stmt_list '}' ;
+declaration
+  : ID DOT* ( ':' | '=' ) val+
+  ;
+val
+  : STRING
+  | ID
+  | HASH
+  ;
 
-hide: (HIDE | DELETE) (ID | ID EDGEOP ID);
+semi_colon
+  : ';'
+  ;
 
-NODE : 'node' ;
-EDGE : 'edge' ;
-GROUP: 'group' ;
-ZONE : 'zone' ;
-HIDE: 'hide' ;
-DELETE: 'delete' ;
-CONFIG : 'config' ;
+ID
+  : '-'? [a-zA-Z_0-9]+ ('-' [a-zA-Z_0-9]+)*
+  ;
 
-EDGEOP : '->'
-       | '--'
-       ;
+HASH
+  : '#' ID
+  ;
 
-ID : '\'' (~'\'')* '\'' {this.text = this.text.slice(1, -1)}
-   | '"' (~'"')* '"' {this.text = this.text.slice(1, -1)}
-   | [a-zA-Z_0-9\-] [a-zA-Z_0-9.\-]*
-   ;
+DOT
+  : '.' ID
+  ;
 
-SPACES : [ \u000B\t\r\n] -> channel(HIDDEN) ;
+STRING
+  : '\'' ( ~'\'' )* '\'' { this.text = this.text.slice(1, -1)}
+  | '"' ( ~'"' )* '"' { this.text = this.text.slice(1, -1) }
+  ;
+
+EDGEOP
+  : '--'
+  | '->'
+  ;
+
+SPACES
+  : [ \u000B\t\r\n] -> channel(HIDDEN)
+  ;
+
+SINGLE_LINE_COMMENT
+  : '//' ( ~('\r' | '\n') )* ('\r' | '\n' | EOF) -> channel(HIDDEN)
+  ;
