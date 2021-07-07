@@ -1,7 +1,4 @@
-style {
-  #root { visibility=hidden; }
-  .node{ margin:0; padding:10; width:50; height:55; label: ''}
-}
+visibility=hidden;
 
 group array {
   c1;

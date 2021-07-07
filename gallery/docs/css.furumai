@@ -1,5 +1,12 @@
+style {
+  #n1 { stroke: #6af }
+  #n1 .label { fill: #f6a; font-size: 32px; }
+  #n1 .text { fill: #a6f;}
+  .cls-1 { fill: #faa;}
+};
+
 n1[t='text 1', fill=aquamarine];
-n2;
+n2[class="cls-1"];
 
 n1 -> n2[
   stroke-width=7,

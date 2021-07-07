@@ -1,4 +1,7 @@
 style {
-  .root
-
+  #root {
+    flex-direction: row;
+  }
 }
+
+a; b; c;

@@ -1,23 +1,23 @@
 style {
-  #root {visibility: hidden;}
+  #root { visibility: hidden; }
   .transient { dy: 20px; }
 }
 
 group layer0 {
   c1;
-};
+}
 
 group layer1 {
   b1;
   b2;
-};
+}
 
 group layer2 {
   a1;
   a2;
   a3;
   a4;
-};
+}
 
 ---
 a1[t='v=[1]', label='root'];

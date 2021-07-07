@@ -1,5 +1,3 @@
-config='mode=diff';
-
 visibility=hidden;
 
 group array {
