@@ -9,9 +9,9 @@
             class="code-editor"
             ref="editor"
             v-model="furumaiData.code" title="Furumai Description"
+            @keydown.enter.meta.exact="furumai"
             @keyup.ctrl.enter="furumai"
             @keyup.alt.enter="furumai"
-            @keyup.meta.enter="furumai"
           ></textarea>
             </div>
             <div class="nav-right">
