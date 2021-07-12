@@ -66,7 +66,7 @@ export default class SvgComponent extends Vue {
   }
 
   public get width(): Length {
-    return this.svg.size.width
+    return Length.pixel(Math.max(this.svg.size.width.pixel, 640))
   }
 
   public get height(): Length {

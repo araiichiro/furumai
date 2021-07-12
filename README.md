@@ -27,9 +27,11 @@ A tool of behavior visualization, via a DOT (Graphviz) like description:
 
 - Text-based description
     - You can write behavior in DOT (Graphviz) style
+        - You can generate SVG images using DSL specialized for describing systems and algorithms.
     - Instead of a single picture, it will generate a motion diagram (a flipbook comic) from a text description
 - Output to SVG
     - You can also adjust the appearance by specifying the SVG attribute.
+- Layout engine that can specify placement in `Flexbox model` like CSS.
 
 # Background
 
