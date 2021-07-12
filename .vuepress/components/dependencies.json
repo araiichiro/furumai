@@ -1,5 +1,5 @@
 {
-  "@fortawesome/fontawesome-free@5.12.0": {
+  "@fortawesome/fontawesome-free@5.15.3": {
     "licenses": "(CC-BY-4.0 AND OFL-1.1 AND MIT)",
     "repository": "https://github.com/FortAwesome/Font-Awesome",
     "publisher": "Dave Gandy",
@@ -12,12 +12,12 @@
     "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
     "licenseFile": "node_modules/@types/jssha/LICENSE"
   },
-  "@types/lz-string@1.3.33": {
+  "@types/lz-string@1.3.34": {
     "licenses": "MIT",
     "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
     "licenseFile": "node_modules/@types/lz-string/LICENSE"
   },
-  "antlr4ts@0.5.0-alpha.3": {
+  "antlr4ts@0.5.0-alpha.4": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/tunnelvisionlabs/antlr4ts",
     "publisher": "Terence Parr, Sam Harwell, and Burt Harris",
@@ -29,12 +29,17 @@
     "publisher": "Jenil Gogari",
     "licenseFile": "node_modules/chota/LICENSE"
   },
-  "core-js@2.6.9": {
+  "core-js@2.6.12": {
     "licenses": "MIT",
     "repository": "https://github.com/zloirock/core-js",
     "licenseFile": "node_modules/core-js/LICENSE"
   },
-  "jssha@2.3.1": {
+  "core-js@3.15.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/zloirock/core-js",
+    "licenseFile": "node_modules/vue-awesome/node_modules/core-js/LICENSE"
+  },
+  "jssha@2.4.2": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/Caligatio/jsSHA",
     "publisher": "Brian Turek",
@@ -48,13 +53,6 @@
     "email": "pieroxy@pieroxy.net",
     "licenseFile": "node_modules/lz-string/LICENSE.txt"
   },
-  "nanoid@2.1.8": {
-    "licenses": "MIT",
-    "repository": "https://github.com/ai/nanoid",
-    "publisher": "Andrey Sitnik",
-    "email": "andrey@sitnik.ru",
-    "licenseFile": "node_modules/nanoid/LICENSE"
-  },
   "roughjs@3.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/pshihn/rough",
@@ -62,38 +60,38 @@
     "email": "preetshihn@gmail.com",
     "licenseFile": "node_modules/roughjs/LICENSE"
   },
-  "vue-awesome@4.0.2": {
+  "vue-awesome@4.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/Justineo/vue-awesome",
     "publisher": "Justineo",
     "url": "justice360@gmail.com",
     "licenseFile": "node_modules/vue-awesome/LICENSE"
   },
-  "vue-class-component@7.1.0": {
+  "vue-class-component@7.2.6": {
     "licenses": "MIT",
     "repository": "https://github.com/vuejs/vue-class-component",
     "publisher": "Evan You",
     "licenseFile": "node_modules/vue-class-component/LICENSE"
   },
-  "vue-property-decorator@8.2.2": {
+  "vue-property-decorator@8.5.1": {
     "licenses": "MIT",
     "repository": "https://github.com/kaorun343/vue-property-decorator",
     "publisher": "kaorun343",
     "licenseFile": "node_modules/vue-property-decorator/LICENSE"
   },
-  "vue-router@3.1.3": {
+  "vue-router@3.5.2": {
     "licenses": "MIT",
     "repository": "https://github.com/vuejs/vue-router",
     "publisher": "Evan You",
     "licenseFile": "node_modules/vue-router/LICENSE"
   },
-  "vue@2.6.10": {
+  "vue@2.6.14": {
     "licenses": "MIT",
     "repository": "https://github.com/vuejs/vue",
     "publisher": "Evan You",
     "licenseFile": "node_modules/vue/LICENSE"
   },
-  "workly@1.3.0": {
+  "workly@1.3.1": {
     "licenses": "MIT",
     "repository": "https://github.com/pshihn/workly",
     "publisher": "Preet Shihn",

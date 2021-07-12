@@ -16,9 +16,10 @@ export function deleteField(base: Assigns, deletes: string[]): Assigns {
 }
 
 export function deleteUndefined<T extends any>(t: Partial<T>): Partial<T> {
+  const tt = t as any
   return Object.keys(t).reduce((p, k) => {
-    if (t[k]) {
-      return {...p, [k]: t[k]}
+    if (tt[k]) {
+      return {...p, [k]: tt[k]}
     } else {
       return p
     }

@@ -13,7 +13,7 @@ export class DataEncoderDecoderV1 implements Codec<string, Data> {
 
   public decode(encoded: string): Data {
     const jsonString = LZString.decompressFromEncodedURIComponent(encoded)
-    return JSON.parse(jsonString) as Data
+    return JSON.parse(jsonString!) as Data
   }
 
   public encode(decoded: Data): string {
